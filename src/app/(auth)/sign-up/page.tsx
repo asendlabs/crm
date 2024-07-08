@@ -129,9 +129,17 @@ export default function SignUpForm() {
                 </FormItem>
               )}
             />
-              <div className="flex items-center opacity-75 text-sm gap-2 font-medium">
-                <Checkbox name="remember" id="remember" />
-                <label htmlFor="remember">I agree to the <Link href="/docs/terms-of-service" className="underline hover:opacity-100">Terms of Service</Link></label>    
+            <div className="flex items-center opacity-75 text-sm gap-2 font-medium">
+              <Checkbox name="remember" id="remember" />
+              <label htmlFor="remember">
+                I agree to the{" "}
+                <Link
+                  href="/docs/terms-of-service"
+                  className="underline hover:opacity-100"
+                >
+                  Terms of Service
+                </Link>
+              </label>
             </div>
             <Button type="submit" disabled={isSubmitting}>
               {isSubmitting ? "Submitting" : "Next Step ->"}
@@ -148,9 +156,7 @@ export default function SignUpForm() {
           </Link>
         </div>
       </section>
-      <section className="hidden lg:flex w-screen items-center justify-center h-full">
-        // helpers
-      </section>
+      <section className="hidden lg:flex w-screen items-center justify-center h-full bg-[url('https://img.freepik.com/free-photo/abstract-gradient-neon-lights_23-2149279180.jpg?t=st=1720412682~exp=1720416282~hmac=fe5891b43b045cf62554a2f35a6f0e56255e21cb9e5a15e4df298b562c54a70d&w=1480')]"></section>
     </main>
   );
 }

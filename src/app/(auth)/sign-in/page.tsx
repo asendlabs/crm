@@ -9,6 +9,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 
+import AuthScreenHelper from "@/components/AuthScreenHelper";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
@@ -108,8 +109,10 @@ export default function SignInForm() {
           </Link>
         </div>
       </section>
-      <section className="hidden lg:flex w-screen items-center justify-center h-full">
-        // helpers
+      <section className="hidden lg:flex w-screen items-center justify-center h-full bg-[url('https://img.freepik.com/free-photo/abstract-gradient-neon-lights_23-2149279180.jpg?t=st=1720412682~exp=1720416282~hmac=fe5891b43b045cf62554a2f35a6f0e56255e21cb9e5a15e4df298b562c54a70d&w=1480')]">
+      
+      <AuthScreenHelper  />
+
       </section>
     </main>
   );

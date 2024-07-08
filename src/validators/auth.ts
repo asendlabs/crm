@@ -23,3 +23,11 @@ export const signInSchema = z.object({
     .min(8, { message: "Password must be at least 8 characters" })
     .max(64, { message: "Password must be less than 64 characters" }),
 });
+
+export const verifySchema = z.object({
+  code: z.string().min(6, { message: "Enter a valid code" }),
+});
+
+export const forgotPasswordSchema = z.object({
+  email: z.string().email({ message: "Enter a Valid Email Address" }),
+});
