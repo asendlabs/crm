@@ -10,6 +10,7 @@ export const userTable = pgTable("users", {
   updatedAt: timestamp("updated_at").notNull().defaultNow(),
   isVerified: boolean("is_verified").notNull().default(false),
   preferences: jsonb("preferences"),  
+  verifyCode: varchar("verify_code", {length: 56}),
 });
 
 const sessionTable = pgTable("session", {

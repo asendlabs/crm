@@ -1,0 +1,1 @@
+ALTER TABLE "users" ADD COLUMN "verify_code" varchar(56);

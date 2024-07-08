@@ -19,7 +19,7 @@ export const signInSchema = z.object({
 });
 
 export const verifySchema = z.object({
-  code: z.string().length(8, { message: "OTP must be 8 digits" }),
+  verifyCode: z.string().length(56, { message: "Invalid Code" }),
 });
 
 export const forgotPasswordSchema = z.object({
