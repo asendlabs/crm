@@ -1,0 +1,80 @@
+title Ascend CRM Data Model
+accounts [icon: briefcase, color: blue]{
+  account_id string pk
+  account_name string
+  industry string
+  status string
+  created_at timestamp
+  updated_at timestamp
+  address string
+  phone string
+  email string
+  website string
+}
+
+contacts [icon: user, color: green]{
+  contact_id string pk
+  account_id string fk
+  first_name string
+  last_name string
+  email string
+  phone string
+  instagram string
+  twitter string
+  facebook string 
+  position string
+  created_at timestamp
+  updated_at timestamp
+  address string
+  notes text
+}
+
+deals [icon: dollar-sign, color: yellow]{
+  deal_id string pk
+  account_id string fk
+  deal_name string
+  deal_value float
+  stage string
+  close_data timestamp
+  expected_close_date timestamp
+  created_at timestamp
+  updated_at timestamp
+  description text
+  probability float
+}
+
+users [icon: user, color: purple]{
+  id string pk
+  first_name string
+  last_name string
+  email string
+  hashed_password string
+  is_verified boolean
+  otp string
+  otp_expiry_date timestamp
+  preferences json
+}
+
+billing [icon: credit-card, color: red]{
+  billing_id string pk
+  user_id string fk
+  billing_address string
+  payment_method enum
+  plan_type enum
+  is_free_plan boolean
+  charge_amount float
+  last_charge_date timestamp
+  upcoming_charge_date timestamp
+}
+
+session [icon: clock, color: orange]{
+  id string pk
+  userId string fk
+  expiresAt timestamp
+}
+// End of tables
+contacts.account_id > accounts.account_id
+deals.account_id > accounts.account_id
+accounts.user_id > users.id
+billing.user_id - users.id
+session.userId > users.id
