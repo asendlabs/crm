@@ -2,16 +2,13 @@ import { boolean, integer, jsonb, pgTable, serial, text, timestamp, varchar } fr
 
 export const userTable = pgTable("users", {
   id: text("id").primaryKey(),
-  firstName: varchar("first_name").notNull(), 
-  lastName: varchar("last_name").notNull(),
+  name: varchar("name").notNull(), 
   email: varchar("email").notNull(),
   hashedPassword: varchar("hashed_password").notNull(),
   avatarUrl: varchar("avatar_url"),
   createdAt: timestamp("created_at").notNull().defaultNow(),
   updatedAt: timestamp("updated_at").notNull().defaultNow(),
   isVerified: boolean("is_verified").notNull().default(false),
-  otp: varchar("otp").notNull(),
-  otpExpiry: timestamp("otp_expiry").notNull(),
   preferences: jsonb("preferences"),  
 });
 

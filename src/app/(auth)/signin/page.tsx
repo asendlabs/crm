@@ -52,7 +52,7 @@ export default function SignInForm() {
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
-            className="flex flex-col gap-5 w-80 text-sm"
+            className="flex flex-col gap-5 w-96 text-sm"
           >
             <FormField
               name="email"
@@ -72,7 +72,15 @@ export default function SignInForm() {
               control={form.control}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Password</FormLabel>
+                  <FormLabel className="flex justify-between text-sm">
+                    Password{" "}
+                    <Link
+                      href="/forgot-password"
+                      className="opacity-70 hover:opacity-100 hover:underline"
+                    >
+                      Forgot Password?
+                    </Link>
+                  </FormLabel>
                   <FormControl>
                     <Input
                       {...field}
@@ -84,27 +92,26 @@ export default function SignInForm() {
                 </FormItem>
               )}
             />
-            <div className="flex flex-row justify-between opacity-75 text-sm">
-              <div className="flex items-center gap-1.5 hover:opacity-100 font-medium">
-                <Checkbox name="remember" id="remember" />
-                <label htmlFor="remember">Remember Me</label>
-              </div>
-              <Link
-                href="/forgot-password"
-                className="underline hover:no-underline font-medium hover:opacity-100"
-              >
-                Forgot Password
-              </Link>
-            </div>
-            <Button type="submit" disabled={isSubmitting}>
-              {isSubmitting ? "Signing In..." : "Sign In"}
+            <div className="flex items-center gap-1.5 hover:opacity-100 font-medium"></div>
+            <Button
+              type="submit"
+              disabled={isSubmitting}
+              className="h-12 flex-col gap-0"
+            >
+              {isSubmitting ? (
+                <span className="text-base font-bold">Signing In...</span>
+              ) : (
+                <span className="text-base font-bold">
+                  Sign In to Dashboard
+                </span>
+              )}
             </Button>
           </form>
         </Form>
         <div className="text-center text-sm flex gap-1 opacity-75 pt-2">
           <p className="text-sm">Don't have an account?</p>
           <Link
-            href="/sign-up"
+            href="/signup"
             className="underline hover:opacity-100 font-medium"
           >
             Create a free account
