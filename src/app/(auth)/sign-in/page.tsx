@@ -1,5 +1,6 @@
 "use client";
 
+import { Book, Send, Timer } from "lucide-react";
 import {
   Form,
   FormControl,
@@ -14,6 +15,7 @@ import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
+import Sp from "@/components/Sp";
 import { signInSchema } from "@/validators/auth";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
@@ -109,10 +111,34 @@ export default function SignInForm() {
           </Link>
         </div>
       </section>
-      <section className="hidden lg:flex w-screen items-center justify-center h-full bg-[url('https://img.freepik.com/free-photo/abstract-gradient-neon-lights_23-2149279180.jpg?t=st=1720412682~exp=1720416282~hmac=fe5891b43b045cf62554a2f35a6f0e56255e21cb9e5a15e4df298b562c54a70d&w=1480')]">
-      
-      <AuthScreenHelper  />
-
+      <section className="hidden lg:flex flex-col w-screen items-center justify-center bg-cover h-full bg-[url('https://img.freepik.com/free-photo/abstract-gradient-neon-lights_23-2149279180.jpg')]">
+        <div className="flex flex-col gap-2 w-[450px]">
+          <AuthScreenHelper
+            title="Read the Docs"
+            description="Tap into the full potential of Ascend CRM"
+            Icon={Book}
+            goto="/docs"
+          />
+          <Sp />
+        </div>
+        <div className="flex flex-col gap-2 w-[450px]">
+          <AuthScreenHelper
+            title="Visit our Support Center"
+            description="Get Guidance from our Support Team"
+            Icon={Send}
+            goto="/support"
+          />
+          <Sp />
+        </div>
+        <div className="flex flex-col gap-2 w-[450px]">
+          <AuthScreenHelper
+            title="Check out the latest releases"
+            description="Find out what's new in the latest releases"
+            Icon={Timer}
+            goto="/updates"
+          />
+          <Sp />
+        </div>
       </section>
     </main>
   );

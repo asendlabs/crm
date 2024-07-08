@@ -25,7 +25,7 @@ export const signInSchema = z.object({
 });
 
 export const verifySchema = z.object({
-  code: z.string().min(6, { message: "Enter a valid code" }),
+  code: z.string().length(8, { message: "OTP must be 8 digits" }),
 });
 
 export const forgotPasswordSchema = z.object({
