@@ -1,4 +1,4 @@
-import { boolean, integer, jsonb, pgTable, serial, text, timestamp, varchar } from "drizzle-orm/pg-core";
+import { boolean, integer, jsonb, pgTable, text, timestamp, varchar } from "drizzle-orm/pg-core";
 
 export const userTable = pgTable("users", {
   id: text("id").primaryKey(),
@@ -13,7 +13,7 @@ export const userTable = pgTable("users", {
   verifyCode: varchar("verify_code", {length: 56}),
 });
 
-const sessionTable = pgTable("session", {
+export const sessionTable = pgTable("session", {
   id: text("id").primaryKey(),
   userId: text("user_id")
     .notNull()
@@ -40,8 +40,8 @@ export const accountTable = pgTable("accounts", {
   accountSocialLinks: jsonb("social_links"),
   createdAt: timestamp("created_at").notNull().defaultNow(),
   updatedAt: timestamp("updated_at").notNull().defaultNow(),
-  notes: text("notes")
-})
+  notes: text("notes"),
+});
 
 export const contactTable = pgTable("contacts", {
   id: text("id").primaryKey(),
@@ -57,8 +57,8 @@ export const contactTable = pgTable("contacts", {
   createdAt: timestamp("created_at").notNull().defaultNow(),
   updatedAt: timestamp("updated_at").notNull().defaultNow(),
   accountSocialLinks: jsonb("social_links"),
-  notes: text("notes")
-})
+  notes: text("notes"),
+});
 
 export const dealTable = pgTable("deals", {
   id: text("id").primaryKey(),
@@ -77,5 +77,5 @@ export const dealTable = pgTable("deals", {
   expectedCloseDate: timestamp("expected_close_date"),
   closedDate: timestamp("closed_date"),
   probability: varchar("probability"),
-  description: text("notes")
-})
+  description: text("notes"),
+});

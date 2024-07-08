@@ -44,18 +44,25 @@ CREATE TABLE IF NOT EXISTS "deals" (
 	"notes" text
 );
 --> statement-breakpoint
-ALTER TABLE "users" ALTER COLUMN "id" SET DATA TYPE text;--> statement-breakpoint
-ALTER TABLE "users" ADD COLUMN "first_name" varchar NOT NULL;--> statement-breakpoint
-ALTER TABLE "users" ADD COLUMN "last_name" varchar NOT NULL;--> statement-breakpoint
-ALTER TABLE "users" ADD COLUMN "email" varchar NOT NULL;--> statement-breakpoint
-ALTER TABLE "users" ADD COLUMN "hashed_password" varchar NOT NULL;--> statement-breakpoint
-ALTER TABLE "users" ADD COLUMN "avatar_url" varchar NOT NULL;--> statement-breakpoint
-ALTER TABLE "users" ADD COLUMN "created_at" timestamp DEFAULT now() NOT NULL;--> statement-breakpoint
-ALTER TABLE "users" ADD COLUMN "updated_at" timestamp DEFAULT now() NOT NULL;--> statement-breakpoint
-ALTER TABLE "users" ADD COLUMN "is_verified" boolean DEFAULT false NOT NULL;--> statement-breakpoint
-ALTER TABLE "users" ADD COLUMN "otp" varchar NOT NULL;--> statement-breakpoint
-ALTER TABLE "users" ADD COLUMN "otp_expiry" timestamp NOT NULL;--> statement-breakpoint
-ALTER TABLE "users" ADD COLUMN "preferences" jsonb NOT NULL;--> statement-breakpoint
+CREATE TABLE IF NOT EXISTS "session" (
+	"id" text PRIMARY KEY NOT NULL,
+	"user_id" text NOT NULL,
+	"expires_at" timestamp with time zone NOT NULL
+);
+--> statement-breakpoint
+CREATE TABLE IF NOT EXISTS "users" (
+	"id" text PRIMARY KEY NOT NULL,
+	"name" varchar NOT NULL,
+	"email" varchar NOT NULL,
+	"hashed_password" varchar NOT NULL,
+	"avatar_url" varchar,
+	"created_at" timestamp DEFAULT now() NOT NULL,
+	"updated_at" timestamp DEFAULT now() NOT NULL,
+	"is_verified" boolean DEFAULT false NOT NULL,
+	"preferences" jsonb,
+	"verify_code" varchar(56)
+);
+--> statement-breakpoint
 DO $$ BEGIN
  ALTER TABLE "accounts" ADD CONSTRAINT "accounts_user_id_users_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."users"("id") ON DELETE no action ON UPDATE no action;
 EXCEPTION
@@ -80,4 +87,8 @@ EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;
 --> statement-breakpoint
-ALTER TABLE "users" DROP COLUMN IF EXISTS "name";
+DO $$ BEGIN
+ ALTER TABLE "session" ADD CONSTRAINT "session_user_id_users_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."users"("id") ON DELETE no action ON UPDATE no action;
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;

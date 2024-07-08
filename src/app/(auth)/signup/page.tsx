@@ -24,6 +24,8 @@ import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import { REGEXP_ONLY_DIGITS } from "input-otp";
 import Sp from "@/components/Sp";
+import { signUp } from "../auth.actions";
+import { toast } from "sonner";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -78,11 +80,21 @@ export default function SignUpFormPage() {
   });
 
   async function onSubmit(values: z.infer<typeof signUpSchema>) {
-    setIsSubmitting(true);
-    setTimeout(() => {
-      console.log(values);
+    try {
+      setIsSubmitting(true);
+      const res = await signUp(values);
+      if (res.success) {
+        toast.success(res.message);
+        // router.push("/dashboard");
+      }
+      if (!res.success) {
+        toast.error(res.message);
+      }
+    } catch (error) {
+      toast.error("Something went Wrong");
+    } finally {
       setIsSubmitting(false);
-    }, 2000);
+    }
   }
   return (
     <main className="flex flex-row max-h-screen min-h-screen items-center h-screen justify-between">
@@ -145,9 +157,7 @@ export default function SignUpFormPage() {
               className="h-12 flex-col gap-0"
             >
               {isSubmitting ? (
-                <span className="text-base font-bold">
-                  Creating...
-                </span>
+                <span className="text-base font-bold">Creating...</span>
               ) : (
                 <span className="text-base font-bold">
                   Create your free Account
