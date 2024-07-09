@@ -16,7 +16,10 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import Sp from "@/components/Sp";
+import { getUser } from "@/lib/lucia";
+import { signIn } from "../auth.actions";
 import { signInSchema } from "@/validators/auth";
+import { toast } from "sonner";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -24,6 +27,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 export default function SignInForm() {
+  
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const router = useRouter();
@@ -36,11 +40,21 @@ export default function SignInForm() {
   });
 
   async function onSubmit(values: z.infer<typeof signInSchema>) {
-    setIsSubmitting(true);
-    setTimeout(() => {
-      console.log(values);
+    try {
+      setIsSubmitting(true);
+      const res = await signIn(values);
+      if (res.success) {
+        toast.success(res.message);
+        // router.push("/dashboard");
+      }
+      if (!res.success) {
+        toast.error(res.message);
+      }
+    } catch (error) {
+      toast.error("Something went Wrong");
+    } finally {
       setIsSubmitting(false);
-    }, 1000);
+    }
   }
   return (
     <main className="flex flex-row max-h-screen min-h-screen items-center h-screen justify-between">
