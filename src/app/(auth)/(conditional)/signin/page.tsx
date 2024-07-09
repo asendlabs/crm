@@ -56,10 +56,9 @@ export default function SignInForm() {
     }
   }
   return (
-    <main className="flex flex-row max-h-screen min-h-screen items-center h-screen justify-between">
-      <section className=" w-screen flex flex-col items-center justify-center h-full gap-5">
+      <section className=" w-screen flex flex-col items-center justify-center h-screen gap-5">
         <div className="text-center ">
-          <h1 className="text-3xl font-semibold">Welcome Back</h1>
+          <h1 className="text-4xl font-semibold text">Welcome Back</h1>
           <p className="font-medium opacity-70">Please enter your details.</p>
         </div>
         <Form {...form}>
@@ -74,7 +73,7 @@ export default function SignInForm() {
                 <FormItem>
                   <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <Input {...field} placeholder="jane@acme.com" />
+                    <Input {...field} placeholder="Enter your email" />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -131,35 +130,5 @@ export default function SignInForm() {
           </Link>
         </div>
       </section>
-      <section className="hidden lg:flex flex-col w-screen items-center justify-center bg-cover h-full bg-[url('https://img.freepik.com/free-photo/abstract-gradient-neon-lights_23-2149279180.jpg')]">
-        <div className="flex flex-col gap-2 w-[450px]">
-          <AuthScreenHelper
-            title="Read the Docs"
-            description="Tap into the full potential of Ascend CRM"
-            Icon={Book}
-            goto="/docs"
-          />
-          <Sp />
-        </div>
-        <div className="flex flex-col gap-2 w-[450px]">
-          <AuthScreenHelper
-            title="Visit our Support Center"
-            description="Get Guidance from our Support Team"
-            Icon={Send}
-            goto="/support"
-          />
-          <Sp />
-        </div>
-        <div className="flex flex-col gap-2 w-[450px]">
-          <AuthScreenHelper
-            title="Check out the latest releases"
-            description="Find out what's new in the latest releases"
-            Icon={Timer}
-            goto="/updates"
-          />
-          <Sp />
-        </div>
-      </section>
-    </main>
   );
 }

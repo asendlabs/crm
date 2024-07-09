@@ -1,5 +1,6 @@
 "use client";
 
+import { ArrowRight, Map, Trophy, Wallet } from "lucide-react";
 import {
   Form,
   FormControl,
@@ -9,12 +10,6 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import {
-  InputOTP,
-  InputOTPGroup,
-  InputOTPSlot,
-} from "@/components/ui/input-otp";
-import { Map, Trophy, Wallet } from "lucide-react";
 import { signUpSchema, verifySchema } from "@/validators/auth";
 
 import AuthScreenHelper from "@/components/AuthScreenHelper";
@@ -22,8 +17,8 @@ import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
-import { REGEXP_ONLY_DIGITS } from "input-otp";
 import Sp from "@/components/Sp";
+import { cn } from "@/lib/utils";
 import { signUp } from "../../auth.actions";
 import { toast } from "sonner";
 import { useForm } from "react-hook-form";
@@ -85,7 +80,7 @@ export default function SignUpFormPage() {
       const res = await signUp(values);
       if (res.success) {
         toast.success(res.message);
-        // router.push("/dashboard");
+        router.push("/dashboard");
       }
       if (!res.success) {
         toast.error(res.message);
@@ -97,87 +92,76 @@ export default function SignUpFormPage() {
     }
   }
   return (
-    <main className="flex flex-row max-h-screen min-h-screen items-center h-screen justify-between">
-      <section className=" w-screen flex flex-col items-center justify-center h-full gap-5">
-        <div className="text-center ">
-          <h1 className="text-3xl font-semibold">Start your Journey</h1>
-          <p className="font-medium opacity-70">Create a free account.</p>
-        </div>
-        <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(onSubmit)}
-            className="flex flex-col gap-5 w-96 text-sm"
-          >
-            <FormField
-              name="name"
-              control={form.control}
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Name</FormLabel>
-                  <FormControl>
-                    <Input {...field} placeholder="John Doe" />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              name="email"
-              control={form.control}
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Email</FormLabel>
-                  <FormControl>
-                    <Input {...field} placeholder="jane@acme.com" />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              name="password"
-              control={form.control}
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Password</FormLabel>
-                  <FormControl>
-                    <Input
-                      {...field}
-                      type="password"
-                      placeholder="Enter your password"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <Button
-              type="submit"
-              disabled={isSubmitting}
-              className="h-12 flex-col gap-0"
-            >
-              {isSubmitting ? (
-                <span className="text-base font-bold">Creating...</span>
-              ) : (
-                <span className="text-base font-bold">
-                  Create your free Account
-                </span>
-              )}
+    <section className=" w-screen flex flex-col items-center justify-center h-screen gap-5">
+      <div className="text-center ">
+        <h1 className="text-3xl font-semibold">Start your Journey</h1>
+        <p className="font-medium opacity-70">Create a free account.</p>
+      </div>
+      <Form {...form}>
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="flex flex-col gap-5 w-96 text-sm"
+        >
+          <FormField
+            name="name"
+            control={form.control}
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Name</FormLabel>
+                <FormControl>
+                  <Input {...field} placeholder="eg: John Doe" />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            name="email"
+            control={form.control}
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Email</FormLabel>
+                <FormControl>
+                  <Input {...field} placeholder="eg: jane@acme.com" />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            name="password"
+            control={form.control}
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Password</FormLabel>
+                <FormControl>
+                  <Input
+                    {...field}
+                    type="password"
+                    placeholder="Choose a strong password"
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <div className="flex gap-2">
+            <Button type="submit" disabled={isSubmitting} className="w-full text-base ">
+              {isSubmitting ? "Submitting..." : "Create your Account"}
             </Button>
-            <div className="text-sm opacity-65 font-medium text-center">
-              By creating your account, you agree to our{" "}
-              <Link href="/legal/terms-of-service" className="underline">
-                Terms of Service
-              </Link>{" "}
-              and{" "}
-              <Link href="/legal/privacy-policy" className="underline">
-                Privacy Policy
-              </Link>
-            </div>
-          </form>
-        </Form>
-      </section>
-      <Helpers />
-    </main>
+          </div>
+          <div className="text-sm opacity-65 font-medium text-center">
+            By creating your account, you agree to our{" "}
+            <Link href="/legal/terms-of-service" className="underline">
+              Terms of Service
+            </Link>{" "}
+            and{" "}
+            <Link href="/legal/privacy-policy" className="underline">
+              Privacy Policy
+            </Link>
+          </div>
+        </form>
+      </Form>
+    </section>
   );
 }

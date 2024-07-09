@@ -1,6 +1,6 @@
 import Navbar from "@/components/Navbar";
 
-export default async function AppLayout({
+export default async function AuthenticationPagesLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
