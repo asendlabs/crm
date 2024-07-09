@@ -1,22 +1,23 @@
 "use server";
 
+import { UserRequestTable, userTable } from "@/db/schema";
 import {
   getNewVerifyCodeSchema,
+  requestSchema,
   signInSchema,
-  verifySchema,
+  signUpSchema,
+  verifySchema
 } from "@/validators/auth";
+import { getUser, lucia } from "@/lib/lucia";
 
 import { Argon2id } from "oslo/password";
 import { cookies } from "next/headers";
 import { db } from "@/db";
 import { eq } from "drizzle-orm";
 import { generateId } from "lucia";
-import { lucia } from "@/lib/lucia";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import sendVerificationEmail from "@/lib/sendVerificationEmail";
-import { signUpSchema } from "@/validators/auth";
-import { userTable } from "@/db/schema";
 import { z } from "zod";
 
 // sign up
@@ -168,7 +169,6 @@ export const signOut = async () => {
 
 export const verifyCode = async (code: string) => {
   try {
-
     const user = await db.query.userTable.findFirst({
       where: eq(userTable.verifyCode, code || ""),
     });
@@ -207,14 +207,20 @@ export const verifyCode = async (code: string) => {
   }
 };
 
-export const resendVerifyCode = async (
-  data: z.infer<typeof getNewVerifyCodeSchema>
-) => {
+export const resendVerifyCode = async () => {
+  "use server";
   try {
-    const { email } = data;
+    const user = await getUser()
+
+    if (!user) {
+      return {
+        success: false,
+        message: "You must be logged in to resend a verification email",
+      };
+    }
 
     const existingUser = await db.query.userTable.findFirst({
-      where: eq(userTable.email, email.toLowerCase() || ""),
+      where: eq(userTable.email, user.email.toLowerCase() || ""),
     });
 
     if (!existingUser) {
@@ -241,7 +247,7 @@ export const resendVerifyCode = async (
     }
     const sentEmail = await sendVerificationEmail(
       code,
-      email.toString().toLowerCase()
+      user.email.toString().toLowerCase()
     );
 
     if (!sentEmail.success) {
@@ -263,3 +269,44 @@ export const resendVerifyCode = async (
     };
   }
 };
+
+export const resetPassword = async (data: z.infer<typeof requestSchema>) => {
+  try {
+    const { email } = data;
+
+    const existingUser = await db.query.userTable.findFirst({
+      where: eq(userTable.email, email),
+    });
+
+    if (!existingUser) {
+      return {
+        success: false,
+        message: "No user found with that email",
+      };
+    }
+
+    const newRequest = await db.insert(UserRequestTable).values({
+      id: generateId(22).toString(),
+      userId: existingUser.id,
+      email: existingUser.email,
+      type: "password_reset",
+    }).returning();
+    
+    if (!newRequest) {      
+      return {
+        success: false,
+        message: "Failed to create new request",
+      };
+    }
+    return {
+      success: true,
+      message: "Password reset request Created",
+    }
+  } catch (error) {
+    console.error(error);
+    return {
+      success: false,
+      message: "Internal error creating new request",
+    };
+  }
+}

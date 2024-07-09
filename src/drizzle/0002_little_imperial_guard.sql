@@ -1,0 +1,1 @@
+ALTER TABLE "user_requests" ADD COLUMN "type" varchar;

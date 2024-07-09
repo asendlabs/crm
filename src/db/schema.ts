@@ -79,3 +79,14 @@ export const dealTable = pgTable("deals", {
   probability: varchar("probability"),
   description: text("notes"),
 });
+
+export const UserRequestTable = pgTable("user_requests", {
+  id: text("id").primaryKey(),
+  userId: text("user_id")
+    .notNull()
+    .references(() => userTable.id),
+  email: varchar("email").notNull(),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+  updatedAt: timestamp("updated_at").notNull().defaultNow(),
+  type: varchar("type"),
+})

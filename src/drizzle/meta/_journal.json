@@ -8,6 +8,20 @@
       "when": 1720437772928,
       "tag": "0000_good_rawhide_kid",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1720505946004,
+      "tag": "0001_regular_gamora",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1720506406713,
+      "tag": "0002_little_imperial_guard",
+      "breakpoints": true
     }
   ]
 }

@@ -88,7 +88,7 @@ export default function SignInForm() {
                   <FormLabel className="flex justify-between text-sm">
                     Password{" "}
                     <Link
-                      href="/forgot-password"
+                      href="/forgot"
                       className="opacity-70 hover:opacity-100 hover:underline"
                     >
                       Forgot Password?
