@@ -1,4 +1,4 @@
-title Ascend CRM Data Model
+title Soar CRM Data Model
 accounts [icon: briefcase, color: blue]{
   account_id string pk
   account_name string

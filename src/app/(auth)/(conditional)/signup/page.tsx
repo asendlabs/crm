@@ -33,7 +33,7 @@ const Helpers = () => {
       <div className="flex flex-col gap-2 w-[450px]">
         <AuthScreenHelper
           title="Product Roadmap"
-          description="See what Ascend is planning for the future"
+          description="See what Soar is planning for the future"
           Icon={Map}
           goto="/roadmap"
         />
@@ -51,7 +51,7 @@ const Helpers = () => {
       <div className="flex flex-col gap-2 w-[450px]">
         <AuthScreenHelper
           title="Upgrade to Pro"
-          description="Unlock the full potential of Ascend CRM"
+          description="Unlock the full potential of Soar CRM"
           Icon={Wallet}
           goto="/pricing"
         />
@@ -146,7 +146,11 @@ export default function SignUpFormPage() {
             )}
           />
           <div className="flex gap-2">
-            <Button type="submit" disabled={isSubmitting} className="w-full text-base ">
+            <Button
+              type="submit"
+              disabled={isSubmitting}
+              className="w-full text-base "
+            >
               {isSubmitting ? "Submitting..." : "Create your Account"}
             </Button>
           </div>

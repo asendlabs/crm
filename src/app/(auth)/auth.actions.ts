@@ -144,7 +144,7 @@ export const signIn = async (data: z.infer<typeof signInSchema>) => {
 export const signOut = async () => {
   try {
     const sessionId =
-      cookies().get("authentication_key_ascendcrm_secure")?.value || null;
+      cookies().get("authentication_key_soarcrm_secure")?.value || null;
 
     if (!sessionId) return;
 
@@ -152,7 +152,7 @@ export const signOut = async () => {
       await lucia.deleteExpiredSessions();
       await lucia.invalidateSession(sessionId);
     }
-    cookies().delete("authentication_key_ascendcrm_secure");
+    cookies().delete("authentication_key_soarcrm_secure");
     revalidatePath("/dashboard");
     return {
       success: true,
