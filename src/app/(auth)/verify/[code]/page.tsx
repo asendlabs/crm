@@ -1,0 +1,100 @@
+"use client";
+
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+} from "@/components/ui/card";
+import { Form, FormMessage } from "@/components/ui/form";
+
+import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
+import { useForm } from "react-hook-form";
+import { useParams } from "next/navigation";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { verifyCode } from "../../auth.actions";
+import { verifySchema } from "@/validators/auth";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+export default function VerifyEmail() {
+  const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { code } = useParams<{ code: string }>();
+  const [email, setEmail] = useState("");
+
+  const router = useRouter();
+  const form = useForm<z.infer<typeof verifySchema>>({
+    resolver: zodResolver(verifySchema),
+    defaultValues: {
+      verifyCode: code,
+    },
+  });
+
+  async function onSubmit(data: z.infer<typeof verifySchema>) {
+    try {
+      const res = await verifyCode(data.verifyCode);
+      if (res.success){
+        setEmail(res.email?.toString() || "");
+        setIsSubmitting(false);
+        setSubmitted(true);
+      }
+    } catch (error) {
+      toast.error("Something went wrong");
+      setIsSubmitting(false);
+      console.log(error);
+    }
+  }
+  if (submitted) {
+    return (
+      <section className=" w-screen flex flex-col items-center justify-center h-screen gap-5">
+        <Card className="flex flex-col max-w-96 items-center">
+          <CardHeader>
+            <h1 className="text-3xl font-semibold">Email Verified</h1>
+          </CardHeader>
+          <CardContent>
+            <CardDescription>
+              Your email{" "}
+              <span className="font-semibold text-primary">{email}</span> has
+              been successfully verified.
+              <br />
+              You can now fully utilize the platform.
+            </CardDescription>
+          </CardContent>
+          <CardFooter className=" flex flex-col gap-2 w-full">
+            <Button
+              className="w-full"
+              onClick={() => router.push("/dashboard")}
+            >
+              Back to Dashboard
+            </Button>
+            <p className="text-xs font-medium opacity-70">
+              You can close this window
+            </p>
+          </CardFooter>
+        </Card>
+      </section>
+    );
+  }
+  return (
+    <section className=" w-screen flex flex-col items-center justify-center h-screen gap-5">
+      <div className="text-center">
+        <h1 className="text-3xl font-semibold">Verify Email</h1>
+        <h2>Let's see if you are a robot 😉</h2>
+      </div>
+      <Form {...form}>
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="flex flex-col gap-5 w-80 text-sm"
+        >
+          <Button type="submit" disabled={isSubmitting}>
+            {isSubmitting ? "Verify..." : "Verify Email"}
+          </Button>
+        </form>
+      </Form>
+    </section>
+  );
+}

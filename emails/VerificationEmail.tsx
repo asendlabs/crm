@@ -38,7 +38,7 @@ export default function VerificationEmail({
           <Heading as="h2">Hello</Heading>
         </Row>
         <Row>
-          <a href={`http://localhost:3000/verify/?code=${code}`}>CLick here to verify</a>
+          <a href={`http://localhost:3000/verify/${code}`}>CLick here to verify</a>
         </Row>
       </Section>
     </Html>

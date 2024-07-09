@@ -22,6 +22,10 @@ export const verifySchema = z.object({
   verifyCode: z.string().length(56, { message: "Invalid Code" }),
 });
 
+export const getNewVerifyCodeSchema = z.object({
+  email: z.string().email({ message: "Enter a Valid Email Address" }),
+});
+
 export const forgotPasswordSchema = z.object({
   email: z.string().email({ message: "Enter a Valid Email Address" }),
 });

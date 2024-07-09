@@ -1,5 +1,11 @@
 "use server";
 
+import {
+  getNewVerifyCodeSchema,
+  signInSchema,
+  verifySchema,
+} from "@/validators/auth";
+
 import { Argon2id } from "oslo/password";
 import { cookies } from "next/headers";
 import { db } from "@/db";
@@ -9,7 +15,6 @@ import { lucia } from "@/lib/lucia";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import sendVerificationEmail from "@/lib/sendVerificationEmail";
-import { signInSchema } from "@/validators/auth";
 import { signUpSchema } from "@/validators/auth";
 import { userTable } from "@/db/schema";
 import { z } from "zod";
@@ -98,7 +103,10 @@ export const signIn = async (data: z.infer<typeof signInSchema>) => {
       };
     }
 
-    const passwordMatch = await new Argon2id().verify(existingUser.hashedPassword, password);
+    const passwordMatch = await new Argon2id().verify(
+      existingUser.hashedPassword,
+      password
+    );
 
     if (!passwordMatch) {
       return {
@@ -134,11 +142,11 @@ export const signIn = async (data: z.infer<typeof signInSchema>) => {
 
 export const signOut = async () => {
   try {
-  const sessionId =
-    cookies().get("authentication_key_ascendcrm_secure")?.value || null;
-    
+    const sessionId =
+      cookies().get("authentication_key_ascendcrm_secure")?.value || null;
+
     if (!sessionId) return;
-    
+
     if (sessionId) {
       await lucia.deleteExpiredSessions();
       await lucia.invalidateSession(sessionId);
@@ -157,6 +165,101 @@ export const signOut = async () => {
     };
   }
 };
-// sign out
-// verify
-// reset password
+
+export const verifyCode = async (code: string) => {
+  try {
+
+    const user = await db.query.userTable.findFirst({
+      where: eq(userTable.verifyCode, code || ""),
+    });
+
+    if (!user) {
+      return {
+        success: false,
+        message: "Invalid Code or Verification Expired",
+      };
+    }
+
+    user.isVerified = true;
+    const verifyQuery = await db
+      .update(userTable)
+      .set(user)
+      .where(eq(userTable.id, user.id));
+
+    if (!verifyQuery) {
+      return {
+        success: false,
+        message: "Failed to update user",
+      };
+    }
+
+    return {
+      success: true,
+      message: "Verification Successful, You can close this tab now!",
+      email: user.email.toString(),
+    };
+  } catch (error) {
+    console.error(error);
+    return {
+      success: false,
+      message: "Internal error verifying code",
+    };
+  }
+};
+
+export const resendVerifyCode = async (
+  data: z.infer<typeof getNewVerifyCodeSchema>
+) => {
+  try {
+    const { email } = data;
+
+    const existingUser = await db.query.userTable.findFirst({
+      where: eq(userTable.email, email.toLowerCase() || ""),
+    });
+
+    if (!existingUser) {
+      return {
+        success: false,
+        message: "No user found with that email",
+      };
+    }
+
+    const code = generateId(56).toString();
+
+    const updateQuery = await db
+      .update(userTable)
+      .set({
+        verifyCode: code,
+      })
+      .where(eq(userTable.id, existingUser.id));
+
+    if (!updateQuery) {
+      return {
+        success: false,
+        message: "Failed to create new verification code",
+      };
+    }
+    const sentEmail = await sendVerificationEmail(
+      code,
+      email.toString().toLowerCase()
+    );
+
+    if (!sentEmail.success) {
+      return {
+        success: false,
+        message: "Failed to send verification email",
+      };
+    }
+
+    return {
+      success: true,
+      message: "Verification email sent successfully",
+    };
+  } catch (error) {
+    console.error(error);
+    return {
+      success: false,
+      message: "Internal error sending new verification email",
+    };
+  }
+};
