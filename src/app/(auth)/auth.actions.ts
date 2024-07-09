@@ -6,7 +6,7 @@ import {
   requestSchema,
   signInSchema,
   signUpSchema,
-  verifySchema
+  verifySchema,
 } from "@/validators/auth";
 import { getUser, lucia } from "@/lib/lucia";
 
@@ -144,7 +144,7 @@ export const signIn = async (data: z.infer<typeof signInSchema>) => {
 export const signOut = async () => {
   try {
     const sessionId =
-      cookies().get("authentication_key_soarcrm_secure")?.value || null;
+      cookies().get("authentication_key_ascendcrm_secure")?.value || null;
 
     if (!sessionId) return;
 
@@ -152,7 +152,7 @@ export const signOut = async () => {
       await lucia.deleteExpiredSessions();
       await lucia.invalidateSession(sessionId);
     }
-    cookies().delete("authentication_key_soarcrm_secure");
+    cookies().delete("authentication_key_ascendcrm_secure");
     revalidatePath("/dashboard");
     return {
       success: true,
@@ -210,7 +210,7 @@ export const verifyCode = async (code: string) => {
 export const resendVerifyCode = async () => {
   "use server";
   try {
-    const user = await getUser()
+    const user = await getUser();
 
     if (!user) {
       return {
@@ -285,14 +285,17 @@ export const resetPassword = async (data: z.infer<typeof requestSchema>) => {
       };
     }
 
-    const newRequest = await db.insert(UserRequestTable).values({
-      id: generateId(22).toString(),
-      userId: existingUser.id,
-      email: existingUser.email,
-      type: "password_reset",
-    }).returning();
-    
-    if (!newRequest) {      
+    const newRequest = await db
+      .insert(UserRequestTable)
+      .values({
+        id: generateId(22).toString(),
+        userId: existingUser.id,
+        email: existingUser.email,
+        type: "password_reset",
+      })
+      .returning();
+
+    if (!newRequest) {
       return {
         success: false,
         message: "Failed to create new request",
@@ -301,7 +304,7 @@ export const resetPassword = async (data: z.infer<typeof requestSchema>) => {
     return {
       success: true,
       message: "Password reset request Created",
-    }
+    };
   } catch (error) {
     console.error(error);
     return {
@@ -309,4 +312,4 @@ export const resetPassword = async (data: z.infer<typeof requestSchema>) => {
       message: "Internal error creating new request",
     };
   }
-}
+};

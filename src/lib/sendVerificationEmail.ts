@@ -11,7 +11,7 @@ export default async function sendVerificationEmail(
     const emailsent = await resend.emails.send({
       from: "team@ascendifyr.in",
       to: email,
-      subject: "Soar - Verify your email",
+      subject: "Ascend - Verify your email",
       react: VerificationEmail({ code }),
     });
     return { success: true, message: "Verification email sent successfully" };

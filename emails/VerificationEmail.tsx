@@ -19,7 +19,7 @@ export default function VerificationEmail({ code }: VerificationEmailProps) {
   return (
     <Html lang="en" dir="ltr">
       <Head>
-        <title>Verify your email for Soar CRM</title>
+        <title>Verify your email for Ascend CRM</title>
         <link
           href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap"
           rel="stylesheet"
@@ -36,7 +36,7 @@ export default function VerificationEmail({ code }: VerificationEmailProps) {
           `}
         </style>
       </Head>
-      <Preview>Verify your email for Soar CRM</Preview>
+      <Preview>Verify your email for Ascend CRM</Preview>
       <Section
         style={{
           backgroundColor: "#fff",
@@ -52,7 +52,7 @@ export default function VerificationEmail({ code }: VerificationEmailProps) {
             as="h2"
             style={{ color: "#333", fontSize: "24px", marginBottom: "20px" }}
           >
-            Welcome to Soar CRM!
+            Welcome to Ascend CRM!
           </Heading>
         </Row>
         <Row>
@@ -64,9 +64,9 @@ export default function VerificationEmail({ code }: VerificationEmailProps) {
           <Text
             style={{ color: "#555", fontSize: "16px", marginBottom: "20px" }}
           >
-            Thank you for joining Soar CRM! We're excited to have you on board.
-            To get started, please verify your email address by clicking the
-            button below.
+            Thank you for joining Ascend CRM! We're excited to have you on
+            board. To get started, please verify your email address by clicking
+            the button below.
           </Text>
         </Row>
         <Row style={{ marginBottom: "20px", textAlign: "center" }}>
@@ -106,9 +106,9 @@ export default function VerificationEmail({ code }: VerificationEmailProps) {
           <Text
             style={{ color: "#555", fontSize: "16px", marginBottom: "20px" }}
           >
-            Soar CRM is designed to help you manage your customer relationships
-            more effectively, with tools for tracking interactions, managing
-            sales, and much more.
+            Ascend CRM is designed to help you manage your customer
+            relationships more effectively, with tools for tracking
+            interactions, managing sales, and much more.
           </Text>
           <Text
             style={{ color: "#555", fontSize: "16px", marginBottom: "20px" }}
@@ -126,13 +126,13 @@ export default function VerificationEmail({ code }: VerificationEmailProps) {
           }}
         >
           <Text style={{ color: "#999", fontSize: "14px" }}>
-            &copy; {new Date().getFullYear()} Soar CRM. All rights reserved.
+            &copy; {new Date().getFullYear()} Ascend CRM. All rights reserved.
           </Text>
           <Text style={{ color: "#999", fontSize: "14px" }}>
-            Soar CRM, Lawaypora, Srinagar, 190017, India.
+            Ascend CRM, Lawaypora, Srinagar, 190017, India.
           </Text>
           <Text style={{ color: "#999", fontSize: "14px" }}>
-            You received this email because you signed up for Soar CRM. If you
+            You received this email because you signed up for Ascend CRM. If you
             didn't, please ignore this email.
           </Text>
         </Row>

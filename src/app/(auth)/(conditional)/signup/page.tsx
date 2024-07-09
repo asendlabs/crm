@@ -33,7 +33,7 @@ const Helpers = () => {
       <div className="flex flex-col gap-2 w-[450px]">
         <AuthScreenHelper
           title="Product Roadmap"
-          description="See what Soar is planning for the future"
+          description="See what Ascend is planning for the future"
           Icon={Map}
           goto="/roadmap"
         />
@@ -51,7 +51,7 @@ const Helpers = () => {
       <div className="flex flex-col gap-2 w-[450px]">
         <AuthScreenHelper
           title="Upgrade to Pro"
-          description="Unlock the full potential of Soar CRM"
+          description="Unlock the full potential of Ascend CRM"
           Icon={Wallet}
           goto="/pricing"
         />

@@ -5,7 +5,7 @@ import type { Metadata } from "next";
 import { Toaster } from "sonner";
 
 export const metadata: Metadata = {
-  title: "Soar",
+  title: "Ascend",
 };
 
 export default function RootLayout({
