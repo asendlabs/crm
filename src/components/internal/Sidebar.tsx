@@ -63,9 +63,9 @@ export const Sidebar = ({ username }: Props) => {
     },
   ];
   return (
-    <nav className="flex flex-col w-54 h-screen justify-between">
+    <nav className="flex flex-col w-48 h-screen justify-between pt-4">
       <div id="upper">
-        <Link className="pt-3 font-bold px-4 text-lg cursor-pointer" href="/">
+        <Link className="font-bold text-lg px-4 cursor-pointer" href="/">
           ascendCRM
         </Link>
         <div className="flex flex-col text-sm p-2">

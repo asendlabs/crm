@@ -16,7 +16,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 
-import AuthScreenHelper from "@/components/AuthScreenHelper";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Link } from "lucide-react";

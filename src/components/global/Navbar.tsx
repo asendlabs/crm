@@ -49,7 +49,7 @@ const Navbar = () => {
     } else if (pathname === "/forgot") {
       setButtonText("Sign In");
       setButtonGoto("/signin");
-    } else if (pathname === "/verify") {
+    } else if (pathname.startsWith("/verify")) {
       setButtonText("Sign In");
       setButtonGoto("/signin");
     }
