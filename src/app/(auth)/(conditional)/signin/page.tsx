@@ -1,6 +1,5 @@
 "use client";
 
-import { Book, Send, Timer } from "lucide-react";
 import {
   Form,
   FormControl,
@@ -10,13 +9,9 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 
-import AuthScreenHelper from "@/components/AuthScreenHelper";
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
-import Sp from "@/components/Sp";
-import { getUser } from "@/lib/lucia";
 import { signIn } from "../../auth.actions";
 import { signInSchema } from "@/validators/auth";
 import { toast } from "sonner";
@@ -44,7 +39,7 @@ export default function SignInForm() {
       const res = await signIn(values);
       if (res.success) {
         toast.success(res.message);
-        // router.push("/dashboard");
+        router.push("/dashboard");
       }
       if (!res.success) {
         toast.error(res.message);

@@ -1,65 +1,25 @@
 "use client";
 
-import { ArrowRight, Map, Trophy, Wallet } from "lucide-react";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { signUpSchema, verifySchema } from "@/validators/auth";
 
-import AuthScreenHelper from "@/components/AuthScreenHelper";
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
-import Sp from "@/components/Sp";
-import { cn } from "@/lib/utils";
 import { signUp } from "../../auth.actions";
+import { signUpSchema } from "@/validators/auth";
 import { toast } from "sonner";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-
-const Helpers = () => {
-  return (
-    <section className="hidden lg:flex flex-col w-screen items-center justify-center bg-cover h-full bg-[url('https://img.freepik.com/free-photo/abstract-gradient-neon-lights_23-2149279180.jpg')]">
-      <div className="flex flex-col gap-2 w-[450px]">
-        <AuthScreenHelper
-          title="Product Roadmap"
-          description="See what Ascend is planning for the future"
-          Icon={Map}
-          goto="/roadmap"
-        />
-        <Sp />
-      </div>
-      <div className="flex flex-col gap-2 w-[450px]">
-        <AuthScreenHelper
-          title="Checkout the Testimonials"
-          description="See what our customers are saying about us"
-          Icon={Trophy}
-          goto="/testimonials"
-        />
-        <Sp />
-      </div>
-      <div className="flex flex-col gap-2 w-[450px]">
-        <AuthScreenHelper
-          title="Upgrade to Pro"
-          description="Unlock the full potential of Ascend CRM"
-          Icon={Wallet}
-          goto="/pricing"
-        />
-        <Sp />
-      </div>
-    </section>
-  );
-};
 
 export default function SignUpFormPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -122,7 +82,7 @@ export default function SignUpFormPage() {
               <FormItem>
                 <FormLabel>Email</FormLabel>
                 <FormControl>
-                  <Input {...field} placeholder="eg: jane@acme.com" />
+                  <Input {...field} placeholder="eg: john@acme.com" />
                 </FormControl>
                 <FormMessage />
               </FormItem>

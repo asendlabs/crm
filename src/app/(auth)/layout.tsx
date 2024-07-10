@@ -1,4 +1,5 @@
-import Navbar from "@/components/Navbar";
+// import Footer from "@/components/global/Footer";
+import Navbar from "@/components/global/Navbar";
 
 export default async function AuthenticationPagesLayout({
   children,
@@ -9,6 +10,7 @@ export default async function AuthenticationPagesLayout({
     <main className="flex flex-col h-screen ">
       <Navbar />
       {children}
+      {/* <Footer /> */}
     </main>
   );
 }
