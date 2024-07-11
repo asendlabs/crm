@@ -16,7 +16,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={GeistSans.className}>
       <body>{children}</body>
-      <Toaster />
+      <Toaster richColors />
     </html>
   );
 }

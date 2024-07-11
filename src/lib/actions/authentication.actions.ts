@@ -1,22 +1,18 @@
 "use server";
 
 import { UserRequestTable, userTable } from "@/db/schema";
+import { getUser, lucia } from "@/lib/lucia";
 import {
-  getNewVerifyCodeSchema,
   requestSchema,
   signInSchema,
   signUpSchema,
-  verifySchema,
-} from "@/validators/auth";
-import { getUser, lucia } from "@/lib/lucia";
+} from "@/validators/authentication";
 
 import { Argon2id } from "oslo/password";
 import { cookies } from "next/headers";
 import { db } from "@/db";
 import { eq } from "drizzle-orm";
 import { generateId } from "lucia";
-import { redirect } from "next/navigation";
-import { revalidatePath } from "next/cache";
 import sendVerificationEmail from "@/lib/sendVerificationEmail";
 import { z } from "zod";
 

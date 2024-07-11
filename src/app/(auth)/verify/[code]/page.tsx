@@ -15,8 +15,8 @@ import { useForm } from "react-hook-form";
 import { useParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { verifyCode } from "../../auth.actions";
-import { verifySchema } from "@/validators/auth";
+import { verifyCode } from "../../../../lib/actions/authentication.actions";
+import { verifySchema } from "@/validators/authentication";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 

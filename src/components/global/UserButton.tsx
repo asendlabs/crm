@@ -13,7 +13,7 @@ import Link from "next/link";
 import { LogoutLink } from "./LogoutLink";
 import React from "react";
 import { getUser } from "@/lib/lucia";
-import { signOut } from "@/app/(auth)/auth.actions";
+import { signOut } from "@/lib/actions/auth.actions";
 
 const UserButton = async ({ className }: { className: string }) => {
   const user = await getUser();

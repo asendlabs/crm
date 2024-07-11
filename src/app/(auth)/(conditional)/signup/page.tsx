@@ -12,8 +12,8 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
-import { signUp } from "../../auth.actions";
-import { signUpSchema } from "@/validators/auth";
+import { signUp } from "../../../../lib/actions/authentication.actions";
+import { signUpSchema } from "@/validators/authentication";
 import { toast } from "sonner";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
