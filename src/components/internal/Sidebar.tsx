@@ -17,22 +17,18 @@ import React from "react";
 import { SidebarItem } from "./SidebarItem";
 import { SidebarItemData } from "./SidebarItem";
 
-type Props = {
-  username: string;
-};
-
-export const Sidebar = ({ username }: Props) => {
+export const Sidebar = () => {
   const pathname = usePathname();
   const upperItems: SidebarItemData[] = [
     {
-      title: "Dashboard",
+      title: "Home",
       Icon: Home,
-      active: pathname === "/dashboard",
+      active: pathname === "/home",
     },
     {
-      title: "Accounts",
+      title: "Leads",
       Icon: Building,
-      active: pathname === "/accounts",
+      active: pathname === "/leadss",
     },
     {
       title: "Contacts",
@@ -63,9 +59,12 @@ export const Sidebar = ({ username }: Props) => {
     },
   ];
   return (
-    <nav className="flex flex-col w-48 h-screen justify-between pt-4">
+    <nav className="flex flex-col h-screen justify-between pt-4 border-r-[1px] border-gray-100">
       <div id="upper">
-        <Link className="font-bold text-lg px-4 cursor-pointer" href="/">
+        <Link
+          className="font-bold text-lg px-4 cursor-pointer text-black"
+          href="/"
+        >
           ascendCRM
         </Link>
         <div className="flex flex-col text-sm p-2">
@@ -90,9 +89,7 @@ export const Sidebar = ({ username }: Props) => {
             />
           ))}
         </div>
-        <div>
-          <Button variant={"link"}>{username}</Button>
-        </div>
+        <div>{/* <Button variant={"link"}>{username}</Button> */}</div>
       </div>
     </nav>
   );

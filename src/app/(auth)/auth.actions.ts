@@ -153,7 +153,7 @@ export const signOut = async () => {
       await lucia.invalidateSession(sessionId);
     }
     cookies().delete("authentication_key_ascendcrm_secure");
-    revalidatePath("/dashboard");
+    revalidatePath("/home");
     return {
       success: true,
       message: "Logged out successfully",

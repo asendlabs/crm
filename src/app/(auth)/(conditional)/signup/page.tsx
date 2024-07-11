@@ -40,7 +40,7 @@ export default function SignUpFormPage() {
       const res = await signUp(values);
       if (res.success) {
         toast.success(res.message);
-        router.push("/dashboard");
+        router.push("/home");
       }
       if (!res.success) {
         toast.error(res.message);

@@ -22,6 +22,13 @@
       "when": 1720506406713,
       "tag": "0002_little_imperial_guard",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1720658893054,
+      "tag": "0003_illegal_scream",
+      "breakpoints": true
     }
   ]
 }

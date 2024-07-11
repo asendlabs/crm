@@ -52,11 +52,9 @@ export default function VerifyEmail() {
   if (submitted) {
     return (
       <section className="w-screen flex flex-col items-center justify-center h-screen gap-5">
-        <Card className="flex flex-col max-w-md items-center shadow-lg p-6">
+        <Card className="flex flex-col max-w-96 items-center shadow-lg p-6">
           <CardHeader>
-            <h1 className="text-3xl font-semibold">
-              Email Verified
-            </h1>
+            <h1 className="text-3xl font-semibold">Email Verified</h1>
           </CardHeader>
           <CardContent>
             <CardDescription>
@@ -68,11 +66,8 @@ export default function VerifyEmail() {
             </CardDescription>
           </CardContent>
           <CardFooter className="flex flex-col gap-2 w-full">
-            <Button
-              className="w-full"
-              onClick={() => router.push("/dashboard")}
-            >
-              Back to Dashboard
+            <Button className="w-full" onClick={() => router.push("/home")}>
+              Back to Home
             </Button>
             <p className="text-xs font-medium opacity-70 text-center">
               You can close this window
@@ -94,7 +89,7 @@ export default function VerifyEmail() {
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="flex flex-col gap-5 w-80 text-sm bg-white p-6 rounded-lg shadow-md"
+          className="flex flex-col gap-5 w-96 text-sm bg-white p-6 rounded-lg shadow-md"
         >
           <p className="text-gray-600">
             Click the button below to verify your email address. This helps us
