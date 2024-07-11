@@ -2,10 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Inter", sans-serif;
-}
-
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -70,20 +66,18 @@
   align-items: center;
   cursor: pointer;
   gap: 7px;
-  width: 10.2rem;
   font-weight: 600;
 }
 
 .sidebar-link:hover {
-  color: #8f1fff;
+  color: #003096
 }
 
 .sidebar-link-active {
-  background-color: #8f1fff10;
-  border: 0.3px solid gray;
+  background-color: white;
+border: 0.1px solid gray;
   transition: ease-in;
   transition-duration: 50ms;
-  color: #000;
 }
 
 .sidebar-link-active:hover {

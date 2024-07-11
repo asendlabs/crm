@@ -1,6 +1,6 @@
 import "./globals.css";
 
-// import { GeistSans } from "geist/font/sans";
+import { GeistSans } from "geist/font/sans";
 import type { Metadata } from "next";
 import { Toaster } from "sonner";
 
@@ -14,7 +14,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className={GeistSans.className}>
       <body>{children}</body>
       <Toaster />
     </html>

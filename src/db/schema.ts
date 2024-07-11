@@ -17,8 +17,15 @@ export const userTable = pgTable("users", {
   createdAt: timestamp("created_at").notNull().defaultNow(),
   updatedAt: timestamp("updated_at").notNull().defaultNow(),
   isVerified: boolean("is_verified").notNull().default(false),
-  preferences: jsonb("preferences"),
   verifyCode: varchar("verify_code", { length: 56 }),
+});
+
+export const userPreferencesTable = pgTable("user_preferences", {
+  id: text("id").primaryKey(),
+  userId: text("user_id")
+    .notNull()
+    .references(() => userTable.id),
+  preferences: jsonb("preferences"),
 });
 
 export const sessionTable = pgTable("session", {

@@ -59,13 +59,13 @@ export const Sidebar = () => {
     },
   ];
   return (
-    <nav className="flex flex-col h-screen justify-between pt-4 border-r-[1px] border-gray-100">
+    <nav className="flex flex-col h-screen justify-between pt-4 border-r-[1px] border-gray-100 ">
       <div id="upper">
         <Link
-          className="font-bold text-lg px-4 cursor-pointer text-black"
+          className="font-bold text-lg px-4 cursor-pointer text-blue-600"
           href="/"
         >
-          ascendCRM
+          Ascend CRM
         </Link>
         <div className="flex flex-col text-sm p-2">
           {upperItems.map((item, index) => (

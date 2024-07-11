@@ -10,7 +10,7 @@ export default async function HomePage() {
     <section className="grid grid-flow-row gap-6 pt-6 px-3">
       <div className="flex flex-col">
         <h1 className="text-4xl font-bold">
-          Hey, <span className="text-[#8f1fff]">{username}!</span>
+          Hey, <span className="text-blue-600">{username}!</span>
         </h1>
         <hr className="h-[1px] bg-gray-100 my-5" />
         <h2 className="text-2xl font-semibold">Performance</h2>
