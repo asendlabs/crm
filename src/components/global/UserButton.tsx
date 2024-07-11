@@ -10,10 +10,12 @@ import { LogOut, Settings } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { LogoutLink } from "./LogoutLink";
 import React from "react";
 import { getUser } from "@/lib/lucia";
+import { signOut } from "@/app/(auth)/auth.actions";
 
-const UserButton = async ({className} : {className: string}) => {
+const UserButton = async ({ className }: { className: string }) => {
   const user = await getUser();
   if (!user) {
     return null;
@@ -36,7 +38,9 @@ const UserButton = async ({className} : {className: string}) => {
         <DropdownMenuContent align="end">
           <div className="flex items-center gap-2 p-2">
             <div className="grid gap-0.5 leading-none">
-              <div className="font-semibold">{user?.name?.toString() || ""}</div>
+              <div className="font-semibold">
+                {user?.name?.toString() || ""}
+              </div>
               <div className="text-sm text-muted-foreground">
                 {user?.email?.toString() || ""}
               </div>
@@ -54,10 +58,7 @@ const UserButton = async ({className} : {className: string}) => {
             </Link>
           </DropdownMenuItem>
           <DropdownMenuItem>
-            <Link href="#" className="flex items-center gap-2" prefetch={false}>
-              <LogOut className="h-4 w-4" />
-              <span>Log Out</span>
-            </Link>
+            <LogoutLink />
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
