@@ -16,7 +16,7 @@ export default async function HomePage() {
         <h2 className="text-2xl font-semibold">Performance</h2>
         <p className="text-gray-500 text-sm">Check out how you are doing!</p>
       </div>
-      // TODO: Graphs
+      {/* // TODO: Graphs */}
       <div className="grid grid-flow-col gap-4 grid-cols-3">
         <Card>
           <CardHeader>
@@ -47,7 +47,7 @@ export default async function HomePage() {
       <div className="flex flex-col">
         <h2 className="text-2xl font-semibold">Recent Leads</h2>
       </div>
-      // TODO: Data Table
+      {/* // TODO: Data Table */}
     </section>
   );
 }

@@ -16,10 +16,10 @@ export default async function AppLayout({
 
   return (
     <div className="flex flex-row min-h-screen max-w-screen">
-      <UserButton className="absolute top-5 right-4" />
+      <div className="absolute top-5 right-4"><UserButton /></div>
       <div className="absolute w-[12.5vw] right-[87.5vw]">
         <Sidebar />
-      </div>
+      </div>  
       <div className="absolute left-[12.5vw] w-[86vw] h-screen">{children}</div>
     </div>
   );
