@@ -8,7 +8,7 @@ import {
   signUpSchema,
 } from "@/validators/authentication";
 
-import { Argon2id } from "oslo/password";
+import bcrypt from "bcryptjs";
 import { cookies } from "next/headers";
 import { db } from "@/db";
 import { eq } from "drizzle-orm";
@@ -30,7 +30,9 @@ export const signUp = async (data: z.infer<typeof signUpSchema>) => {
         message: "User already exists",
       };
     }
-    const hashedPassword = await new Argon2id().hash(password);
+    const salt = 11
+    bcrypt.genSalt(salt)
+    const hashedPassword = (await bcrypt.hash(password, salt)).toString();
     const code = await generateId(56).toString();
     const userId = await generateId(27).toString();
 
@@ -100,10 +102,7 @@ export const signIn = async (data: z.infer<typeof signInSchema>) => {
       };
     }
 
-    const passwordMatch = await new Argon2id().verify(
-      existingUser.hashedPassword,
-      password
-    );
+    const passwordMatch = bcrypt.compare(password, existingUser.hashedPassword).toString();
 
     if (!passwordMatch) {
       return {

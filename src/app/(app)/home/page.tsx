@@ -1,6 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { CheckIcon, Sigma, UserRoundPlusIcon } from "lucide-react";
 
+import UserButton from "@/components/global/UserButton";
 import { getUser } from "@/lib/lucia";
 
 export default async function HomePage() {
@@ -8,9 +9,12 @@ export default async function HomePage() {
   const username = user?.name.toString() || "";
   return (
     <section className="grid grid-flow-row gap-6 pt-6 px-3">
+      <div className="absolute top-5 right-4">
+        <UserButton />
+      </div>
       <div className="flex flex-col">
-        <h1 className="text-4xl font-bold">
-          Hey, <span className="text-blue-600">{username}!</span>
+        <h1 className="text-4xl font-bold select-none">
+          Hey, <span className="text-blue-600 ">{username}!</span>
         </h1>
         <hr className="h-[1px] bg-gray-100 my-5" />
         <h2 className="text-2xl font-semibold">Performance</h2>
