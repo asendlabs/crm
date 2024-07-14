@@ -4,8 +4,8 @@ import { GeistSans } from "geist/font/sans";
 import type { Metadata } from "next";
 import { Toaster } from "sonner";
 import UserButton from "@/components/global/UserButton";
-import { getUser } from "@/lib/lucia";
 import { redirect } from "next/navigation";
+import { useUser } from "@/hooks/useUser";
 
 export const metadata: Metadata = {
   title: "Ascend",
@@ -16,7 +16,7 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const user = await getUser();
+  const user = await useUser();
   if (!user) {
     return (
       <html lang="en" className={GeistSans.className}>
@@ -27,10 +27,7 @@ export default async function RootLayout({
   }
   return (
     <html lang="en" className={GeistSans.className}>
-      <body>
-
-        {children}
-      </body>
+      <body>{children}</body>
       <Toaster richColors />
     </html>
   );

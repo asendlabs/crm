@@ -1,13 +1,13 @@
 import { Sidebar } from "@/components/internal/Sidebar";
-import { getUser } from "@/lib/lucia";
 import { redirect } from "next/navigation";
+import { useUser } from "@/hooks/useUser";
 
 export default async function AppLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const user = await getUser();
+  const user = await useUser();
 
   if (!user) {
     redirect("/signin");

@@ -9,13 +9,12 @@ import {
   Users,
   Zap,
 } from "lucide-react";
-import { usePathname, useRouter } from "next/navigation";
 
-import { Button } from "../ui/button";
 import Link from "next/link";
 import React from "react";
 import { SidebarItem } from "./SidebarItem";
 import { SidebarItemData } from "./SidebarItem";
+import { usePathname } from "next/navigation";
 
 export const Sidebar = () => {
   const pathname = usePathname();
@@ -89,7 +88,6 @@ export const Sidebar = () => {
             />
           ))}
         </div>
-        <div>{/* <Button variant={"link"}>{username}</Button> */}</div>
       </div>
     </nav>
   );

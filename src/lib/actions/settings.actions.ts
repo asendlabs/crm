@@ -2,9 +2,8 @@
 
 import { db } from "@/db";
 import { eq } from "drizzle-orm";
-import { getUser } from "../lucia";
-import { redirect } from "next/navigation";
 import { updateAccountSchema } from "@/validators/settings";
+import { useUser } from "@/hooks/useUser";
 import { userTable } from "@/db/schema";
 import { z } from "zod";
 
@@ -12,7 +11,7 @@ export const updateAccount = async (
   data: z.infer<typeof updateAccountSchema>
 ) => {
   try {
-    const user = await getUser();
+    const user = await useUser();
     if (!user) {
       return {
         success: false,

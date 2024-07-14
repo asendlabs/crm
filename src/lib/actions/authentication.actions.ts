@@ -1,7 +1,6 @@
 "use server";
 
 import { UserRequestTable, userTable } from "@/db/schema";
-import { getUser, lucia } from "@/lib/lucia";
 import {
   requestSchema,
   signInSchema,
@@ -13,7 +12,9 @@ import { cookies } from "next/headers";
 import { db } from "@/db";
 import { eq } from "drizzle-orm";
 import { generateId } from "lucia";
-import sendVerificationEmail from "@/lib/sendVerificationEmail";
+import { lucia } from "@/lib/lucia";
+import sendVerificationEmail from "@/utils/sendVerificationEmail";
+import { useUser } from "@/hooks/useUser";
 import { z } from "zod";
 
 // sign up
@@ -30,8 +31,8 @@ export const signUp = async (data: z.infer<typeof signUpSchema>) => {
         message: "User already exists",
       };
     }
-    const salt = 11
-    bcrypt.genSalt(salt)
+    const salt = 11;
+    bcrypt.genSalt(salt);
     const hashedPassword = (await bcrypt.hash(password, salt)).toString();
     const code = await generateId(56).toString();
     const userId = await generateId(27).toString();
@@ -102,7 +103,9 @@ export const signIn = async (data: z.infer<typeof signInSchema>) => {
       };
     }
 
-    const passwordMatch = bcrypt.compare(password, existingUser.hashedPassword).toString();
+    const passwordMatch = bcrypt
+      .compare(password, existingUser.hashedPassword)
+      .toString();
 
     if (!passwordMatch) {
       return {
@@ -204,7 +207,7 @@ export const verifyCode = async (code: string) => {
 export const resendVerifyCode = async () => {
   "use server";
   try {
-    const user = await getUser();
+    const user = await useUser();
 
     if (!user) {
       return {
