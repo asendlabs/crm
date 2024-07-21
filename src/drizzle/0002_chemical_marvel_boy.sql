@@ -1,0 +1,1 @@
+ALTER TABLE "users" ADD COLUMN "action_verify_code" varchar(8);
