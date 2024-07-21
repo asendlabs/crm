@@ -1,9 +1,9 @@
 import SettingsTabs from "@/components/internal/settings/SettingsTabs";
 import UserButton from "@/components/global/UserButton";
-import { useUser } from "@/hooks/useUser";
+import { getUser } from "@/lib/actions/getUser";
 
 const SettingsPage = async () => {
-  const dbUser = await useUser();
+  const dbUser = await getUser();
   return (
     <section className="pt-6 px-3">
       <div className="absolute top-4 right-4">

@@ -12,9 +12,9 @@ import { cookies } from "next/headers";
 import { db } from "@/db";
 import { eq } from "drizzle-orm";
 import { generateId } from "lucia";
+import { getUser } from "@/lib/actions/getUser";
 import { lucia } from "@/lib/lucia";
 import sendVerificationEmail from "@/utils/sendVerificationEmail";
-import { useUser } from "@/hooks/useUser";
 import { z } from "zod";
 
 // sign up
@@ -207,7 +207,7 @@ export const verifyCode = async (code: string) => {
 export const resendVerifyCode = async () => {
   "use server";
   try {
-    const user = await useUser();
+    const user = await getUser();
 
     if (!user) {
       return {

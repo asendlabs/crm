@@ -12,10 +12,10 @@ import Link from "next/link";
 import { LogoutLink } from "./LogoutLink";
 import React from "react";
 import { Settings } from "lucide-react";
-import { useUser } from "@/hooks/useUser";
+import { getUser } from "@/lib/actions/getUser";
 
 const UserButton = async () => {
-  const user = await useUser();
+  const user = await getUser();
   if (!user) {
     return null;
   }

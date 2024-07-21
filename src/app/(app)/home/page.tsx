@@ -2,10 +2,10 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { CheckIcon, Sigma, UserRoundPlusIcon } from "lucide-react";
 
 import UserButton from "@/components/global/UserButton";
-import { useUser } from "@/hooks/useUser";
+import { getUser } from "@/lib/actions/getUser";
 
 export default async function HomePage() {
-  const user = await useUser();
+  const user = await getUser();
   const username = user?.name.toString() || "";
   return (
     <section className="grid grid-flow-row gap-6 pt-6 px-3">
