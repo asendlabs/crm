@@ -3,7 +3,7 @@
 import { cookies } from "next/headers";
 import { db } from "@/db";
 import { eq } from "drizzle-orm";
-import { lucia } from "@/lib/lucia";
+import { lucia } from "@/lib/auth";
 import { userTable } from "@/db/schema";
 
 export const getUser = async () => {

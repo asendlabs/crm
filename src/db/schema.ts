@@ -1,7 +1,4 @@
 import {
-  boolean,
-  integer,
-  jsonb,
   pgTable,
   text,
   timestamp,
@@ -10,22 +7,10 @@ import {
 
 export const userTable = pgTable("users", {
   id: text("id").primaryKey(),
-  name: varchar("name").notNull(),
   email: varchar("email").notNull(),
-  hashedPassword: varchar("hashed_password").notNull(),
-  avatarUrl: varchar("avatar_url"),
   createdAt: timestamp("created_at").notNull().defaultNow(),
-  updatedAt: timestamp("updated_at").notNull().defaultNow(),
-  isVerified: boolean("is_verified").notNull().default(false),
-  verifyCode: varchar("verify_code", { length: 56 }),
-});
-
-export const userPreferencesTable = pgTable("user_preferences", {
-  id: text("id").primaryKey(),
-  userId: text("user_id")
-    .notNull()
-    .references(() => userTable.id),
-  preferences: jsonb("preferences"),
+  verifyCode: varchar("verify_code"),
+  verifyCodeGeneratedAt: timestamp("verify_code_generated_at"),
 });
 
 export const sessionTable = pgTable("session", {
@@ -37,16 +22,4 @@ export const sessionTable = pgTable("session", {
     withTimezone: true,
     mode: "date",
   }).notNull(),
-});
-
-
-export const UserRequestTable = pgTable("user_requests", {
-  id: text("id").primaryKey(),
-  userId: text("user_id")
-    .notNull()
-    .references(() => userTable.id),
-  email: varchar("email").notNull(),
-  createdAt: timestamp("created_at").notNull().defaultNow(),
-  updatedAt: timestamp("updated_at").notNull().defaultNow(),
-  type: varchar("type"),
 });
