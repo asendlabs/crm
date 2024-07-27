@@ -4,7 +4,7 @@ import { generateCodeVerifier, generateState } from "arctic";
 import { googleOAuthClient, lucia } from "@/lib/auth";
 
 import { VerificationEmail } from "@/emails/VerificationEmail";
-import { authenticationSchema } from "@/validators/authentication";
+import { authenticationSchema } from "@/schemas/authentication";
 import { cookies } from "next/headers";
 import { db } from "@/db";
 import { eq } from "drizzle-orm";
