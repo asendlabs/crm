@@ -175,7 +175,7 @@ const EmailForm = () => {
   return (
     <Form {...form}>
       <form onSubmit={handleSubmit(onSubmitVerification)} className="w-full">
-        <div className="flex flex-col items-center gap-3">
+        <div className="flex flex-col items-center gap-5">
           <FormField
             control={control}
             name="email"
@@ -207,14 +207,14 @@ const EmailForm = () => {
                   <Loader2 className="animate-spin w-4 h-4 mr-2" />
                 </>
               ) : (
-                "Continue"
+                "Continue with Email"
               )}
             </Button>
           )}
         </div>
         <>
           {isVerificationVisible && (
-            <div className="flex flex-col items-center gap-3 mt-3">
+            <div className="flex flex-col items-center gap-5 mt-5">
               <FormField
                 control={control}
                 name="verifyCode"

@@ -64,7 +64,7 @@ export const sendCode = async (email: string) => {
 
       return {
         success: true,
-        message: "Code sent successfully",
+        message: "Sign up code sent successfully",
         type: "signup",
       };
     }
@@ -81,6 +81,29 @@ export const sendCode = async (email: string) => {
       return { success: false, message: "Something went Wrong", type: "login" };
     }
 
+    if (!user.accountCompleted) {
+      const emailSent = await sendEmail({
+        to: email,
+        from: "no-reply@ascendifyr.in",
+        name: "Ascend",
+        subject: `Your Ascend sign up code is ${verifyCode}`,
+        react: <VerificationEmail verifyCode={verifyCode} type="signup" />,
+      });
+
+      if (!emailSent?.success) {
+        return {
+          success: false,
+          message: "Something went Wrong with Sending Email",
+          type: "signup",
+        };
+      }
+
+      return {
+        success: true,
+        message: "Sign up code sent successfully",
+        type: "signup",
+      };
+    }
     const emailSent = await sendEmail({
       to: email,
       from: "no-reply@ascendifyr.in",
@@ -99,7 +122,7 @@ export const sendCode = async (email: string) => {
 
     return {
       success: true,
-      message: "Code sent successfully",
+      message: "Login code sent successfully",
       type: "login",
     };
   } catch (error) {
@@ -133,18 +156,33 @@ export const resendCode = async (email: string) => {
       return { success: false, message: "Something went Wrong" };
     }
 
+    if (!user.accountCompleted) {
+      const emailSent = await sendEmail({
+        to: email,
+        from: "no-reply@ascendifyr.in",
+        name: "Ascend",
+        subject: `Your Ascend sign up code is ${verifyCode}`,
+        react: <VerificationEmail verifyCode={verifyCode} type="signup" />,
+      });
+
+      if (!emailSent?.success) {
+        return { success: false, message: "Something went Wrong" };
+      }
+      return { success: true, message: "New sign up code sent successfully" };
+    }
+
     const emailSent = await sendEmail({
       to: email,
       from: "no-reply@ascendifyr.in",
       name: "Ascend",
-      subject: `Your Ascend code is ${verifyCode}`,
+      subject: `Your temporary Ascend login code is ${verifyCode}`,
       react: <VerificationEmail verifyCode={verifyCode} type="login" />,
     });
 
     if (!emailSent?.success) {
       return { success: false, message: "Something went Wrong" };
     }
-    return { success: true, message: "New code sent successfully" };
+    return { success: true, message: "New login code sent successfully" };
   } catch (error) {
     console.error(error);
     return { success: false, message: "Something went wrong" };
@@ -167,6 +205,31 @@ export const authenticate = async (
 
     if (user.verifyCode !== verifyCode) {
       return { success: false, message: "Invalid Code" };
+    }
+
+    if (!user.accountCompleted) {
+      user.accountCompleted = true;
+      const updateQuery = await db
+        .update(userTable)
+        .set(user)
+        .where(eq(userTable.id, user.id));
+
+      if (!updateQuery) {
+        return {
+          success: false,
+          message: "Something went Wrong",
+        };
+      }
+
+      const session = await lucia.createSession(user.id, {});
+      const sessionCookie = lucia.createSessionCookie(session.id);
+      cookies().set(
+        sessionCookie.name,
+        sessionCookie.value,
+        sessionCookie.attributes
+      );
+
+      return { success: true, message: "Successfully Signed Up" };
     }
 
     // Success

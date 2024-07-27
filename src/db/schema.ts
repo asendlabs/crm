@@ -13,6 +13,7 @@ export const userTable = pgTable("users", {
   id: text("id").primaryKey(),
   email: varchar("email").notNull(),
   createdAt: timestamp("created_at").notNull().defaultNow(),
+  accountCompleted: boolean("account_completed").notNull().default(false),
   isOAuth: boolean("oauth").notNull().default(false),
   googleOAuthId: varchar("google_oauth_id"),
   verifyCode: varchar("verify_code"),

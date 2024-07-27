@@ -14,7 +14,7 @@ export async function GET(req: NextRequest) {
   const state = url.searchParams.get("state");
 
   if (!code || !state) {
-    return new Response("Invalid request", { status: 400 });
+    return redirect("/auth");
   }
 
   const cookieStore = cookies();
@@ -22,17 +22,19 @@ export async function GET(req: NextRequest) {
   const savedState = cookieStore.get("state")?.value;
 
   if (!codeVerifier || !savedState) {
-    return new Response("Invalid request", { status: 400 });
+    return redirect("/auth");
   }
 
   if (state !== savedState) {
-    return new Response("Invalid request", { status: 400 });
+    return redirect("/auth");
   }
 
-  const { accessToken } = await googleOAuthClient.validateAuthorizationCode(
+  const validationResponse = await googleOAuthClient.validateAuthorizationCode(
     code,
     codeVerifier
   );
+
+  const { accessToken } = validationResponse;
 
   const googleResponse = await fetch(
     "https://www.googleapis.com/oauth2/v1/userinfo",
