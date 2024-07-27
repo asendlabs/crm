@@ -1,12 +1,14 @@
 "use server";
 
+import { generateCodeVerifier, generateState } from "arctic";
+import { googleOAuthClient, lucia } from "@/lib/auth";
+
 import { VerificationEmail } from "@/emails/VerificationEmail";
 import { authenticationSchema } from "@/validators/authentication";
 import { cookies } from "next/headers";
 import { db } from "@/db";
 import { eq } from "drizzle-orm";
 import { generateId } from "lucia";
-import { lucia } from "@/lib/auth";
 import { sendEmail } from "@/lib/email";
 import { userTable } from "@/db/schema";
 import z from "zod";
@@ -179,5 +181,33 @@ export const authenticate = async (
     return { success: true, message: "Successfully Logged In" };
   } catch (error) {
     return { success: false, message: "Something went wrong" };
+  }
+};
+
+export const getGoogleOAuthConsentUrl = async () => {
+  try {
+    const state = generateState();
+    const codeVerifier = generateCodeVerifier();
+
+    cookies().set("codeVerifier", codeVerifier, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+    });
+    cookies().set("state", state, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+    });
+
+    const authUrl = await googleOAuthClient.createAuthorizationURL(
+      state,
+      codeVerifier,
+      {
+        scopes: ["email"],
+      }
+    );
+
+    return { success: true, url: authUrl.toString() };
+  } catch (error) {
+    return { success: false, message: "Something went wrong", url: "" };
   }
 };

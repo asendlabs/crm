@@ -9,12 +9,12 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Loader2, Router } from "lucide-react"; // Make sure to import the Loader2 component
 import React, { useEffect, useState } from "react";
 import { authenticate, resendCode, sendCode } from "@/actions/authentication";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Loader2 } from "lucide-react"; // Make sure to import the Loader2 component
 import { authenticationSchema } from "@/validators/authentication";
 import { toast } from "sonner";
 import { useForm } from "react-hook-form";
@@ -111,7 +111,6 @@ const EmailForm = () => {
     setValue,
     trigger,
     getFieldState,
-    formState,
   } = form;
 
   const emailValue = watch("email");
