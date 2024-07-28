@@ -4,7 +4,7 @@ import { generateCodeVerifier, generateState } from "arctic";
 import { googleOAuthClient, lucia } from "@/lib/auth";
 
 import { VerificationEmail } from "@/emails/VerificationEmail";
-import { authenticationSchema } from "@/schemas/authentication";
+import { authenticationSchema } from "@/schemas/auth.schema";
 import { cookies } from "next/headers";
 import { db } from "@/db";
 import { eq } from "drizzle-orm";
@@ -244,6 +244,37 @@ export const authenticate = async (
     return { success: true, message: "Successfully Logged In" };
   } catch (error) {
     return { success: false, message: "Something went wrong" };
+  }
+};
+
+export const signOut = async () => {
+  try {
+    const sessionCookieId = cookies().get("auth_key")?.value;
+
+    const { session } = await lucia.validateSession(sessionCookieId!);
+
+    if (!session) {
+      return {
+        success: false,
+        error: "Session not found",
+      };
+    }
+
+    await lucia.invalidateSession(session.id);
+
+    const sessionCookie = lucia.createBlankSessionCookie();
+
+    cookies().set(
+      sessionCookie.name,
+      sessionCookie.value,
+      sessionCookie.attributes
+    );
+    return { success: true };
+  } catch (error: any) {
+    return {
+      success: false,
+      error: error?.message,
+    };
   }
 };
 

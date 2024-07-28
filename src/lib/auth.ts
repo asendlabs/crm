@@ -9,7 +9,7 @@ const adapter = new DrizzlePostgreSQLAdapter(db, sessionTable, userTable);
 
 export const lucia = new Lucia(adapter, {
   sessionCookie: {
-    name: "authentication_key_ascendcrm_secure",
+    name: "auth_key",
     attributes: {
       secure: process.env.NODE_ENV === "production",
     },

@@ -4,7 +4,7 @@ import { Button } from "./ui/button";
 import Image from "next/image";
 import { Loader2 } from "lucide-react";
 import React from "react";
-import { getGoogleOAuthConsentUrl } from "@/lib/actions/authentication";
+import { getGoogleOAuthConsentUrl } from "@/lib/actions/auth.action";
 import { useRouter } from "next/navigation";
 const GoogleOAuthButton = () => {
   const router = useRouter();

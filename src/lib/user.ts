@@ -7,8 +7,7 @@ import { lucia } from "@/lib/auth";
 import { userTable } from "@/db/schema";
 
 export const getUser = async () => {
-  const sessionCookieId =
-    cookies().get("authentication_key_ascendcrm_secure")?.value || null;
+  const sessionCookieId = cookies().get("auth_key")?.value || null;
   if (sessionCookieId === undefined) return null;
   if (!sessionCookieId) return null;
 

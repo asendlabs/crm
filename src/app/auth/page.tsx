@@ -1,5 +1,5 @@
-import EmailForm from "../../components/EmailForm";
-import GoogleOAuthButton from "@/components/GoogleOAuthButton";
+import EmailForm from "../../components/email-form";
+import GoogleOAuthButton from "@/components/google-oauth-button";
 import Link from "next/link";
 import React from "react";
 import { getUser } from "@/lib/user";
@@ -8,7 +8,7 @@ import { redirect } from "next/navigation";
 const AuthPage = async () => {
   const user = await getUser();
   if (user) {
-    redirect("/home");
+    return redirect("/home");
   }
   return (
     <main className="flex flex-col items-center justify-center h-screen">

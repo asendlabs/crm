@@ -10,16 +10,12 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import React, { useEffect, useState } from "react";
-import {
-  authenticate,
-  resendCode,
-  sendCode,
-} from "@/lib/actions/authentication";
+import { authenticate, resendCode, sendCode } from "@/lib/actions/auth.action";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Loader2 } from "lucide-react"; // Make sure to import the Loader2 component
-import { authenticationSchema } from "@/schemas/authentication";
+import { authenticationSchema } from "@/schemas/auth.schema";
 import { toast } from "sonner";
 import { useForm } from "react-hook-form";
 import { useParams } from "next/navigation";
