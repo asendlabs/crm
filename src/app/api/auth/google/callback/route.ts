@@ -85,7 +85,7 @@ export async function GET(req: NextRequest) {
     cookieStore.set("state", "", { expires: new Date(0) });
     cookieStore.set("codeVerifier", "", { expires: new Date(0) });
 
-    return redirect("/home");
+    return redirect("/inbox");
   }
 
   user.isOAuth = true;
@@ -110,5 +110,5 @@ export async function GET(req: NextRequest) {
 
   cookieStore.set("state", "", { expires: new Date(0) });
   cookieStore.set("codeVerifier", "", { expires: new Date(0) });
-  return redirect("/home");
+  return redirect("/inbox");
 }

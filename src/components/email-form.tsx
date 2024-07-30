@@ -152,7 +152,7 @@ const EmailForm = () => {
         toast.error(response.message);
         return;
       }
-      router.replace("/home");
+      router.replace("/inbox");
     } catch (error) {
       toast.error("Something went wrong");
     } finally {

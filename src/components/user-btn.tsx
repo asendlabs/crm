@@ -28,23 +28,20 @@ export function UserBtn({ email }: { email: string }) {
     <div>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button
-            variant="outline"
-            className="rounded-lg border-gray-300 py-1 border-[1px] text-sm font-medium hover:bg-gray-100 max-w-52"
-          >
+          <button className="text-sm font-medium hover:bg-gray-100 rounded-full select-none outline-none">
             <div className="flex items-center gap-2">
-              <Avatar className="h-8 w-8">
-                <AvatarImage src="/placeholdesdfdsfdsr-user.jpg" />
+              <Avatar className="h-7 w-7  ">
+                <AvatarImage src="https://xsgames.co/randomusers/assets/avatars/male/74.jpg" />
                 <AvatarFallback>{email.charAt(0).toUpperCase()}</AvatarFallback>
               </Avatar>
-              <div className="hidden sm:block">
-                <div className="text-sm select-none">
-                  {truncateEmail(email, 14)}
-                </div>
+              <div className="flex items-center text-sm">
+                {/* {truncateEmail(email, 16)}
+                 */}
+                Waris Reshi
+                <ChevronDown className="h-4 w-4 ml-2" />
               </div>
-              <ChevronDown className="h-4 w-4" />
             </div>
-          </Button>
+          </button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="w-48">
           <DropdownMenuItem>

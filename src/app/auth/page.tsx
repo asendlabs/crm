@@ -8,7 +8,7 @@ import { redirect } from "next/navigation";
 const AuthPage = async () => {
   const user = await getUser();
   if (user) {
-    return redirect("/home");
+    return redirect("/inbox");
   }
   return (
     <main className="flex flex-col items-center justify-center h-screen">

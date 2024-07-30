@@ -3,11 +3,12 @@
 import {
   Building,
   Clock,
-  Handshake,
   Inbox,
   Map,
+  Search,
   Settings,
-  Users,
+  SquareUserRound,
+  Zap,
 } from "lucide-react";
 
 import Link from "next/link";
@@ -18,50 +19,56 @@ import { usePathname } from "next/navigation";
 
 const Sidebar = ({ user }: { user: User }) => {
   const sidebarItemClassName =
-    "mb-1 flex font-medium items-center text-black/80 text-sm hover:text-blue-500 hover:bg-muted-foreground/10 rounded-full px-2 py-[4.5px] cursor-pointer";
+    "flex font-medium gap-2 items-center text-black/80 text-sm hover:bg-muted-foreground/10 rounded-lg px-2 py-[4.5px] cursor-pointer";
   const pathname = usePathname();
   return (
-    <div className="w-60 bg-card border-r h-screen p-4 flex flex-col justify-between">
-      <div>
-        <div className="flex items-center mb-4">
+    <div className="w-60 bg-card border-r h-screen flex flex-col justify-between select-none outline-none">
+      <div className="flex flex-col pt-3 pl-2 pr-2">
+        <div className="flex items-center mb-2 ml-2">
           <UserBtn email={user.email} />
         </div>
-        <ul className="ml-[-2px]">
+        <ul className="mb-2">
+          <div className={`${sidebarItemClassName}`}>
+            <Search className="w-4 h-4" />
+            <span>Search</span>
+          </div>
           <Link
-            href="/home"
+            href="/inbox"
             className={`${sidebarItemClassName} ${
-              pathname === "/home" ? "bg-muted-foreground/10 !text-black" : ""
+              pathname === "/inbox" ? "bg-muted-foreground/10 !text-black" : ""
             }`}
           >
-            <Inbox className="w-4 h-4 mr-2" />
-            <span>Dashboard</span>
+            <Inbox className="w-4 h-4" />
+            <span>Inbox</span>
+          </Link>
+        </ul>
+        <ul className="">
+          <Link href="/opportunities" className={`${sidebarItemClassName}`}>
+            <Zap className="w-4 h-4" />
+            <span>Deals</span>
           </Link>
           <Link href="/leads" className={`${sidebarItemClassName}`}>
-            <Building className="w-4 h-4 mr-2" />
+            <Building className="w-4 h-4" />
             <span>Leads</span>
           </Link>
-          <Link href="/contacts" className={`${sidebarItemClassName}`}>
-            <Users className="w-4 h-4 mr-2" />
+          <Link href="/people" className={`${sidebarItemClassName}`}>
+            <SquareUserRound className="w-4 h-4" />
             <span>Contacts</span>
-          </Link>
-          <Link href="/opportunities" className={`${sidebarItemClassName}`}>
-            <Handshake className="w-4 h-4 mr-2" />
-            <span>Opportunities</span>
           </Link>
         </ul>
       </div>
-      <div>
-        <ul className="ml-[-2px]">
+      <div className="flex flex-col pt-3 pl-2 pr-2">
+        <ul className="pb-3">
           <Link href="/updates" className={`${sidebarItemClassName}`}>
-            <Clock className="w-4 h-4 mr-2" />
+            <Clock className="w-4 h-4" />
             <span>What's New</span>
           </Link>
           <Link href="/roadmap" className={`${sidebarItemClassName}`}>
-            <Map className="w-4 h-4 mr-2" />
+            <Map className="w-4 h-4" />
             <span>Roadmap</span>
           </Link>
           <Link href="/settings" className={`${sidebarItemClassName}`}>
-            <Settings className="w-4 h-4 mr-2" />
+            <Settings className="w-4 h-4" />
             <span>Settings</span>
           </Link>
         </ul>
