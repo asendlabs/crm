@@ -1,12 +1,13 @@
+"use client";
+
 import { Plus, Search } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import React from "react";
 
 function LeadsPage() {
   return (
-    <section className="px-6 py-4">
+    <section className="px-6 py-4 flex flex-col gap-4">
       <div className="flex flex-row items-center justify-between">
         <h1 className="text-xl font-semibold">Leads</h1>
         <div className="flex flex-row gap-2">

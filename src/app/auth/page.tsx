@@ -5,6 +5,11 @@ import React from "react";
 import { getUser } from "@/lib/user";
 import { redirect } from "next/navigation";
 
+export const metadata = {
+  title: "Login or Sign Up",
+  description: "Login or Sign Up to Ascend",
+}
+
 const AuthPage = async () => {
   const user = await getUser();
   if (user) {
