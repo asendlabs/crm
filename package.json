@@ -27,6 +27,7 @@
     "@react-email/components": "^0.0.21",
     "@tanstack/react-table": "^8.19.3",
     "arctic": "^1.9.2",
+    "axios": "^1.7.2",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "dotenv": "^16.4.5",

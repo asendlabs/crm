@@ -1,32 +1,35 @@
-"use client";
+import { LeadsColumns } from "./_components/LeadsColumns";
+import { LeadsTable } from "./_components/LeadsTable";
+import { Metadata } from "next";
+import React from "react";
+import axios from "axios";
+import { db } from "@/db";
 
-import { Plus, Search } from "lucide-react";
+export type Lead = {
+  id: string;
+  company: string;
+  email: string;
+  website: string;
+  address: string;
+  phone: string;
+};
 
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-
-function LeadsPage() {
-  return (
-    <section className="px-6 py-4 flex flex-col gap-4">
-      <div className="flex flex-row items-center justify-between">
-        <h1 className="text-xl font-semibold">Leads</h1>
-        <div className="flex flex-row gap-2">
-          <div className="relative ml-auto flex-1 md:grow-0">
-            <Search className="absolute left-2.5 top-1.5 h-4 w-4 text-muted-foreground" />
-            <Input
-              type="search"
-              className="w-full rounded-lg bg-background pl-8 md:w-60 lg:w-60 max-h-7"
-              placeholder="Search..."
-            />
-          </div>
-          <Button className="flex flex-row gap-1 max-h-7 max-w-28 rounded-lg ">
-            <Plus className="h-4 w-4" />
-            <span>Add Lead</span>
-          </Button>
-        </div>
-      </div>
-    </section>
+const getLeads = async (): Promise<Lead[]> => {
+  const response = await axios.get(
+    "https://66a6ee9d23b29e17a1a3c02d.mockapi.io/leads"
   );
+  const { data } = response;
+  return data as Lead[];
+};
+
+export const metadata: Metadata = {
+  title: "Leads",
+  description: "List of leads",
+};
+
+async function LeadsPage() {
+  const fetchedLeads = await getLeads();
+  return <LeadsTable columns={LeadsColumns} tableData={fetchedLeads} />;
 }
 
 export default LeadsPage;
