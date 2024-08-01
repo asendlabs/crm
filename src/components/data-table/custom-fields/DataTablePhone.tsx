@@ -2,21 +2,22 @@
 
 import React, { useEffect, useRef } from "react";
 
-import { Field } from "@/components/ui/field";
+import Link from "next/link";
+import { Phone } from "lucide-react";
 
-interface DataTableFieldProps {
+interface DataTablePhoneFieldProps {
   getValue: () => any;
   row: any;
   column: any;
   table: any;
 }
 
-export function DataTableField({
+export function DataTablePhoneField({
   getValue,
   row,
   column,
   table,
-}: DataTableFieldProps) {
+}: DataTablePhoneFieldProps) {
   const initialValue = getValue();
   const [active, setActive] = React.useState(false);
   const [value, setValue] = React.useState(initialValue);
@@ -44,15 +45,31 @@ export function DataTableField({
   }, [active]);
 
   return (
-    <div onDoubleClick={() => setActive(true)}>
+    <div
+      className="relative ml-0 flex-1 md:grow-0"
+      onDoubleClick={() => setActive(true)}
+    >
       <input
         ref={inputRef}
         value={value || ""}
         onChange={(e) => setValue(e.target.value)}
         onBlur={onBlur}
         readOnly={!active}
-        className="w-full h-10 hover:cursor-pointer rounded-none px-2 outline-black truncate"
+        className="w-full h-10 bg-background pl-3 pr-8 truncate focus:no-underline hover:underline cursor-pointer" // Ensure padding-right for space
       />
+      <Link
+        href={`tel:${value || ""}`}
+        className="absolute right-2.5 top-1/2 transform -translate-y-1/2 "
+        tabIndex={-1}
+      >
+        <Phone
+          className={`${
+            active
+              ? "opacity-100 bg-muted-foreground/20 text-black"
+              : "opacity-0 bg-muted-foreground/20"
+          } h-5 w-6 text-muted-foreground duration-200 p-1 hover:opacity-100 hover:bg-muted-foreground/20 hover:text-black rounded-full`}
+        />
+      </Link>
     </div>
   );
 }

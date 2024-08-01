@@ -2,6 +2,7 @@ import { Building, Handshake, Home, Users } from "lucide-react";
 
 import React from "react";
 import Sidebar from "@/components/sidebar";
+import { Toaster } from "sonner";
 import { getUser } from "@/lib/user";
 import { redirect } from "next/navigation";
 
@@ -16,9 +17,9 @@ export default async function CrmLayout({
   }
 
   return (
-    <div className="grid min-h-screen w-full grid-cols-[240px_1fr]">
-      <Sidebar user={user}/>
-      {children}
-    </div>
+    <main className="grid min-h-screen w-full grid-cols-[240px_1fr]">
+      <Sidebar user={user} />
+      <div>{children}</div>
+    </main>
   );
 }

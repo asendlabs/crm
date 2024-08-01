@@ -67,3 +67,8 @@
     @apply bg-background text-foreground;
   }
 }
+
+.text-table {
+  font-size: 0.825rem;
+  line-height: 1.15rem;
+}

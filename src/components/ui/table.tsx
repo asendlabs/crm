@@ -82,6 +82,7 @@ const TableCell = React.forwardRef<
 
   const handleDoubleClick = () => setIsActive(true);
   const handleBlur = () => setIsActive(false);
+
   return (
     <td
       ref={ref}
@@ -92,10 +93,11 @@ const TableCell = React.forwardRef<
       onDoubleClick={handleDoubleClick}
       onBlur={handleBlur}
       {...props}
-    />  
+    />
   );
 });
 TableCell.displayName = "TableCell";
+
 
 const TableCaption = React.forwardRef<
   HTMLTableCaptionElement,

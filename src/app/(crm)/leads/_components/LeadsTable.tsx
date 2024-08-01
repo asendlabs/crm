@@ -26,6 +26,7 @@ import { DataTablePagination } from "@/components/data-table/DataTablePagination
 import DataTableSearch from "@/components/data-table/DataTableSearch";
 import { DataTableViewOptions } from "@/components/data-table/DataTableViewOptions";
 import { Plus } from "lucide-react";
+import { toast } from "sonner";
 import { updateLead } from "../_lib/lead.action";
 import { useState } from "react";
 
@@ -44,7 +45,9 @@ export function LeadsTable<TData, TValue>({
     pageSize: 12,
   });
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
-  const [sorting, setSorting] = useState<SortingState>([]);
+  const [sorting, setSorting] = useState<SortingState>([
+    { id: "createdAt", desc: false },
+  ]);
 
   const updateData = async ({
     rowIndex,
@@ -110,20 +113,20 @@ export function LeadsTable<TData, TValue>({
 
   return (
     <>
-      <section className="px-6 py-4 flex flex-col justify-between h-screen">
+      <section className="px-6 py-5 flex flex-col justify-between h-screen">
         <div className="flex flex-col gap-4">
           <div className="flex flex-row items-center justify-between">
             <h1 className="text-xl font-semibold">Leads</h1>
             <div className="flex flex-row gap-2">
               <div>
-                <DataTableViewOptions table={table} primaryField="company" />
+                <DataTableViewOptions table={table} primaryField="leadName" />
               </div>
               <DataTableSearch
                 table={table}
-                primaryField="company"
+                primaryField="leadName"
                 primaryFieldPrettyName="Lead"
               />
-              <Button className="flex flex-row gap-1 max-h-7 max-w-28 rounded-lg ">
+              <Button className="flex flex-row gap-1 max-h-7 max-w-28 rounded-lg " onClick={() => toast.error("Not implemented")}>
                 <Plus className="h-4 w-4" />
                 <span>Add Lead</span>
               </Button>
@@ -149,7 +152,7 @@ export function LeadsTable<TData, TValue>({
                   </TableRow>
                 ))}
               </TableHeader>
-              <TableBody>
+              <TableBody className="cursor-pointer">
                 {table.getRowModel().rows?.length ? (
                   table.getRowModel().rows.map((row) => (
                     <TableRow

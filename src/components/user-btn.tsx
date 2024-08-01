@@ -43,7 +43,7 @@ export function UserBtn({ email }: { email: string }) {
             </div>
           </button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent align="end" className="w-48">
+        <DropdownMenuContent align="end" className="w-56 ml-2">
           <DropdownMenuItem>
             <p className="flex items-center gap-2">{email}</p>
           </DropdownMenuItem>

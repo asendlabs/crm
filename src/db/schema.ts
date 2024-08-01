@@ -42,14 +42,12 @@ export const leadsTable = schema.table("leads", {
   userId: text("user_id")
     .notNull()
     .references(() => userTable.id),
-  name: text("name").notNull(),
+  leadName: text("lead_name").notNull(),
   description: text("description"),
   email: text("email"),
   phone: text("phone"),
-  urls: text("urls"),
-  adrress: text("adrress"),
+  address: text("adrress"),
   website: text("website"),
-  status: statusEnum("status").notNull().default("New"),
   createdAt: timestamp("created_at").notNull().defaultNow(),
   updatedAt: timestamp("updated_at"),
 });

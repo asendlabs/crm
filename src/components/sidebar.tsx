@@ -19,7 +19,7 @@ import { usePathname } from "next/navigation";
 
 const Sidebar = ({ user }: { user: User }) => {
   const sidebarItemClassName =
-    "flex font-medium gap-2 items-center text-black/80 text-sm hover:bg-muted-foreground/10 rounded-lg px-2 py-[4.5px] cursor-pointer";
+    "flex font-medium gap-2 items-center text-black/80 text-sm hover:bg-muted-foreground/10 rounded-lg px-2 my-[2.25px] py-[3.75px] cursor-pointer";
   const pathname = usePathname();
   return (
     <div className="w-60 bg-card border-r h-screen flex flex-col justify-between select-none outline-none">
@@ -43,15 +43,32 @@ const Sidebar = ({ user }: { user: User }) => {
           </Link>
         </ul>
         <ul className="">
-          <Link href="/opportunities" className={`${sidebarItemClassName}`}>
+          <Link
+            href="/deals"
+            className={`${sidebarItemClassName} ${
+              pathname === "/deals" ? "bg-muted-foreground/10 !text-black" : ""
+            }`}
+          >
             <Zap className="w-4 h-4" />
             <span>Deals</span>
           </Link>
-          <Link href="/leads" className={`${sidebarItemClassName}`}>
+          <Link
+            href="/leads"
+            className={`${sidebarItemClassName} ${
+              pathname === "/leads" ? "bg-muted-foreground/10 !text-black" : ""
+            }`}
+          >
             <Building className="w-4 h-4" />
             <span>Leads</span>
           </Link>
-          <Link href="/people" className={`${sidebarItemClassName}`}>
+          <Link
+            href="/contacts"
+            className={`${sidebarItemClassName} ${
+              pathname === "/contacts"
+                ? "bg-muted-foreground/10 !text-black"
+                : ""
+            }`}
+          >
             <SquareUserRound className="w-4 h-4" />
             <span>Contacts</span>
           </Link>

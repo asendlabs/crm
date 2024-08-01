@@ -9,6 +9,7 @@ export function DataTableHeaderCheckbox({ table }: { table: any }) {
       }
       onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
       aria-label="Select all"
+      className="m-[-2px]"
     />
   );
 }

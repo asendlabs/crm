@@ -5,7 +5,7 @@ export function DataTableCheckbox({ row }: { row: any }) {
       checked={row.getIsSelected()}
       onCheckedChange={(value) => row.toggleSelected(!!value)}
       aria-label="Select row"
-      className="ml-[10px]"
+      className="m-2"
     />
   );
 }
