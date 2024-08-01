@@ -33,8 +33,8 @@ export const statusEnum = schema.enum("status", [
   "In Progress",
   "Unqualified",
   "Future Contact",
-  "Closed (Won)",
-  "Closed (Lost)",
+  "Closed",
+  "Lost",
 ]);
 
 export const leadsTable = schema.table("leads", {
@@ -48,6 +48,7 @@ export const leadsTable = schema.table("leads", {
   phone: text("phone"),
   address: text("adrress"),
   website: text("website"),
+  status: statusEnum("status").notNull().default("New"),
   createdAt: timestamp("created_at").notNull().defaultNow(),
   updatedAt: timestamp("updated_at"),
 });

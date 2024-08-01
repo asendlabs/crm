@@ -1,0 +1,1 @@
+ALTER TABLE "app"."leads" ADD COLUMN "status" "app"."status" DEFAULT 'New' NOT NULL;

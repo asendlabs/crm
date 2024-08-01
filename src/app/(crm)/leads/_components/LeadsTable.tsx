@@ -46,7 +46,7 @@ export function LeadsTable<TData, TValue>({
   });
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [sorting, setSorting] = useState<SortingState>([
-    { id: "createdAt", desc: false },
+    { id: "leadName", desc: false },
   ]);
 
   const updateData = async ({
