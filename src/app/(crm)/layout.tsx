@@ -1,7 +1,7 @@
 import { Building, Handshake, Home, Users } from "lucide-react";
 
 import React from "react";
-import Sidebar from "@/components/sidebar";
+import Sidebar from "@/app/(crm)/_components/sidebar";
 import { Toaster } from "sonner";
 import { getUser } from "@/lib/user";
 import { redirect } from "next/navigation";

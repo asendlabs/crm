@@ -55,7 +55,7 @@ export function DataTableEmailField({
         onChange={(e) => setValue(e.target.value)}
         onBlur={onBlur}
         readOnly={!active}
-        className="w-full h-10 bg-background pl-3 pr-8 truncate focus:no-underline hover:underline cursor-pointer" // Ensure padding-right for space
+        className="w-full h-9 bg-background pl-3 pr-8 truncate focus:no-underline hover:underline cursor-pointer" // Ensure padding-right for space
       />
       <Link
         href={`mailto:${value || ""}`}

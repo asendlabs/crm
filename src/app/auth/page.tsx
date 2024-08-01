@@ -1,5 +1,5 @@
-import EmailForm from "../../components/email-form";
-import GoogleOAuthButton from "@/components/google-oauth-button";
+import EmailForm from "./_components/email-form";
+import GoogleOAuthButton from "@/app/auth/_components/google-oauth-button";
 import Link from "next/link";
 import React from "react";
 import { getUser } from "@/lib/user";

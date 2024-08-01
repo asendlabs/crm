@@ -21,12 +21,10 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-import { Button } from "@/components/ui/button";
 import { DataTablePagination } from "@/components/data-table/DataTablePagination";
 import DataTableSearch from "@/components/data-table/DataTableSearch";
 import { DataTableViewOptions } from "@/components/data-table/DataTableViewOptions";
-import { Plus } from "lucide-react";
-import { toast } from "sonner";
+import NewLeadForm from "./NewLeadForm";
 import { updateLead } from "../_lib/lead.action";
 import { useState } from "react";
 
@@ -42,12 +40,16 @@ export function LeadsTable<TData, TValue>({
   const [data, setData] = useState<TData[]>(tableData);
   const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: 0,
-    pageSize: 12,
+    pageSize: 13,
   });
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [sorting, setSorting] = useState<SortingState>([
     { id: "leadName", desc: false },
   ]);
+
+  const addLead = (newLead: any) => {
+    setData((prevLeads) => [...prevLeads, newLead]);
+  };
 
   const updateData = async ({
     rowIndex,
@@ -126,10 +128,7 @@ export function LeadsTable<TData, TValue>({
                 primaryField="leadName"
                 primaryFieldPrettyName="Lead"
               />
-              <Button className="flex flex-row gap-1 max-h-7 max-w-28 rounded-lg " onClick={() => toast.error("Not implemented")}>
-                <Plus className="h-4 w-4" />
-                <span>Add Lead</span>
-              </Button>
+              <NewLeadForm addLead={addLead} />
             </div>
           </div>
           <div className="flex flex-col gap-4">

@@ -45,7 +45,10 @@ export function DataTableWebsiteField({
     }
   }, [active]);
 
-  const normalizeUrl = (urlString: string) => {
+  const normalizeUrl = (urlString: string | null | undefined) => {
+    if (urlString === null || urlString === undefined) {
+      return undefined;
+    }
     let url = urlString.trim();
     if (!url.startsWith("http://") && !url.startsWith("https://")) {
       url = `http://${url}`; // Default to http if no scheme is provided
@@ -71,7 +74,7 @@ export function DataTableWebsiteField({
         onChange={(e) => setValue(e.target.value)}
         onBlur={onBlur}
         readOnly={!active}
-        className="w-full h-10 bg-background pl-3 pr-8 truncate focus:no-underline hover:underline cursor-pointer" // Ensure padding-right for space
+        className="w-full h-9 bg-background pl-3 pr-8 truncate focus:no-underline hover:underline cursor-pointer" // Ensure padding-right for space
       />
       <a
         href={normalizedUrl}

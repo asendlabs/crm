@@ -52,10 +52,7 @@ export function DataTablePrimaryField({
     .toUpperCase();
 
   return (
-    <div
-      className="relative ml-0 flex-1"
-      onDoubleClick={() => setActive(true)}
-    >
+    <div className="relative ml-0 flex-1" onDoubleClick={() => setActive(true)}>
       <Avatar className="h-5 w-5 bg-muted-foreground absolute left-2.5 top-2.5 text-muted-foreground">
         <AvatarImage src={row.original.avatar} />
         <AvatarFallback>{initials}</AvatarFallback>
@@ -66,14 +63,20 @@ export function DataTablePrimaryField({
         onChange={(e) => setValue(e.target.value)}
         onBlur={onBlur}
         readOnly={!active}
-        className="w-full h-10 bg-background pl-12 truncate cursor-pointer"
+        className="w-full h-9 bg-background pl-12 truncate cursor-pointer"
       />
       <Link
         href={`#`}
         className="absolute right-2.5 top-1/2 transform -translate-y-1/2"
         tabIndex={-1}
       >
-        <ArrowUpRight className={`${active ? "opacity-100 bg-muted-foreground/20 text-black" : "opacity-0 bg-muted-foreground/20"} h-6 w-6 text-muted-foreground duration-200 p-1 hover:opacity-100 hover:bg-muted-foreground/20 hover:text-black rounded-full`} />
+        <ArrowUpRight
+          className={`${
+            active
+              ? "opacity-100 bg-muted-foreground/20 text-black"
+              : "opacity-0 bg-muted-foreground/20"
+          } h-6 w-6 text-muted-foreground duration-200 p-1 hover:opacity-100 hover:bg-muted-foreground/20 hover:text-black rounded-full`}
+        />
       </Link>
     </div>
   );
