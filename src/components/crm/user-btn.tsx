@@ -12,7 +12,7 @@ import {
 
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { signOut } from "@/lib/actions/auth.action";
+import { signOut } from "@/data-access/auth.action";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 

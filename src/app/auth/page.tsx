@@ -1,5 +1,5 @@
-import EmailForm from "./_components/email-form";
-import GoogleOAuthButton from "@/app/auth/_components/google-oauth-button";
+import EmailForm from "@/components/auth/email-form";
+import GoogleOAuthButton from "@/components/auth/google-oauth-button";
 import Link from "next/link";
 import React from "react";
 import { getUser } from "@/lib/user";
@@ -8,7 +8,7 @@ import { redirect } from "next/navigation";
 export const metadata = {
   title: "Login or Sign Up",
   description: "Login or Sign Up to Ascend",
-}
+};
 
 const AuthPage = async () => {
   const user = await getUser();

@@ -10,7 +10,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import React, { useEffect, useState } from "react";
-import { authenticate, resendCode, sendCode } from "@/lib/actions/auth.action";
+import { authenticate, resendCode, sendCode } from "@/server/auth.action";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
