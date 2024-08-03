@@ -1,11 +1,7 @@
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Lead, contactsTable, leadsTable } from "@/db/schema";
 import React, { useEffect, useRef } from "react";
 
 import { ArrowUpRight } from "lucide-react";
 import Link from "next/link";
-import { db } from "@/db";
-import { eq } from "drizzle-orm";
 
 interface DataTableSecondaryFieldProps {
   getValue: () => any;
@@ -14,7 +10,7 @@ interface DataTableSecondaryFieldProps {
   table: any;
 }
 
-export function DataTableSecondaryField({
+export function  DataTableSecondaryField({
   getValue,
   row,
   column,
@@ -25,16 +21,22 @@ export function DataTableSecondaryField({
   const inputRef = useRef<HTMLInputElement>(null);
   const [active, setActive] = React.useState(false);
 
+
+  React.useEffect(() => {
+  	setValue(initialValue)
+  }, [initialValue]);
+
   return (
     <div className="relative ml-0 flex-1 w-48" onClick={() => setActive(true)}>
       <input
         ref={inputRef}
         value={value || ""}
+        onChange={(e) => setValue(e.target.value)}
         readOnly={false}
         className="w-full h-9 bg-background pl-2.5 pr-10   truncate cursor-pointer outline-black"
       />
       <Link
-        href={`#`}
+        href={`abc`}
         className="absolute right-2.5 top-1/2 transform -translate-y-1/2"
         tabIndex={-1}
       >

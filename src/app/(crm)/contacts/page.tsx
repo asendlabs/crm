@@ -1,4 +1,10 @@
-import { Contact, contactsTable, leadsTable, userTable } from "@/db/schema";
+import {
+  Contact,
+  Lead,
+  contactsTable,
+  leadsTable,
+  userTable,
+} from "@/db/schema";
 
 import { ContactsColumns } from "./_components/ContactsColumns";
 import { ContactsTable } from "./_components/ContactsTable";
@@ -14,17 +20,27 @@ export const metadata: Metadata = {
 };
 
 async function ContactsPage() {
-  const getUserContacts = async (): Promise<Contact[]> => {
-    const user = await getUser();
+  const user = await getUser();
+  const getUserContacts = async () => {
     const userId = user?.id || "";
     const data = await db.query.contactsTable.findMany({
       where: eq(contactsTable.userId, userId),
+      with: { lead: true },
     });
-    return data as Contact[];
+    return data;
   };
 
   const ContactsData = await getUserContacts();
-  return <ContactsTable columns={ContactsColumns} tableData={ContactsData} />;
+  const lead  =  ContactsData.forEach((contact, index) => {
+    contact.lead = contact.lead[index] ;
+  });
+  return (
+    <ContactsTable
+      columns={ContactsColumns}
+      tableData={ContactsData}
+      leads={lead}
+    />
+  );
 }
 
 export default ContactsPage;

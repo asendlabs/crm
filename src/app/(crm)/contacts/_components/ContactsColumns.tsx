@@ -30,8 +30,8 @@ export const ContactsColumns: ColumnDef<Contact>[] = [
   {
     accessorKey: "leadId",
     header: "Company",
-    cell: DataTableSecondaryField,
-    
+    cell: DataTableSecondaryField
+
   },
   {
     accessorKey: "jobTitle",

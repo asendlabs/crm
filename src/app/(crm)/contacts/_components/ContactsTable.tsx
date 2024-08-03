@@ -20,20 +20,24 @@ import {
 } from "@/components/ui/table";
 import { deleteContact, updateContact } from "../_lib/contact.action";
 
+import DataTableDeleteButton from "@/components/data-table/DataTableDeleteButton";
 import { DataTableFooter } from "@/components/data-table/DataTableFooter";
 import DataTableSearch from "@/components/data-table/DataTableSearch";
 import { DataTableViewOptions } from "@/components/data-table/DataTableViewOptions";
+import { Lead } from "@/db/schema";
 import NewContactForm from "./NewContactForm";
 import { useState } from "react";
 
 interface ContactsTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   tableData: TData[];
+  leads: Lead[];
 }
 
 export function ContactsTable<TData, TValue>({
   columns,
   tableData,
+  leads,
 }: ContactsTableProps<TData, TValue>) {
   const [data, setData] = useState<TData[]>(tableData);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -141,7 +145,9 @@ export function ContactsTable<TData, TValue>({
         <div className="flex flex-row items-center justify-between">
           <h1 className="text-xl font-semibold">Contacts</h1>
           <div className="flex flex-row gap-2">
-            <div></div>
+            <div>
+              <DataTableDeleteButton table={table} description="This action can't be undone. Are you sure you want to delete these contacts?" />
+            </div>
             <div>
               <DataTableViewOptions table={table} primaryFields={primaryFields} />
             </div>
@@ -150,7 +156,7 @@ export function ContactsTable<TData, TValue>({
               primaryField="contactName"
               primaryFieldPrettyName="Contact"
             />
-            <NewContactForm addContact={addContact} />
+            <NewContactForm addContact={addContact} leadList={leads} />
           </div>
         </div>
         <div className="overflow-y-auto custom-scrollbar min-h-[89vh]">

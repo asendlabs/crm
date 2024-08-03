@@ -17,11 +17,19 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Plus, X } from "lucide-react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 import { Button } from "@/components/ui/button";
 import { Close } from "@radix-ui/react-dialog";
 import { Field } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
+import { Lead } from "@/db/schema";
 import React from "react";
 import { contactSchema } from "@/schemas/contact.schema";
 import { createContact } from "../_lib/contact.action";
@@ -31,7 +39,13 @@ import { useRouter } from "next/navigation";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-function NewContactForm({ addContact }: { addContact: (newContact: any) => void }) {
+function NewContactForm({
+  addContact,
+  leadList,
+}: {
+  addContact: (newContact: any) => void;
+  leadList: any[];
+}) {
   const [loading, setLoading] = React.useState(false);
   const [open, setOpen] = React.useState(false);
   const router = useRouter();
@@ -85,7 +99,7 @@ function NewContactForm({ addContact }: { addContact: (newContact: any) => void 
                       <FormControl>
                         <Field
                           {...field}
-                          placeholder="Company Name"
+                          placeholder="Name"
                           className="w-80 text-xl"
                         />
                       </FormControl>
@@ -94,6 +108,33 @@ function NewContactForm({ addContact }: { addContact: (newContact: any) => void 
                   )}
                 />
               </div>
+              <FormField
+                control={form.control}
+                name="leadId"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Lead</FormLabel>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
+                      <FormControl>
+                        <SelectTrigger className="w-full">
+                          <SelectValue placeholder="Choose a lead" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent className="w-full">
+                        {leadList.map((lead: Lead) => (
+                          <SelectItem key={lead.id} value={lead.id}>
+                            {lead.leadName}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
               <FormField
                 control={form.control}
                 name="email"
