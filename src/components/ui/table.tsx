@@ -66,7 +66,7 @@ const TableHead = React.forwardRef<
   <th
     ref={ref}
     className={cn(
-      "h-9 px-3 text-left border border-input bg-muted-foreground/10 font-medium align-middle !text-black [&:has([role=checkbox])]:pr-0 text-sm",
+      "h-9 px-3 text-left border border-table bg-muted-foreground/10 font-medium align-middle !text-black [&:has([role=checkbox])]:pr-0 text-sm",
       className
     )}
     {...props}
@@ -86,10 +86,7 @@ const TableCell = React.forwardRef<
   return (
     <td
       ref={ref}
-      className={cn(
-        "text-table bg-transparent border border-input",
-        className
-      )}
+      className={cn("text-table bg-transparent border border-table", className)}
       onDoubleClick={handleDoubleClick}
       onBlur={handleBlur}
       {...props}
@@ -97,7 +94,6 @@ const TableCell = React.forwardRef<
   );
 });
 TableCell.displayName = "TableCell";
-
 
 const TableCaption = React.forwardRef<
   HTMLTableCaptionElement,

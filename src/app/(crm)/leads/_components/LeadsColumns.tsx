@@ -3,6 +3,7 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { DataTableCheckbox } from "@/components/data-table/DataTableCheckbox";
 import { DataTableColumnHeader } from "@/components/data-table/DataTableColumnHeader";
+import { DataTableDescriptionField } from "@/components/data-table/custom-fields/DataTableDescriptionField";
 import { DataTableDropdownField } from "@/components/data-table/custom-fields/DataTableDropdownField";
 import { DataTableEmailField } from "@/components/data-table/custom-fields/DataTableEmailField";
 import { DataTableField } from "@/components/data-table/custom-fields/DataTableField";
@@ -35,11 +36,11 @@ export const LeadsColumns: ColumnDef<Lead>[] = [
     header: "Website",
     cell: DataTableWebsiteField,
   },
-  {
-    accessorKey: "status",
-    header: "Status",
-    cell: ({getValue, row, column, table}) => <DataTableDropdownField statusEnum={statusEnum} getValue={getValue} row={row} column={column} table={table} />,
-  },
+  // {
+  //   accessorKey: "status",
+  //   header: "Status",
+  //   cell: ({getValue, row, column, table}) => <DataTableDropdownField statusEnum={statusEnum} getValue={getValue} row={row} column={column} table={table} />,
+  // },
   {
     accessorKey: "phone",
     header: "Phone",
@@ -50,4 +51,9 @@ export const LeadsColumns: ColumnDef<Lead>[] = [
     header: "Address",
     cell: DataTableField,
   },
+  {
+    accessorKey: "description",
+    header: "Description",
+    cell: DataTableDescriptionField,
+  }
 ];

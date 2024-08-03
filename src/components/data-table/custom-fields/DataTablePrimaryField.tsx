@@ -52,8 +52,8 @@ export function DataTablePrimaryField({
     .toUpperCase();
 
   return (
-    <div className="relative ml-0 flex-1" onDoubleClick={() => setActive(true)}>
-      <Avatar className="h-5 w-5 bg-muted-foreground absolute left-2.5 top-2.5 text-muted-foreground">
+    <div className="relative ml-0 flex-1"  onDoubleClick={() => setActive(true)}>
+      <Avatar className="h-4 w-4 bg-muted-foreground absolute left-2.5 top-2.5 text-muted-foreground">
         <AvatarImage src={row.original.avatar} />
         <AvatarFallback>{initials}</AvatarFallback>
       </Avatar>
