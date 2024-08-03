@@ -120,7 +120,7 @@ function NewContactForm({
                     >
                       <FormControl>
                         <SelectTrigger className="w-full">
-                          <SelectValue placeholder="Choose a lead" />
+                          <SelectValue placeholder="Choose a Company" />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent className="w-full">

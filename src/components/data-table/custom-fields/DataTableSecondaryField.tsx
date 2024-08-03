@@ -1,7 +1,11 @@
+import { AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import React, { useEffect, useRef } from "react";
 
 import { ArrowUpRight } from "lucide-react";
+import { Avatar } from "@radix-ui/react-avatar";
+import { Lead } from "@/db/schema";
 import Link from "next/link";
+import { getLeadById } from "@/app/(crm)/leads/_lib/lead.action";
 
 interface DataTableSecondaryFieldProps {
   getValue: () => any;
@@ -10,44 +14,41 @@ interface DataTableSecondaryFieldProps {
   table: any;
 }
 
-export function  DataTableSecondaryField({
+export function DataTableSecondaryField({
   getValue,
   row,
   column,
   table,
 }: DataTableSecondaryFieldProps) {
   const initialValue = getValue();
-  const [value, setValue] = React.useState(initialValue);
+  const [value, setValue] = React.useState<any>({});
   const inputRef = useRef<HTMLInputElement>(null);
   const [active, setActive] = React.useState(false);
-
+  const onMount = async () => {
+    await getLeadById(initialValue).then((data) => setValue(data));
+  };
 
   React.useEffect(() => {
-  	setValue(initialValue)
+    onMount();
   }, [initialValue]);
 
   return (
-    <div className="relative ml-0 flex-1 w-48" onClick={() => setActive(true)}>
-      <input
-        ref={inputRef}
-        value={value || ""}
-        onChange={(e) => setValue(e.target.value)}
-        readOnly={false}
-        className="w-full h-9 bg-background pl-2.5 pr-10   truncate cursor-pointer outline-black"
-      />
-      <Link
-        href={`abc`}
-        className="absolute right-2.5 top-1/2 transform -translate-y-1/2"
-        tabIndex={-1}
-      >
-        <ArrowUpRight
-          className={`${
-            active
-              ? "opacity-100 bg-muted-foreground/20 text-black"
-              : "opacity-0 bg-muted-foreground/20"
-          } h-6 w-6 text-muted-foreground duration-200 p-1 hover:opacity-100 hover:bg-muted-foreground/20 hover:text-black rounded-full`}
-        />
-      </Link>
-    </div>
+    <Link
+      href=""
+      className="w-36 h-9 flex px-2.5 flex-row items-center gap-2 group"
+    >
+      <div className="flex flex-row min-w-4 min-h-4">
+        <Avatar className="h-4 w-4 text-muted-foreground rounded-full">
+          <AvatarImage src={value.avatarUrl} />
+          <AvatarFallback>
+            {value.leadName?.charAt(0).toUpperCase() || ""}
+          </AvatarFallback>
+        </Avatar>
+      </div>
+      <div className="flex flex-row items-center justify-between w-full">
+        <span>{value.leadName}</span>
+        <ArrowUpRight className="h-6 w-6 p-1 text-muted-foreground duration-200 hidden group-hover:block  group-hover:bg-muted-foreground/20 rounded-full" tableValues={-1}/>
+      </div>  
+    </Link>
   );
 }

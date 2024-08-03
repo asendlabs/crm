@@ -98,3 +98,9 @@ export const deleteLead = async (itemIds: string[]) => {
     return { success: false, message: "Internal Error" };
   }
 };
+export const getLeadById = async (leadId: string) => {
+  const lead = await db.query.leadsTable.findFirst({
+    where: eq(leadsTable.id, leadId),
+  });
+  return lead;
+};
