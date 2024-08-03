@@ -18,38 +18,35 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { deleteContact, updateContact } from "../_lib/contact.action";
+import { deleteLead, updateLead } from "@/server/lead.action";
 
 import DataTableDeleteButton from "@/components/data-table/DataTableDeleteButton";
-import { DataTableFooter } from "@/components/data-table/DataTableFooter";
 import DataTableSearch from "@/components/data-table/DataTableSearch";
 import { DataTableViewOptions } from "@/components/data-table/DataTableViewOptions";
-import { Lead } from "@/db/schema";
-import NewContactForm from "./NewContactForm";
+import NewLeadForm from "./NewLeadForm";
 import { useState } from "react";
 
-interface ContactsTableProps<TData, TValue> {
+interface LeadsTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   tableData: TData[];
-  leads: Lead[];
 }
 
-export function ContactsTable<TData, TValue>({
+export function LeadsTable<TData, TValue>({
   columns,
   tableData,
-  leads,
-}: ContactsTableProps<TData, TValue>) {
+}: LeadsTableProps<TData, TValue>) {
   const [data, setData] = useState<TData[]>(tableData);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [sorting, setSorting] = useState<SortingState>([
-    { id: "contactName", desc: false },
+    { id: "leadName", desc: false },
   ]);
   const [rowSelectionState, setRowSelectionState] = useState({});
 
-  const addContact = (newContact: any) => {
-    setData((prevContacts) => [...prevContacts, newContact]);
+  const addLead = (newLead: any) => {
+    setData((prevLeads) => [...prevLeads, newLead]);
   };
-  const primaryFields = ["contactName", "leadId", "jobTitle"];
+
+  const primaryFields = ["leadName"];
 
   const updateData = async ({
     rowIndex,
@@ -73,7 +70,7 @@ export function ContactsTable<TData, TValue>({
             : row
         )
       );
-      const response = await updateContact({
+      const response = await updateLead({
         columnId,
         newValue,
         itemId,
@@ -95,7 +92,7 @@ export function ContactsTable<TData, TValue>({
 
   const deleteData = async (itemIds: string[]) => {
     try {
-      const response = await deleteContact(itemIds);
+      const response = await deleteLead(itemIds);
       if (!response.success) {
         return {
           success: false,
@@ -117,7 +114,6 @@ export function ContactsTable<TData, TValue>({
     }
   };
 
-
   const table = useReactTable<TData>({
     data,
     columns,
@@ -138,25 +134,30 @@ export function ContactsTable<TData, TValue>({
     },
   });
 
-
   return (
     <>
       <section className="px-6 py-5 flex flex-col justify-between h-screen gap-6">
         <div className="flex flex-row items-center justify-between">
-          <h1 className="text-xl font-semibold">Contacts</h1>
+          <h1 className="text-xl font-semibold">Leads</h1>
           <div className="flex flex-row gap-2">
             <div>
-              <DataTableDeleteButton table={table} description="This action can't be undone. Are you sure you want to delete these contacts?" />
+              <DataTableDeleteButton
+                table={table}
+                description="Deleting a lead will delete all associated contacts. It can't be undone."
+              />
             </div>
             <div>
-              <DataTableViewOptions table={table} primaryFields={primaryFields} />
+              <DataTableViewOptions
+                table={table}
+                primaryFields={primaryFields}
+              />
             </div>
             <DataTableSearch
               table={table}
-              primaryField="contactName"
-              primaryFieldPrettyName="Contact"
+              primaryField="leadName"
+              primaryFieldPrettyName="Lead"
             />
-            <NewContactForm addContact={addContact} leadList={leads} />
+            <NewLeadForm addLead={addLead} />
           </div>
         </div>
         <div className="overflow-y-auto custom-scrollbar min-h-[89vh]">
@@ -207,10 +208,6 @@ export function ContactsTable<TData, TValue>({
             </TableBody>
           </Table>
         </div>
-
-        {/* <div>
-          <DataTableFooter table={table} />
-        </div> */}
       </section>
     </>
   );

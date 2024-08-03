@@ -16,7 +16,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Plus, X } from "lucide-react";
+import { Plus, UploadCloud, X } from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -32,7 +32,7 @@ import { Input } from "@/components/ui/input";
 import { Lead } from "@/db/schema";
 import React from "react";
 import { contactSchema } from "@/schemas/contact.schema";
-import { createContact } from "../_lib/contact.action";
+import { createContact } from "@/server/contact.action";
 import { toast } from "sonner";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
@@ -77,10 +77,10 @@ function NewContactForm({
         <div className="hidden">
           <DialogTitle>Add Contact</DialogTitle>
         </div>
-        <div className="w-full px-3 py-4 flex flex-row items-center justify-between border-b">
-          <div />
+        <div className="w-full px-3.5 py-4 flex flex-row items-center justify-between border-b">
+          <span className="text-sm">Create New Contact</span>
           <Close className="rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground">
-            <X className="h-4 w-4" />
+            <X className="h-5 w-5" />
             <span className="sr-only">Close</span>
           </Close>
         </div>
@@ -90,7 +90,10 @@ function NewContactForm({
               onSubmit={form.handleSubmit(handleSubmit)}
               className="flex flex-col gap-4"
             >
-              <div>
+              <div className="flex flex-row items-center gap-4">
+                <div className="flex flex-row rounded-full border border-input justify-center items-center h-16 w-16 text-muted-foreground">
+                  <UploadCloud className="h-7 w-7" />
+                </div>
                 <FormField
                   control={form.control}
                   name="contactName"
@@ -99,7 +102,7 @@ function NewContactForm({
                       <FormControl>
                         <Field
                           {...field}
-                          placeholder="Name"
+                          placeholder="Person Name"
                           className="w-80 text-xl"
                         />
                       </FormControl>
@@ -120,7 +123,7 @@ function NewContactForm({
                     >
                       <FormControl>
                         <SelectTrigger className="w-full">
-                          <SelectValue placeholder="Choose a Company" />
+                          <SelectValue placeholder="Choose a Lead" />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent className="w-full">
@@ -162,12 +165,7 @@ function NewContactForm({
                 )}
               />
               <div>
-                <Button
-                  type="submit"
-                  className="w-full"
-                  variant={"outline"}
-                  disabled={loading}
-                >
+                <Button type="submit" className="w-full" disabled={loading}>
                   {loading ? "Creating..." : "Create New Contact"}
                 </Button>
               </div>

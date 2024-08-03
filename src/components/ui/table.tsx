@@ -78,17 +78,10 @@ const TableCell = React.forwardRef<
   HTMLTableCellElement,
   React.TdHTMLAttributes<HTMLTableCellElement>
 >(({ className, ...props }, ref) => {
-  const [isActive, setIsActive] = React.useState(false);
-
-  const handleDoubleClick = () => setIsActive(true);
-  const handleBlur = () => setIsActive(false);
-
   return (
     <td
       ref={ref}
       className={cn("text-table bg-transparent border border-table", className)}
-      onClick={handleDoubleClick}
-      onBlur={handleBlur}
       {...props}
     />
   );

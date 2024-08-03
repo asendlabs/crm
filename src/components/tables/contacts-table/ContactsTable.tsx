@@ -18,36 +18,37 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { deleteLead, updateLead } from "../_lib/lead.action";
+import { deleteContact, updateContact } from "../../../server/contact.action";
 
 import DataTableDeleteButton from "@/components/data-table/DataTableDeleteButton";
-import { DataTableFooter } from "@/components/data-table/DataTableFooter";
 import DataTableSearch from "@/components/data-table/DataTableSearch";
 import { DataTableViewOptions } from "@/components/data-table/DataTableViewOptions";
-import NewLeadForm from "./NewLeadForm";
+import { Lead } from "@/db/schema";
+import NewContactForm from "./NewContactForm";
 import { useState } from "react";
 
-interface LeadsTableProps<TData, TValue> {
+interface ContactsTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   tableData: TData[];
+  leads: Lead[];
 }
 
-export function LeadsTable<TData, TValue>({
+export function ContactsTable<TData, TValue>({
   columns,
   tableData,
-}: LeadsTableProps<TData, TValue>) {
+  leads,
+}: ContactsTableProps<TData, TValue>) {
   const [data, setData] = useState<TData[]>(tableData);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [sorting, setSorting] = useState<SortingState>([
-    { id: "leadName", desc: false },
+    { id: "contactName", desc: false },
   ]);
   const [rowSelectionState, setRowSelectionState] = useState({});
 
-  const addLead = (newLead: any) => {
-    setData((prevLeads) => [...prevLeads, newLead]);
+  const addContact = (newContact: any) => {
+    setData((prevContacts) => [...prevContacts, newContact]);
   };
-
-  const primaryFields = ["leadName"];
+  const primaryFields = ["contactName", "leadId", "jobTitle"];
 
   const updateData = async ({
     rowIndex,
@@ -71,7 +72,7 @@ export function LeadsTable<TData, TValue>({
             : row
         )
       );
-      const response = await updateLead({
+      const response = await updateContact({
         columnId,
         newValue,
         itemId,
@@ -93,7 +94,7 @@ export function LeadsTable<TData, TValue>({
 
   const deleteData = async (itemIds: string[]) => {
     try {
-      const response = await deleteLead(itemIds);
+      const response = await deleteContact(itemIds);
       if (!response.success) {
         return {
           success: false,
@@ -139,12 +140,12 @@ export function LeadsTable<TData, TValue>({
     <>
       <section className="px-6 py-5 flex flex-col justify-between h-screen gap-6">
         <div className="flex flex-row items-center justify-between">
-          <h1 className="text-xl font-semibold">Leads</h1>
+          <h1 className="text-xl font-semibold">Contacts</h1>
           <div className="flex flex-row gap-2">
             <div>
               <DataTableDeleteButton
                 table={table}
-                description="Deleting a lead will delete all associated contacts. It can't be undone."
+                description="This action can't be undone. Are you sure you want to delete these contacts?"
               />
             </div>
             <div>
@@ -155,10 +156,10 @@ export function LeadsTable<TData, TValue>({
             </div>
             <DataTableSearch
               table={table}
-              primaryField="leadName"
-              primaryFieldPrettyName="Lead"
+              primaryField="contactName"
+              primaryFieldPrettyName="Contact"
             />
-            <NewLeadForm addLead={addLead} />
+            <NewContactForm addContact={addContact} leadList={leads} />
           </div>
         </div>
         <div className="overflow-y-auto custom-scrollbar min-h-[89vh]">
@@ -209,10 +210,6 @@ export function LeadsTable<TData, TValue>({
             </TableBody>
           </Table>
         </div>
-
-        {/* <div>
-          <DataTableFooter table={table} />
-        </div> */}
       </section>
     </>
   );

@@ -51,7 +51,7 @@ export function DataTableDescriptionField({
   return (
     <div className="flex flex-row items-center gap-2 w-36">
       <DropdownMenu open={open} onOpenChange={setOpen}>
-        <DropdownMenuTrigger className="w-full px-2.5 truncate h-9 flex flex-row items-center justify-start">
+        <DropdownMenuTrigger className="w-full px-2.5 truncate h-9 flex flex-row items-center justify-start outline-black ">
           <span>{initialValue}</span>
         </DropdownMenuTrigger>
         <DropdownMenuContent>

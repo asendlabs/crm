@@ -1,13 +1,14 @@
 "use client";
 
 import React, { useEffect, useRef } from "react";
+import { Row, Table } from "@tanstack/react-table";
 
 import Link from "next/link";
 import { Phone } from "lucide-react";
 
 interface DataTablePhoneFieldProps {
   getValue: () => any;
-  row: any;
+  row: Row<any>;
   column: any;
   table: any;
 }
@@ -33,7 +34,6 @@ export function DataTablePhoneField({
     setValue(initialValue);
     setActive(false);
   };
-
   useEffect(() => {
     setValue(initialValue);
   }, [initialValue]);
@@ -55,11 +55,11 @@ export function DataTablePhoneField({
         onChange={(e) => setValue(e.target.value)}
         onBlur={onBlur}
         readOnly={!active}
-        className="w-full h-9 bg-background pl-3 pr-8 truncate focus:no-underline hover:underline cursor-pointer  outline-black " // Ensure padding-right for space
+        className="w-full h-9 bg-background pl-3 pr-8 truncate focus:no-underline hover:underline cursor-pointer outline-black"
       />
       <Link
         href={`tel:${value || ""}`}
-        className="absolute right-2.5 top-1/2 transform -translate-y-1/2 "
+        className="absolute right-2.5 top-1/2 transform -translate-y-1/2"
         tabIndex={-1}
       >
         <Phone

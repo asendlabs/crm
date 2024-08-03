@@ -5,7 +5,7 @@ import { ArrowUpRight } from "lucide-react";
 import { Avatar } from "@radix-ui/react-avatar";
 import { Lead } from "@/db/schema";
 import Link from "next/link";
-import { getLeadById } from "@/app/(crm)/leads/_lib/lead.action";
+import { getLeadById } from "@/server/lead.action";
 
 interface DataTableSecondaryFieldProps {
   getValue: () => any;
@@ -35,7 +35,7 @@ export function DataTableSecondaryField({
   return (
     <Link
       href=""
-      className="w-36 h-9 flex px-2.5 flex-row items-center gap-2 group"
+      className="w-48 h-9 flex px-2.5 flex-row items-center gap-2 group"
     >
       <div className="flex flex-row min-w-4 min-h-4">
         <Avatar className="h-4 w-4 text-muted-foreground rounded-full">
@@ -46,9 +46,12 @@ export function DataTableSecondaryField({
         </Avatar>
       </div>
       <div className="flex flex-row items-center justify-between w-full">
-        <span>{value.leadName}</span>
-        <ArrowUpRight className="h-6 w-6 p-1 text-muted-foreground duration-200 hidden group-hover:block  group-hover:bg-muted-foreground/20 rounded-full" tableValues={-1}/>
-      </div>  
+        <span className="truncate">{value.leadName}</span>
+        <ArrowUpRight
+          className="h-6 w-6 p-1 text-muted-foreground duration-200 hidden group-hover:block  group-hover:bg-muted-foreground/20 rounded-full"
+          tableValues={-1}
+        />
+      </div>
     </Link>
   );
 }

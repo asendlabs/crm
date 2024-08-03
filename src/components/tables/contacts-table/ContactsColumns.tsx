@@ -4,8 +4,6 @@ import { ColumnDef } from "@tanstack/react-table";
 import { Contact } from "@/db/schema";
 import { DataTableCheckbox } from "@/components/data-table/DataTableCheckbox";
 import { DataTableColumnHeader } from "@/components/data-table/DataTableColumnHeader";
-import { DataTableDescriptionField } from "@/components/data-table/custom-fields/DataTableDescriptionField";
-import { DataTableDropdownField } from "@/components/data-table/custom-fields/DataTableDropdownField";
 import { DataTableEmailField } from "@/components/data-table/custom-fields/DataTableEmailField";
 import { DataTableField } from "@/components/data-table/custom-fields/DataTableField";
 import { DataTableHeaderCheckbox } from "@/components/data-table/DataTableHeaderCheckbox";
@@ -13,7 +11,6 @@ import { DataTablePhoneField } from "@/components/data-table/custom-fields/DataT
 import { DataTablePrimaryField } from "@/components/data-table/custom-fields/DataTablePrimaryField";
 import { DataTableSecondaryField } from "@/components/data-table/custom-fields/DataTableSecondaryField";
 import { DataTableWebsiteField } from "@/components/data-table/custom-fields/DataTableWebsiteField";
-import { statusEnum } from "@/db/schema";
 export const ContactsColumns: ColumnDef<Contact>[] = [
   {
     id: "select",
@@ -29,9 +26,8 @@ export const ContactsColumns: ColumnDef<Contact>[] = [
   },
   {
     accessorKey: "leadId",
-    header: "Company",
-    cell: DataTableSecondaryField
-
+    header: "Lead",
+    cell: DataTableSecondaryField,
   },
   {
     accessorKey: "jobTitle",

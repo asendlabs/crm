@@ -1,7 +1,7 @@
 import { Lead, leadsTable, userTable } from "@/db/schema";
 
-import { LeadsColumns } from "./_components/LeadsColumns";
-import { LeadsTable } from "./_components/LeadsTable";
+import { LeadsColumns } from "@/components/tables/leads-table/LeadsColumns";
+import { LeadsTable } from "@/components/tables/leads-table/LeadsTable";
 import { Metadata } from "next";
 import React from "react";
 import { db } from "@/db";

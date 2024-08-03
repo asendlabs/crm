@@ -3,11 +3,10 @@ import {
   Lead,
   contactsTable,
   leadsTable,
-  userTable,
 } from "@/db/schema";
 
-import { ContactsColumns } from "./_components/ContactsColumns";
-import { ContactsTable } from "./_components/ContactsTable";
+import { ContactsColumns } from "@/components/tables/contacts-table/ContactsColumns";
+import { ContactsTable } from "@/components/tables/contacts-table/ContactsTable";
 import { Metadata } from "next";
 import React from "react";
 import { db } from "@/db";

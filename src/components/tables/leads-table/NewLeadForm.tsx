@@ -10,20 +10,19 @@ import {
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Plus, X } from "lucide-react";
+import { Plus, UploadCloud, X } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Close } from "@radix-ui/react-dialog";
 import { Field } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import React from "react";
-import { createLead } from "../_lib/lead.action";
+import { createLead } from "@/server/lead.action";
 import { leadSchema } from "@/schemas/lead.schema";
 import { toast } from "sonner";
 import { useForm } from "react-hook-form";
@@ -63,10 +62,10 @@ function NewLeadForm({ addLead }: { addLead: (newLead: any) => void }) {
         <div className="hidden">
           <DialogTitle>Add New Lead</DialogTitle>
         </div>
-        <div className="w-full px-3 py-4 flex flex-row items-center justify-between border-b">
-          <div />
+        <div className="w-full px-3.5 py-4 flex flex-row items-center justify-between border-b">
+          <span className="text-sm">Create New Lead</span>
           <Close className="rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground">
-            <X className="h-4 w-4" />
+            <X className="h-5 w-5" />
             <span className="sr-only">Close</span>
           </Close>
         </div>
@@ -76,7 +75,10 @@ function NewLeadForm({ addLead }: { addLead: (newLead: any) => void }) {
               onSubmit={form.handleSubmit(handleSubmit)}
               className="flex flex-col gap-4"
             >
-              <div>
+              <div className="flex flex-row items-center gap-4">
+                <div className="flex flex-row rounded-2xl border border-input justify-center items-center h-16 w-16 text-muted-foreground">
+                  <UploadCloud className="h-7 w-7" />
+                </div>
                 <FormField
                   control={form.control}
                   name="leadName"
@@ -85,7 +87,7 @@ function NewLeadForm({ addLead }: { addLead: (newLead: any) => void }) {
                       <FormControl>
                         <Field
                           {...field}
-                          placeholder="Company Name"
+                          placeholder="Lead Name"
                           className="w-80 text-xl"
                         />
                       </FormControl>
@@ -147,12 +149,7 @@ function NewLeadForm({ addLead }: { addLead: (newLead: any) => void }) {
                 )}
               />
               <div>
-                <Button
-                  type="submit"
-                  className="w-full"
-                  variant={"outline"}
-                  disabled={loading}
-                >
+                <Button type="submit" className="w-full" disabled={loading}>
                   {loading ? "Creating..." : "Create New Lead"}
                 </Button>
               </div>
