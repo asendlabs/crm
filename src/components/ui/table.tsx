@@ -87,7 +87,7 @@ const TableCell = React.forwardRef<
     <td
       ref={ref}
       className={cn("text-table bg-transparent border border-table", className)}
-      onDoubleClick={handleDoubleClick}
+      onClick={handleDoubleClick}
       onBlur={handleBlur}
       {...props}
     />

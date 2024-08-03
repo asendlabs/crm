@@ -17,7 +17,7 @@ function DataTableSearch<TData>({
       <Search className="absolute left-2.5 top-1.5 h-4 w-4 text-muted-foreground" />
       <Input
         type="search"
-        className="w-full rounded-lg bg-background pl-8 md:w-60 lg:w-60 max-h-7"
+        className="w-full rounded-lg bg-background pl-8 md:w-60 lg:w-60 max-h-8"
         placeholder={
           primaryFieldPrettyName ? `${primaryFieldPrettyName} Search` : "Search"
         }

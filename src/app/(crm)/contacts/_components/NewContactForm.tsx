@@ -23,45 +23,45 @@ import { Close } from "@radix-ui/react-dialog";
 import { Field } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import React from "react";
-import { createLead } from "../_lib/lead.action";
-import { leadSchema } from "@/schemas/lead.schema";
+import { contactSchema } from "@/schemas/contact.schema";
+import { createContact } from "../_lib/contact.action";
 import { toast } from "sonner";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-function NewLeadForm({ addLead }: { addLead: (newLead: any) => void }) {
+function NewContactForm({ addContact }: { addContact: (newContact: any) => void }) {
   const [loading, setLoading] = React.useState(false);
   const [open, setOpen] = React.useState(false);
   const router = useRouter();
-  const form = useForm<z.infer<typeof leadSchema>>({
-    resolver: zodResolver(leadSchema),
+  const form = useForm<z.infer<typeof contactSchema>>({
+    resolver: zodResolver(contactSchema),
     defaultValues: {
-      leadName: "",
+      contactName: "",
     },
   });
 
-  const handleSubmit = async (data: z.infer<typeof leadSchema>) => {
+  const handleSubmit = async (data: z.infer<typeof contactSchema>) => {
     setLoading(true);
-    const response = await createLead(data);
+    const response = await createContact(data);
     if (!response.success) {
       toast.error(response.message);
       return;
     }
     setLoading(false);
     setOpen(false);
-    addLead(response.data);
+    addContact(response.data);
   };
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger className="flex flex-row gap-1 max-h-8 max-w-28 rounded-lg text-sm items-center bg-primary text-white px-3 hover:bg-primary/90">
+      <DialogTrigger className="flex flex-row gap-1 max-h-8 max-w-20 rounded-lg text-sm items-center bg-primary text-white px-3 hover:bg-primary/90">
         <Plus className="h-4 w-4" />
         <span>New</span>
       </DialogTrigger>
       <DialogContent className="flex flex-col">
         <div className="hidden">
-          <DialogTitle>Add New Lead</DialogTitle>
+          <DialogTitle>Add Contact</DialogTitle>
         </div>
         <div className="w-full px-3 py-4 flex flex-row items-center justify-between border-b">
           <div />
@@ -79,7 +79,7 @@ function NewLeadForm({ addLead }: { addLead: (newLead: any) => void }) {
               <div>
                 <FormField
                   control={form.control}
-                  name="leadName"
+                  name="contactName"
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>
@@ -120,32 +120,6 @@ function NewLeadForm({ addLead }: { addLead: (newLead: any) => void }) {
                   </FormItem>
                 )}
               />
-              <FormField
-                control={form.control}
-                name="website"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Website</FormLabel>
-                    <FormControl>
-                      <Input {...field} placeholder="eg. www.acme.com" />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="address"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Address</FormLabel>
-                    <FormControl>
-                      <Input {...field} placeholder="eg. 123 Main Lane" />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
               <div>
                 <Button
                   type="submit"
@@ -153,7 +127,7 @@ function NewLeadForm({ addLead }: { addLead: (newLead: any) => void }) {
                   variant={"outline"}
                   disabled={loading}
                 >
-                  {loading ? "Creating..." : "Create New Lead"}
+                  {loading ? "Creating..." : "Create New Contact"}
                 </Button>
               </div>
             </form>
@@ -164,4 +138,4 @@ function NewLeadForm({ addLead }: { addLead: (newLead: any) => void }) {
     </Dialog>
   );
 }
-export default NewLeadForm;
+export default NewContactForm;

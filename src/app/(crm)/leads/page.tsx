@@ -9,8 +9,8 @@ import { eq } from "drizzle-orm";
 import { getUser } from "@/lib/user";
 
 export const metadata: Metadata = {
-  title: "Ascend | Leads",
-  description: "List of leads",
+  title: "Leads | Ascend",
+  description: "List of Leads",
 };
 
 async function LeadsPage() {

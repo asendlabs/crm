@@ -66,7 +66,7 @@ export function DataTableWebsiteField({
   return (
     <div
       className="relative ml-0 flex-1 md:grow-0"
-      onDoubleClick={() => setActive(true)}
+      onClick={() => setActive(true)}
     >
       <input
         ref={inputRef}
@@ -74,7 +74,7 @@ export function DataTableWebsiteField({
         onChange={(e) => setValue(e.target.value)}
         onBlur={onBlur}
         readOnly={!active}
-        className="w-full h-9 bg-background pl-3 pr-8 truncate focus:no-underline hover:underline cursor-pointer" // Ensure padding-right for space
+        className="w-full h-9 bg-background pl-3 pr-8 truncate focus:no-underline hover:underline cursor-pointer outline-black" // Ensure padding-right for space
       />
       <a
         href={normalizedUrl}

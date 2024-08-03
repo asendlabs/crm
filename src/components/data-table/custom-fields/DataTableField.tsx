@@ -44,7 +44,7 @@ export function DataTableField({
   }, [active]);
 
   return (
-    <div onDoubleClick={() => setActive(true)}>
+    <div onClick={() => setActive(true)}>
       <input
         ref={inputRef}
         value={value || ""}

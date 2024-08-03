@@ -1,5 +1,7 @@
 import { boolean, pgSchema, text, timestamp } from "drizzle-orm/pg-core";
 
+import { relations } from "drizzle-orm";
+
 export const schema = pgSchema("app");
 
 export const userTable = schema.table("users", {
@@ -58,14 +60,27 @@ export const contactsTable = schema.table("contacts", {
   leadId: text("lead_id")
     .notNull()
     .references(() => leadsTable.id),
-  firstName: text("first_name").notNull(),
-  lastName: text("last_name").notNull(),
+  userId: text("user_id").references(() => userTable.id),
+  contactName: text("contact_name").notNull(),
   jobTitle: text("job_title"),
-  email: text("email").notNull(),
+  email: text("email"),
   phone: text("phone"),
+  url: text("url"),
   createdAt: timestamp("created_at").notNull().defaultNow(),
   updatedAt: timestamp("updated_at"),
 });
 
+export const leadsRelations = relations(leadsTable, ({ one, many }) => ({
+  contacts: many(contactsTable),
+}));
+
+export const contactsRelations = relations(contactsTable, ({ one, many }) => ({
+  lead: one(leadsTable, {
+    fields: [contactsTable.leadId],
+    references: [leadsTable.id],
+  }),
+}));
+
+export type Contact = typeof contactsTable.$inferSelect;
 export type Lead = typeof leadsTable.$inferSelect;
 export type User = typeof userTable.$inferSelect;

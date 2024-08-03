@@ -52,7 +52,7 @@ export function DataTablePrimaryField({
     .toUpperCase();
 
   return (
-    <div className="relative ml-0 flex-1"  onDoubleClick={() => setActive(true)}>
+    <div className="relative ml-0 flex-1 items-center" onClick={() => setActive(true)}>
       <Avatar className="h-4 w-4 bg-muted-foreground absolute left-2.5 top-2.5 text-muted-foreground">
         <AvatarImage src={row.original.avatar} />
         <AvatarFallback>{initials}</AvatarFallback>
@@ -63,7 +63,7 @@ export function DataTablePrimaryField({
         onChange={(e) => setValue(e.target.value)}
         onBlur={onBlur}
         readOnly={!active}
-        className="w-full h-9 bg-background pl-12 truncate cursor-pointer"
+        className="w-full h-9 bg-background pl-9 truncate cursor-pointer outline-black"
       />
       <Link
         href={`#`}

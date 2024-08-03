@@ -60,6 +60,7 @@ export function DataTableDescriptionField({
             value={value || ""}
             onChange={(e) => setValue(e.target.value)}
             onBlur={() => onChange(value)}
+            className="outline-black"
           />
           <Button
             variant={"outline"}
@@ -67,7 +68,7 @@ export function DataTableDescriptionField({
               onChange(value);
               setOpen(false);
             }}
-            className="w-full mt-1"
+            className="w-full mt-2.5"
           >
             Done
           </Button>

@@ -15,21 +15,17 @@ import { Table } from "@tanstack/react-table";
 
 interface DataTableViewOptionsProps<TData> {
   table: Table<TData>;
-  primaryField: string;
+  primaryFields: string[];
 }
 
 export function DataTableViewOptions<TData>({
   table,
-  primaryField,
+  primaryFields,
 }: DataTableViewOptionsProps<TData>) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button
-          variant="outline"
-          size="sm"
-          className="ml-auto h-7 flex"
-        >
+        <Button variant="outline" size="sm" className="ml-auto h-8 flex">
           <Settings2 className="mr-2 h-4 w-4" />
           View
         </Button>
@@ -39,9 +35,9 @@ export function DataTableViewOptions<TData>({
           .getAllColumns()
           .filter(
             (column) =>
-              column.id !== primaryField &&
+              !primaryFields.includes(column.id) && // Corrected filter condition
               column.id !== "select" &&
-              typeof column.accessorFn !== undefined &&
+              typeof column.accessorFn !== "undefined" &&
               column.getCanHide()
           )
           .map((column) => (
