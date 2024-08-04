@@ -1,9 +1,4 @@
-import {
-  Contact,
-  Lead,
-  contactsTable,
-  leadsTable,
-} from "@/db/schema";
+import { Contact, Lead, contactsTable, leadsTable } from "@/db/schema";
 
 import { ContactsColumns } from "@/components/tables/contacts-table/ContactsColumns";
 import { ContactsTable } from "@/components/tables/contacts-table/ContactsTable";
@@ -14,7 +9,7 @@ import { eq } from "drizzle-orm";
 import { getUser } from "@/lib/user";
 
 export const metadata: Metadata = {
-  title: "Contacts | Ascend",
+  title: "Contacts | Asend",
   description: "List of Contacts",
 };
 

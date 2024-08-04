@@ -24,15 +24,15 @@ export const VerificationEmail = ({
     <Head />
     <Preview>
       {type === "signup"
-        ? "Your Ascend sign up code"
-        : "Your temporary Ascend login code"}
+        ? "Your Asend sign up code"
+        : "Your temporary Asend login code"}
     </Preview>
     <Body style={main}>
       <Container style={container}>
         <Heading style={h1}>
           {type === "signup"
-            ? "Your Ascend sign up code"
-            : "Your temporary Ascend login code"}
+            ? "Your Asend sign up code"
+            : "Your temporary Asend login code"}
         </Heading>
         <Text style={{ ...text, marginBottom: "8px" }}>
           copy and paste this code into the{" "}
@@ -58,7 +58,7 @@ export const VerificationEmail = ({
         /> */}
         <Text style={footer}>
           <Link href="" target="_blank" style={{ ...link, color: "#898989" }}>
-            Ascend
+            Asend
           </Link>
           , the revolutionary crm
         </Text>
@@ -67,7 +67,7 @@ export const VerificationEmail = ({
   </Html>
 );
 
-export default VerificationEmail; 
+export default VerificationEmail;
 
 const main = {
   backgroundColor: "#ffffff",

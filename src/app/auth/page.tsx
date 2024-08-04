@@ -7,7 +7,7 @@ import { redirect } from "next/navigation";
 
 export const metadata = {
   title: "Login or Sign Up",
-  description: "Login or Sign Up to Ascend",
+  description: "Login or Sign Up to Asend",
 };
 
 const AuthPage = async () => {
@@ -18,7 +18,7 @@ const AuthPage = async () => {
   return (
     <main className="flex flex-col items-center justify-center h-screen">
       <section className="mb-8 font-semibold text-[1.375rem]">
-        <h1 className="">Welcome to Ascend</h1>
+        <h1 className="">Welcome to Asend</h1>
         <h1 className="text-gray-400">Login or Create your Account</h1>
       </section>
       <section className="mb-6">

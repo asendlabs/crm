@@ -49,8 +49,8 @@ export const sendCode = async (email: string) => {
       const emailSent = await sendEmail({
         to: email,
         from: "no-reply@ascendifyr.in",
-        name: "Ascend",
-        subject: `Your Ascend sign up code is ${verifyCode}`,
+        name: "Asend",
+        subject: `Your Asend sign up code is ${verifyCode}`,
         react: <VerificationEmail verifyCode={verifyCode} type="signup" />,
       });
 
@@ -85,8 +85,8 @@ export const sendCode = async (email: string) => {
       const emailSent = await sendEmail({
         to: email,
         from: "no-reply@ascendifyr.in",
-        name: "Ascend",
-        subject: `Your Ascend sign up code is ${verifyCode}`,
+        name: "Asend",
+        subject: `Your Asend sign up code is ${verifyCode}`,
         react: <VerificationEmail verifyCode={verifyCode} type="signup" />,
       });
 
@@ -107,8 +107,8 @@ export const sendCode = async (email: string) => {
     const emailSent = await sendEmail({
       to: email,
       from: "no-reply@ascendifyr.in",
-      name: "Ascend",
-      subject: `Your temporary Ascend login code is ${verifyCode}`,
+      name: "Asend",
+      subject: `Your temporary Asend login code is ${verifyCode}`,
       react: <VerificationEmail verifyCode={verifyCode} type="login" />,
     });
 
@@ -160,8 +160,8 @@ export const resendCode = async (email: string) => {
       const emailSent = await sendEmail({
         to: email,
         from: "no-reply@ascendifyr.in",
-        name: "Ascend",
-        subject: `Your Ascend sign up code is ${verifyCode}`,
+        name: "Asend",
+        subject: `Your Asend sign up code is ${verifyCode}`,
         react: <VerificationEmail verifyCode={verifyCode} type="signup" />,
       });
 
@@ -174,8 +174,8 @@ export const resendCode = async (email: string) => {
     const emailSent = await sendEmail({
       to: email,
       from: "no-reply@ascendifyr.in",
-      name: "Ascend",
-      subject: `Your temporary Ascend login code is ${verifyCode}`,
+      name: "Asend",
+      subject: `Your temporary Asend login code is ${verifyCode}`,
       react: <VerificationEmail verifyCode={verifyCode} type="login" />,
     });
 
