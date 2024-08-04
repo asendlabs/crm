@@ -29,6 +29,13 @@
       "when": 1722741822750,
       "tag": "0003_curly_zuras",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1722743048843,
+      "tag": "0004_goofy_selene",
+      "breakpoints": true
     }
   ]
 }

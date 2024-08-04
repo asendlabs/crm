@@ -81,7 +81,7 @@ export const contactTable = schema.table("contact", {
   email: text("email"),
   phone: text("phone"),
   url: text("url"),
-  createdAt: timestamp("created_at").notNull(),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
   updatedAt: timestamp("updated_at"),
   leadId: text("lead_id")
     .notNull()

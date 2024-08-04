@@ -13,32 +13,32 @@ export const createContact = async (data: z.infer<typeof contactSchema>) => {
     const { contactName, jobTitle, email, phone, url, leadId } = data;
     const user = await getUser();
     const userId = user?.id || "";
+    const id = uuid();
     const newContact = await db
       .insert(contactTable)
       .values({
-        id: uuid(),
-        userId,
+        id,
         jobTitle,
         email,
         phone,
         url,
         contactName,
         leadId, // Link to the lead
-      })
-      .returning();
+        userId,
+      }).returning();
     if (!newContact) {
       return {
         success: false,
         message: "Failed to create new contact",
-        data: null,
       };
     }
     return {
       success: true,
       message: "New contact created successfully",
-      data: newContact[0],
+      data: newContact[0]
     };
   } catch (error) {
+    console.error("Failed to create new contact:", error);
     return {
       success: false,
       message: "Failed to create new contact",
