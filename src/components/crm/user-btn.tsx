@@ -10,9 +10,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { signOut } from "@/data-access/auth.action";
+import { signOut } from "@/server/auth.action";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 
