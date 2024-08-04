@@ -12,7 +12,7 @@ import {
 import React from "react";
 import { StatusBadge } from "@/components/ui/statusbagde";
 
-interface DataTableDropdownFieldProps {
+interface DataTableStatusFieldProps {
   getValue: () => any;
   row: any;
   column: any;
@@ -20,13 +20,13 @@ interface DataTableDropdownFieldProps {
   statusEnum: any;
 }
 
-export function DataTableDropdownField({
+export function DataTableStatusField({
   getValue,
   row,
   column,
   table,
   statusEnum,
-}: DataTableDropdownFieldProps) {
+}: DataTableStatusFieldProps) {
   const initialValue = getValue();
 
   const handleClick = (status: string) => {
@@ -39,7 +39,7 @@ export function DataTableDropdownField({
   };
 
   return (
-    <div className="flex flex-row items-center gap-2 w-36">
+    <div className="flex flex-row items-center gap-2 w-full ">
       <DropdownMenu>
         <DropdownMenuTrigger className="w-full px-1.5">
           <StatusBadge variant="secondary">{initialValue}</StatusBadge>

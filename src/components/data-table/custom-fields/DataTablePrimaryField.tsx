@@ -52,21 +52,20 @@ export function DataTablePrimaryField({
     .toUpperCase();
 
   return (
-    <div className="relative ml-0 flex-1 items-center group" onClick={() => setActive(true)}>
-      <Avatar className="h-4 w-4 absolute left-2.5 top-2.5 text-muted-foreground">
-        <AvatarImage src={row.original.avatar} />
-        <AvatarFallback>{initials}</AvatarFallback>
-      </Avatar>
+    <div
+      className="relative ml-0 flex-1 md:grow-0"
+      onClick={() => setActive(true)}
+    >
       <input
         ref={inputRef}
         value={value || ""}
         onChange={(e) => setValue(e.target.value)}
         onBlur={onBlur}
         readOnly={!active}
-        className="w-full h-9 bg-background pl-9 truncate cursor-pointer outline-black"
+        className="w-full h-9 bg-background pl-3 pr-8 truncate focus:no-underline hover:underline cursor-pointer outline-black" // Ensure padding-right for space
       />
       <Link
-        href={`#`}
+        href={`mailto:${value || ""}`}
         className="absolute right-2.5 top-1/2 transform -translate-y-1/2"
         tabIndex={-1}
       >
@@ -75,7 +74,7 @@ export function DataTablePrimaryField({
             active
               ? "opacity-100 bg-muted-foreground/20 text-black"
               : "opacity-0 bg-muted-foreground/20"
-          } h-6 w-6 text-muted-foreground duration-200 p-1 group-hover:opacity-100 hover:bg-muted-foreground/20 hover:text-black rounded-full`}
+          } h-6 w-6 text-muted-foreground duration-200 p-1 hover:opacity-100 hover:bg-muted-foreground/20 hover:text-black rounded-full`}
         />
       </Link>
     </div>

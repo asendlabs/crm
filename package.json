@@ -7,10 +7,10 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "db:generate": "drizzle-kit generate",
-    "db:migrate": "drizzle-kit migrate",
-    "db:studio": "drizzle-kit studio",
-    "db:push": "drizzle-kit push"
+    "dbgen": "drizzle-kit generate",
+    "dbmgr": "drizzle-kit migrate",
+    "dbstd": "drizzle-kit studio",
+    "dbpsh": "drizzle-kit push"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",

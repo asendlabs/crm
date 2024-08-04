@@ -11,7 +11,7 @@ import { z } from "zod";
 
 export const createLead = async (data: z.infer<typeof leadSchema>) => {
   try {
-    const { leadName, description, addresses, url } = data;
+    const { leadName, description, addresses, url} = data;
     const user = await getUser();
     const userId = user?.id || "";
     const id = uuid();
@@ -22,7 +22,8 @@ export const createLead = async (data: z.infer<typeof leadSchema>) => {
         leadName,
         userId,
         description,
-        url
+        url, 
+        addresses,
       })
       .returning();
     if (!newLead) {

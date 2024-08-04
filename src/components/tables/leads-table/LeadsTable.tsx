@@ -133,7 +133,6 @@ export function LeadsTable<TData, TValue>({
       deleteData,
     },
   });
-
   return (
     <>
       <section className="px-6 py-5 flex flex-col justify-between h-screen gap-6">

@@ -7,19 +7,19 @@ import { Lead } from "@/db/schema";
 import Link from "next/link";
 import { getLeadById } from "@/server/lead.action";
 
-interface DataTableSecondaryFieldProps {
+interface DataTableLeadFieldProps {
   getValue: () => any;
   row: any;
   column: any;
   table: any;
 }
 
-export function DataTableSecondaryField({
+export function DataTableLeadField({
   getValue,
   row,
   column,
   table,
-}: DataTableSecondaryFieldProps) {
+}: DataTableLeadFieldProps) {
   const initialValue = getValue();
   const [value, setValue] = React.useState<any>({});
   const inputRef = useRef<HTMLInputElement>(null);

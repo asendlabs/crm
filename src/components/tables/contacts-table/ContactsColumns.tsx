@@ -7,10 +7,11 @@ import { DataTableColumnHeader } from "@/components/data-table/DataTableColumnHe
 import { DataTableEmailField } from "@/components/data-table/custom-fields/DataTableEmailField";
 import { DataTableField } from "@/components/data-table/custom-fields/DataTableField";
 import { DataTableHeaderCheckbox } from "@/components/data-table/DataTableHeaderCheckbox";
+import { DataTableLeadField } from "@/components/data-table/custom-fields/DataTableLeadField";
 import { DataTablePhoneField } from "@/components/data-table/custom-fields/DataTablePhone";
 import { DataTablePrimaryField } from "@/components/data-table/custom-fields/DataTablePrimaryField";
-import { DataTableSecondaryField } from "@/components/data-table/custom-fields/DataTableSecondaryField";
 import { DataTableWebsiteField } from "@/components/data-table/custom-fields/DataTableWebsiteField";
+
 export const ContactsColumns: ColumnDef<Contact>[] = [
   {
     id: "select",
@@ -27,7 +28,7 @@ export const ContactsColumns: ColumnDef<Contact>[] = [
   {
     accessorKey: "leadId",
     header: "Lead",
-    cell: DataTableSecondaryField,
+    cell: DataTableLeadField,
   },
   {
     accessorKey: "jobTitle",

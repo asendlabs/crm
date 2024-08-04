@@ -38,6 +38,8 @@ function NewLeadForm({ addLead }: { addLead: (newLead: any) => void }) {
     resolver: zodResolver(leadSchema),
     defaultValues: {
       leadName: "",
+      description: "",
+      addresses: "",
     },
   });
 
@@ -96,38 +98,13 @@ function NewLeadForm({ addLead }: { addLead: (newLead: any) => void }) {
                   )}
                 />
               </div>
+
               <FormField
                 control={form.control}
-                name="email"
+                name="url"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Email</FormLabel>
-                    <FormControl>
-                      <Input {...field} placeholder="eg. john@acme.com" />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="phone"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Phone</FormLabel>
-                    <FormControl>
-                      <Input {...field} placeholder="eg. 489-555-1234" />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="website"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Website</FormLabel>
+                    <FormLabel>Url</FormLabel>
                     <FormControl>
                       <Input {...field} placeholder="eg. www.acme.com" />
                     </FormControl>
@@ -137,7 +114,7 @@ function NewLeadForm({ addLead }: { addLead: (newLead: any) => void }) {
               />
               <FormField
                 control={form.control}
-                name="address"
+                name="addresses"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Address</FormLabel>

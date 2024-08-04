@@ -19,6 +19,9 @@ async function LeadsPage() {
     const userId = user?.id || "";
     const data = await db.query.leadTable.findMany({
       where: eq(leadTable.userId, userId),
+      with: {
+        contacts: true,
+      },
     });
     return data as Lead[];
   };

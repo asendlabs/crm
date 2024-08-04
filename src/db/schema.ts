@@ -36,28 +36,15 @@ export const profileTable = schema.table("profile", {
   preferences: jsonb("preferences"),
 });
 
-export const userRelations = relations(userTable, ({ one, many }) => ({
-  profileInfo: one(profileTable),
-}));
-
-export const profileRelations = relations(profileTable, ({ one, many }) => ({
-  user: one(userTable, {
-    fields: [profileTable.userId],
-    references: [userTable.id],
-  }),
-}));
-
 // CRM Functionality
 
-export const statusEnum = schema.enum("status", [
-  "New",
-  "Contacted",
-  "Follow Up",
-  "In Progress",
-  "Unqualified",
-  "Future Contact",
-  "Closed",
-  "Lost",
+export const leadStatusEnum = schema.enum("leadStatus", [
+  "Potential",
+  "Bad Fit",
+  "Qualified",
+  "Customer",
+  "Interested",
+  "Not Interested",
 ]);
 
 export const leadTable = schema.table("lead", {
@@ -66,7 +53,7 @@ export const leadTable = schema.table("lead", {
   description: text("description"),
   url: text("url"),
   addresses: text("addresses"),
-  status: statusEnum("status").notNull().default("New"),
+  status: leadStatusEnum("status").notNull().default("Potential"),
   createdAt: timestamp("created_at").notNull().defaultNow(),
   updatedAt: timestamp("updated_at"),
   userId: text("user_id")
@@ -91,6 +78,38 @@ export const contactTable = schema.table("contact", {
     .references(() => userTable.id),
 });
 
+export const userRelations = relations(userTable, ({ one, many }) => ({
+  profileInfo: one(profileTable),
+  leads: many(leadTable),
+  contacts: many(contactTable),
+}));
+
+export const profileRelations = relations(profileTable, ({ one, many }) => ({
+  user: one(userTable, {
+    fields: [profileTable.userId],
+    references: [userTable.id],
+  }),
+}));
+
+export const leadRelations = relations(leadTable, ({ one, many }) => ({
+  user: one(userTable, {
+    fields: [leadTable.userId],
+    references: [userTable.id],
+  }),
+  contacts: many(contactTable),
+  //deals
+}));
+
+export const contactRelations = relations(contactTable, ({ one, many }) => ({
+  lead: one(leadTable, {
+    fields: [contactTable.leadId],
+    references: [leadTable.id],
+  }),
+  user: one(userTable, {
+    fields: [contactTable.userId],
+    references: [userTable.id],
+  }),
+}));
 export type Contact = typeof contactTable.$inferSelect;
 export type Lead = typeof leadTable.$inferSelect;
 export type User = typeof userTable.$inferSelect;
