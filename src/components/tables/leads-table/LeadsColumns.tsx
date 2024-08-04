@@ -26,28 +26,13 @@ export const LeadsColumns: ColumnDef<Lead>[] = [
     ),
     cell: DataTablePrimaryField,
   },
-  {
-    accessorKey: "email",
-    header: "Email",
-    cell: DataTableEmailField,
-  },
-  {
-    accessorKey: "website",
-    header: "Website",
-    cell: DataTableWebsiteField,
-  },
   // {
   //   accessorKey: "status",
   //   header: "Status",
   //   cell: ({getValue, row, column, table}) => <DataTableDropdownField statusEnum={statusEnum} getValue={getValue} row={row} column={column} table={table} />,
   // },
   {
-    accessorKey: "phone",
-    header: "Phone",
-    cell: DataTablePhoneField,
-  },
-  {
-    accessorKey: "address",
+    accessorKey: "addresses",
     header: "Address",
     cell: DataTableField,
   },

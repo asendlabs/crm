@@ -1,11 +1,11 @@
 {
-  "id": "40f2587e-f5bd-40f5-ace0-01a707354e82",
-  "prevId": "f95aaa12-2ba1-414b-a3dc-e60f928e568d",
+  "id": "3deb3ede-08df-4c4b-b637-05d42f4f0387",
+  "prevId": "bf4a64ab-64b5-415d-bb28-1e2320a256c5",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
-    "app.contacts": {
-      "name": "contacts",
+    "app.contact": {
+      "name": "contact",
       "schema": "app",
       "columns": {
         "id": {
@@ -14,20 +14,8 @@
           "primaryKey": true,
           "notNull": true
         },
-        "lead_id": {
-          "name": "lead_id",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "first_name": {
-          "name": "first_name",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "last_name": {
-          "name": "last_name",
+        "contact_name": {
+          "name": "contact_name",
           "type": "text",
           "primaryKey": false,
           "notNull": true
@@ -42,10 +30,16 @@
           "name": "email",
           "type": "text",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false
         },
         "phone": {
           "name": "phone",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "url": {
+          "name": "url",
           "type": "text",
           "primaryKey": false,
           "notNull": false
@@ -54,8 +48,7 @@
           "name": "created_at",
           "type": "timestamp",
           "primaryKey": false,
-          "notNull": true,
-          "default": "now()"
+          "notNull": true
         },
         "updated_at": {
           "name": "updated_at",
@@ -65,27 +58,12 @@
         }
       },
       "indexes": {},
-      "foreignKeys": {
-        "contacts_lead_id_leads_id_fk": {
-          "name": "contacts_lead_id_leads_id_fk",
-          "tableFrom": "contacts",
-          "tableTo": "leads",
-          "schemaTo": "app",
-          "columnsFrom": [
-            "lead_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
-        }
-      },
+      "foreignKeys": {},
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "app.leads": {
-      "name": "leads",
+    "app.lead": {
+      "name": "lead",
       "schema": "app",
       "columns": {
         "id": {
@@ -94,14 +72,8 @@
           "primaryKey": true,
           "notNull": true
         },
-        "user_id": {
-          "name": "user_id",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "name": {
-          "name": "name",
+        "lead_name": {
+          "name": "lead_name",
           "type": "text",
           "primaryKey": false,
           "notNull": true
@@ -112,32 +84,14 @@
           "primaryKey": false,
           "notNull": false
         },
-        "email": {
-          "name": "email",
+        "url": {
+          "name": "url",
           "type": "text",
           "primaryKey": false,
           "notNull": false
         },
-        "phone": {
-          "name": "phone",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "urls": {
-          "name": "urls",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "adrress": {
-          "name": "adrress",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "website": {
-          "name": "website",
+        "addresses": {
+          "name": "addresses",
           "type": "text",
           "primaryKey": false,
           "notNull": false
@@ -162,14 +116,75 @@
           "type": "timestamp",
           "primaryKey": false,
           "notNull": false
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
         }
       },
       "indexes": {},
       "foreignKeys": {
-        "leads_user_id_users_id_fk": {
-          "name": "leads_user_id_users_id_fk",
-          "tableFrom": "leads",
-          "tableTo": "users",
+        "lead_user_id_user_id_fk": {
+          "name": "lead_user_id_user_id_fk",
+          "tableFrom": "lead",
+          "tableTo": "user",
+          "schemaTo": "app",
+          "columnsFrom": [
+            "user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "app.profile": {
+      "name": "profile",
+      "schema": "app",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "avatar_url": {
+          "name": "avatar_url",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "preferences": {
+          "name": "preferences",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "profile_user_id_user_id_fk": {
+          "name": "profile_user_id_user_id_fk",
+          "tableFrom": "profile",
+          "tableTo": "user",
           "schemaTo": "app",
           "columnsFrom": [
             "user_id"
@@ -209,10 +224,10 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "session_user_id_users_id_fk": {
-          "name": "session_user_id_users_id_fk",
+        "session_user_id_user_id_fk": {
+          "name": "session_user_id_user_id_fk",
           "tableFrom": "session",
-          "tableTo": "users",
+          "tableTo": "user",
           "schemaTo": "app",
           "columnsFrom": [
             "user_id"
@@ -227,8 +242,8 @@
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "app.users": {
-      "name": "users",
+    "app.user": {
+      "name": "user",
       "schema": "app",
       "columns": {
         "id": {
@@ -300,8 +315,8 @@
         "In Progress",
         "Unqualified",
         "Future Contact",
-        "Closed (Won)",
-        "Closed (Lost)"
+        "Closed",
+        "Lost"
       ]
     }
   },

@@ -185,6 +185,11 @@ const EmailForm = () => {
                     placeholder="Enter your Email"
                     {...field}
                     className="w-80"
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") {
+                        onContinue();
+                      }
+                    }}
                   />
                 </FormControl>
                 <FormMessage />

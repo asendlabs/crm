@@ -1,6 +1,6 @@
 "use server";
 
-import { contactsTable, leadsTable } from "@/db/schema";
+import { contactTable, leadTable } from "@/db/schema";
 import { eq, sql } from "drizzle-orm";
 
 import { db } from "@/db";
@@ -15,7 +15,7 @@ export const createLead = async (data: z.infer<typeof leadSchema>) => {
     const user = await getUser();
     const userId = user?.id || "";
     const newLead = await db
-      .insert(leadsTable)
+      .insert(leadTable)
       .values({
         id: uuid(),
         leadName,
@@ -54,16 +54,16 @@ export const updateLead = async ({
 }): Promise<{ success: boolean }> => {
   try {
     // Find a record that matches the provided id
-    const record = await db.query.leadsTable.findFirst({
-      where: eq(leadsTable.id, itemId),
+    const record = await db.query.leadTable.findFirst({
+      where: eq(leadTable.id, itemId),
     });
 
     // If the record exists, update it
     if (record) {
       const updateResult = await db
-        .update(leadsTable)
+        .update(leadTable)
         .set({ [columnId]: newValue })
-        .where(eq(leadsTable.id, record.id));
+        .where(eq(leadTable.id, record.id));
     } else {
       return { success: false };
     }
@@ -80,11 +80,11 @@ export const deleteLead = async (itemIds: string[]) => {
         return { success: false, message: "Nothing to Delete" };
       } else {
         const deletedContacts = await db
-          .delete(contactsTable)
-          .where(eq(contactsTable.leadId, itemId));
+          .delete(contactTable)
+          .where(eq(contactTable.leadId, itemId));
         const deletedLeads = await db
-          .delete(leadsTable)
-          .where(eq(leadsTable.id, itemId));
+          .delete(leadTable)
+          .where(eq(leadTable.id, itemId));
         if (!deletedLeads) {
           return { success: false, message: "Failed to delete lead" };
         }
@@ -99,8 +99,8 @@ export const deleteLead = async (itemIds: string[]) => {
   }
 };
 export const getLeadById = async (leadId: string) => {
-  const lead = await db.query.leadsTable.findFirst({
-    where: eq(leadsTable.id, leadId),
+  const lead = await db.query.leadTable.findFirst({
+    where: eq(leadTable.id, leadId),
   });
   return lead;
 };

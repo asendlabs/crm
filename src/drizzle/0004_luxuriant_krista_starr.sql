@@ -1,1 +1,0 @@
-ALTER TABLE "app"."leads" RENAME COLUMN "name" TO "lead_name";

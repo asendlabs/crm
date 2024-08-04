@@ -1,4 +1,4 @@
-import { Contact, Lead, contactsTable, leadsTable } from "@/db/schema";
+import { Contact, Lead, contactTable, leadTable } from "@/db/schema";
 
 import { ContactsColumns } from "@/components/tables/contacts-table/ContactsColumns";
 import { ContactsTable } from "@/components/tables/contacts-table/ContactsTable";
@@ -17,9 +17,8 @@ async function ContactsPage() {
   const user = await getUser();
   const getUserContacts = async (): Promise<Contact[]> => {
     const userId = user?.id || "";
-    const data = await db.query.contactsTable.findMany({
-      where: eq(contactsTable.userId, userId),
-      with: { lead: true },
+    const data = await db.query.contactTable.findMany({
+      where: eq(contactTable.userId, userId)
     });
     return data as Contact[];
   };
@@ -27,8 +26,8 @@ async function ContactsPage() {
   const getUserLeads = async (): Promise<Lead[]> => {
     const user = await getUser();
     const userId = user?.id || "";
-    const data = await db.query.leadsTable.findMany({
-      where: eq(leadsTable.userId, userId),
+    const data = await db.query.leadTable.findMany({
+      where: eq(leadTable.userId, userId),
     });
     return data as Lead[];
   };

@@ -1,7 +1,7 @@
 "use server";
 
 import { contactSchema } from "@/schemas/contact.schema";
-import { contactsTable } from "@/db/schema";
+import { contactTable } from "@/db/schema";
 import { db } from "@/db";
 import { eq } from "drizzle-orm";
 import { getUser } from "@/lib/user";
@@ -14,7 +14,7 @@ export const createContact = async (data: z.infer<typeof contactSchema>) => {
     const user = await getUser();
     const userId = user?.id || "";
     const newContact = await db
-      .insert(contactsTable)
+      .insert(contactTable)
       .values({
         id: uuid(),
         userId,
@@ -57,16 +57,16 @@ export const updateContact = async ({
 }): Promise<{ success: boolean }> => {
   try {
     // Find a record that matches the provided id
-    const record = await db.query.contactsTable.findFirst({
-      where: eq(contactsTable.id, itemId),
+    const record = await db.query.contactTable.findFirst({
+      where: eq(contactTable.id, itemId),
     });
 
     // If the record exists, update it
     if (record) {
       const updateResult = await db
-        .update(contactsTable)
+        .update(contactTable)
         .set({ [columnId]: newValue })
-        .where(eq(contactsTable.id, record.id));
+        .where(eq(contactTable.id, record.id));
     } else {
       return { success: false };
     }
@@ -83,8 +83,8 @@ export const deleteContact = async (itemIds: string[]) => {
         return { success: false, message: "Nothing to Delete" };
       } else {
         const deletedContacts = await db
-          .delete(contactsTable)
-          .where(eq(contactsTable.id, itemId));
+          .delete(contactTable)
+          .where(eq(contactTable.id, itemId));
         if (!deletedContacts) {
           return { success: false, message: "Failed to delete Contact" };
         }

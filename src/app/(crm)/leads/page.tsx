@@ -1,4 +1,4 @@
-import { Lead, leadsTable, userTable } from "@/db/schema";
+import { Lead, leadTable, userTable } from "@/db/schema";
 
 import { LeadsColumns } from "@/components/tables/leads-table/LeadsColumns";
 import { LeadsTable } from "@/components/tables/leads-table/LeadsTable";
@@ -17,8 +17,8 @@ async function LeadsPage() {
   const getUserLeads = async (): Promise<Lead[]> => {
     const user = await getUser();
     const userId = user?.id || "";
-    const data = await db.query.leadsTable.findMany({
-      where: eq(leadsTable.userId, userId),
+    const data = await db.query.leadTable.findMany({
+      where: eq(leadTable.userId, userId),
     });
     return data as Lead[];
   };
