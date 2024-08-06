@@ -24,6 +24,7 @@ import DataTableDeleteButton from "@/components/data-table/other/DataTableDelete
 import DataTableSearch from "@/components/data-table/other/DataTableSearch";
 import { DataTableViewOptions } from "@/components/data-table/other/DataTableViewOptions";
 import { NewLeadForm } from "./NewLeadForm";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 interface LeadsTableProps<TData, TValue> {
@@ -41,9 +42,10 @@ export function LeadsTable<TData, TValue>({
     { id: "leadName", desc: false },
   ]);
   const [rowSelectionState, setRowSelectionState] = useState({});
-
+  const router = useRouter();
   const addData = (newData: any) => {
     setData((prevLeads) => [...prevLeads, newData]);
+    router.refresh();
   };
 
   const primaryFields = ["leadName"];
@@ -81,6 +83,7 @@ export function LeadsTable<TData, TValue>({
           message: "Coudln't successfully execute updateData function",
         };
       }
+      router.refresh();
       return {
         success: true,
         message: "UpdateData function successfully executed",
@@ -101,6 +104,7 @@ export function LeadsTable<TData, TValue>({
       }
       setData((prev) => prev.filter((row: any) => !itemIds.includes(row.id)));
       table.resetRowSelection();
+      router.refresh(); 
       return {
         success: true,
         message: response.message,

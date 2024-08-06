@@ -1,4 +1,4 @@
-import { boolean, jsonb, pgSchema, text, timestamp } from "drizzle-orm/pg-core";
+import { boolean, jsonb, pgSchema, pgTable, text, timestamp } from "drizzle-orm/pg-core";
 
 import { relations } from "drizzle-orm";
 
@@ -16,15 +16,16 @@ export const userTable = schema.table("user", {
 });
 
 export const sessionTable = schema.table("session", {
-  id: text("id").primaryKey(),
-  userId: text("user_id")
-    .notNull()
-    .references(() => userTable.id),
-  expiresAt: timestamp("expires_at", {
-    withTimezone: true,
-    mode: "date",
-  }).notNull(),
+	id: text("id").primaryKey(),
+	userId: text("user_id")
+		.notNull()
+		.references(() => userTable.id),
+	expiresAt: timestamp("expires_at", {
+		withTimezone: true,
+		mode: "date"
+	}).notNull()
 });
+
 export const profileTable = schema.table("profile", {
   id: text("id").primaryKey(),
   userId: text("user_id")

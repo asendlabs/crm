@@ -25,6 +25,7 @@ import DataTableSearch from "@/components/data-table/other/DataTableSearch";
 import { DataTableViewOptions } from "@/components/data-table/other/DataTableViewOptions";
 import { Lead } from "@/db/schema";
 import { NewContactForm } from "./NewContactForm";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 interface ContactsTableProps<TData, TValue> {
@@ -44,9 +45,10 @@ export function ContactsTable<TData, TValue>({
     { id: "contactName", desc: false },
   ]);
   const [rowSelectionState, setRowSelectionState] = useState({});
-
+const router = useRouter();
   const addData = (newData: any) => {
     setData((prevContacts) => [...prevContacts, newData]);
+    router.refresh();
   };
   const primaryFields = ["contactName", "leadId", "jobTitle"];
 
@@ -83,6 +85,7 @@ export function ContactsTable<TData, TValue>({
           message: "Coudln't successfully execute updateData function",
         };
       }
+      router.refresh();
       return {
         success: true,
         message: "UpdateData function successfully executed",
@@ -103,6 +106,7 @@ export function ContactsTable<TData, TValue>({
       }
       setData((prev) => prev.filter((row: any) => !itemIds.includes(row.id)));
       table.resetRowSelection();
+      router.refresh();
       return {
         success: true,
         message: response.message,

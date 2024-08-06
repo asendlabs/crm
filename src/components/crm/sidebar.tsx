@@ -37,7 +37,7 @@ const Sidebar = ({ user }: { user: User }) => {
             className={`${sidebarItemClassName} ${
               pathname === "/inbox" ? "bg-muted-foreground/10 !text-black" : ""
             }`}
-          >
+            >
             <Inbox className="h-4 w-4" />
             <span>Inbox</span>
           </Link>
@@ -48,12 +48,13 @@ const Sidebar = ({ user }: { user: User }) => {
             className={`${sidebarItemClassName} ${
               pathname === "/deals" ? "bg-muted-foreground/10 !text-black" : ""
             }`}
-          >
+            >
             <Zap className="h-4 w-4" />
             <span>Deals</span>
           </Link>
           <Link
             href="/leads"
+            prefetch={false}
             className={`${sidebarItemClassName} ${
               pathname === "/leads" ? "bg-muted-foreground/10 !text-black" : ""
             }`}
@@ -63,6 +64,7 @@ const Sidebar = ({ user }: { user: User }) => {
           </Link>
           <Link
             href="/contacts"
+            prefetch={false}
             className={`${sidebarItemClassName} ${
               pathname === "/contacts"
                 ? "bg-muted-foreground/10 !text-black"
