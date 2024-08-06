@@ -27,9 +27,9 @@ export function UserBtn({ email }: { email: string }) {
     <div>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <button className="text-sm font-medium hover:bg-gray-100 rounded-full select-none outline-none">
+          <button className="select-none rounded-full text-sm font-medium outline-none hover:bg-gray-100">
             <div className="flex items-center gap-2">
-              <Avatar className="h-7 w-7  ">
+              <Avatar className="h-7 w-7">
                 <AvatarImage src="https://xsgames.co/randomusers/assets/avatars/male/74.jpg" />
                 <AvatarFallback>{email.charAt(0).toUpperCase()}</AvatarFallback>
               </Avatar>
@@ -37,12 +37,12 @@ export function UserBtn({ email }: { email: string }) {
                 {/* {truncateEmail(email, 16)}
                  */}
                 Waris Reshi
-                <ChevronDown className="h-4 w-4 ml-2" />
+                <ChevronDown className="ml-2 h-4 w-4" />
               </div>
             </div>
           </button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent align="end" className="w-56 ml-2">
+        <DropdownMenuContent align="end" className="ml-2 w-56">
           <DropdownMenuItem>
             <p className="flex items-center gap-2">{email}</p>
           </DropdownMenuItem>
@@ -68,7 +68,7 @@ export function UserBtn({ email }: { email: string }) {
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <button
-            className="flex flex-row justify-start items-center gap-2 cursor-pointer text-sm px-2 py-2 w-full"
+            className="flex w-full cursor-pointer flex-row items-center justify-start gap-2 px-2 py-2 text-sm"
             onClick={async () => {
               const { success } = await signOut();
               if (success) {

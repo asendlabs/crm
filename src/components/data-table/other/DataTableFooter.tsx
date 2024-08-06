@@ -14,14 +14,14 @@ interface DataTableFooterProps<TData> {
 
 export function DataTableFooter<TData>({ table }: DataTableFooterProps<TData>) {
   return (
-    <div className="flex flex-row bottom-2 items-center justify-between px-2 h-12">
+    <div className="bottom-2 flex h-12 flex-row items-center justify-between px-2">
       <div className="text-sm text-muted-foreground">
         {table.getFilteredSelectedRowModel().rows.length} of{" "}
         {table.getFilteredRowModel().rows.length} row(s) selected.
       </div>
       <div className="text-center">
         {table.getFilteredSelectedRowModel().flatRows.length > 0 && (
-          <div className="flex flex-row items-center bg-muted px-4 h-10 w-96 shadow-md rounded-lg">
+          <div className="flex h-10 w-96 flex-row items-center rounded-lg bg-muted px-4 shadow-md">
             acdsfdsfdsfsdfsdfsdfdsfsdfsdfdsfsdfdsf
           </div>
         )}

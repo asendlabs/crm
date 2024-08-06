@@ -20,7 +20,11 @@ const TableHeader = React.forwardRef<
   HTMLTableSectionElement,
   React.HTMLAttributes<HTMLTableSectionElement>
 >(({ className, ...props }, ref) => (
-  <thead ref={ref} className={cn("[&_tr]:border-b rounded-full", className)} {...props} />
+  <thead
+    ref={ref}
+    className={cn("rounded-full [&_tr]:border-b", className)}
+    {...props}
+  />
 ));
 TableHeader.displayName = "TableHeader";
 
@@ -44,7 +48,7 @@ const TableFooter = React.forwardRef<
     ref={ref}
     className={cn(
       "border-t bg-muted/50 font-medium [&>tr]:last:border-b-0",
-      className
+      className,
     )}
     {...props}
   />
@@ -66,8 +70,8 @@ const TableHead = React.forwardRef<
   <th
     ref={ref}
     className={cn(
-      "h-9 px-3 text-left border border-gray-200 bg-muted-foreground/5 font-medium align-middle !text-black [&:has([role=checkbox])]:pr-0 text-sm",
-      className
+      "h-9 border border-gray-200 bg-muted-foreground/5 px-3 text-left align-middle text-sm font-medium !text-black [&:has([role=checkbox])]:pr-0",
+      className,
     )}
     {...props}
   />
@@ -81,7 +85,10 @@ const TableCell = React.forwardRef<
   return (
     <td
       ref={ref}
-      className={cn("text-table bg-transparent border border-gray-100 hover:border-input", className)}
+      className={cn(
+        "text-table border border-gray-100 bg-transparent hover:border-input",
+        className,
+      )}
       {...props}
     />
   );

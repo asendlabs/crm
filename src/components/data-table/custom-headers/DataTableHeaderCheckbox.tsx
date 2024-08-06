@@ -4,7 +4,10 @@ import { Table } from "drizzle-orm";
 
 export function DataTableHeaderCheckbox({ table }: { table: any }) {
   return (
-    <div className="flex items-center justify-center w-6 cursor-pointer" onClick={() => table.toggleAllPageRowsSelected()}>
+    <div
+      className="flex w-6 cursor-pointer items-center justify-center"
+      onClick={() => table.toggleAllPageRowsSelected()}
+    >
       <Checkbox
         checked={
           table.getIsAllPageRowsSelected() ||

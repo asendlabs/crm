@@ -74,7 +74,7 @@ export function NewContactForm({
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger className="flex flex-row gap-1 max-h-8 max-w-28 rounded-lg text-sm items-center bg-primary text-white px-3 hover:bg-primary/90">
+      <DialogTrigger className="flex max-h-8 max-w-28 flex-row items-center gap-1 rounded-lg bg-primary px-3 text-sm text-white hover:bg-primary/90">
         <Plus className="h-4 w-4" />
         <span>New</span>
       </DialogTrigger>
@@ -82,14 +82,14 @@ export function NewContactForm({
         <div className="hidden">
           <DialogTitle>Add New Contact</DialogTitle>
         </div>
-        <div className="w-full px-3.5 pt-4 pb-2 flex flex-row items-center justify-between border-b">
+        <div className="flex w-full flex-row items-center justify-between border-b px-3.5 pb-2 pt-4">
           <span className="text-sm">Create New Contact</span>
           <Close className="rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground">
             <X className="h-5 w-5" />
             <span className="sr-only">Close</span>
           </Close>
         </div>
-        <div className="px-5 mb-3">
+        <div className="mb-3 px-5">
           <Form {...form}>
             <form
               onSubmit={form.handleSubmit(handleSubmit)}
@@ -105,7 +105,7 @@ export function NewContactForm({
                       <Input
                         {...field}
                         placeholder="eg. Acme Inc"
-                        className="w-full "
+                        className="w-full"
                       />
                     </FormControl>
                     <FormMessage />
@@ -146,7 +146,7 @@ export function NewContactForm({
                   </FormItem>
                 )}
               />
-              <div className="flex flex-row gap-2 py-2 justify-end">
+              <div className="flex flex-row justify-end gap-2 py-2">
                 <Button
                   type="button"
                   variant="outline"

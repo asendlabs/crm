@@ -11,7 +11,7 @@ const GoogleOAuthButton = () => {
   const [loading, setLoading] = React.useState(false);
   return (
     <Button
-      className="w-80 bg-gray-50 text-black flex flex-row gap-2"
+      className="flex w-80 flex-row gap-2 bg-gray-50 text-black"
       variant={"outline"}
       onClick={async () => {
         try {
@@ -35,7 +35,7 @@ const GoogleOAuthButton = () => {
         />
       )}
       {loading ? (
-        <Loader2 className="animate-spin w-4 h-4 mr-2" />
+        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
       ) : (
         "Continue with Google"
       )}

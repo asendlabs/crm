@@ -67,8 +67,8 @@ export function LeadsTable<TData, TValue>({
                 ...prev[rowIndex],
                 [columnId]: newValue,
               }
-            : row
-        )
+            : row,
+        ),
       );
       const response = await updateLead({
         columnId,
@@ -135,7 +135,7 @@ export function LeadsTable<TData, TValue>({
   });
   return (
     <>
-      <section className="px-6 py-5 flex flex-col justify-between h-screen gap-6">
+      <section className="flex h-screen flex-col justify-between gap-6 px-6 py-5">
         <div className="flex flex-row items-center justify-between">
           <h1 className="text-xl font-semibold">Leads</h1>
           <div className="flex flex-row gap-2">
@@ -159,7 +159,7 @@ export function LeadsTable<TData, TValue>({
             <NewLeadForm addLead={addData} />
           </div>
         </div>
-        <div className="overflow-y-auto custom-scrollbar min-h-[89vh]">
+        <div className="custom-scrollbar min-h-[89vh] overflow-y-auto">
           <Table>
             <TableHeader>
               {table.getHeaderGroups().map((headerGroup) => (
@@ -170,7 +170,7 @@ export function LeadsTable<TData, TValue>({
                         ? null
                         : flexRender(
                             header.column.columnDef.header,
-                            header.getContext()
+                            header.getContext(),
                           )}
                     </TableHead>
                   ))}
@@ -188,7 +188,7 @@ export function LeadsTable<TData, TValue>({
                       <TableCell key={cell.id}>
                         {flexRender(
                           cell.column.columnDef.cell,
-                          cell.getContext()
+                          cell.getContext(),
                         )}
                       </TableCell>
                     ))}

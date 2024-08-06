@@ -190,7 +190,7 @@ export const resendCode = async (email: string) => {
 };
 
 export const authenticate = async (
-  data: z.infer<typeof authenticationSchema>
+  data: z.infer<typeof authenticationSchema>,
 ) => {
   try {
     const { email, verifyCode } = data;
@@ -226,7 +226,7 @@ export const authenticate = async (
       cookies().set(
         sessionCookie.name,
         sessionCookie.value,
-        sessionCookie.attributes
+        sessionCookie.attributes,
       );
 
       return { success: true, message: "Successfully Signed Up" };
@@ -238,7 +238,7 @@ export const authenticate = async (
     cookies().set(
       sessionCookie.name,
       sessionCookie.value,
-      sessionCookie.attributes
+      sessionCookie.attributes,
     );
 
     return { success: true, message: "Successfully Logged In" };
@@ -267,7 +267,7 @@ export const signOut = async () => {
     cookies().set(
       sessionCookie.name,
       sessionCookie.value,
-      sessionCookie.attributes
+      sessionCookie.attributes,
     );
     return { success: true };
   } catch (error: any) {
@@ -297,7 +297,7 @@ export const getGoogleOAuthConsentUrl = async () => {
       codeVerifier,
       {
         scopes: ["email"],
-      }
+      },
     );
 
     return { success: true, url: authUrl.toString() };

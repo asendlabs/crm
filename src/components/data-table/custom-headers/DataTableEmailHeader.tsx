@@ -1,17 +1,15 @@
-'use client'
+"use client";
 
-import { Mail } from 'lucide-react'
-import React from 'react'
+import { Mail } from "lucide-react";
+import React from "react";
 
-function DataTableEmailHeader(
-  
-) {
+function DataTableEmailHeader() {
   return (
-    <div className='flex items-center justify-center'>
-      <Mail size={18} /> 
-        <span className="sr-only">Email</span>
+    <div className="flex items-center justify-center">
+      <Mail size={18} />
+      <span className="sr-only">Email</span>
     </div>
-  )
+  );
 }
 
-export default DataTableEmailHeader
+export default DataTableEmailHeader;

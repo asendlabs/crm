@@ -14,10 +14,10 @@ export function DataTablePhoneField({ row }: DataTablePhoneFieldProps) {
   return (
     <Link
       href={`mailto:${contactPhone || ""}`}
-      className="group flex flex-row items-center justify-center "
+      className="group flex flex-row items-center justify-center"
       tabIndex={-1}
     >
-      <Phone size={26.5} className="group-hover:bg-slate-200 rounded-md p-1" />
+      <Phone size={26.5} className="rounded-md p-1 group-hover:bg-slate-200" />
     </Link>
   );
 }

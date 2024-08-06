@@ -25,7 +25,7 @@ export function DataTableViewOptions<TData>({
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline" size="sm" className="ml-auto h-8 flex">
+        <Button variant="outline" size="sm" className="ml-auto flex h-8">
           <Settings2 className="mr-2 h-4 w-4" />
           View
         </Button>
@@ -38,7 +38,7 @@ export function DataTableViewOptions<TData>({
               !primaryFields.includes(column.id) && // Corrected filter condition
               column.id !== "select" &&
               typeof column.accessorFn !== "undefined" &&
-              column.getCanHide()
+              column.getCanHide(),
           )
           .map((column) => (
             <DropdownMenuCheckboxItem

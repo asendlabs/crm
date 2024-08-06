@@ -31,7 +31,7 @@ export async function GET(req: NextRequest) {
 
   const validationResponse = await googleOAuthClient.validateAuthorizationCode(
     code,
-    codeVerifier
+    codeVerifier,
   );
 
   const { accessToken } = validationResponse;
@@ -42,7 +42,7 @@ export async function GET(req: NextRequest) {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
-    }
+    },
   );
 
   if (!googleResponse.ok) {
@@ -79,7 +79,7 @@ export async function GET(req: NextRequest) {
     cookieStore.set(
       sessionCookie.name,
       sessionCookie.value,
-      sessionCookie.attributes
+      sessionCookie.attributes,
     );
 
     cookieStore.set("state", "", { expires: new Date(0) });
@@ -105,7 +105,7 @@ export async function GET(req: NextRequest) {
   cookieStore.set(
     sessionCookie.name,
     sessionCookie.value,
-    sessionCookie.attributes
+    sessionCookie.attributes,
   );
 
   cookieStore.set("state", "", { expires: new Date(0) });

@@ -65,7 +65,7 @@ export function DataTableWebsiteField({
 
   return (
     <div
-      className="relative ml-0 flex-1 md:grow-0 w-full"
+      className="relative ml-0 w-full flex-1 md:grow-0"
       onClick={() => setActive(true)}
     >
       <input
@@ -74,20 +74,20 @@ export function DataTableWebsiteField({
         onChange={(e) => setValue(e.target.value)}
         onBlur={onBlur}
         readOnly={!active}
-        className="w-full h-9 bg-background pl-3 pr-8 truncate focus:no-underline hover:underline cursor-pointer outline-black" // Ensure padding-right for space
+        className="h-9 w-full cursor-pointer truncate bg-background pl-3 pr-8 outline-black hover:underline focus:no-underline" // Ensure padding-right for space
       />
       <a
         href={normalizedUrl}
         target="_blank"
-        className="absolute right-2.5 top-1/2 transform -translate-y-1/2"
+        className="absolute right-2.5 top-1/2 -translate-y-1/2 transform"
         tabIndex={-1}
       >
         <Paperclip
           className={`${
             active
-              ? "opacity-100 bg-muted-foreground/20 text-black"
-              : "opacity-0 bg-muted-foreground/20"
-          } h-6 w-6 text-muted-foreground duration-200 p-1 hover:opacity-100 hover:bg-muted-foreground/20 hover:text-black rounded-full`}
+              ? "bg-muted-foreground/20 text-black opacity-100"
+              : "bg-muted-foreground/20 opacity-0"
+          } h-6 w-6 rounded-full p-1 text-muted-foreground duration-200 hover:bg-muted-foreground/20 hover:text-black hover:opacity-100`}
         />
       </a>
     </div>

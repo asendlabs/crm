@@ -21,11 +21,11 @@ export function DataTablePrimaryField({
   return (
     <Link
       href={`/lead/${row.original.id} || ""}`}
-      className="flex items-center gap-2 underline hover:text-blue-600 px-2.5 w-full min-w-36"
+      className="flex w-full min-w-36 items-center gap-2 px-2.5 underline hover:text-blue-600"
     >
       <span
         className="select-none" // Ensure padding-right for space
-      > 
+      >
         {initialValue || ""}
       </span>
     </Link>

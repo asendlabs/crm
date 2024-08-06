@@ -51,7 +51,7 @@ export function DataTableField({
         onChange={(e) => setValue(e.target.value)}
         onBlur={onBlur}
         readOnly={!active}
-        className="w-full h-9 hover:cursor-pointer rounded-none px-2.5 outline-black truncate"
+        className="h-9 w-full truncate rounded-none px-2.5 outline-black hover:cursor-pointer"
       />
     </div>
   );

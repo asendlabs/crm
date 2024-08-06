@@ -16,15 +16,15 @@ const AuthPage = async () => {
     return redirect("/inbox");
   }
   return (
-    <main className="flex flex-col items-center justify-center h-screen">
-      <section className="mb-8 font-semibold text-[1.375rem]">
+    <main className="flex h-screen flex-col items-center justify-center">
+      <section className="mb-8 text-[1.375rem] font-semibold">
         <h1 className="">Welcome to Asend</h1>
         <h1 className="text-gray-400">Login or Create your Account</h1>
       </section>
       <section className="mb-6">
         <GoogleOAuthButton />
       </section>
-      <section className="w-full max-w-md mb-8">
+      <section className="mb-8 w-full max-w-md">
         <EmailForm />
       </section>
       <section className="max-w-[21rem]">
@@ -33,14 +33,14 @@ const AuthPage = async () => {
           to our{" "}
           <Link
             href="/docs/terms-of-service"
-            className="text-gray-800 underline cursor-pointer"
+            className="cursor-pointer text-gray-800 underline"
           >
             Terms of Service
           </Link>{" "}
           and{" "}
           <Link
             href="/docs/privacy-policy"
-            className="text-gray-800 underline cursor-pointer"
+            className="cursor-pointer text-gray-800 underline"
           >
             Privacy Policy
           </Link>

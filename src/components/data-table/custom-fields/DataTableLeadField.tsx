@@ -25,17 +25,17 @@ export function DataTableLeadField({ getValue }: DataTableLeadFieldProps) {
   return (
     <Link
       href={`/lead/${value.id}`}
-      className="w-48 h-9 flex px-2.5 flex-row items-center gap-2 group"
+      className="group flex h-9 w-48 flex-row items-center gap-2 px-2.5"
     >
-      <div className="flex flex-row min-w-4 min-h-4">
-        <Avatar className="h-4 w-4 text-muted-foreground rounded-full">
+      <div className="flex min-h-4 min-w-4 flex-row">
+        <Avatar className="h-4 w-4 rounded-full text-muted-foreground">
           <AvatarImage src={value.avatarUrl} />
           <AvatarFallback>
             {value.leadName?.charAt(0).toUpperCase() || ""}
           </AvatarFallback>
         </Avatar>
       </div>
-      <div className="w-full flex flex-row items-center ">
+      <div className="flex w-full flex-row items-center">
         <span className="truncate underline">{value.leadName}</span>
       </div>
     </Link>

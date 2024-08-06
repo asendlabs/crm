@@ -61,20 +61,20 @@ const ResendButton = ({ email }: { email: string }) => {
   };
 
   return (
-    <div className="text-xs  flex flex-row items-center gap-1 text-gray-400">
+    <div className="flex flex-row items-center gap-1 text-xs text-gray-400">
       We sent a code to your inbox.
       <button
         onClick={handleClick}
         type="button"
         disabled={isActive || resending}
-        className={`opacity-95 font-medium ${
+        className={`font-medium opacity-95 ${
           !isActive
-            ? "hover:underline cursor-pointer text-blue-500"
+            ? "cursor-pointer text-blue-500 hover:underline"
             : "cursor-not-allowed"
         }`}
       >
         {resending ? (
-          <Loader2 className="animate-spin w-4 h-4 mr-2" />
+          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
         ) : isActive ? (
           `Resend in ${time}s`
         ) : (
@@ -143,7 +143,7 @@ const EmailForm = () => {
   };
 
   const onSubmitVerification = async (
-    data: z.infer<typeof authenticationSchema>
+    data: z.infer<typeof authenticationSchema>,
   ) => {
     setSubmitting(true);
     try {
@@ -177,7 +177,7 @@ const EmailForm = () => {
             name="email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-gray-600 font-regular">
+                <FormLabel className="font-regular text-gray-600">
                   Email
                 </FormLabel>
                 <FormControl>
@@ -205,7 +205,7 @@ const EmailForm = () => {
             >
               {loading ? (
                 <>
-                  <Loader2 className="animate-spin w-4 h-4 mr-2" />
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                 </>
               ) : (
                 "Continue with Email"
@@ -215,13 +215,13 @@ const EmailForm = () => {
         </div>
         <>
           {isVerificationVisible && (
-            <div className="flex flex-col items-center gap-5 mt-5">
+            <div className="mt-5 flex flex-col items-center gap-5">
               <FormField
                 control={control}
                 name="verifyCode"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-gray-600 font-regular">
+                    <FormLabel className="font-regular text-gray-600">
                       Verification Code
                     </FormLabel>
                     <FormControl>
@@ -241,7 +241,7 @@ const EmailForm = () => {
               <Button type="submit" disabled={submitting} className="w-80">
                 {submitting ? (
                   <>
-                    <Loader2 className="animate-spin w-4 h-4 mr-2" />
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                     {type === "login" ? "Logging in..." : "Signing up..."}{" "}
                   </>
                 ) : (

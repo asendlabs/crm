@@ -31,7 +31,7 @@ export function DataTableContactField({ row }: DataTableContactFieldProps) {
   return (
     <Link
       href={(value.contactName && `/lead/${value.lead.id.toString()}`) || ""}
-      className="min-w-36 max-w-30 h-9 flex px-2.5 flex-row items-center gap-1 group rounded-md"
+      className="max-w-30 group flex h-9 min-w-36 flex-row items-center gap-1 rounded-md px-2.5"
     >
       <span className="truncate group-hover:underline">
         {value.contactName}
