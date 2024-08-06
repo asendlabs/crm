@@ -8,8 +8,8 @@ import { authenticationSchema } from "@/schemas/auth.schema";
 import { cookies } from "next/headers";
 import { db } from "@/db";
 import { eq } from "drizzle-orm";
-import { generateId } from "lucia";
 import { sendEmail } from "@/lib/email";
+import { ulid } from "ulid";
 import { userTable } from "@/db/schema";
 import z from "zod";
 
@@ -32,7 +32,7 @@ export const sendCode = async (email: string) => {
   try {
     const verifyCode = generateVerifyCode(16);
     const verifyCodeGeneratedAt = new Date();
-    const id = generateId(21).toString().toLowerCase();
+    const id = ulid();
 
     const user = await db.query.userTable.findFirst({
       where: eq(userTable.email, email),

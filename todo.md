@@ -1,3 +1,0 @@
-- [ ] Finalise Columns for Leads Table
-- [ ] Finalise Columns for Contacts Table
-- [ ] Build Lead Page Frontend and Backend v1.0

@@ -5,12 +5,12 @@ import { contactTable, leadTable } from "@/db/schema";
 import { db } from "@/db";
 import { eq } from "drizzle-orm";
 import { getUser } from "@/lib/user";
-import { uuid } from "uuidv4";
+import { ulid } from "ulid";
 
 export const createLead = async (leadName: string) => {
   try {
     const user = await getUser();
-    const leadId = uuid();
+    const leadId = ulid();
     const userId = user?.id || "";
     const newLead = await db
       .insert(leadTable)

@@ -1,7 +1,6 @@
 import { boolean, jsonb, pgSchema, text, timestamp } from "drizzle-orm/pg-core";
 
 import { relations } from "drizzle-orm";
-import { uuid } from "uuidv4";
 
 export const schema = pgSchema("app");
 

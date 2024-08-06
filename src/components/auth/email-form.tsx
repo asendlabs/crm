@@ -113,7 +113,7 @@ const EmailForm = () => {
     if (getFieldState("email").isDirty && failedSubmit) {
       trigger("email");
     }
-  }, [emailValue]);
+  }, [emailValue, failedSubmit, getFieldState, trigger]);
 
   const onContinue = async () => {
     try {

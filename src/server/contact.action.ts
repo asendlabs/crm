@@ -4,7 +4,7 @@ import { contactTable } from "@/db/schema";
 import { db } from "@/db";
 import { eq } from "drizzle-orm";
 import { getUser } from "@/lib/user";
-import { uuid } from "uuidv4";
+import { ulid } from "ulid";
 
 export const createContact = async ({
   leadId,
@@ -16,7 +16,7 @@ export const createContact = async ({
   try {
     const user = await getUser();
     const userId = user?.id || "";
-    const id = uuid();
+    const id = ulid();
     const newContact = await db
       .insert(contactTable)
       .values({

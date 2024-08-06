@@ -49,7 +49,7 @@ function DataTableDeleteButton<TData>({
     if (table.getFilteredSelectedRowModel().flatRows.length === 0) {
       setActive(false);
     }
-  }, [table.getFilteredSelectedRowModel().flatRows.length]);
+  }, [table.getFilteredSelectedRowModel().flatRows.length, table]);
   return (
     <AlertDialog open={open} onOpenChange={setOpen}>
       <Button
