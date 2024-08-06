@@ -6,7 +6,7 @@ import { db } from "@/db";
 import { eq } from "drizzle-orm";
 import { generateId } from "lucia";
 import { redirect } from "next/navigation";
-import { userTable } from "@/db/schema";
+import { userTable } from "@/db/schema/tables";
 
 export async function GET(req: NextRequest) {
   const url = new URL(req.url);

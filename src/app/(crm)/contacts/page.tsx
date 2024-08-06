@@ -1,4 +1,5 @@
-import { Contact, Lead, contactTable, leadTable } from "@/db/schema";
+import { Contact, Lead } from "@/db/schema/types";
+import { contactTable, leadTable } from "@/db/schema/tables";
 
 import { ContactsColumns } from "@/components/tables/contacts-table/ContactsColumns";
 import { ContactsTable } from "@/components/tables/contacts-table/ContactsTable";

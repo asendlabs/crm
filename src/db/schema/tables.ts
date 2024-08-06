@@ -1,6 +1,4 @@
-import { boolean, jsonb, pgSchema, pgTable, text, timestamp } from "drizzle-orm/pg-core";
-
-import { relations } from "drizzle-orm";
+import { boolean, jsonb, pgSchema, text, timestamp } from "drizzle-orm/pg-core";
 
 export const schema = pgSchema("app");
 
@@ -75,38 +73,4 @@ export const contactTable = schema.table("contact", {
     .references(() => userTable.id),
 });
 
-export const userRelations = relations(userTable, ({ one, many }) => ({
-  profileInfo: one(profileTable),
-  leads: many(leadTable),
-  contacts: many(contactTable),
-}));
 
-export const profileRelations = relations(profileTable, ({ one, many }) => ({
-  user: one(userTable, {
-    fields: [profileTable.userId],
-    references: [userTable.id],
-  }),
-}));
-
-export const leadRelations = relations(leadTable, ({ one, many }) => ({
-  user: one(userTable, {
-    fields: [leadTable.userId],
-    references: [userTable.id],
-  }),
-  contacts: many(contactTable),
-  //deals
-}));
-
-export const contactRelations = relations(contactTable, ({ one, many }) => ({
-  lead: one(leadTable, {
-    fields: [contactTable.leadId],
-    references: [leadTable.id],
-  }),
-  user: one(userTable, {
-    fields: [contactTable.userId],
-    references: [userTable.id],
-  }),
-}));
-export type Contact = typeof contactTable.$inferSelect;
-export type Lead = typeof leadTable.$inferSelect;
-export type User = typeof userTable.$inferSelect;

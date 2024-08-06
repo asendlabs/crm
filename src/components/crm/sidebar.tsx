@@ -13,7 +13,7 @@ import {
 
 import Link from "next/link";
 import React from "react";
-import { User } from "@/db/schema";
+import { User } from "@/db/schema/types";
 import { UserBtn } from "./user-btn";
 import { usePathname } from "next/navigation";
 

@@ -3,7 +3,7 @@ import React, { useEffect, useRef } from "react";
 
 import { ArrowUpRight } from "lucide-react";
 import { Avatar } from "@radix-ui/react-avatar";
-import { Lead } from "@/db/schema";
+import { Lead } from "@/db/schema/types";
 import Link from "next/link";
 import { getLeadById } from "@/server/lead.action";
 

@@ -1,6 +1,6 @@
 "use server";
 
-import { contactTable } from "@/db/schema";
+import { contactTable } from "@/db/schema/tables";
 import { db } from "@/db";
 import { eq } from "drizzle-orm";
 import { getUser } from "@/lib/user";

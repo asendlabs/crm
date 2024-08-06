@@ -23,7 +23,7 @@ import { deleteContact, updateContact } from "../../../server/contact.action";
 import DataTableDeleteButton from "@/components/data-table/other/DataTableDeleteButton";
 import DataTableSearch from "@/components/data-table/other/DataTableSearch";
 import { DataTableViewOptions } from "@/components/data-table/other/DataTableViewOptions";
-import { Lead } from "@/db/schema";
+import { Lead } from "@/db/schema/types";
 import { NewContactForm } from "./NewContactForm";
 import { useRouter } from "next/navigation";
 import { useState } from "react";

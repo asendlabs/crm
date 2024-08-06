@@ -1,5 +1,6 @@
-import { Lead, leadTable, userTable } from "@/db/schema";
+import { leadTable, userTable } from "@/db/schema/tables";
 
+import { Lead } from "@/db/schema/types";
 import { LeadsColumns } from "@/components/tables/leads-table/LeadsColumns";
 import { LeadsTable } from "@/components/tables/leads-table/LeadsTable";
 import { Metadata } from "next";

@@ -1,7 +1,7 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
-import { Contact } from "@/db/schema";
+import { Contact } from "@/db/schema/types";
 import { DataTableCheckbox } from "@/components/data-table/custom-fields/DataTableCheckbox";
 import { DataTableColumnHeader } from "@/components/data-table/custom-headers/DataTableColumnHeader";
 import { DataTableEmailField } from "@/components/data-table/custom-fields/DataTableEmailField";

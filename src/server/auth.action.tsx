@@ -10,7 +10,7 @@ import { db } from "@/db";
 import { eq } from "drizzle-orm";
 import { sendEmail } from "@/lib/email";
 import { ulid } from "ulid";
-import { userTable } from "@/db/schema";
+import { userTable } from "@/db/schema/tables";
 import z from "zod";
 
 function generateVerifyCode(length: number) {
