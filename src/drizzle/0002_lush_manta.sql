@@ -1,0 +1,1 @@
+ALTER TABLE "app"."contact" ALTER COLUMN "lead_id" DROP NOT NULL;

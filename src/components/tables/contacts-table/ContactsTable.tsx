@@ -20,11 +20,11 @@ import {
 } from "@/components/ui/table";
 import { deleteContact, updateContact } from "../../../server/contact.action";
 
-import DataTableDeleteButton from "@/components/data-table/DataTableDeleteButton";
-import DataTableSearch from "@/components/data-table/DataTableSearch";
-import { DataTableViewOptions } from "@/components/data-table/DataTableViewOptions";
+import DataTableDeleteButton from "@/components/data-table/other/DataTableDeleteButton";
+import DataTableSearch from "@/components/data-table/other/DataTableSearch";
+import { DataTableViewOptions } from "@/components/data-table/other/DataTableViewOptions";
 import { Lead } from "@/db/schema";
-import NewContactForm from "./NewContactForm";
+import { NewContactForm } from "./NewContactForm";
 import { useState } from "react";
 
 interface ContactsTableProps<TData, TValue> {
@@ -45,8 +45,8 @@ export function ContactsTable<TData, TValue>({
   ]);
   const [rowSelectionState, setRowSelectionState] = useState({});
 
-  const addContact = (newContact: any) => {
-    setData((prevContacts) => [...prevContacts, newContact]);
+  const addData = (newData: any) => {
+    setData((prevContacts) => [...prevContacts, newData]);
   };
   const primaryFields = ["contactName", "leadId", "jobTitle"];
 
@@ -159,7 +159,7 @@ export function ContactsTable<TData, TValue>({
               primaryField="contactName"
               primaryFieldPrettyName="Contact"
             />
-            <NewContactForm addContact={addContact} leadList={leads} />
+            <NewContactForm addContact={addData} leadList={leads} />
           </div>
         </div>
         <div className="overflow-y-auto custom-scrollbar min-h-[89vh]">

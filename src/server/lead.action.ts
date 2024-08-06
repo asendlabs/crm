@@ -1,29 +1,23 @@
 "use server";
 
 import { contactTable, leadTable } from "@/db/schema";
-import { eq, sql } from "drizzle-orm";
 
 import { db } from "@/db";
+import { eq } from "drizzle-orm";
 import { getUser } from "@/lib/user";
-import { leadSchema } from "@/schemas/lead.schema";
 import { uuid } from "uuidv4";
-import { z } from "zod";
 
-export const createLead = async (data: z.infer<typeof leadSchema>) => {
+export const createLead = async (leadName: string) => {
   try {
-    const { leadName, description, addresses, url} = data;
     const user = await getUser();
+    const leadId = uuid();
     const userId = user?.id || "";
-    const id = uuid();
     const newLead = await db
       .insert(leadTable)
       .values({
-        id,
+        id: leadId,
         leadName,
         userId,
-        description,
-        url, 
-        addresses,
       })
       .returning();
     if (!newLead) {
@@ -74,13 +68,14 @@ export const updateLead = async ({
 };
 export const deleteLead = async (itemIds: string[]) => {
   try {
-    itemIds.forEach(async (itemId) => {
+    for (const itemId of itemIds) {
       if (!itemId) {
-        return { success: false, message: "Nothing to Delete" };
+        return { success: false, message: "Nothing to delete" };
       } else {
         const deletedContacts = await db
           .delete(contactTable)
           .where(eq(contactTable.leadId, itemId));
+
         const deletedLeads = await db
           .delete(leadTable)
           .where(eq(leadTable.id, itemId));
@@ -88,7 +83,7 @@ export const deleteLead = async (itemIds: string[]) => {
           return { success: false, message: "Failed to delete lead" };
         }
       }
-    });
+    }
     return {
       success: true,
       message: "Deleted leads successfully",

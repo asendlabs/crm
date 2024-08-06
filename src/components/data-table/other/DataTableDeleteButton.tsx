@@ -59,7 +59,16 @@ function DataTableDeleteButton<TData>({
         onClick={() => setOpen(true)}
       >
         <Trash className="h-4 w-4" />
-        <span>Delete</span>
+        <span>
+          Delete
+          {active && (
+            <span>
+              {" ("}
+              {table.getFilteredSelectedRowModel().flatRows.length}
+              {")"}
+            </span>
+          )}
+        </span>
       </Button>
       <AlertDialogContent>
         <AlertDialogHeader>

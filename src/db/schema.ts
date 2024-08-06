@@ -46,14 +46,13 @@ export const leadStatusEnum = schema.enum("leadStatus", [
   "Interested",
   "Not Interested",
 ]);
-
 export const leadTable = schema.table("lead", {
   id: text("id").primaryKey(),
   leadName: text("lead_name").notNull(),
+  status: leadStatusEnum("status").notNull().default("Potential"),
   description: text("description"),
   url: text("url"),
   addresses: text("addresses"),
-  status: leadStatusEnum("status").notNull().default("Potential"),
   createdAt: timestamp("created_at").notNull().defaultNow(),
   updatedAt: timestamp("updated_at"),
   userId: text("user_id")
@@ -70,9 +69,7 @@ export const contactTable = schema.table("contact", {
   url: text("url"),
   createdAt: timestamp("created_at").notNull().defaultNow(),
   updatedAt: timestamp("updated_at"),
-  leadId: text("lead_id")
-    .notNull()
-    .references(() => leadTable.id),
+  leadId: text("lead_id").references(() => leadTable.id),
   userId: text("user_id")
     .notNull()
     .references(() => userTable.id),

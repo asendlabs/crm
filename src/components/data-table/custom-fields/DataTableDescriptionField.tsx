@@ -49,21 +49,23 @@ export function DataTableDescriptionField({
   }, [initialValue]);
 
   return (
-    <div className="flex flex-row items-center gap-2 w-36">
+    <div className="flex items-center gap-2 w-full max-w-[200px] min-w-[200px]">
       <DropdownMenu open={open} onOpenChange={setOpen}>
-        <DropdownMenuTrigger className="w-full px-2.5 truncate h-9 flex flex-row items-center justify-start outline-black ">
-          <span>{initialValue}</span>
+        <DropdownMenuTrigger className="w-[190px] px-2.5 truncate h-9 flex items-center justify-start rounded-md">
+          <span className="truncate">{initialValue}</span>
         </DropdownMenuTrigger>
-        <DropdownMenuContent>
+        <DropdownMenuContent className="w-full p-2 rounded-md">
           <Textarea
             ref={inputRef}
             value={value || ""}
             onChange={(e) => setValue(e.target.value)}
             onBlur={() => onChange(value)}
-            className="outline-black"
+            rows={7}
+            placeholder="Enter a Description"
+            className="w-full border border-input rounded-md"
           />
           <Button
-            variant={"outline"}
+            variant="outline"
             onClick={() => {
               onChange(value);
               setOpen(false);

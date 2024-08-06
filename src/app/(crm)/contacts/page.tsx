@@ -18,7 +18,10 @@ async function ContactsPage() {
   const getUserContacts = async (): Promise<Contact[]> => {
     const userId = user?.id || "";
     const data = await db.query.contactTable.findMany({
-      where: eq(contactTable.userId, userId)
+      where: eq(contactTable.userId, userId),
+      with: {
+        lead: true,
+      },
     });
     return data as Contact[];
   };

@@ -1,0 +1,27 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1722818526530,
+      "tag": "0000_stale_grim_reaper",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1722818592591,
+      "tag": "0001_skinny_moonstone",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1722820958308,
+      "tag": "0002_lush_manta",
+      "breakpoints": true
+    }
+  ]
+}

@@ -65,7 +65,7 @@ export function DataTableWebsiteField({
 
   return (
     <div
-      className="relative ml-0 flex-1 md:grow-0"
+      className="relative ml-0 flex-1 md:grow-0 w-full"
       onClick={() => setActive(true)}
     >
       <input

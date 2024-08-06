@@ -2,13 +2,15 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 import { Contact } from "@/db/schema";
-import { DataTableCheckbox } from "@/components/data-table/DataTableCheckbox";
-import { DataTableColumnHeader } from "@/components/data-table/DataTableColumnHeader";
+import { DataTableCheckbox } from "@/components/data-table/custom-fields/DataTableCheckbox";
+import { DataTableColumnHeader } from "@/components/data-table/custom-headers/DataTableColumnHeader";
 import { DataTableEmailField } from "@/components/data-table/custom-fields/DataTableEmailField";
+import DataTableEmailHeader from "@/components/data-table/custom-headers/DataTableEmailHeader";
 import { DataTableField } from "@/components/data-table/custom-fields/DataTableField";
-import { DataTableHeaderCheckbox } from "@/components/data-table/DataTableHeaderCheckbox";
+import { DataTableHeaderCheckbox } from "@/components/data-table/custom-headers/DataTableHeaderCheckbox";
 import { DataTableLeadField } from "@/components/data-table/custom-fields/DataTableLeadField";
-import { DataTablePhoneField } from "@/components/data-table/custom-fields/DataTablePhone";
+import { DataTablePhoneField } from "@/components/data-table/custom-fields/DataTablePhoneField";
+import DataTablePhoneHeader from "@/components/data-table/custom-headers/DataTablePhoneHeader";
 import { DataTablePrimaryField } from "@/components/data-table/custom-fields/DataTablePrimaryField";
 import { DataTableWebsiteField } from "@/components/data-table/custom-fields/DataTableWebsiteField";
 
@@ -26,25 +28,25 @@ export const ContactsColumns: ColumnDef<Contact>[] = [
     cell: DataTablePrimaryField,
   },
   {
-    accessorKey: "leadId",
-    header: "Lead",
-    cell: DataTableLeadField,
-  },
-  {
     accessorKey: "jobTitle",
     header: "Job Title",
     cell: DataTableField,
   },
   {
     accessorKey: "email",
-    header: "Email",
+    header: DataTableEmailHeader,
     cell: DataTableEmailField,
   },
 
   {
     accessorKey: "phone",
-    header: "Phone",
+    header: DataTablePhoneHeader,
     cell: DataTablePhoneField,
+  },
+  {
+    accessorKey: "leadId",
+    header: "Lead",
+    cell: DataTableLeadField,
   },
   {
     accessorKey: "url",

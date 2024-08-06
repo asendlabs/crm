@@ -1,10 +1,11 @@
 import { z } from "zod";
 
 export const contactSchema = z.object({
-    contactName: z.string().min(3, {message: "Must be at least 3 characters"}),
-    jobTitle: z.string().optional(),
-    email: z.string().email().optional(),
-    phone: z.string().optional(),
-    url: z.string().url().optional(),
-    leadId: z.string(),
+  contactName: z
+    .string()
+    .min(1, { message: "Contact name is required" })
+    .max(255, {
+      message: "Contact name must be less than 255 characters",
+    }),
+  leadId: z.string().min(1, { message: "Choosing a Lead is required" }),
 });

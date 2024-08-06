@@ -9,21 +9,11 @@ import { getLeadById } from "@/server/lead.action";
 
 interface DataTableLeadFieldProps {
   getValue: () => any;
-  row: any;
-  column: any;
-  table: any;
 }
 
-export function DataTableLeadField({
-  getValue,
-  row,
-  column,
-  table,
-}: DataTableLeadFieldProps) {
+export function DataTableLeadField({ getValue }: DataTableLeadFieldProps) {
   const initialValue = getValue();
   const [value, setValue] = React.useState<any>({});
-  const inputRef = useRef<HTMLInputElement>(null);
-  const [active, setActive] = React.useState(false);
   const onMount = async () => {
     await getLeadById(initialValue).then((data) => setValue(data));
   };
@@ -34,7 +24,7 @@ export function DataTableLeadField({
 
   return (
     <Link
-      href=""
+      href={`/lead/${value.id}`}
       className="w-48 h-9 flex px-2.5 flex-row items-center gap-2 group"
     >
       <div className="flex flex-row min-w-4 min-h-4">
@@ -45,12 +35,8 @@ export function DataTableLeadField({
           </AvatarFallback>
         </Avatar>
       </div>
-      <div className="flex flex-row items-center justify-between w-full">
-        <span className="truncate">{value.leadName}</span>
-        <ArrowUpRight
-          className="h-6 w-6 p-1 text-muted-foreground duration-200 hidden group-hover:block  group-hover:bg-muted-foreground/20 rounded-full"
-          tableValues={-1}
-        />
+      <div className="w-full flex flex-row items-center ">
+        <span className="truncate underline">{value.leadName}</span>
       </div>
     </Link>
   );

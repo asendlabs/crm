@@ -1,16 +1,19 @@
 "use server";
 
-import { contactSchema } from "@/schemas/contact.schema";
 import { contactTable } from "@/db/schema";
 import { db } from "@/db";
 import { eq } from "drizzle-orm";
 import { getUser } from "@/lib/user";
 import { uuid } from "uuidv4";
-import { z } from "zod";
 
-export const createContact = async (data: z.infer<typeof contactSchema>) => {
+export const createContact = async ({
+  leadId,
+  contactName,
+}: {
+  leadId: string;
+  contactName: string;
+}) => {
   try {
-    const { contactName, jobTitle, email, phone, url, leadId } = data;
     const user = await getUser();
     const userId = user?.id || "";
     const id = uuid();
@@ -18,14 +21,11 @@ export const createContact = async (data: z.infer<typeof contactSchema>) => {
       .insert(contactTable)
       .values({
         id,
-        jobTitle,
-        email,
-        phone,
-        url,
         contactName,
-        leadId, // Link to the lead
+        leadId,
         userId,
-      }).returning();
+      })
+      .returning();
     if (!newContact) {
       return {
         success: false,
@@ -35,7 +35,7 @@ export const createContact = async (data: z.infer<typeof contactSchema>) => {
     return {
       success: true,
       message: "New contact created successfully",
-      data: newContact[0]
+      data: newContact[0],
     };
   } catch (error) {
     console.error("Failed to create new contact:", error);
@@ -78,18 +78,18 @@ export const updateContact = async ({
 };
 export const deleteContact = async (itemIds: string[]) => {
   try {
-    itemIds.forEach(async (itemId) => {
+    for (const itemId of itemIds) {
       if (!itemId) {
-        return { success: false, message: "Nothing to Delete" };
+        return { success: false, message: "Nothing to delete" };
       } else {
         const deletedContacts = await db
           .delete(contactTable)
           .where(eq(contactTable.id, itemId));
         if (!deletedContacts) {
-          return { success: false, message: "Failed to delete Contact" };
+          return { success: false, message: "Failed to delete contact" };
         }
       }
-    });
+    }
     return {
       success: true,
       message: "Deleted contacts successfully",
@@ -97,4 +97,13 @@ export const deleteContact = async (itemIds: string[]) => {
   } catch (error) {
     return { success: false, message: "Internal Error" };
   }
+};
+export const getContactsByLeadId = async (leadId: string) => {
+  const contacts = await db.query.contactTable.findMany({
+    where: eq(contactTable.leadId, leadId),
+    with: {
+      lead: true,
+    },
+  });
+  return contacts;
 };

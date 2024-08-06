@@ -20,10 +20,10 @@ import {
 } from "@/components/ui/table";
 import { deleteLead, updateLead } from "@/server/lead.action";
 
-import DataTableDeleteButton from "@/components/data-table/DataTableDeleteButton";
-import DataTableSearch from "@/components/data-table/DataTableSearch";
-import { DataTableViewOptions } from "@/components/data-table/DataTableViewOptions";
-import NewLeadForm from "./NewLeadForm";
+import DataTableDeleteButton from "@/components/data-table/other/DataTableDeleteButton";
+import DataTableSearch from "@/components/data-table/other/DataTableSearch";
+import { DataTableViewOptions } from "@/components/data-table/other/DataTableViewOptions";
+import { NewLeadForm } from "./NewLeadForm";
 import { useState } from "react";
 
 interface LeadsTableProps<TData, TValue> {
@@ -42,8 +42,8 @@ export function LeadsTable<TData, TValue>({
   ]);
   const [rowSelectionState, setRowSelectionState] = useState({});
 
-  const addLead = (newLead: any) => {
-    setData((prevLeads) => [...prevLeads, newLead]);
+  const addData = (newData: any) => {
+    setData((prevLeads) => [...prevLeads, newData]);
   };
 
   const primaryFields = ["leadName"];
@@ -156,7 +156,7 @@ export function LeadsTable<TData, TValue>({
               primaryField="leadName"
               primaryFieldPrettyName="Lead"
             />
-            <NewLeadForm addLead={addLead} />
+            <NewLeadForm addLead={addData} />
           </div>
         </div>
         <div className="overflow-y-auto custom-scrollbar min-h-[89vh]">
