@@ -1,5 +1,3 @@
-import { Building, Handshake, Home, Users } from "lucide-react";
-
 import React from "react";
 import Sidebar from "@/components/crm/sidebar";
 import { getUser } from "@/lib/user";
@@ -21,4 +19,4 @@ export default async function CrmLayout({
       <div>{children}</div>
     </main>
   );
-}
+} 
