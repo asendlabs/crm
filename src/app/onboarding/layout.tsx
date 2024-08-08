@@ -1,9 +1,12 @@
-import React from "react";
-import Sidebar from "@/components/crm/sidebar";
+import type { Metadata } from "next";
 import { getUser } from "@/lib/user";
 import { redirect } from "next/navigation";
 
-export default async function CrmLayout({
+export const metadata: Metadata = {
+  title: "Onboarding | Asend",
+};
+
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
@@ -12,14 +15,9 @@ export default async function CrmLayout({
   if (!user) {
     return redirect("/auth");
   } else if (!user?.onboardingCompleted) {
-    return redirect("/onboarding");
+    return <>{children}</>;
   } else if (user.onboardingCompleted) {
-    return (
-      <main className="grid min-h-screen w-full grid-cols-[240px_1fr]">
-        <Sidebar user={user} />
-        <div>{children}</div>
-      </main>
-    );
+    return redirect("/inbox");
   } else {
     return <>Loading</>;
   }

@@ -4,7 +4,7 @@ import { cookies } from "next/headers";
 import { db } from "@/db";
 import { eq } from "drizzle-orm";
 import { lucia } from "@/lib/auth";
-import { userTable } from "@/db/schema/tables";
+import { userTable } from "@/db/schema";
 
 export const getUser = async () => {
   const sessionCookieId = cookies().get("auth_key")?.value || null;

@@ -8,9 +8,10 @@ import { authenticationSchema } from "@/schemas/auth.schema";
 import { cookies } from "next/headers";
 import { db } from "@/db";
 import { eq } from "drizzle-orm";
+import { redirect } from "next/navigation";
 import { sendEmail } from "@/lib/email";
 import { ulid } from "ulid";
-import { userTable } from "@/db/schema/tables";
+import { userTable } from "@/db/schema";
 import z from "zod";
 
 function generateVerifyCode(length: number) {
@@ -81,7 +82,7 @@ export const sendCode = async (email: string) => {
       return { success: false, message: "Something went Wrong", type: "login" };
     }
 
-    if (!user.accountCompleted) {
+    if (!user.onboardingCompleted) {
       const emailSent = await sendEmail({
         to: email,
         from: "no-reply@ascendifyr.in",
@@ -156,7 +157,7 @@ export const resendCode = async (email: string) => {
       return { success: false, message: "Something went Wrong" };
     }
 
-    if (!user.accountCompleted) {
+    if (!user.onboardingCompleted) {
       const emailSent = await sendEmail({
         to: email,
         from: "no-reply@ascendifyr.in",
@@ -207,8 +208,7 @@ export const authenticate = async (
       return { success: false, message: "Invalid Code" };
     }
 
-    if (!user.accountCompleted) {
-      user.accountCompleted = true;
+    if (!user.onboardingCompleted) {
       const updateQuery = await db
         .update(userTable)
         .set(user)
@@ -229,7 +229,7 @@ export const authenticate = async (
         sessionCookie.attributes,
       );
 
-      return { success: true, message: "Successfully Signed Up" };
+      return redirect("/onboarding");
     }
 
     // Success
@@ -241,7 +241,7 @@ export const authenticate = async (
       sessionCookie.attributes,
     );
 
-    return { success: true, message: "Successfully Logged In" };
+    return redirect("/inbox");
   } catch (error) {
     return { success: false, message: "Something went wrong" };
   }

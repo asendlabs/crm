@@ -6,7 +6,7 @@ import { db } from "@/db";
 import { eq } from "drizzle-orm";
 import { generateId } from "lucia";
 import { redirect } from "next/navigation";
-import { userTable } from "@/db/schema/tables";
+import { userTable } from "@/db/schema";
 
 export async function GET(req: NextRequest) {
   const url = new URL(req.url);
@@ -85,7 +85,31 @@ export async function GET(req: NextRequest) {
     cookieStore.set("state", "", { expires: new Date(0) });
     cookieStore.set("codeVerifier", "", { expires: new Date(0) });
 
-    return redirect("/inbox");
+    return redirect("/onboarding");
+  }
+
+  if (!user.onboardingCompleted) {
+    user.isOAuth = true;
+    user.googleOAuthId = googleData.id;
+
+    const updateQuery = await db
+      .update(userTable)
+      .set(user)
+      .where(eq(userTable.id, user.id));
+    if (!updateQuery) {
+      return new Response("Failed to update user", { status: 400 });
+    }
+    const session = await lucia.createSession(user.id, {});
+    const sessionCookie = lucia.createSessionCookie(session.id);
+    cookieStore.set(
+      sessionCookie.name,
+      sessionCookie.value,
+      sessionCookie.attributes,
+    );
+
+    cookieStore.set("state", "", { expires: new Date(0) });
+    cookieStore.set("codeVerifier", "", { expires: new Date(0) });
+    return redirect("/onboarding");
   }
 
   user.isOAuth = true;
