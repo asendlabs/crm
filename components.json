@@ -12,6 +12,6 @@
   },
   "aliases": {
     "components": "@/components",
-    "utils": "@/utils/tailwindCssUtils"
+    "utils": "@/lib/utils/cn"
   }
 }

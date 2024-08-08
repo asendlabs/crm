@@ -13,7 +13,7 @@ import {
 
 import Link from "next/link";
 import React from "react";
-import { User } from "@/db/schema/types";
+import { User } from "@/database/schemas/types";
 import { UserBtn } from "./user-btn";
 import { usePathname } from "next/navigation";
 
@@ -37,7 +37,7 @@ const Sidebar = ({ user }: { user: User }) => {
             className={`${sidebarItemClassName} ${
               pathname === "/inbox" ? "bg-muted-foreground/10 !text-black" : ""
             }`}
-            >
+          >
             <Inbox className="h-4 w-4" />
             <span>Inbox</span>
           </Link>
@@ -48,7 +48,7 @@ const Sidebar = ({ user }: { user: User }) => {
             className={`${sidebarItemClassName} ${
               pathname === "/deals" ? "bg-muted-foreground/10 !text-black" : ""
             }`}
-            >
+          >
             <Zap className="h-4 w-4" />
             <span>Deals</span>
           </Link>

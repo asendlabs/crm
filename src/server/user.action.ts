@@ -1,10 +1,10 @@
 "use server";
 
 import { cookies } from "next/headers";
-import { db } from "@/db";
+import { db } from "@/database";
 import { eq } from "drizzle-orm";
-import { lucia } from "@/lib/auth";
-import { userTable } from "@/db/schema";
+import { lucia } from "@/lib/lucia";
+import { userTable } from "@/database/schemas";
 
 export const getUser = async () => {
   const sessionCookieId = cookies().get("auth_key")?.value || null;

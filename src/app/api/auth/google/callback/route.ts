@@ -1,12 +1,12 @@
-import { googleOAuthClient, lucia } from "@/lib/auth";
+import { googleOAuthClient, lucia } from "@/lib/lucia";
 
 import { NextRequest } from "next/server";
 import { cookies } from "next/headers";
-import { db } from "@/db";
+import { db } from "@/database";
 import { eq } from "drizzle-orm";
 import { generateId } from "lucia";
 import { redirect } from "next/navigation";
-import { userTable } from "@/db/schema";
+import { userTable } from "@/database/schemas";
 
 export async function GET(req: NextRequest) {
   const url = new URL(req.url);

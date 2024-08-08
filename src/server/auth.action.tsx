@@ -1,17 +1,17 @@
 "use server";
 
 import { generateCodeVerifier, generateState } from "arctic";
-import { googleOAuthClient, lucia } from "@/lib/auth";
+import { googleOAuthClient, lucia } from "@/lib/lucia";
 
 import { VerificationEmail } from "@/emails/VerificationEmail";
-import { authenticationSchema } from "@/schemas/auth.schema";
+import { authenticationSchema } from "@/validation/auth.schema";
 import { cookies } from "next/headers";
-import { db } from "@/db";
+import { db } from "@/database";
 import { eq } from "drizzle-orm";
 import { redirect } from "next/navigation";
-import { sendEmail } from "@/lib/email";
+import { sendEmail } from "@/lib/mailer";
 import { ulid } from "ulid";
-import { userTable } from "@/db/schema";
+import { userTable } from "@/database/schemas";
 import z from "zod";
 
 function generateVerifyCode(length: number) {

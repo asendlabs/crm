@@ -1,6 +1,6 @@
 import React from "react";
 import Sidebar from "@/components/crm/sidebar";
-import { getUser } from "@/lib/user";
+import { getUser } from "@/server/user.action";
 import { redirect } from "next/navigation";
 
 export default async function CrmLayout({

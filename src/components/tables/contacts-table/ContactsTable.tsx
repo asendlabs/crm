@@ -23,7 +23,7 @@ import { deleteContact, updateContact } from "../../../server/contact.action";
 import DataTableDeleteButton from "@/components/data-table/other/DataTableDeleteButton";
 import DataTableSearch from "@/components/data-table/other/DataTableSearch";
 import { DataTableViewOptions } from "@/components/data-table/other/DataTableViewOptions";
-import { Lead } from "@/db/schema/types";
+import { Lead } from "@/database/schemas/types";
 import { NewContactForm } from "./NewContactForm";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -45,7 +45,7 @@ export function ContactsTable<TData, TValue>({
     { id: "contactName", desc: false },
   ]);
   const [rowSelectionState, setRowSelectionState] = useState({});
-const router = useRouter();
+  const router = useRouter();
   const addData = (newData: any) => {
     setData((prevContacts) => [...prevContacts, newData]);
     router.refresh();

@@ -1,8 +1,8 @@
-import EmailForm from "@/components/auth/email-form";
-import GoogleOAuthButton from "@/components/auth/google-oauth-button";
+import EmailForm from "@/components/authentication/email-form";
+import GoogleOAuthButton from "@/components/authentication/google-oauth-button";
 import Link from "next/link";
 import React from "react";
-import { getUser } from "@/lib/user";
+import { getUser } from "@/server/user.action";
 import { redirect } from "next/navigation";
 
 export const metadata = {

@@ -1,9 +1,9 @@
-import { userSessionTable, userTable } from "@/db/schema";
+import { userSessionTable, userTable } from "@/database/schemas";
 
 import { DrizzlePostgreSQLAdapter } from "@lucia-auth/adapter-drizzle";
 import { Google } from "arctic";
 import { Lucia } from "lucia";
-import { db } from "@/db";
+import { db } from "@/database";
 
 const adapter = new DrizzlePostgreSQLAdapter(
   db,

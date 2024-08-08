@@ -14,7 +14,7 @@ import DataTablePhoneHeader from "@/components/data-table/custom-headers/DataTab
 import { DataTablePrimaryField } from "@/components/data-table/custom-fields/DataTablePrimaryField";
 import { DataTableStatusField } from "@/components/data-table/custom-fields/DataTableStatusField";
 import { DataTableWebsiteField } from "@/components/data-table/custom-fields/DataTableWebsiteField";
-import { Lead } from "@/db/schema/types";
+import { Lead } from "@/database/schemas/types";
 import { leadStatusEnum } from "@/db/schema/tables";
 
 export const LeadsColumns: ColumnDef<Lead>[] = [

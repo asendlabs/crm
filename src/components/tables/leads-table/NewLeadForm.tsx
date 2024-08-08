@@ -23,7 +23,7 @@ import { Input } from "@/components/ui/input";
 import React from "react";
 import { createContact } from "@/server/contact.action";
 import { createLead } from "@/server/lead.action";
-import { leadSchema } from "@/schemas/lead.schema";
+import { leadSchema } from "@/validation/lead.schema";
 import { toast } from "sonner";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";

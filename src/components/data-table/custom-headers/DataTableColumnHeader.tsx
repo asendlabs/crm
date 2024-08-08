@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 import { Column } from "@tanstack/react-table";
-import { cn } from "@/utils/tailwindCssUtils";
+import { cn } from "@/lib/utils/cn";
 
 interface DataTableColumnHeaderProps<TData, TValue>
   extends React.HTMLAttributes<HTMLDivElement> {

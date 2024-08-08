@@ -27,9 +27,9 @@ import {
 import { Button } from "@/components/ui/button";
 import { Close } from "@radix-ui/react-dialog";
 import { Input } from "@/components/ui/input";
-import { Lead } from "@/db/schema/types";
+import { Lead } from "@/database/schemas/types";
 import React from "react";
-import { contactSchema } from "@/schemas/contact.schema";
+import { contactSchema } from "@/validation/contact.schema";
 import { createContact } from "@/server/contact.action";
 import { toast } from "sonner";
 import { useForm } from "react-hook-form";

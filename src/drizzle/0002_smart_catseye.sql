@@ -1,1 +1,0 @@
-ALTER TABLE "app"."user" RENAME COLUMN "account_completed" TO "onboarding_completed";

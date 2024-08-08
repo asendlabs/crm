@@ -1,8 +1,8 @@
 "use client";
 
-import * as React from "react";
 import * as LabelPrimitive from "@radix-ui/react-label";
-import { Slot } from "@radix-ui/react-slot";
+import * as React from "react";
+
 import {
   Controller,
   ControllerProps,
@@ -12,8 +12,9 @@ import {
   useFormContext,
 } from "react-hook-form";
 
-import { cn } from "@/utils/tailwindCssUtils";
 import { Label } from "@/components/ui/label";
+import { Slot } from "@radix-ui/react-slot";
+import { cn } from "@/lib/utils/cn";
 
 const Form = FormProvider;
 
