@@ -14,76 +14,14 @@ import { authenticate, resendCode, sendCode } from "@/server/auth.action";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Loader2 } from "lucide-react"; // Make sure to import the Loader2 component
+import { Loader2 } from "lucide-react";
+import { ResendButton } from "./resend-button";
 import { authenticationSchema } from "@/validation/auth.schema";
 import { toast } from "sonner";
 import { useForm } from "react-hook-form";
-import { useParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-
-const ResendButton = ({ email }: { email: string }) => {
-  const [time, setTime] = useState<number>(30);
-  const [isActive, setIsActive] = useState<boolean>(true);
-  const [resending, setResending] = useState<boolean>(false);
-
-  useEffect(() => {
-    let timer: NodeJS.Timeout;
-    if (isActive && time > 0) {
-      timer = setInterval(() => {
-        setTime((prevTime) => prevTime - 1);
-      }, 1000);
-    } else if (time === 0) {
-      setIsActive(false);
-    }
-
-    return () => clearInterval(timer);
-  }, [isActive, time]);
-
-  const handleClick = async () => {
-    try {
-      setResending(true);
-      const response = await resendCode(email);
-      if (!response.success) {
-        toast.error(response.message);
-        return;
-      }
-      if (response.success) {
-        setTime(30);
-        setIsActive(true);
-      }
-    } catch (error) {
-      toast.error("Something went wrong");
-    } finally {
-      setResending(false);
-    }
-  };
-
-  return (
-    <div className="flex flex-row items-center gap-1 text-xs text-gray-400">
-      We sent a code to your inbox.
-      <button
-        onClick={handleClick}
-        type="button"
-        disabled={isActive || resending}
-        className={`font-medium opacity-95 ${
-          !isActive
-            ? "cursor-pointer text-blue-500 hover:underline"
-            : "cursor-not-allowed"
-        }`}
-      >
-        {resending ? (
-          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-        ) : isActive ? (
-          `Resend in ${time}s`
-        ) : (
-          "Resend"
-        )}
-      </button>
-    </div>
-  );
-};
 
 const EmailForm = () => {
   const [isVerificationVisible, setVerificationVisible] = useState(false);
@@ -91,10 +29,7 @@ const EmailForm = () => {
   const [loading, setLoading] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [failedSubmit, setFailedSubmit] = useState(false);
-  const [type, setType] = useState<string | null>(null);
   const router = useRouter();
-  const params = useParams();
-  const typeName = type === "login" ? "Login" : "Sign Up";
 
   const form = useForm<z.infer<typeof authenticationSchema>>({
     resolver: zodResolver(authenticationSchema),
@@ -116,6 +51,7 @@ const EmailForm = () => {
   }, [emailValue, failedSubmit, getFieldState, trigger]);
 
   const onContinue = async () => {
+    setLoading(true);
     try {
       const isValid = await trigger("email");
       if (!isValid) {
@@ -123,19 +59,14 @@ const EmailForm = () => {
         return;
       }
       setFailedSubmit(false);
-      setLoading(true);
+
       const response = await sendCode(emailValue);
-      if (!response.success) {
-        toast.error(response.message);
-        return;
-      }
       if (response.success) {
         setVerificationVisible(true);
-        setType(response.type);
-        return;
+      } else {
+        toast.error(response.message || "Failed to send verification code");
       }
     } catch (error) {
-      console.error(error);
       toast.error("Something went wrong");
     } finally {
       setLoading(false);
@@ -148,13 +79,14 @@ const EmailForm = () => {
     setSubmitting(true);
     try {
       const response = await authenticate(data);
-      if (!response.success) {
-        toast.error(response.message);
-        return;
+      if (response.redirectUrl) {
+        router.replace(response.redirectUrl);
+      } else {
+        toast.error(response.message || "Invalid verification code");
       }
-      router.replace("/inbox");
     } catch (error) {
       toast.error("Something went wrong");
+      console.error(error);
     } finally {
       setSubmitting(false);
     }
@@ -163,7 +95,7 @@ const EmailForm = () => {
   useEffect(() => {
     if (emailValue !== email) {
       setVerificationVisible(false);
-      setValue("verifyCode", ""); // Clear verification code
+      setValue("verifyCode", "");
       setEmail(emailValue);
     }
   }, [emailValue, email, setValue]);
@@ -199,7 +131,7 @@ const EmailForm = () => {
           {!isVerificationVisible && (
             <Button
               type="button"
-              onClick={() => onContinue()}
+              onClick={onContinue}
               disabled={loading}
               className="w-80"
             >
@@ -213,48 +145,43 @@ const EmailForm = () => {
             </Button>
           )}
         </div>
-        <>
-          {isVerificationVisible && (
-            <div className="mt-5 flex flex-col items-center gap-5">
-              <FormField
-                control={control}
-                name="verifyCode"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="font-regular text-gray-600">
-                      Verification Code
-                    </FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder={`Paste ${typeName} Code`}
-                        {...field}
-                        className="w-80"
-                      />
-                    </FormControl>
-                    <FormDescription>
-                      <ResendButton email={emailValue} />
-                    </FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <Button type="submit" disabled={submitting} className="w-80">
-                {submitting ? (
-                  <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    {type === "login" ? "Logging in..." : "Signing up..."}{" "}
-                  </>
-                ) : (
-                  typeName
-                )}
-              </Button>
-            </div>
-          )}
-        </>
+        {isVerificationVisible && (
+          <div className="mt-5 flex flex-col items-center gap-5">
+            <FormField
+              control={control}
+              name="verifyCode"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="font-regular text-gray-600">
+                    Verification Code
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Paste temporary code"
+                      {...field}
+                      className="w-80"
+                    />
+                  </FormControl>
+                  <FormDescription>
+                    <ResendButton email={emailValue} />
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <Button type="submit" disabled={submitting} className="w-80">
+              {submitting ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Submitting...
+                </>
+              ) : (
+                "Submit"
+              )}
+            </Button>
+          </div>
+        )}
       </form>
-      {/* <div className="flex flex-row mt-3 justify-center">
-        {isVerificationVisible && <ResendButton email={emailValue} />}
-      </div> */}
     </Form>
   );
 };

@@ -46,89 +46,38 @@ export const sendCode = async (email: string) => {
         verifyCode,
         verifyCodeGeneratedAt,
       });
-
-      const emailSent = await sendEmail({
-        to: email,
-        from: "no-reply@ascendifyr.in",
-        name: "Asend",
-        subject: `Your Asend sign up code is ${verifyCode}`,
-        react: <VerificationEmail verifyCode={verifyCode} type="signup" />,
-      });
-
-      if (!emailSent?.success) {
-        return {
-          success: false,
-          message: "Something went Wrong",
-          type: "signup",
-        };
-      }
-
-      return {
-        success: true,
-        message: "Sign up code sent successfully",
-        type: "signup",
-      };
+    }
+    if (user) {
+      const updateQuery = await db
+        .update(userTable)
+        .set({
+          verifyCode,
+          verifyCodeGeneratedAt,
+        })
+        .where(eq(userTable.id, user?.id || ""));
     }
 
-    user.verifyCode = verifyCode;
-    user.verifyCodeGeneratedAt = verifyCodeGeneratedAt;
-
-    const updateQuery = await db
-      .update(userTable)
-      .set(user)
-      .where(eq(userTable.id, user.id));
-
-    if (!updateQuery) {
-      return { success: false, message: "Something went Wrong", type: "login" };
-    }
-
-    if (!user.onboardingCompleted) {
-      const emailSent = await sendEmail({
-        to: email,
-        from: "no-reply@ascendifyr.in",
-        name: "Asend",
-        subject: `Your Asend sign up code is ${verifyCode}`,
-        react: <VerificationEmail verifyCode={verifyCode} type="signup" />,
-      });
-
-      if (!emailSent?.success) {
-        return {
-          success: false,
-          message: "Something went Wrong with Sending Email",
-          type: "signup",
-        };
-      }
-
-      return {
-        success: true,
-        message: "Sign up code sent successfully",
-        type: "signup",
-      };
-    }
     const emailSent = await sendEmail({
       to: email,
       from: "no-reply@ascendifyr.in",
       name: "Asend",
-      subject: `Your temporary Asend login code is ${verifyCode}`,
-      react: <VerificationEmail verifyCode={verifyCode} type="login" />,
+      subject: `Your temporary Asend code is ${verifyCode}`,
+      react: <VerificationEmail verifyCode={verifyCode} />,
     });
 
     if (!emailSent?.success) {
       return {
         success: false,
         message: "Something went Wrong with Sending Email",
-        type: "login",
       };
     }
 
     return {
       success: true,
       message: "Login code sent successfully",
-      type: "login",
     };
   } catch (error) {
-    console.error(error);
-    return { success: false, message: "Something went wrong", type: null };
+    return { success: false, message: "Something went wrong" };
   }
 };
 
@@ -145,45 +94,30 @@ export const resendCode = async (email: string) => {
       return { success: false, message: "Couldn't find existing user" };
     }
 
-    user.verifyCode = verifyCode;
-    user.verifyCodeGeneratedAt = verifyCodeGeneratedAt;
-
     const updateQuery = await db
       .update(userTable)
-      .set(user)
+      .set({
+        verifyCode,
+        verifyCodeGeneratedAt,
+      })
       .where(eq(userTable.id, user.id));
 
     if (!updateQuery) {
       return { success: false, message: "Something went Wrong" };
     }
 
-    if (!user.onboardingCompleted) {
-      const emailSent = await sendEmail({
-        to: email,
-        from: "no-reply@ascendifyr.in",
-        name: "Asend",
-        subject: `Your Asend sign up code is ${verifyCode}`,
-        react: <VerificationEmail verifyCode={verifyCode} type="signup" />,
-      });
-
-      if (!emailSent?.success) {
-        return { success: false, message: "Something went Wrong" };
-      }
-      return { success: true, message: "New sign up code sent successfully" };
-    }
-
     const emailSent = await sendEmail({
       to: email,
       from: "no-reply@ascendifyr.in",
       name: "Asend",
-      subject: `Your temporary Asend login code is ${verifyCode}`,
-      react: <VerificationEmail verifyCode={verifyCode} type="login" />,
+      subject: `Your temporary Asend code is ${verifyCode}`,
+      react: <VerificationEmail verifyCode={verifyCode} />,
     });
 
     if (!emailSent?.success) {
       return { success: false, message: "Something went Wrong" };
     }
-    return { success: true, message: "New login code sent successfully" };
+    return { success: true, message: "New code sent successfully" };
   } catch (error) {
     console.error(error);
     return { success: false, message: "Something went wrong" };
@@ -208,31 +142,6 @@ export const authenticate = async (
       return { success: false, message: "Invalid Code" };
     }
 
-    if (!user.onboardingCompleted) {
-      const updateQuery = await db
-        .update(userTable)
-        .set(user)
-        .where(eq(userTable.id, user.id));
-
-      if (!updateQuery) {
-        return {
-          success: false,
-          message: "Something went Wrong",
-        };
-      }
-
-      const session = await lucia.createSession(user.id, {});
-      const sessionCookie = lucia.createSessionCookie(session.id);
-      cookies().set(
-        sessionCookie.name,
-        sessionCookie.value,
-        sessionCookie.attributes,
-      );
-
-      return redirect("/onboarding");
-    }
-
-    // Success
     const session = await lucia.createSession(user.id, {});
     const sessionCookie = lucia.createSessionCookie(session.id);
     cookies().set(
@@ -241,7 +150,8 @@ export const authenticate = async (
       sessionCookie.attributes,
     );
 
-    return redirect("/inbox");
+    // Instead of using redirect directly, return the success status
+    return { success: true, redirectUrl: "/onboarding" };
   } catch (error) {
     return { success: false, message: "Something went wrong" };
   }

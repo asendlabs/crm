@@ -13,30 +13,17 @@ import {
 
 interface VerificationEmailProps {
   verifyCode: string;
-  type: "signup" | "login";
 }
 
-export const VerificationEmail = ({
-  verifyCode,
-  type,
-}: VerificationEmailProps) => (
+export const VerificationEmail = ({ verifyCode }: VerificationEmailProps) => (
   <Html>
     <Head />
-    <Preview>
-      {type === "signup"
-        ? "Your Asend sign up code"
-        : "Your temporary Asend login code"}
-    </Preview>
+    <Preview>Your Asend Verification Code</Preview>
     <Body style={main}>
       <Container style={container}>
-        <Heading style={h1}>
-          {type === "signup"
-            ? "Your Asend sign up code"
-            : "Your temporary Asend login code"}
-        </Heading>
+        <Heading style={h1}>Your Asend Verification Code</Heading>
         <Text style={{ ...text, marginBottom: "8px" }}>
-          copy and paste this code into the{" "}
-          {type === "signup" ? "Sign Up" : "Login"} screen
+          copy and paste this code into the verification code box.
         </Text>
         <code style={code}>{verifyCode}</code>
         <Text
@@ -47,8 +34,8 @@ export const VerificationEmail = ({
             marginBottom: "16px",
           }}
         >
-          If you didn&apos;t try to {type === "signup" ? "Sign Up" : "Login"},
-          just ignore this email and chill.
+          If you didn&apos;t try to send this code, just ignore this email and
+          chill.
         </Text>
         {/* <Img
           src={`${baseUrl}/static/notion-logo.png`}

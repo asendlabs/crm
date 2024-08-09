@@ -17,7 +17,7 @@ const GoogleOAuthButton = () => {
         try {
           setLoading(true);
           const { url } = await getGoogleOAuthConsentUrl();
-          router.push(url);
+          router.replace(url);
         } catch (error) {
           console.error("Something went Wrong");
         }
