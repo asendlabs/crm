@@ -10,7 +10,7 @@ export const metadata = {
   description: "Login or Sign Up to Asend",
 };
 
-const AuthPage = async () => {
+export default async function AuthPage() {
   const user = await getUser();
   if (!user) {
     return (
@@ -47,12 +47,10 @@ const AuthPage = async () => {
       </main>
     );
   } else if (!user?.onboardingCompleted) {
-    return redirect("/onboarding");
+    return redirect("/welcome");
   } else if (user.onboardingCompleted) {
     return redirect("/inbox");
   } else {
     return <>Loading</>;
   }
-};
-
-export default AuthPage;
+}

@@ -6,6 +6,9 @@
 .pnp.js
 .yarn/install-state.gz
 
+# drizzle
+/.migrations
+
 # testing
 /coverage
 
@@ -35,6 +38,3 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
-
-# coding docs
-/docs/

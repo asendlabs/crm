@@ -11,7 +11,7 @@ import { eq } from "drizzle-orm";
 import { redirect } from "next/navigation";
 import { sendEmail } from "@/lib/mailer";
 import { ulid } from "ulid";
-import { userTable } from "@/database/schemas";
+import { userTable } from "@/database/schema";
 import z from "zod";
 
 function generateVerifyCode(length: number) {
@@ -151,7 +151,7 @@ export const authenticate = async (
     );
 
     // Instead of using redirect directly, return the success status
-    return { success: true, redirectUrl: "/onboarding" };
+    return { success: true, redirectUrl: "/welcome" };
   } catch (error) {
     return { success: false, message: "Something went wrong" };
   }
@@ -159,7 +159,7 @@ export const authenticate = async (
 
 export const signOut = async () => {
   try {
-    const sessionCookieId = cookies().get("auth_key")?.value;
+    const sessionCookieId = cookies().get("sessionid")?.value;
 
     const { session } = await lucia.validateSession(sessionCookieId!);
 

@@ -4,10 +4,10 @@ import { cookies } from "next/headers";
 import { db } from "@/database";
 import { eq } from "drizzle-orm";
 import { lucia } from "@/lib/lucia";
-import { userTable } from "@/database/schemas";
+import { userTable } from "@/database/schema";
 
 export const getUser = async () => {
-  const sessionCookieId = cookies().get("auth_key")?.value || null;
+  const sessionCookieId = cookies().get("sessionid")?.value || null;
   if (sessionCookieId === undefined) return null;
   if (!sessionCookieId) return null;
 

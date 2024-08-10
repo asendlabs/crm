@@ -6,7 +6,7 @@ import { db } from "@/database";
 import { eq } from "drizzle-orm";
 import { generateId } from "lucia";
 import { redirect } from "next/navigation";
-import { userTable } from "@/database/schemas";
+import { userTable } from "@/database/schema";
 
 export async function GET(req: NextRequest) {
   const url = new URL(req.url);
@@ -85,7 +85,7 @@ export async function GET(req: NextRequest) {
     cookieStore.set("state", "", { expires: new Date(0) });
     cookieStore.set("codeVerifier", "", { expires: new Date(0) });
 
-    return redirect("/onboarding");
+    return redirect("/welcome");
   }
 
   if (!user.onboardingCompleted) {
@@ -109,7 +109,7 @@ export async function GET(req: NextRequest) {
 
     cookieStore.set("state", "", { expires: new Date(0) });
     cookieStore.set("codeVerifier", "", { expires: new Date(0) });
-    return redirect("/onboarding");
+    return redirect("/welcome");
   }
 
   user.isOAuth = true;

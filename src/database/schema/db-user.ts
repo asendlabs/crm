@@ -1,21 +1,20 @@
-import { boolean, text, timestamp } from "drizzle-orm/pg-core";
+import { boolean, jsonb, text, timestamp } from "drizzle-orm/pg-core";
 
-import { appSchema } from "./db-schemas";
-import { workspaceTable } from "./db-workspace";
+import { authenticationSchema } from "./db-schemas";
 
-export const userTable = appSchema.table("user", {
+export const userTable = authenticationSchema.table("user", {
   id: text("id").primaryKey(),
-  email: text("email").notNull(),
+  email: text("email").notNull().unique(),
   onboardingCompleted: boolean("onboarding_completed").notNull().default(false),
   isOAuth: boolean("oauth").notNull().default(false),
-  googleOAuthId: text("google_oauth_id"),
+  googleOAuthId: text("google_oauth_id").unique(),
   verifyCode: text("verify_code"),
   verifyCodeGeneratedAt: timestamp("verify_code_generated_at"),
   createdAt: timestamp("created_at").notNull().defaultNow(),
-  workspaceId: text("workspace_id").references(() => workspaceTable.id),
+  updatedAt: timestamp("updated_at"),
 });
 
-export const userSessionTable = appSchema.table("user_session", {
+export const userSessionTable = authenticationSchema.table("user_session", {
   id: text("id").primaryKey(),
   userId: text("user_id")
     .notNull()
