@@ -2,6 +2,7 @@
 
 import { generateCodeVerifier, generateState } from "arctic";
 import { googleOAuthClient, lucia } from "@/lib/lucia";
+import { userTable, workspaceTable } from "@/database/schema";
 
 import { VerificationEmail } from "@/emails/VerificationEmail";
 import { authenticationSchema } from "@/validation/auth.schema";
@@ -11,7 +12,6 @@ import { eq } from "drizzle-orm";
 import { redirect } from "next/navigation";
 import { sendEmail } from "@/lib/mailer";
 import { ulid } from "ulid";
-import { userTable } from "@/database/schema";
 import z from "zod";
 
 function generateVerifyCode(length: number) {
@@ -142,16 +142,49 @@ export const authenticate = async (
       return { success: false, message: "Invalid Code" };
     }
 
-    const session = await lucia.createSession(user.id, {});
-    const sessionCookie = lucia.createSessionCookie(session.id);
+    const authSession = await lucia.createSession(user.id, {});
+    const authSessionCookie = lucia.createSessionCookie(authSession.id);
     cookies().set(
-      sessionCookie.name,
-      sessionCookie.value,
-      sessionCookie.attributes,
+      authSessionCookie.name,
+      authSessionCookie.value,
+      authSessionCookie.attributes,
     );
 
+    // set the user id in the cookies
+    cookies().set({
+      name: "uid",
+      value: user.id,
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+    });
+
+    // set the workspace id in the cookies
+    const workspace = await db.query.workspaceTable.findFirst({
+      where: eq(workspaceTable.primaryOwnerUserId, user.id),
+    });
+
+    if (!workspace) {
+      cookies().set({
+        name: "wid",
+        value: "not_found",
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "strict",
+      });
+      return { success: true, redirectUrl: "/welcome" };
+    }
+
+    cookies().set({
+      name: "wid",
+      value: workspace.id!,
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+    });
+
     // Instead of using redirect directly, return the success status
-    return { success: true, redirectUrl: "/welcome" };
+    return { success: true, redirectUrl: "/inbox" };
   } catch (error) {
     return { success: false, message: "Something went wrong" };
   }
