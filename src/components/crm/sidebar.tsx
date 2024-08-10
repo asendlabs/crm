@@ -13,11 +13,10 @@ import {
 
 import Link from "next/link";
 import React from "react";
-import { User } from "@/database/schemas/types";
 import { UserBtn } from "./user-btn";
 import { usePathname } from "next/navigation";
 
-const Sidebar = ({ user }: { user: User }) => {
+const Sidebar = ({ user }: { user: any }) => {
   const sidebarItemClassName =
     "flex font-medium gap-2 items-center text-black/80 text-sm hover:bg-muted-foreground/10 rounded-lg px-2 my-[2.25px] py-[3.75px] cursor-pointer";
   const pathname = usePathname();

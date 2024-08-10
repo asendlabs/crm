@@ -30,7 +30,7 @@ export function UserBtn({ email }: { email: string }) {
           <button className="select-none rounded-full text-sm font-medium outline-none hover:bg-gray-100">
             <div className="flex items-center gap-2">
               <Avatar className="h-7 w-7">
-                <AvatarImage src="https://xsgames.co/randomusers/assets/avatars/male/74.jpg" />
+                <AvatarImage src="/placeholders/profile1.jpg" />
                 <AvatarFallback>{email.charAt(0).toUpperCase()}</AvatarFallback>
               </Avatar>
               <div className="flex items-center text-sm">
