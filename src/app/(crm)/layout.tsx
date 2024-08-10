@@ -12,7 +12,7 @@ export default async function CrmLayout({
   if (!user) {
     return redirect("/auth");
   } else if (!user?.onboardingCompleted) {
-    return redirect("/welcome");
+    return redirect("/onboarding");
   } else if (user.onboardingCompleted) {
     return (
       <main className="grid min-h-screen w-full grid-cols-[240px_1fr]">

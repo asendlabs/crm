@@ -172,7 +172,7 @@ export const authenticate = async (
         secure: process.env.NODE_ENV === "production",
         sameSite: "strict",
       });
-      return { success: true, redirectUrl: "/welcome" };
+      return { success: true, redirectUrl: "/onboarding" };
     }
 
     cookies().set({

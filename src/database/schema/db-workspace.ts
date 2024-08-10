@@ -1,5 +1,10 @@
 import {
+  WorkspaceTablePrivateMetadata,
+  WorskpaceTablePublicMetadata,
+} from "./types";
+import {
   boolean,
+  customType,
   jsonb,
   primaryKey,
   text,
@@ -8,6 +13,26 @@ import {
 
 import { multiUserSchema } from "./db-schemas";
 import { userTable } from "./db-user";
+
+const privateMetadataCustomType = <TData>(name: string) =>
+  customType<{ data: TData; driverData: string }>({
+    dataType() {
+      return "jsonb";
+    },
+    toDriver(value: TData): string {
+      return JSON.stringify(value);
+    },
+  })(name);
+
+const publicMetadataCustomType = <TData>(name: string) =>
+  customType<{ data: TData; driverData: string }>({
+    dataType() {
+      return "jsonb";
+    },
+    toDriver(value: TData): string {
+      return JSON.stringify(value);
+    },
+  })(name);
 
 export const workspaceTable = multiUserSchema.table("workspace", {
   id: text("id").primaryKey(),
@@ -20,8 +45,12 @@ export const workspaceTable = multiUserSchema.table("workspace", {
   updatedAt: timestamp("updated_at"),
   createdByUserId: text("created_by_user_id"),
   updatedByUserId: text("updated_by_user_id"),
-  privateMetadata: jsonb("private_metadata"),
-  publicMetadata: jsonb("public_metadata"),
+  privateMetadata:
+    privateMetadataCustomType<WorkspaceTablePrivateMetadata>(
+      "private_metadata",
+    ),
+  publicMetadata:
+    publicMetadataCustomType<WorskpaceTablePublicMetadata>("public_metadata"),
 });
 
 export const workspaceMemberTable = multiUserSchema.table(

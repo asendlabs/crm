@@ -47,7 +47,7 @@ export default async function AuthPage() {
       </main>
     );
   } else if (!user?.onboardingCompleted) {
-    return redirect("/welcome");
+    return redirect("/onboarding");
   } else if (user.onboardingCompleted) {
     return redirect("/inbox");
   } else {
