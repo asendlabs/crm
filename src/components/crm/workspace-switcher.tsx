@@ -52,7 +52,7 @@ function WorkspaceSwitcher() {
         {mockData
           .filter((item) => item.id != activeWorkspaceId)
           .map((filteredItem) => (
-            <DropdownMenuItem className="cursor-pointer">
+            <DropdownMenuItem className="cursor-pointer" key={filteredItem.id}>
               <div className="flex w-full items-center gap-2 text-sm">
                 <Image
                   src="/placeholders/profile1.jpg"

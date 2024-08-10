@@ -29,6 +29,7 @@
     "@radix-ui/react-tooltip": "^1.1.2",
     "@react-email/components": "^0.0.21",
     "@tanstack/react-table": "^8.20.1",
+    "@uploadthing/react": "^6.7.2",
     "arctic": "^1.9.2",
     "axios": "^1.7.3",
     "class-variance-authority": "^0.7.0",
@@ -53,6 +54,7 @@
     "tailwind-merge": "^2.4.0",
     "tailwindcss-animate": "^1.0.7",
     "ulid": "^2.3.0",
+    "uploadthing": "^6.13.2",
     "zod": "^3.23.8"
   },
   "devDependencies": {

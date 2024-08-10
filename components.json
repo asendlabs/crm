@@ -3,7 +3,7 @@
   "style": "default",
   "rsc": true,
   "tsx": true,
-  "tailwind": {
+  "tailwind": {c
     "config": "tailwind.config.ts",
     "css": "src/app/globals.css",
     "baseColor": "slate",
@@ -12,6 +12,6 @@
   },
   "aliases": {
     "components": "@/components",
-    "utils": "@/lib/utils/cn"
+    "utils": "@/lib/utils"
   }
 }

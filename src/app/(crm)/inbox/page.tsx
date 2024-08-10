@@ -1,11 +1,16 @@
-import React from "react";
+"use client";
 
-const InboxPage = () => {
+import { UploadButton } from "@/lib/utils/uploadthing";
+
+export default function InboxPage() {
   return (
-    <div className="flex h-screen select-none flex-col items-center justify-center">
-      This is the temporary screen for the /inbox page.
-    </div>
+    <UploadButton
+      endpoint="avatarUploader"
+      className="bg-gray-200"
+      onUploadError={(error: Error) => {
+        // Do something with the error.
+        alert(`ERROR! ${error.message}`);
+      }}
+    />
   );
-};
-
-export default InboxPage;
+}
