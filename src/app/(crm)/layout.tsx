@@ -11,9 +11,9 @@ export default async function CrmLayout({
   const user = await getUser();
   if (!user) {
     return redirect("/auth");
-  } else if (!user?.onboardingCompleted) {
+  } else if (!user?.metadata?.creationComplete) {
     return redirect("/onboarding");
-  } else if (user.onboardingCompleted) {
+  } else if (user.metadata?.creationComplete) {
     return (
       <main className="grid min-h-screen w-full grid-cols-[240px_1fr]">
         <Sidebar user={user} />

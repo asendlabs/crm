@@ -1,5 +1,6 @@
 "use server";
 
+import { User } from "@/database/schema/types";
 import { cookies } from "next/headers";
 import { db } from "@/database";
 import { eq } from "drizzle-orm";
@@ -38,5 +39,5 @@ export const getUser = async () => {
     where: eq(userTable.id, (user?.id as string) || ""),
   });
 
-  return dbUser;
+  return dbUser as User;
 };

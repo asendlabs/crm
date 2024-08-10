@@ -1,6 +1,7 @@
 import { googleOAuthClient, lucia } from "@/lib/lucia";
 
 import { NextRequest } from "next/server";
+import { User } from "@/database/schema/types";
 import { cookies } from "next/headers";
 import { db } from "@/database";
 import { eq } from "drizzle-orm";
@@ -54,9 +55,10 @@ export async function GET(req: NextRequest) {
     email: string;
   };
 
-  const user = await db.query.userTable.findFirst({
+  const dbUser = await db.query.userTable.findFirst({
     where: eq(userTable.email, googleData.email),
   });
+  const user = dbUser as User | undefined;
 
   if (!user) {
     const newUser = await db
@@ -88,7 +90,7 @@ export async function GET(req: NextRequest) {
     return redirect("/onboarding");
   }
 
-  if (!user.onboardingCompleted) {
+  if (!user.metadata?.creationComplete) {
     user.isOAuth = true;
     user.googleOAuthId = googleData.id;
 

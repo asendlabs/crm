@@ -2,8 +2,11 @@ import EmailForm from "@/components/authentication/email-form";
 import GoogleOAuthButton from "@/components/authentication/google-oauth-button";
 import Link from "next/link";
 import React from "react";
+import { db } from "@/database";
+import { eq } from "drizzle-orm";
 import { getUser } from "@/server/user.action";
 import { redirect } from "next/navigation";
+import { workspaceTable } from "@/database/schema";
 
 export const metadata = {
   title: "Login or Sign Up",
@@ -46,11 +49,11 @@ export default async function AuthPage() {
         </section>
       </main>
     );
-  } else if (!user?.onboardingCompleted) {
+  } else if (!user?.metadata?.creationComplete) {
     return redirect("/onboarding");
-  } else if (user.onboardingCompleted) {
+  } else if (user.metadata?.creationComplete) {
     return redirect("/inbox");
   } else {
-    return <>Loading</>;
+    return <></>;
   }
 }

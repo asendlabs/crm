@@ -1,17 +1,37 @@
+import { customType } from "drizzle-orm/pg-core";
 import { userTable } from "./db-user";
 import { workspaceTable } from "./db-workspace";
 
+// Inferred Types
+type Workspace = typeof workspaceTable.$inferSelect;
+type User = typeof userTable.$inferSelect;
+
 // Custom Types
 
-export interface WorkspaceTablePrivateMetadata {
-  leadStatusTypes: string[];
-  dealStageTypes: string[];
-}
-export interface WorskpaceTablePublicMetadata {
-  theme: "dark" | "light";
+interface WorkspaceTableMetadata {
+  displayName: string;
+  leadStatusTypes?: string[];
+  dealStageTypes?: string[];
   logoUrl?: string;
+  consents: {
+    analytics: boolean;
+  };
+  creationComplete: boolean;
 }
 
-// Inferred Types
-export type Workspace = typeof workspaceTable.$inferSelect;
-export type User = typeof userTable.$inferSelect;
+interface UserTableMetadata {
+  fullName?: string;
+  theme: "light" | "dark";
+  avatarUrl?: string;
+  consents: {
+    marketing: boolean;
+    notifications: boolean;
+  };
+  creationComplete: boolean;
+}
+
+// Exports
+export type { WorkspaceTableMetadata, UserTableMetadata };
+export { workspaceTable, userTable };
+
+export type { Workspace, User };

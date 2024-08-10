@@ -1,11 +1,7 @@
-import {
-  WorkspaceTablePrivateMetadata,
-  WorskpaceTablePublicMetadata,
-} from "./types";
+import { type WorkspaceTableMetadata } from "./types";
 import {
   boolean,
   customType,
-  jsonb,
   primaryKey,
   text,
   timestamp,
@@ -14,17 +10,7 @@ import {
 import { multiUserSchema } from "./db-schemas";
 import { userTable } from "./db-user";
 
-const privateMetadataCustomType = <TData>(name: string) =>
-  customType<{ data: TData; driverData: string }>({
-    dataType() {
-      return "jsonb";
-    },
-    toDriver(value: TData): string {
-      return JSON.stringify(value);
-    },
-  })(name);
-
-const publicMetadataCustomType = <TData>(name: string) =>
+const metadataCustomType = <TData>(name: string) =>
   customType<{ data: TData; driverData: string }>({
     dataType() {
       return "jsonb";
@@ -41,16 +27,22 @@ export const workspaceTable = multiUserSchema.table("workspace", {
     .notNull()
     .references(() => userTable.id),
   personalAccount: boolean("personal_account").notNull().default(true),
+  metadata: metadataCustomType<WorkspaceTableMetadata>("metadata")
+    .notNull()
+    .default({
+      displayName: "",
+      leadStatusTypes: [],
+      dealStageTypes: [],
+      logoUrl: "",
+      consents: {
+        analytics: false,
+      },
+      creationComplete: false,
+    }),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at"),
   createdByUserId: text("created_by_user_id"),
   updatedByUserId: text("updated_by_user_id"),
-  privateMetadata:
-    privateMetadataCustomType<WorkspaceTablePrivateMetadata>(
-      "private_metadata",
-    ),
-  publicMetadata:
-    publicMetadataCustomType<WorskpaceTablePublicMetadata>("public_metadata"),
 });
 
 export const workspaceMemberTable = multiUserSchema.table(

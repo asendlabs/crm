@@ -1,6 +1,7 @@
 import { z } from "zod";
 
 export const onboardingSchema = z.object({
-  workspaceName: z.string().min(1).max(50),
-  
+  fullName: z.string().min(2),
+  workspaceName: z.string().min(2),
 });
+  

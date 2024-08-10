@@ -9,7 +9,6 @@ import { authenticationSchema } from "@/validation/auth.schema";
 import { cookies } from "next/headers";
 import { db } from "@/database";
 import { eq } from "drizzle-orm";
-import { redirect } from "next/navigation";
 import { sendEmail } from "@/lib/mailer";
 import { ulid } from "ulid";
 import z from "zod";

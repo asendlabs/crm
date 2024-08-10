@@ -1,106 +1,72 @@
 "use client";
 
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
 import React, { useEffect, useState } from "react";
-import {
-  createWorkspace,
-  getActiveWorkspace,
-  setOnboardingCompleted,
-} from "@/server/workspace.action";
 
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Loader2 } from "lucide-react";
+import { Form } from "@/components/ui/form";
+import { OnboardingFormStepOne } from "./steps/step-one";
+import { OnboardingFormStepZero } from "./steps/step-zero";
 import { onboardingSchema } from "@/validation/onboarding.schema";
 import { toast } from "sonner";
 import { useForm } from "react-hook-form";
-import { useRouter } from "next/navigation";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 const OnboardingForm = () => {
-  const [submitting, setSubmitting] = useState(false);
-  const router = useRouter();
+  const [step, setStep] = useState(0);
+  const [failedSubmit, setFailedSubmit] = useState(false);
 
   const form = useForm<z.infer<typeof onboardingSchema>>({
     resolver: zodResolver(onboardingSchema),
     defaultValues: {
       workspaceName: "",
+      fullName: "",
     },
   });
 
-  const { control, handleSubmit, watch, setValue, trigger, getFieldState } =
-    form;
+  const { control, handleSubmit, watch, trigger, getFieldState } = form;
 
-  const onSubmit = async (data: z.infer<typeof onboardingSchema>) => {
-    setSubmitting(true);
+  const fullNameValue = watch("fullName");
+  useEffect(() => {
+    if (getFieldState("fullName").isDirty && failedSubmit) {
+      trigger("fullName");
+    }
+  }, [fullNameValue, failedSubmit, getFieldState, trigger]);
+
+  const onContinue = async () => {
     try {
-      console.log(data);
-
-      const response = await createWorkspace(data);
-      if (response.success) {
-        const activeWorkspace = await getActiveWorkspace();
-        if (activeWorkspace.success) {
-          const setOnboardingCompletedResponse = await setOnboardingCompleted(
-            activeWorkspace.data?.id || "",
-          );
-          if (setOnboardingCompletedResponse.success) {
-            router.push("/inbox");
-          } else {
-            toast.error(setOnboardingCompletedResponse.message);
-          }
-        }
-        router.push("/inbox");
-      } else {
-        toast.error(response.message);
+      const isValid = await trigger("fullName");
+      if (!isValid) {
+        setFailedSubmit(true);
+        return;
       }
+      setFailedSubmit(false);
+      toast.success("Full Name: " + fullNameValue);
+      setStep(1);
     } catch (error) {
       toast.error("Something went wrong");
-    } finally {
-      setSubmitting(false);
+      console.error(error);
+    }
+  };
+
+  const onSubmit = async (data: z.infer<typeof onboardingSchema>) => {
+    try {
+      toast.success(
+        `Full Name: ${data.fullName}, Workspace Name: ${data.workspaceName ?? ""}`,
+      );
+      // Add your form submission logic here
+    } catch (error) {
+      toast.error("Something went wrong");
+      console.error(error);
     }
   };
 
   return (
     <Form {...form}>
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-6">
-        <FormField
-          control={control}
-          name="workspaceName"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel className="font-regular text-gray-600">
-                Workspace Name
-              </FormLabel>
-              <FormControl>
-                <Input
-                  placeholder="Enter your Workspace Name"
-                  {...field}
-                  className="w-80"
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <Button type="submit" disabled={submitting} className="w-80">
-          {submitting ? (
-            <>
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              Creating...
-            </>
-          ) : (
-            "Create Workspace"
-          )}
-        </Button>
+        {step === 0 && (
+          <OnboardingFormStepZero form={form} continueHandler={onContinue} />
+        )}
+        {step === 1 && <OnboardingFormStepOne form={form} />}
       </form>
     </Form>
   );
