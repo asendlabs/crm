@@ -13,20 +13,22 @@ import {
 
 import Link from "next/link";
 import React from "react";
+import { User } from "@/database/schema/types";
 import { UserBtn } from "./user-btn";
+import WorkspaceSwitcher from "./workspace-switcher";
 import { usePathname } from "next/navigation";
 
-const Sidebar = ({ user }: { user: any }) => {
+const Sidebar = ({ user }: { user: User }) => {
   const sidebarItemClassName =
     "flex font-medium gap-2 items-center text-black/80 text-sm hover:bg-muted-foreground/10 rounded-lg px-2 my-[2.25px] py-[3.75px] cursor-pointer";
   const pathname = usePathname();
   return (
     <div className="flex h-screen w-60 select-none flex-col justify-between border-r bg-card outline-none">
       <div className="flex flex-col pl-2 pr-2 pt-3">
-        <div className="mb-2 ml-2 flex items-center">
-          <UserBtn email={user.email} />
+        <div className="ml-2 flex items-center">
+          <WorkspaceSwitcher />
         </div>
-        <ul className="mb-2">
+        <ul className="my-2">
           <div className={`${sidebarItemClassName}`}>
             <Search className="h-4 w-4" />
             <span>Search</span>
@@ -75,7 +77,7 @@ const Sidebar = ({ user }: { user: any }) => {
           </Link>
         </ul>
       </div>
-      <div className="flex flex-col pl-2 pr-2 pt-3">
+      <div className="flex flex-col px-2 py-2">
         <ul className="pb-3">
           <Link href="/updates" className={`${sidebarItemClassName}`}>
             <Clock className="h-4 w-4" />
@@ -90,6 +92,9 @@ const Sidebar = ({ user }: { user: any }) => {
             <span>Settings</span>
           </Link>
         </ul>
+        <div className="ml-2 flex items-center">
+          <UserBtn email={user.email} />
+        </div>
       </div>
     </div>
   );

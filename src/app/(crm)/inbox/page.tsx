@@ -1,11 +1,11 @@
 import React from "react";
 
-const page = () => {
+const InboxPage = () => {
   return (
-    <div className="flex flex-col items-center justify-center">
-      <h1 className="text-4xl font-bold">Welcome to CRM</h1>
+    <div className="flex h-screen select-none flex-col items-center justify-center">
+      This is the temporary screen for the /inbox page.
     </div>
   );
 };
 
-export default page;
+export default InboxPage;

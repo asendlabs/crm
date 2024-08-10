@@ -1,7 +1,7 @@
 "use client";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { ChevronDown, LibraryBig, LogOut, Send } from "lucide-react";
+import { ChevronUp, LibraryBig, LogOut, Send } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -26,10 +26,10 @@ export function UserBtn({ email }: { email: string }) {
   return (
     <div>
       <DropdownMenu>
-        <DropdownMenuTrigger asChild>
+        <DropdownMenuTrigger asChild className="w-full">
           <button className="select-none rounded-full text-sm font-medium outline-none hover:bg-gray-100">
             <div className="flex items-center gap-2">
-              <Avatar className="h-7 w-7">
+              <Avatar className="h-6 w-6">
                 <AvatarImage src="/placeholders/profile1.jpg" />
                 <AvatarFallback>{email.charAt(0).toUpperCase()}</AvatarFallback>
               </Avatar>
@@ -37,7 +37,7 @@ export function UserBtn({ email }: { email: string }) {
                 {/* {truncateEmail(email, 16)}
                  */}
                 Waris Reshi
-                <ChevronDown className="ml-2 h-4 w-4" />
+                <ChevronUp className="ml-2 h-4 w-4" />
               </div>
             </div>
           </button>
