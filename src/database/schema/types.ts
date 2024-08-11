@@ -8,8 +8,10 @@ type User = typeof userTable.$inferSelect;
 
 // Custom Types
 
+type Currency = "USD" | "INR" | "EUR" | "GBP";
+
 interface WorkspaceTableMetadata {
-  displayName: string;
+  workspaceName: string;
   leadStatusTypes?: string[];
   dealStageTypes?: string[];
   logoUrl?: string;
@@ -17,11 +19,12 @@ interface WorkspaceTableMetadata {
     analytics: boolean;
   };
   creationComplete: boolean;
+  defaultCurrency: Currency;
 }
 
 interface UserTableMetadata {
   fullName?: string;
-  theme: "light" | "dark";
+  theme: "light" | "dark" | "system";
   avatarUrl?: string;
   consents: {
     marketing: boolean;

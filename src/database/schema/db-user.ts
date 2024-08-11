@@ -23,10 +23,10 @@ export const userTable = authenticationSchema.table("user", {
     .notNull()
     .default({
       fullName: "",
-      theme: "light",
+      theme: "system",
       avatarUrl: "",
       consents: {
-        marketing: true,
+        marketing: false,
         notifications: true,
       },
       creationComplete: false,

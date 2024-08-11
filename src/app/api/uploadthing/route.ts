@@ -1,7 +1,5 @@
 import { createRouteHandler } from "uploadthing/next";
-import { fileRouter } from "./core";
-
-// Export routes for Next App Router
+import { uploadthingRouter } from "@/lib/uploadthing";
 export const { GET, POST } = createRouteHandler({
-  router: fileRouter,
+  router: uploadthingRouter,
 });

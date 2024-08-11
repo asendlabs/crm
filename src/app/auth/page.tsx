@@ -1,3 +1,5 @@
+import { workspaceMemberTable, workspaceTable } from "@/database/schema";
+
 import EmailForm from "@/components/authentication/email-form";
 import GoogleOAuthButton from "@/components/authentication/google-oauth-button";
 import Link from "next/link";
@@ -6,7 +8,6 @@ import { db } from "@/database";
 import { eq } from "drizzle-orm";
 import { getUser } from "@/server/user.action";
 import { redirect } from "next/navigation";
-import { workspaceTable } from "@/database/schema";
 
 export const metadata = {
   title: "Login or Sign Up",
@@ -15,6 +16,7 @@ export const metadata = {
 
 export default async function AuthPage() {
   const user = await getUser();
+
   if (!user) {
     return (
       <main className="flex h-screen flex-col items-center justify-center">
@@ -49,11 +51,14 @@ export default async function AuthPage() {
         </section>
       </main>
     );
-  } else if (!user?.metadata?.creationComplete) {
-    return redirect("/onboarding");
-  } else if (user.metadata?.creationComplete) {
-    return redirect("/inbox");
   } else {
-    return <></>;
+    const workspaceMember = await db.query.workspaceMemberTable.findMany({
+      where: eq(workspaceMemberTable.userId, user?.id),
+    });
+    if (!user.metadata?.creationComplete || workspaceMember.length === 0) {
+      return redirect("/onboarding");
+    } else {
+      return redirect("/inbox");
+    }
   }
 }

@@ -22,7 +22,6 @@ const metadataCustomType = <TData>(name: string) =>
 
 export const workspaceTable = multiUserSchema.table("workspace", {
   id: text("id").primaryKey(),
-  name: text("name"),
   primaryOwnerUserId: text("primary_owner_user_id")
     .notNull()
     .references(() => userTable.id),
@@ -30,7 +29,7 @@ export const workspaceTable = multiUserSchema.table("workspace", {
   metadata: metadataCustomType<WorkspaceTableMetadata>("metadata")
     .notNull()
     .default({
-      displayName: "",
+      workspaceName: "",
       leadStatusTypes: [],
       dealStageTypes: [],
       logoUrl: "",
@@ -38,6 +37,7 @@ export const workspaceTable = multiUserSchema.table("workspace", {
         analytics: false,
       },
       creationComplete: false,
+      defaultCurrency: "USD",
     }),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at"),
