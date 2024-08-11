@@ -2,7 +2,7 @@
 
 // import { contactTable, leadTable } from "@/database/schemas";
 
-// import { db } from "@/database";
+// import { db } from "@/database/connection";
 // import { eq } from "drizzle-orm";
 // import { getUser } from "@/server/user.action";
 // import { ulid } from "ulid";

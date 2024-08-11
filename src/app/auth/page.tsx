@@ -4,7 +4,7 @@ import EmailForm from "@/components/authentication/email-form";
 import GoogleOAuthButton from "@/components/authentication/google-oauth-button";
 import Link from "next/link";
 import React from "react";
-import { db } from "@/database";
+import { db } from "@/database/connection";
 import { eq } from "drizzle-orm";
 import { getUser } from "@/server/user.action";
 import { redirect } from "next/navigation";
@@ -52,10 +52,10 @@ export default async function AuthPage() {
       </main>
     );
   } else {
-    const workspaceMember = await db.query.workspaceMemberTable.findMany({
+    const workspaceMember = await db.query.workspaceMemberTable.findFirst({
       where: eq(workspaceMemberTable.userId, user?.id),
     });
-    if (!user.metadata?.creationComplete || workspaceMember.length === 0) {
+    if (!user.metadata?.creationComplete || !workspaceMember) {
       return redirect("/onboarding");
     } else {
       return redirect("/inbox");

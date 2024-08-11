@@ -20,7 +20,7 @@ export default async function RootLayout({
       <body>
         {children}
 
-        <Toaster richColors position="bottom-right" />
+        <Toaster position="bottom-right" />
       </body>
     </html>
   );

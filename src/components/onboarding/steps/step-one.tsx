@@ -1,3 +1,5 @@
+"use client";
+
 import {
   FormControl,
   FormField,
@@ -10,7 +12,13 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import React from "react";
 
-export function OnboardingFormStepOne({ form }: { form: any }) {
+export function OnboardingFormStepOne({
+  form,
+  submitHandler,
+}: {
+  form: any;
+  submitHandler: () => void;
+}) {
   return (
     <>
       <FormField
@@ -28,7 +36,7 @@ export function OnboardingFormStepOne({ form }: { form: any }) {
           </FormItem>
         )}
       />
-      <Button type="submit" className="w-80">
+      <Button type="button" onClick={submitHandler} className="w-80">
         Create Workspace
       </Button>
     </>

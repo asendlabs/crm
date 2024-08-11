@@ -9,6 +9,7 @@ type User = typeof userTable.$inferSelect;
 // Custom Types
 
 type Currency = "USD" | "INR" | "EUR" | "GBP";
+type Theme = "light" | "dark" | "system";
 
 interface WorkspaceTableMetadata {
   workspaceName: string;
@@ -24,7 +25,7 @@ interface WorkspaceTableMetadata {
 
 interface UserTableMetadata {
   fullName?: string;
-  theme: "light" | "dark" | "system";
+  theme: Theme;
   avatarUrl?: string;
   consents: {
     marketing: boolean;

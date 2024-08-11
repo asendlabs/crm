@@ -7,7 +7,7 @@ import { userTable, workspaceTable } from "@/database/schema";
 import { VerificationEmail } from "@/emails/VerificationEmail";
 import { authenticationSchema } from "@/validation/auth.schema";
 import { cookies } from "next/headers";
-import { db } from "@/database";
+import { db } from "@/database/connection";
 import { eq } from "drizzle-orm";
 import { sendEmail } from "@/lib/mailer";
 import { ulid } from "ulid";
@@ -76,6 +76,7 @@ export const sendCode = async (email: string) => {
       message: "Login code sent successfully",
     };
   } catch (error) {
+    console.error(error);
     return { success: false, message: "Something went wrong" };
   }
 };
@@ -149,24 +150,15 @@ export const authenticate = async (
       authSessionCookie.attributes,
     );
 
-    // set the user id in the cookies
-    cookies().set({
-      name: "uid",
-      value: user.id,
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
-    });
-
-    // set the workspace id in the cookies
+    // set the active_uwid
     const workspace = await db.query.workspaceTable.findFirst({
       where: eq(workspaceTable.primaryOwnerUserId, user.id),
     });
 
     if (!workspace) {
       cookies().set({
-        name: "wid",
-        value: "not_found",
+        name: "active_uwid",
+        value: `${user.id!}_$_wnf`,
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
         sameSite: "strict",
@@ -175,8 +167,8 @@ export const authenticate = async (
     }
 
     cookies().set({
-      name: "wid",
-      value: workspace.id!,
+      name: "active_uwid",
+      value: `${user.id!}_$_${workspace.id!}`,
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "strict",

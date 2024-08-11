@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "tdev": "next dev --turbo",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
@@ -34,7 +35,6 @@
     "axios": "^1.7.3",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
-    "cobe": "^0.6.3",
     "dotenv": "^16.4.5",
     "drizzle-orm": "^0.31.4",
     "drizzle-zod": "^0.5.1",

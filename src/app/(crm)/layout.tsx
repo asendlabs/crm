@@ -1,6 +1,6 @@
 import React from "react";
 import Sidebar from "@/components/crm/sidebar";
-import { db } from "@/database";
+import { db } from "@/database/connection";
 import { eq } from "drizzle-orm";
 import { getUser } from "@/server/user.action";
 import { redirect } from "next/navigation";
@@ -19,7 +19,7 @@ export default async function CrmLayout({
     return redirect("/auth");
   } else {
     if (!user.metadata?.creationComplete || workspaceMember.length === 0) {
-      return redirect("/onboarding");
+        return redirect("/onboarding");
     } else {
       return (
         <main className="grid min-h-screen w-full grid-cols-[240px_1fr]">

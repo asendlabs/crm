@@ -5,7 +5,7 @@ import { LeadsColumns } from "@/components/tables/leads-table/LeadsColumns";
 import { LeadsTable } from "@/components/tables/leads-table/LeadsTable";
 import { Metadata } from "next";
 import React from "react";
-import { db } from "@/database";
+import { db } from "@/database/connection";
 import { eq } from "drizzle-orm";
 import { getUser } from "@/server/user.action";
 

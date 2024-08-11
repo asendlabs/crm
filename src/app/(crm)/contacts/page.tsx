@@ -5,7 +5,7 @@ import { ContactsColumns } from "@/components/tables/contacts-table/ContactsColu
 import { ContactsTable } from "@/components/tables/contacts-table/ContactsTable";
 import { Metadata } from "next";
 import React from "react";
-import { db } from "@/database";
+import { db } from "@/database/connection";
 import { eq } from "drizzle-orm";
 import { getUser } from "@/server/user.action";
 

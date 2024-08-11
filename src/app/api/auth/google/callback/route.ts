@@ -3,10 +3,11 @@ import { googleOAuthClient, lucia } from "@/lib/lucia";
 import { NextRequest } from "next/server";
 import { User } from "@/database/schema/types";
 import { cookies } from "next/headers";
-import { db } from "@/database";
+import { db } from "@/database/connection";
 import { eq } from "drizzle-orm";
 import { generateId } from "lucia";
 import { redirect } from "next/navigation";
+import { ulid } from "ulid";
 import { userTable } from "@/database/schema";
 
 export async function GET(req: NextRequest) {
@@ -64,7 +65,7 @@ export async function GET(req: NextRequest) {
     const newUser = await db
       .insert(userTable)
       .values({
-        id: generateId(21).toString().toLowerCase(),
+        id: ulid(),
         email: googleData.email,
         isOAuth: true,
         googleOAuthId: googleData.id,
