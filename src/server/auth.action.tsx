@@ -8,6 +8,7 @@ import { VerificationEmail } from "@/emails/VerificationEmail";
 import { authenticationSchema } from "@/validation/auth.schema";
 import { cookies } from "next/headers";
 import { db } from "@/database/connection";
+import { env } from "@/env";
 import { eq } from "drizzle-orm";
 import { sendEmail } from "@/lib/mailer";
 import { ulid } from "ulid";
@@ -160,7 +161,7 @@ export const authenticate = async (
         name: "active_uwid",
         value: `${user.id!}_$_wnf`,
         httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
+        secure: env.NODE_ENV === "production",
         sameSite: "strict",
       });
       return { success: true, redirectUrl: "/onboarding" };
@@ -170,7 +171,7 @@ export const authenticate = async (
       name: "active_uwid",
       value: `${user.id!}_$_${workspace.id!}`,
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
+      secure: env.NODE_ENV === "production",
       sameSite: "strict",
     });
 
@@ -219,11 +220,11 @@ export const getGoogleOAuthConsentUrl = async () => {
 
     cookies().set("codeVerifier", codeVerifier, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
+      secure: env.NODE_ENV === "production",
     });
     cookies().set("state", state, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
+      secure: env.NODE_ENV === "production",
     });
 
     const authUrl = await googleOAuthClient.createAuthorizationURL(

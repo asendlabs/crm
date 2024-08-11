@@ -4,6 +4,7 @@ import { DrizzlePostgreSQLAdapter } from "@lucia-auth/adapter-drizzle";
 import { Google } from "arctic";
 import { Lucia } from "lucia";
 import { db } from "@/database/connection";
+import { env } from "@/env";
 
 const adapter = new DrizzlePostgreSQLAdapter(
   db,
@@ -16,15 +17,15 @@ const lucia = new Lucia(adapter, {
     name: "sessionid",
     attributes: {
       sameSite: "strict",
-      secure: process.env.NODE_ENV === "production",
+      secure: env.NODE_ENV === "production",
     },
   },
 });
 
 const googleOAuthClient = new Google(
-  process.env.GOOGLE_CLIENT_ID!,
-  process.env.GOOGLE_CLIENT_SECRET!,
-  process.env.NEXT_PUBLIC_URL + "/api/auth/google/callback",
+  env.GOOGLE_CLIENT_ID,
+  env.GOOGLE_CLIENT_SECRET,
+  env.NEXT_PUBLIC_URL + "/api/auth/google/callback",
 );
 
 export { lucia, googleOAuthClient };
