@@ -1,4 +1,3 @@
-import { userSessionTable, userTable } from "./db-user";
-import { workspaceMemberTable, workspaceTable } from "./db-workspace";
+import { userSessionTable, userTable } from "./db-auth";
 
-export { userSessionTable, userTable, workspaceTable, workspaceMemberTable };
+export { userTable, userSessionTable };
