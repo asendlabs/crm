@@ -53,9 +53,7 @@ export const getActiveUserAndWorkspace = async () => {
     if (!userId || !workspaceId)
       return { userCreated: false, workspaceCreated: false };
 
-    const user = await db.query.userTable.findFirst({
-      where: eq(userTable.id, userId),
-    });
+    const user = await getUser();
 
     if (!user) return { userCreated: false, workspaceCreated: false };
 
@@ -64,8 +62,10 @@ export const getActiveUserAndWorkspace = async () => {
         where: eq(workspaceMemberTable.userId, userId),
       });
 
+      const created = JSON.parse(user.metadata.toString())
+
       return {
-        userCreated: user.metadata?.creationComplete,
+        userCreated: created.creationComplete!,
         workspaceCreated: !!workspace,
       };
     } else {
@@ -81,5 +81,24 @@ export const getActiveUserAndWorkspace = async () => {
     }
   } catch (error) {
     console.error(error);
+  }
+};
+
+export const updateUser = async (user: User) => {
+  try {
+    const result = await db
+      .update(userTable)
+      .set(user)
+      .where(eq(userTable.id, user.id))
+      .execute();
+
+    if (!result) {
+      return { success: false, message: "No user was updated." };
+    }
+
+    return { success: true, message: "User updated successfully." };
+  } catch (error) {
+    console.error("Error updating user:", error);
+    return { success: false, message: "Failed to update user." };
   }
 };
