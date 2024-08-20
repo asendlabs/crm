@@ -8,10 +8,10 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "dbgen": "drizzle-kit generate --config=drizzle.config.ts",
-    "dbmgr": "drizzle-kit migrate --config=drizzle.config.ts",
-    "dbstd": "drizzle-kit studio",
-    "dbpsh": "drizzle-kit push --config=drizzle.config.ts"
+    "dgn": "drizzle-kit generate --config=drizzle.config.ts",
+    "dmr": "drizzle-kit migrate --config=drizzle.config.ts",
+    "dst": "drizzle-kit studio",
+    "dps": "drizzle-kit push --config=drizzle.config.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",
@@ -32,7 +32,7 @@
     "@t3-oss/env-nextjs": "^0.11.0",
     "@tanstack/react-table": "^8.20.1",
     "arctic": "^1.9.2",
-    "axios": "^1.7.3",
+    "bcryptjs": "^2.4.3",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "drizzle-orm": "^0.31.4",
@@ -55,6 +55,7 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
     "@types/node": "^20.14.14",
     "@types/pg": "^8.11.6",
     "@types/react": "^18.3.3",

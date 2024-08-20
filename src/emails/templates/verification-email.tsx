@@ -1,5 +1,4 @@
 import * as React from "react";
-
 import {
   Body,
   Container,
@@ -9,52 +8,57 @@ import {
   Link,
   Preview,
   Text,
+  Button,
 } from "@react-email/components";
 
-interface VerificationEmailProps {
-  verifyCode: string;
+interface VerificationEmailBodyProps {
+  email: string;
+  token: string;
+  baseurl: string;
 }
 
-export const VerificationEmail = ({ verifyCode }: VerificationEmailProps) => (
+export const VerificationEmailBody = ({
+  email,
+  token,
+  baseurl,
+}: VerificationEmailBodyProps) => (
   <Html>
     <Head />
     <Preview>Your Asend Verification Code</Preview>
     <Body style={main}>
       <Container style={container}>
-        <Heading style={h1}>Your Asend Verification Code</Heading>
-        <Text style={{ ...text, marginBottom: "8px" }}>
-          copy and paste this code into the verification code box.
+        <Heading style={h1}>Verify Your Email</Heading>
+        <Text style={{ ...text, marginBottom: "16px" }}>
+          Click the button below to verify your email address and complete your
+          registration:
         </Text>
-        <code style={code}>{verifyCode}</code>
+        <Button
+          style={button}
+          href={`${baseurl}/api/auth/verify-email?token=${token}&email=${email}`}
+          target="_blank"
+        >
+          Verify Email
+        </Button>
         <Text
           style={{
             ...text,
             color: "#ababab",
-            marginTop: "14px",
+            marginTop: "24px",
             marginBottom: "16px",
           }}
         >
-          If you didn&apos;t try to send this code, just ignore this email and
-          chill.
+          If you didn&apos;t request this email, please ignore it.
         </Text>
-        {/* <Img
-          src={`${baseUrl}/static/notion-logo.png`}
-          width="32"
-          height="32"
-          alt="Notion's Logo"
-        /> */}
         <Text style={footer}>
           <Link href="" target="_blank" style={{ ...link, color: "#898989" }}>
             Asend
           </Link>
-          , the revolutionary crm
+          , the revolutionary CRM.
         </Text>
       </Container>
     </Body>
   </Html>
 );
-
-export default VerificationEmail;
 
 const main = {
   backgroundColor: "#ffffff",
@@ -102,12 +106,12 @@ const footer = {
   marginBottom: "24px",
 };
 
-const code = {
-  display: "inline-block",
-  padding: "16px 4.5%",
-  width: "90.5%",
-  backgroundColor: "#f4f4f4",
+const button = {
+  padding: "18px",
+  backgroundColor: "#2754C5",
+  color: "#ffffff",
   borderRadius: "5px",
-  border: "1px solid #eee",
-  color: "#333",
+  textDecoration: "none",
+  fontSize: "16px",
+  fontWeight: "bold",
 };

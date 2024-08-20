@@ -14,7 +14,7 @@ const adapter = new DrizzlePostgreSQLAdapter(
 
 const lucia = new Lucia(adapter, {
   sessionCookie: {
-    name: "sessionid",
+    name: "sid",
     attributes: {
       sameSite: "strict",
       secure: env.NODE_ENV === "production",
