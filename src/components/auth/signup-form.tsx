@@ -83,7 +83,6 @@ export const SignUpForm = () => {
   return (
     <div className="flex flex-col gap-6">
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-        <DialogTrigger>Open</DialogTrigger>
         <DialogContent
           className="w-96 p-4"
           onInteractOutside={() => {
@@ -116,7 +115,7 @@ export const SignUpForm = () => {
                   support <ArrowUpRight className="inline-block h-4 w-4" />
                 </Link>{" "}
               </DialogDescription>
-              <DialogDescription className="w-full text-center text-[0.85rem] text-medium underline">
+              <DialogDescription className="text-medium w-full text-center text-[0.85rem] underline">
                 You can close this page now.
               </DialogDescription>
             </div>
@@ -135,7 +134,7 @@ export const SignUpForm = () => {
                   <FormLabel className="sr-only">Email</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder="name@example.com"
+                      placeholder="eg. abc@example.com"
                       autoCapitalize="none"
                       autoComplete="email"
                       disabled={isLoading}

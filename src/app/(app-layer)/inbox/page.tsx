@@ -16,10 +16,9 @@ async function TmpPage() {
   }
 
   return (
-    <>
-      Inbox Page
-      <LogoutButton />
-    </>
+    <section className="flex flex-col items-center justify-center h-screen select-none">
+      Welcome to CRM
+    </section>
   );
 }
 

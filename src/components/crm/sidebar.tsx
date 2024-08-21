@@ -13,20 +13,53 @@ import {
 
 import Link from "next/link";
 import React from "react";
-import { User } from "@/database/schema/types";
+import { User } from "@/database/schema/user";
 import { UserBtn } from "./user-btn";
 import WorkspaceSwitcher from "./workspace-switcher";
 import { usePathname } from "next/navigation";
+const workspaces = [
+  {
+    title: "Acme Corporation",
+    internalValue: "acme-corp",
+    avatarUrl: "https://avatar.vercel.sh/acme-corp.png",
+    description: "Leading manufacturer in the industry.",
+  },
+  {
+    title: "Monsters Inc.",
+    internalValue: "monsters-inc",
+    avatarUrl: "https://avatar.vercel.sh/monsters-inc.png",
+    description: "We scare because we care.",
+  },
+  {
+    title: "Wayne Enterprises",
+    internalValue: "wayne-enterprises",
+    avatarUrl: "https://avatar.vercel.sh/wayne-enterprises.png",
+    description: "Building a better tomorrow.",
+  },
+  {
+    title: "Stark Industries",
+    internalValue: "stark-industries",
+    avatarUrl: "https://avatar.vercel.sh/stark-industries.png",
+    description: "Changing the future of technology.",
+  },
+  {
+    title: "Daily Bugle",
+    internalValue: "daily-bugle",
+    avatarUrl: "https://avatar.vercel.sh/daily-bugle.png",
+    description: "New York's finest news source.",
+  },
+];
 
-const Sidebar = ({ user }: { user: User }) => {
+const Sidebar = ({ user }: { user: any }) => {
   const sidebarItemClassName =
     "flex font-medium gap-2 items-center text-black/80 text-sm hover:bg-muted-foreground/10 rounded-lg px-2 my-[2.25px] py-[3.75px] cursor-pointer";
   const pathname = usePathname();
   return (
     <div className="flex h-screen w-60 select-none flex-col justify-between border-r bg-card outline-none">
       <div className="flex flex-col pl-2 pr-2 pt-3">
-        <div className="ml-2 flex items-center">
-          <WorkspaceSwitcher />
+        <div className="ml-1 flex items-center">
+          
+          <WorkspaceSwitcher workspaces={workspaces} />
         </div>
         <ul className="my-2">
           <div className={`${sidebarItemClassName}`}>
@@ -93,7 +126,7 @@ const Sidebar = ({ user }: { user: User }) => {
           </Link>
         </ul>
         <div className="ml-2 flex items-center">
-          <UserBtn email={user.email} />
+          <UserBtn email={user?.email || ""} />
         </div>
       </div>
     </div>

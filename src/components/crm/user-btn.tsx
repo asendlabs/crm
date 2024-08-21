@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 import Link from "next/link";
-import { signOut } from "@/server/auth.action";
+import { svLogout } from "@/server/auth.server";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 
@@ -70,7 +70,7 @@ export function UserBtn({ email }: { email: string }) {
           <button
             className="flex w-full cursor-pointer flex-row items-center justify-start gap-2 px-2 py-2 text-sm"
             onClick={async () => {
-              const { success } = await signOut();
+              const { success } = await svLogout();
               if (success) {
                 router.refresh();
               } else {

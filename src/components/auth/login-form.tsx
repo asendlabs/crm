@@ -19,6 +19,8 @@ import { Button } from "@/components/ui/button";
 import { svLogin } from "@/server/auth.server";
 import { toast } from "sonner";
 import { Input } from "../ui/input";
+import { Loader2 } from "lucide-react";
+import Image from "next/image";
 
 export const LoginForm = () => {
   const router = useRouter();
@@ -44,7 +46,8 @@ export const LoginForm = () => {
           return;
         } else if (serverResponse.code === 900) {
           setError("email", {
-            message: "Your email is not verified. Please check your email for a verification link.",
+            message:
+              "Your email is not verified. Please check your email for a verification link.",
           });
           return;
         } else {
@@ -61,23 +64,22 @@ export const LoginForm = () => {
     }
   };
   return (
-    <div className="flex w-80 flex-col">
+    <div className="flex flex-col gap-6">
       <Form {...form}>
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className="mb-4 flex w-full flex-col gap-5"
-        >
+        <form className="grid gap-4" onSubmit={handleSubmit(onSubmit)}>
           <FormField
-            control={control}
             name="email"
+            control={control}
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Email</FormLabel>
                 <FormControl>
                   <Input
-                    placeholder="eg. johndoe@example.com"
-                    {...field}
+                    placeholder="eg. abc@example.com"
+                    autoCapitalize="none"
+                    autoComplete="email"
                     disabled={isSubmitting}
+                    {...field}
                   />
                 </FormControl>
                 <FormMessage />
@@ -85,15 +87,15 @@ export const LoginForm = () => {
             )}
           />
           <FormField
-            control={control}
             name="password"
+            control={control}
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Password</FormLabel>
                 <FormControl>
                   <Input
-                    type="password"
                     placeholder="Enter your password"
+                    type="password"
                     disabled={isSubmitting}
                     {...field}
                   />
@@ -102,11 +104,38 @@ export const LoginForm = () => {
               </FormItem>
             )}
           />
-          <Button type="submit" disabled={isSubmitting}>
-            {isSubmitting ? "Logging In..." : "Log In"}
+          <Button disabled={isSubmitting} type="submit">
+            {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+            Login
           </Button>
         </form>
       </Form>
+      <div className="flex flex-col gap-4">
+        <div className="relative">
+          <div className="absolute inset-0 flex items-center">
+            <span className="w-full border-t" />
+          </div>
+          <div className="relative flex justify-center text-xs uppercase">
+            <span className="bg-background px-2 text-muted-foreground">
+              Or continue with
+            </span>
+          </div>
+        </div>
+        <Button variant="outline" type="button" disabled={isSubmitting}>
+          {isSubmitting ? (
+            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+          ) : (
+            <Image
+              src="/assets/svgs/google.svg"
+              alt="Google"
+              height={18}
+              width={18}
+              className="mr-1"
+            />
+          )}{" "}
+          Google
+        </Button>
+      </div>
     </div>
   );
 };
