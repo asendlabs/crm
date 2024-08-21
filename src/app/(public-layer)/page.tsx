@@ -3,7 +3,7 @@ import { getLoggedInUser } from "@/server/user.server";
 import { redirect } from "next/navigation";
 export default async function LandingPage() {
   const user = await getLoggedInUser();
-  if (user) {
+  if (user && user.isVerified ) {
     return redirect("/inbox");
   }
   return <Landing />;

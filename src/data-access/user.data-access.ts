@@ -60,6 +60,7 @@ export const daUpdateVerificationStatus = async (id: string) => {
     .update(userTable)
     .set({
       isVerified: true,
+      verificationToken: null,
     })
     .where(eq(userTable.id, id))
     .returning();

@@ -8,11 +8,7 @@ import {
 } from "@/data-access/user.data-access";
 import { cookies } from "next/headers";
 import { lucia } from "@/lib/lucia";
-import {
-  loginValidator,
-  signUpValidator,
-  verifyValidator,
-} from "@/validators/auth.validator";
+import { loginValidator, signUpValidator } from "@/validators/auth.validator";
 import { z } from "zod";
 import { compare, genSalt, hash } from "bcryptjs";
 import { getLoggedInUser } from "./user.server";
@@ -64,15 +60,6 @@ export const svSignUp = async (data: z.infer<typeof signUpValidator>) => {
         code: 500, // Internal Server Error
       };
     }
-
-    // Create session
-    const session = await lucia.createSession(createdUser[0].id, {});
-    const sessionCookie = lucia.createSessionCookie(session.id);
-    cookies().set(
-      sessionCookie.name,
-      sessionCookie.value,
-      sessionCookie.attributes,
-    );
 
     return {
       success: true,
@@ -194,6 +181,34 @@ export const svVerifyEmail = async (email: string, token: string) => {
       success: true,
       message: "Email verified successfully.",
       code: 200, // OK
+    };
+  } catch (error: any) {
+    // Log the error with additional context
+    console.error(`Error during email verification for email: ${email}`, error);
+
+    return {
+      success: false,
+      message:
+        "An unexpected error occurred during verification. Please contact support if the issue persists.",
+      code: 500, // Internal Server Error
+    };
+  }
+};
+
+export const svCheckEmailAvailability = async (email: string) => {
+  try {
+    const user = await daGetUserByEmail(email);
+    if (!user || !user.isVerified) {
+      return {
+        success: true,
+        message: "Email available",
+        code: 200, // OK
+      };
+    }
+    return {
+      success: false,
+      message: "Already Existing Account, Login Instead",
+      code: 400, // Bad Request
     };
   } catch (error: any) {
     // Log the error with additional context

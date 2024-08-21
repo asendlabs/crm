@@ -43,7 +43,9 @@ export const LoginForm = () => {
           setError("password", { message: serverResponse.message });
           return;
         } else if (serverResponse.code === 900) {
-          toast.warning("Please check your email for a verification link.");
+          setError("email", {
+            message: "Your email is not verified. Please check your email for a verification link.",
+          });
           return;
         } else {
           toast.error(serverResponse.message);
