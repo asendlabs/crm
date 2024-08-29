@@ -5,22 +5,8 @@ import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { z } from "zod";
-import {
-  ArrowUpRight,
-  CheckCircle,
-  CircleCheckBig,
-  Github,
-  Loader2,
-  MailCheck,
-} from "lucide-react";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+import { Loader2 } from "lucide-react";
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Form,
@@ -31,98 +17,127 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
-import { svCheckEmailAvailability, svSignUp } from "@/server/auth.server";
+import { svCheckEmailAvailability, svSignUp } from "@/server/server-auth";
 import { toast } from "sonner";
 import { Input } from "../ui/input";
-import { cn } from "@/lib/utils";
 import Image from "next/image";
-import Link from "next/link";
 
 export const SignUpForm = () => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [formState, setFormState] = useState<number>(0);
   const [failedSubmit, setFailedSubmit] = useState<boolean>(false);
-  const [dialogOpen, setDialogOpen] = useState<boolean>(false);
   const form = useForm<z.infer<typeof signUpValidator>>({
     resolver: zodResolver(signUpValidator),
-    defaultValues: {
-      email: "",
-      password: "",
-    },
   });
-  const { handleSubmit, control, watch, trigger } = form;
+  const { control, watch, trigger } = form;
 
   const emailValue = watch("email");
+  const passwordValue = watch("password");
 
   useEffect(() => {
     if (formState === 0 && failedSubmit) {
       form.clearErrors("email");
       setFailedSubmit(false);
     }
-  }, [formState, emailValue]);
+    if (formState === 1 && failedSubmit) {
+      form.clearErrors("password");
+      setFailedSubmit(false);
+    }
+  }, [formState, emailValue, passwordValue]);
 
-  const finalSubmit = async (data: z.infer<typeof signUpValidator>) => {
+  const continueHandler = async () => {
+    if (formState === 0) {
+      await onEmailSubmit();
+    } else if (formState === 1) {
+      await onPasswordSubmit();
+    } else {
+      return;
+    }
+  };
+
+  const keyDownHandler = async (e: any) => {
+    if (e.key === "Enter" && !isLoading) {
+      await continueHandler();
+    }
+  };
+
+  const onEmailSubmit = async () => {
     setIsLoading(true);
     try {
-      const serverResponse = await svSignUp(data);
+      const isValid = await trigger("email");
+
+      if (!isValid) {
+        setFailedSubmit(true);
+        return;
+      }
+
+      const serverResponse = await svCheckEmailAvailability(emailValue);
+      if (!serverResponse.success) {
+        form.setError("email", { message: serverResponse.message });
+        setFailedSubmit(true);
+        return;
+      }
+
+      setFormState(1);
+    } catch (error) {
+      toast.error("Something went wrong");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  const onPasswordSubmit = async () => {
+    setIsLoading(true);
+    try {
+      const serverResponse = await svSignUp({
+        email: emailValue,
+        password: passwordValue,
+      });
       if (!serverResponse.success) {
         toast.error(serverResponse.message);
         return;
       }
-      setDialogOpen(true);
+      router.replace("/inbox");
     } catch (error) {
       toast.error("Something went wrong");
-      return;
     } finally {
-      form.reset();
       setIsLoading(false);
+      form.clearErrors();
     }
   };
 
   return (
-    <div className="flex flex-col gap-6">
-      <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-        <DialogContent
-          className="w-96 p-4"
-          onInteractOutside={() => {
-            setFormState(0);
-            form.reset();
-          }}
-          onKeyDown={(e) => {
-            setFormState(0);
-            form.reset();
-          }}
-        >
-          <DialogHeader>
-            <div className="flex items-center justify-center pt-3">
-              <MailCheck className="h-16 w-16 text-green-600" />
+    <div className="flex flex-col gap-5">
+      {formState === 0 && (
+        <>
+          <Button variant="outline" type="button" disabled={isLoading}>
+            {isLoading ? (
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            ) : (
+              <Image
+                src="/assets/images/google_g.png"
+                alt="Google"
+                height={16}
+                width={16}
+                className="mr-2"
+              />
+            )}{" "}
+            Sign Up With Google {/* TODO: Add functionality */}
+          </Button>
+          <div className="flex flex-col gap-4">
+            <div className="relative">
+              <div className="absolute inset-0 flex items-center">
+                <span className="w-full border-t" />
+              </div>
+              <div className="relative flex justify-center text-xs uppercase">
+                <span className="bg-background px-2 text-muted-foreground">
+                  OR
+                </span>
+              </div>
             </div>
-            <DialogTitle className="py-2 text-center">
-              Verification Email Sent
-            </DialogTitle>
-
-            <div className="flex w-full flex-col items-center gap-4 pb-4">
-              <DialogDescription className="w-full text-center text-[0.8rem] text-muted-foreground">
-                Please check your email and click the verification link to
-                complete the process. If you didn't receive the email, please
-                check your <span className="underline">spam folder</span> or try
-                to sign up again.
-              </DialogDescription>
-              <DialogDescription className="w-full text-center text-[0.8rem] text-muted-foreground">
-                If you are still having trouble, please talk to{" "}
-                <Link className="underline" href="/support">
-                  support <ArrowUpRight className="inline-block h-4 w-4" />
-                </Link>{" "}
-              </DialogDescription>
-              <DialogDescription className="text-medium w-full text-center text-[0.85rem] underline">
-                You can close this page now.
-              </DialogDescription>
-            </div>
-          </DialogHeader>
-        </DialogContent>
-      </Dialog>
-
+          </div>
+        </>
+      )}
       <Form {...form}>
         <form className="grid gap-4">
           {formState === 0 && (
@@ -131,41 +146,14 @@ export const SignUpForm = () => {
               control={control}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="sr-only">Email</FormLabel>
+                  <FormLabel className="">Email</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder="eg. abc@example.com"
+                      placeholder="name@company.com"
                       autoCapitalize="none"
-                      autoComplete="email"
                       disabled={isLoading}
                       onKeyDown={async (e) => {
-                        try {
-                          if (e.key === "Enter" && !isLoading) {
-                            setIsLoading(true);
-                            const isValid = await trigger("email");
-
-                            if (!isValid) {
-                              setFailedSubmit(true);
-                              return;
-                            }
-
-                            const serverResponse =
-                              await svCheckEmailAvailability(emailValue);
-                            if (!serverResponse.success) {
-                              form.setError("email", {
-                                message: serverResponse.message,
-                              });
-                              setFailedSubmit(true);
-                              return;
-                            }
-
-                            setFormState(1);
-                          }
-                        } catch (error) {
-                          return;
-                        } finally {
-                          setIsLoading(false);
-                        }
+                        await keyDownHandler(e);
                       }}
                       {...field}
                     />
@@ -187,12 +175,10 @@ export const SignUpForm = () => {
                       placeholder="Choose a strong password"
                       type="password"
                       disabled={isLoading}
-                      {...field}
-                      onKeyDown={(e) => {
-                        if (e.key === "Enter" && !isLoading) {
-                          handleSubmit(finalSubmit)();
-                        }
+                      onKeyDown={async (e) => {
+                        await keyDownHandler(e);
                       }}
+                      {...field}
                     />
                   </FormControl>
                   <FormMessage />
@@ -200,74 +186,16 @@ export const SignUpForm = () => {
               )}
             />
           )}
-          <Button
-            disabled={isLoading}
-            type="button"
-            onClick={async () => {
-              try {
-                if (formState === 0) {
-                  setIsLoading(true);
-                  const isValid = await trigger("email");
-
-                  if (!isValid) {
-                    setFailedSubmit(true);
-                    return;
-                  }
-
-                  const serverResponse =
-                    await svCheckEmailAvailability(emailValue);
-                  if (!serverResponse.success) {
-                    form.setError("email", { message: serverResponse.message });
-                    setFailedSubmit(true);
-                    return;
-                  }
-
-                  setFormState(1);
-                } else if (formState === 1) {
-                  handleSubmit(finalSubmit)();
-                }
-              } catch (error) {
-                console.error("Error during form submission:", error);
-              } finally {
-                setIsLoading(false); // Ensure loading state is always reset
-              }
-            }}
-          >
+          <Button disabled={isLoading} type="button" onClick={continueHandler}>
             {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-            {formState === 0 ? "Continue" : "Sign Up"}
+            {formState === 0
+              ? "Continue"
+              : formState === 1
+                ? "Sign Up"
+                : "Continue"}
           </Button>
         </form>
       </Form>
-
-      {formState === 0 && (
-        <div className="flex flex-col gap-4">
-          <div className="relative">
-            <div className="absolute inset-0 flex items-center">
-              <span className="w-full border-t" />
-            </div>
-            <div className="relative flex justify-center text-xs uppercase">
-              <span className="bg-background px-2 text-muted-foreground">
-                Or continue with
-              </span>
-            </div>
-          </div>
-          <Button variant="outline" type="button" disabled={isLoading}>
-            {isLoading ? (
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-            ) : (
-              <Image
-                src="/assets/svgs/google.svg"
-                alt="Google"
-                height={18}
-                width={18}
-                className="mr-1"
-              />
-              // <Github className="mr-2 h-4 w-4" />
-            )}{" "}
-            Google
-          </Button>
-        </div>
-      )}
     </div>
   );
 };

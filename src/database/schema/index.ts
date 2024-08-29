@@ -1,3 +1,3 @@
-import { userSessionTable, userTable } from "./user";
+import { userSessionTable, userTable } from "./auth";
 
 export { userTable, userSessionTable };

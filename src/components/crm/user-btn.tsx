@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 import Link from "next/link";
-import { svLogout } from "@/server/auth.server";
+import { svLogout } from "@/server/server-auth";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 

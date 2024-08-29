@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import { Button } from "@/components/ui/button";
-import { svLogout } from "@/server/auth.server";
+import { svLogout } from "@/server/server-auth";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 

@@ -19,7 +19,7 @@ export default async function RootLayout({
     <html lang="en" className={inter.className}>
       <body>
         {children}
-        <Toaster position="bottom-right" richColors />
+        <Toaster position="top-right" richColors />
       </body>
     </html>
   );

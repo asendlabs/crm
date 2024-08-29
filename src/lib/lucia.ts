@@ -14,7 +14,7 @@ const adapter = new DrizzlePostgreSQLAdapter(
 
 const lucia = new Lucia(adapter, {
   sessionCookie: {
-    name: "sid",
+    name: "asgnid",
     attributes: {
       sameSite: "strict",
       secure: env.NODE_ENV === "production",
@@ -22,10 +22,10 @@ const lucia = new Lucia(adapter, {
   },
 });
 
-const googleOAuthClient = new Google(
-  env.GOOGLE_CLIENT_ID,
-  env.GOOGLE_CLIENT_SECRET,
-  env.NEXT_PUBLIC_URL + "/api/auth/google/callback",
-);
+// const googleOAuthClient = new Google(
+//   env.GOOGLE_CLIENT_ID,
+//   env.GOOGLE_CLIENT_SECRET,
+//   env.NEXT_PUBLIC_URL + "/api/auth/google/callback",
+// );
 
-export { lucia, googleOAuthClient };
+export { lucia };

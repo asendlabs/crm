@@ -1,9 +1,22 @@
-import { User, userSessionTable } from "@/database/schema/user";
+import { User, userSessionTable } from "@/database/schema/auth";
 import { db } from "@/database/connection";
 import { eq } from "drizzle-orm";
 import { userTable } from "@/database/schema";
 import { ulid } from "ulid";
 import { generateIdFromEntropySize } from "lucia";
+
+function generateCode(length = 6) {
+  const characters =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  let code = "";
+
+  for (let i = 0; i < length; i++) {
+    const randomIndex = Math.floor(Math.random() * characters.length);
+    code += characters[randomIndex];
+  }
+
+  return code;
+}
 
 export const daGetUserById = async (id: string) => {
   const user = await db.query.userTable.findFirst({
@@ -36,31 +49,33 @@ export const daCreateUser = async (email: string, password?: string) => {
     .values({
       id: ulid(),
       email,
-      hashedPassword: (password && password) || null,
-      verificationToken: generateIdFromEntropySize(20),
+      encryptedPassword: (password && password) || null,
+      verificationCode: generateCode(),
+      verificationCodeCreatedAt: new Date(),
     })
     .returning();
   return user;
 };
 
-export const daUpdateVerificationToken = async (id: string) => {
+export const daCreateVerificationCode = async (userId: string) => {
   const user = await db
     .update(userTable)
     .set({
-      verificationToken: generateIdFromEntropySize(20),
+      verificationCodeCreatedAt: new Date(),
+      verificationCode: generateCode(),
     })
-    .where(eq(userTable.id, id))
+    .where(eq(userTable.id, userId))
     .returning();
 
   return user;
 };
 
-export const daUpdateVerificationStatus = async (id: string) => {
+export const daSetUserVerified = async (id: string) => {
   const user = await db
     .update(userTable)
     .set({
-      isVerified: true,
-      verificationToken: null,
+      verifiedAt: new Date(),
+      verificationCode: null,
     })
     .where(eq(userTable.id, id))
     .returning();

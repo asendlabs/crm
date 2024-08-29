@@ -12,3 +12,10 @@ export const loginValidator = z.object({
   email: z.string().email({ message: "Please enter a valid email address." }),
   password: z.string(),
 });
+
+export const verificationCodeValidator = z.object({
+  code: z
+    .string()
+    .min(6, "Verification code must be 6 characters long")
+    .max(6, "Verification code must be 6 characters long"),
+});

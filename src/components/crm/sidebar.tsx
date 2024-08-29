@@ -13,7 +13,7 @@ import {
 
 import Link from "next/link";
 import React from "react";
-import { User } from "@/database/schema/user";
+import { User } from "@/database/schema/auth";
 import { UserBtn } from "./user-btn";
 import WorkspaceSwitcher from "./workspace-switcher";
 import { usePathname } from "next/navigation";
@@ -58,7 +58,6 @@ const Sidebar = ({ user }: { user: any }) => {
     <div className="flex h-screen w-60 select-none flex-col justify-between border-r bg-card outline-none">
       <div className="flex flex-col pl-2 pr-2 pt-3">
         <div className="ml-1 flex items-center">
-          
           <WorkspaceSwitcher workspaces={workspaces} />
         </div>
         <ul className="my-2">
