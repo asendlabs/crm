@@ -7,7 +7,7 @@
 .yarn/install-state.gz
 
 # drizzle
-/migrations
+/.migrations
 
 # testing
 /coverage

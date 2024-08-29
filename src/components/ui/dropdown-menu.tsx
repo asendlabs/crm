@@ -5,7 +5,7 @@ import * as React from "react";
 
 import { Check, ChevronRight, Circle } from "lucide-react";
 
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils/tailwind";
 
 const DropdownMenu = DropdownMenuPrimitive.Root;
 

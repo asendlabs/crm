@@ -1,9 +1,8 @@
-import { userSessionTable, userTable } from "@/database/schema";
+import { userSessionTable, userTable } from "@database/models";
 
 import { DrizzlePostgreSQLAdapter } from "@lucia-auth/adapter-drizzle";
-import { Google } from "arctic";
 import { Lucia } from "lucia";
-import { db } from "@/database/connection";
+import { db } from "@database";
 import { env } from "@/env";
 
 const adapter = new DrizzlePostgreSQLAdapter(
@@ -12,7 +11,7 @@ const adapter = new DrizzlePostgreSQLAdapter(
   userTable as any,
 );
 
-const lucia = new Lucia(adapter, {
+export const lucia = new Lucia(adapter, {
   sessionCookie: {
     name: "asgnid",
     attributes: {
@@ -21,11 +20,3 @@ const lucia = new Lucia(adapter, {
     },
   },
 });
-
-// const googleOAuthClient = new Google(
-//   env.GOOGLE_CLIENT_ID,
-//   env.GOOGLE_CLIENT_SECRET,
-//   env.NEXT_PUBLIC_URL + "/api/auth/google/callback",
-// );
-
-export { lucia };
