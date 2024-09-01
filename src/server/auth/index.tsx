@@ -5,6 +5,7 @@ import {
   getUserByEmail,
   setUserVerified,
   getUserById,
+  createUserProfile,
 } from "@/scripts/user-scripts";
 import { cookies } from "next/headers";
 import { lucia } from "@/lib/lucia";
@@ -12,6 +13,7 @@ import { loginSchema, signUpSchema } from "@/schemas/auth.schema";
 import { z } from "zod";
 import { compare, genSalt, hash } from "bcryptjs";
 import { sendEmail } from "@/lib/resend";
+import { createProfileSchema } from "@/schemas/onboarding.schema";
 
 export const fetchLogggedInUser = async () => {
   "use server";
@@ -122,6 +124,45 @@ export const svSignUp = async (data: z.infer<typeof signUpSchema>) => {
         "An unexpected error occurred during account creation. Please contact support if the issue persists.",
       code: 500, // Internal Server Error
     };
+  }
+};
+
+export const svCreateProfile = async (
+  data: z.infer<typeof createProfileSchema>,
+) => {
+  try {
+    const user = await fetchLogggedInUser();
+    if (!user) {
+      return {
+        success: false,
+        message: "You don't have access to this page",
+      };
+    }
+    const { name, marketingConsent } = data;
+    const avatarUrl = `https://avatar.vercel.sh/rauchg.svg?text=${name.charAt(0)}`; // TODO: add utapi file uplaod and get back avatar url
+    const userId = user.id;
+    const databaseResponse = await createUserProfile({
+      userId,
+      name,
+      avatarUrl,
+      marketingConsent,
+    });
+    if (!databaseResponse) {
+      return {
+        success: false,
+        message: "Failed to create profile",
+      };
+    }
+    return {
+      success: true,
+      message: "Profile created successfully",
+    };
+  } catch (error) {
+    console.error("Error during profile creation:", error);
+    return {
+      success: false,
+      message:
+        "An unexpected error occurred during profile creation. Please contact support if the issue persists.",    };
   }
 };
 

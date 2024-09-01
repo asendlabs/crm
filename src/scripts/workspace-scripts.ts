@@ -4,7 +4,7 @@ import { db } from "@database";
 import { userTable, workspaceTable, workspaceUserTable } from "@database/tables";
 import { Workspace } from "@database/types";
 
-export const getWorkspaceById = async (
+export const getWorkspaceByWorkspaceId = async (
   workspaceId: string,
 ): Promise<Workspace | undefined> => {
   const workspace = await db.query.workspaceTable.findFirst({
@@ -14,7 +14,7 @@ export const getWorkspaceById = async (
   return workspace;
 };
 
-export const getAllUserWorkspaces = async (
+export const getWorkspacesByUserId = async (
   userId: string,
 ): Promise<Workspace[]> => {
   const workspaceUserAssociations = await db.query.workspaceUserTable.findMany({
