@@ -52,7 +52,7 @@ const workspaces = [
 
 export const Sidebar = ({ user }: { user: any }) => {
   const sidebarItemClassName =
-    "flex font-medium gap-2 items-center text-black/80 text-sm hover:bg-muted-foreground/10 rounded-lg px-2 my-[2.25px] py-[3.75px] cursor-pointer";
+    "flex font-medium gap-2 items-center text-black/80 text-sm hover:bg-muted-foregçround/10 rounded-lg px-2 my-[2.25px] py-[3.75px] cursor-pointer";
   const pathname = usePathname();
   return (
     <div className="flex h-screen w-60 select-none flex-col justify-between border-r bg-card outline-none">
@@ -125,7 +125,11 @@ export const Sidebar = ({ user }: { user: any }) => {
           </Link>
         </ul>
         <div className="ml-2 flex items-center">
-          <UserButton email={user?.email || ""} />
+          <UserButton
+            email={user?.email || ""}
+            name={user?.name || ""}
+            avatarUrl={user?.avatarUrl || ""}
+          />
         </div>
       </div>
     </div>

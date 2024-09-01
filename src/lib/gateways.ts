@@ -10,7 +10,7 @@ const handleOnboardingRedirect = (user: User, currentPage: string) => {
       case "profile_created":
         return redirect("/onboarding/create-workspace");
       case "workspace_created":
-        return redirect("/onboarding/complete");
+        return redirect("/home");
       case "completed":
         if (currentPage !== "home") {
           return redirect("/home");
@@ -25,7 +25,9 @@ const handleOnboardingRedirect = (user: User, currentPage: string) => {
     }
   }
   // All checks passed
-  return redirect("/home");
+  if (currentPage !== "home") {
+    return redirect("/home");
+  }
 };
 
 const handleEmailVerifiedRedirect = (user: User, currentPage: string) => {
@@ -39,6 +41,7 @@ const internalApp = async (page: string) => {
   if (!user) return redirect("/login");
   handleEmailVerifiedRedirect(user, page);
   handleOnboardingRedirect(user, page);
+  return true;
 };
 
 // External app authentication logic
@@ -89,7 +92,7 @@ const accessLayerApp = async (
         } else if (
           ["workspace_created", "completed"].includes(user.onboardingStep)
         ) {
-          return redirect("/onboarding/complete");
+          return redirect("/home");
         }
       }
       return;
@@ -101,7 +104,7 @@ const accessLayerApp = async (
         } else if (
           ["workspace_created", "completed"].includes(user.onboardingStep)
         ) {
-          return redirect("/onboarding/complete");
+          return redirect("/home");
         }
       }
       return;

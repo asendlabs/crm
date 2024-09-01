@@ -51,7 +51,7 @@ export const VerifyEmailForm = ({ email }: { email: string }) => {
           toast.error(response.message);
         }
       }
-      router.replace("/home");
+      router.replace("/onboarding/create-profile");
     } catch (error) {
       toast.error("Something went wrong");
     } finally {

@@ -17,9 +17,8 @@ import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { Input } from "../ui/input";
 import { Loader2 } from "lucide-react";
-import Image from "next/image";
 import { createWorkspaceSchema } from "@/schemas/onboarding.schema";
-import { Checkbox } from "../ui/checkbox";
+import { svCreateWorkspace } from "@/server/workspace";
 
 export const CreateWorkspaceForm = () => {
   const router = useRouter();
@@ -35,8 +34,12 @@ export const CreateWorkspaceForm = () => {
   const onSubmit = async (data: z.infer<typeof createWorkspaceSchema>) => {
     setIsSubmitting(true);
     try {
-      // TODO add Workspace creation
-      toast.success("Workspace created successfully" + data.name);
+      const serverResponse = await svCreateWorkspace(data);
+      if (!serverResponse.success) {
+        toast.error(serverResponse.message);
+        return;
+      }
+      toast.success("Workspace created successfully" + data.name); // TODO: Remove after debugging
       router.replace("/home");
     } catch (error) {
       toast.error("Something went wrong");

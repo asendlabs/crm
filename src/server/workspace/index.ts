@@ -1,12 +1,14 @@
+"use server";
 import { z } from "zod";
 import {
   createWorkspace,
+  createWorkspaceUser,
   getWorkspaceByWorkspaceId,
   getWorkspacesByUserId,
 } from "@/scripts/workspace-scripts";
 import { createWorkspaceSchema } from "@/schemas/onboarding.schema";
 import { fetchLogggedInUser } from "../auth";
-import { setWorkspaceCreated } from "@/scripts/user-scripts";
+import { setOnboardingCompleted } from "@/scripts/user-scripts";
 
 export const svCreateWorkspace = async (
   data: z.infer<typeof createWorkspaceSchema>,
@@ -33,11 +35,22 @@ export const svCreateWorkspace = async (
         message: "Failed to create workspace, Code 0X1",
       };
     }
-    const setWorkspaceCreatedResponse = await setWorkspaceCreated(user.id);
-    if (!setWorkspaceCreatedResponse) {
+    const workspaceUser = await createWorkspaceUser({
+      workspaceId: workspace.id,
+      userId: user.id,
+      role: "primary_owner",
+    });
+    if (!workspaceUser) {
       return {
         success: false,
         message: "Failed to create workspace, Code 0X2",
+      };
+    }
+    const setWorkspaceCreatedResponse = await setOnboardingCompleted(user.id);
+    if (!setWorkspaceCreatedResponse) {
+      return {
+        success: false,
+        message: "Failed to create workspace, Code 0X3",
       };
     }
     return {

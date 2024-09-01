@@ -59,11 +59,12 @@ export const setUserVerified = async (id: string) => {
   return user;
 };
 
-export const setWorkspaceCreated = async (userId: string) => {
+export const setOnboardingCompleted = async (userId: string) => {
   const user = await db
     .update(userTable)
     .set({
-      onboardingStep: "workspace_created",
+      onboardingStep: "completed",
+      onboardingCompletedAt: new Date(),
     })
     .where(eq(userTable.id, userId))
     .returning();

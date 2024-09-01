@@ -97,7 +97,7 @@ export const SignUpForm = () => {
         toast.error(serverResponse.message);
         return;
       }
-      router.replace("/home");
+      router.replace("/verify-email");
     } catch (error) {
       toast.error("Something went wrong");
     } finally {

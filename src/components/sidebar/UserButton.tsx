@@ -15,7 +15,15 @@ import { svLogout } from "@/server/auth";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 
-export function UserButton({ email }: { email: string }) {
+export function UserButton({
+  email,
+  name,
+  avatarUrl,
+}: {
+  email: string;
+  name: string;
+  avatarUrl: string;
+}) {
   const router = useRouter();
   function truncateEmail(email: string, maxLength: number) {
     if (email.length > maxLength) {
@@ -30,13 +38,11 @@ export function UserButton({ email }: { email: string }) {
           <button className="select-none rounded-full text-sm font-medium outline-none hover:bg-gray-100">
             <div className="flex items-center gap-2">
               <Avatar className="h-6 w-6">
-                <AvatarImage src="/placeholders/profile1.jpg" />
-                <AvatarFallback>{email.charAt(0).toUpperCase()}</AvatarFallback>
+                <AvatarImage src={'dsfdsf'} className="object-contain" />
+                <AvatarFallback>{name.charAt(0).toUpperCase()}</AvatarFallback>
               </Avatar>
               <div className="flex items-center text-sm">
-                {/* {truncateEmail(email, 16)}
-                 */}
-                Waris Reshi
+                {name}
                 <ChevronUp className="ml-2 h-4 w-4" />
               </div>
             </div>

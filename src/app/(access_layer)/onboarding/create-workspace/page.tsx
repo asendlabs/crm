@@ -1,10 +1,6 @@
-import { CreateProfileForm } from "@/components/forms/CreateProfileForm";
-import { buttonVariants } from "@/components/ui/button";
+import { CreateWorkspaceForm } from "@/components/forms/CreateWorkspaceForm";
 import { authGateways } from "@/lib/gateways";
-import { cn } from "@/utils/tailwind";
 import { Metadata } from "next";
-import Link from "next/link";
-import React from "react";
 
 export const metadata: Metadata = {
   title: "Create Workspace | Asend",
@@ -24,7 +20,7 @@ const CreateWorkspacePage = async () => {
               Fill out the form below to create a Workspace
             </p>
           </div>
-          <CreateProfileForm />
+          <CreateWorkspaceForm />
         </div>
       </div>
     </main>

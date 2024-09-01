@@ -20,6 +20,7 @@ import { Loader2 } from "lucide-react";
 import Image from "next/image";
 import { createProfileSchema } from "@/schemas/onboarding.schema";
 import { Checkbox } from "../ui/checkbox";
+import { svCreateProfile } from "@/server/auth";
 
 export const CreateProfileForm = () => {
   const router = useRouter();
@@ -36,9 +37,13 @@ export const CreateProfileForm = () => {
   const onSubmit = async (data: z.infer<typeof createProfileSchema>) => {
     setIsSubmitting(true);
     try {
-      // TODO add profile creation
-      toast.success("Profile created successfully" + data.name);
-      router.replace("/home");
+      const serverResponse = await svCreateProfile(data);
+      if (!serverResponse.success) {
+        toast.error(serverResponse.message);
+        return;
+      }
+      toast.success("Profile created successfully" + data.name); // TODO: Remove after debugging
+      router.replace("/onboarding/create-workspace");
     } catch (error) {
       toast.error("Something went wrong");
       return;
