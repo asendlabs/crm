@@ -1,5 +1,6 @@
 import { CreateProfileForm } from "@/components/forms/CreateProfileForm";
 import { buttonVariants } from "@/components/ui/button";
+import { authGateways } from "@/lib/gateways";
 import { cn } from "@/utils/tailwind";
 import { Metadata } from "next";
 import Link from "next/link";
@@ -10,6 +11,7 @@ export const metadata: Metadata = {
 };
 
 const CreateWorkspacePage = async () => {
+  await authGateways.accessLayerApp("create-workspace");
   return (
     <main className="grid h-screen items-center">
       <div>

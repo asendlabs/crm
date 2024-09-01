@@ -7,12 +7,14 @@ import { VerifyEmailForm } from "@/components/forms/VerifyEmailForm";
 import { UserIcon } from "lucide-react";
 import { ChangeEmailLink } from "@/components/forms/related/ChangeEmailLink";
 import { redirect } from "next/navigation";
+import { authGateways } from "@/lib/gateways";
 
 export const metadata: Metadata = {
   title: "Verify your Email | Ascend",
 };
 
 const VerifyEmailPage = async () => {
+  await authGateways.accessLayerApp("verify-email");
   const loginEmail = cookies().get("login_email")?.value;
   if (!loginEmail) return redirect("/login");
 

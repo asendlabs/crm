@@ -1,5 +1,6 @@
 import { SignUpForm } from "@/components/forms/SignUpForm";
 import { buttonVariants } from "@/components/ui/button";
+import { authGateways } from "@/lib/gateways";
 import { cn } from "@/utils/tailwind";
 import { Metadata } from "next";
 import Link from "next/link";
@@ -10,6 +11,8 @@ export const metadata: Metadata = {
 };
 
 const SignUpPage = async () => {
+  await authGateways.accessLayerApp("signup");
+
   return (
     <main className="grid h-screen items-center">
       <Link

@@ -10,7 +10,7 @@
     "lint": "next lint",
     "dgn": "drizzle-kit generate --config=drizzle.config.ts",
     "dmr": "drizzle-kit migrate --config=drizzle.config.ts",
-    "dst": "drizzle-kit studio",
+    "dst": "drizzle-kit studio --config=drizzle.config.ts",
     "dps": "drizzle-kit push --config=drizzle.config.ts"
   },
   "dependencies": {
