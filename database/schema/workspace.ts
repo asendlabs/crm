@@ -5,7 +5,7 @@ import {
   timestamp,
   varchar,
 } from "drizzle-orm/pg-core";
-import { workspaceSchema } from "./schemas";
+import { workspaceSchema } from "./_schemas";
 import { userTable } from "./auth";
 
 export const workspaceTable = workspaceSchema.table("workspaces", {
@@ -37,13 +37,7 @@ export const workspaceUserTable = workspaceSchema.table(
       .references(() => userTable.id),
     role: varchar("role", { length: 255 }),
   },
-  (table) => {
-    return {
-      pk: primaryKey({ columns: [table.workspaceId, table.userId] }),
-      pkWithCustomName: primaryKey({
-        name: "workspace_users_pk",
-        columns: [table.workspaceId, table.userId],
-      }),
-    };
-  },
+  (t) => ({
+    pk: primaryKey({ columns: [t.workspaceId, t.userId] }),
+  }),
 );
