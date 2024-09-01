@@ -1,64 +1,44 @@
+// sidebar/Sidebar.tsx
 "use client";
 
-import {
-  Building,
-  Clock,
-  Inbox,
-  Map,
-  Search,
-  Settings,
-  SquareUserRound,
-  Zap,
-} from "lucide-react";
-
-import Link from "next/link";
 import React from "react";
-import { User } from "@database/types";
+import {
+  Inbox,
+  Search,
+  Zap,
+  Building,
+  SquareUserRound,
+  Clock,
+  Map,
+  Settings,
+} from "lucide-react";
+import Link from "next/link";
 import { UserButton } from "./UserButton";
 import { WorkspaceSwitcher } from "./WorkspaceSwitcher";
 import { usePathname } from "next/navigation";
-const workspaces = [
-  {
-    title: "Acme Corporation",
-    internalValue: "acme-corp",
-    avatarUrl: "https://avatar.vercel.sh/acme-corp.png",
-    description: "Leading manufacturer in the industry.",
-  },
-  {
-    title: "Monsters Inc.",
-    internalValue: "monsters-inc",
-    avatarUrl: "https://avatar.vercel.sh/monsters-inc.png",
-    description: "We scare because we care.",
-  },
-  {
-    title: "Wayne Enterprises",
-    internalValue: "wayne-enterprises",
-    avatarUrl: "https://avatar.vercel.sh/wayne-enterprises.png",
-    description: "Building a better tomorrow.",
-  },
-  {
-    title: "Stark Industries",
-    internalValue: "stark-industries",
-    avatarUrl: "https://avatar.vercel.sh/stark-industries.png",
-    description: "Changing the future of technology.",
-  },
-  {
-    title: "Daily Bugle",
-    internalValue: "daily-bugle",
-    avatarUrl: "https://avatar.vercel.sh/daily-bugle.png",
-    description: "New York's finest news source.",
-  },
-];
+import { User, Workspace } from "@database/types";
 
-export const Sidebar = ({ user }: { user: any }) => {
+export const Sidebar = ({
+  user,
+  workspaces,
+  cookieSelectedWorkspaceId,
+}: {
+  user: User;
+  workspaces: Workspace[];
+  cookieSelectedWorkspaceId: string;
+}) => {
   const sidebarItemClassName =
-    "flex font-medium gap-2 items-center text-black/80 text-sm hover:bg-muted-foregçround/10 rounded-lg px-2 my-[2.25px] py-[3.75px] cursor-pointer";
+    "flex font-medium gap-2 items-center text-black/80 text-sm hover:bg-muted-foreground/10 rounded-lg px-2 my-[2.25px] py-[3.75px] cursor-pointer";
   const pathname = usePathname();
+
   return (
     <div className="flex h-screen w-60 select-none flex-col justify-between border-r bg-card outline-none">
       <div className="flex flex-col pl-2 pr-2 pt-3">
         <div className="ml-1 flex items-center">
-          <WorkspaceSwitcher workspaces={workspaces} />
+          <WorkspaceSwitcher
+            workspaces={workspaces}
+            cookieSelectedWorkspaceId={cookieSelectedWorkspaceId}
+          />
         </div>
         <ul className="my-2">
           <div className={`${sidebarItemClassName}`}>

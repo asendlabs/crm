@@ -9,6 +9,7 @@ import {
 import { createWorkspaceSchema } from "@/schemas/onboarding.schema";
 import { fetchLogggedInUser } from "../auth";
 import { setOnboardingCompleted } from "@/scripts/user-scripts";
+import { cookies } from "next/headers";
 
 export const svCreateWorkspace = async (
   data: z.infer<typeof createWorkspaceSchema>,
@@ -53,6 +54,7 @@ export const svCreateWorkspace = async (
         message: "Failed to create workspace, Code 0X3",
       };
     }
+    cookies().set("selected_workspace", workspace.id);
     return {
       success: true,
       message: "Workspace created successfully",

@@ -95,7 +95,7 @@ const accessLayerApp = async (
           return redirect("/home");
         }
       }
-      return;
+      return redirect("/home");
 
     case "create-workspace":
       if (!user.onboardingCompletedAt) {
@@ -107,7 +107,7 @@ const accessLayerApp = async (
           return redirect("/home");
         }
       }
-      return;
+      return redirect("/home");
 
     default:
       console.error("Unknown page:", page);

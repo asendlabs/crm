@@ -17,48 +17,34 @@ import {
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-
-type Workspace = {
-  title: string;
-  internalValue: string;
-  avatarUrl: string;
-  description?: string;
-};
+import { Workspace } from "@database/types";
 
 interface WorkspaceSwitcherProps {
   workspaces: Workspace[];
   className?: string;
+  cookieSelectedWorkspaceId: string;
 }
 
 export function WorkspaceSwitcher({
   workspaces,
   className,
+  cookieSelectedWorkspaceId,
 }: WorkspaceSwitcherProps) {
   const [open, setOpen] = React.useState(false);
   const [showNewWorkspaceDialog, setShowNewWorkspaceDialog] =
     React.useState(false);
+  const initialSelectedWorkspace = workspaces.find(
+    (ws) => ws.id === cookieSelectedWorkspaceId,
+  );
   const [selectedWorkspace, setSelectedWorkspace] = React.useState<Workspace>(
-    workspaces[0],
+    initialSelectedWorkspace || workspaces[0],
   );
 
   return (
@@ -77,15 +63,15 @@ export function WorkspaceSwitcher({
           >
             <Avatar className="mr-2 h-5 w-5">
               <AvatarImage
-                src={selectedWorkspace.avatarUrl}
-                alt={selectedWorkspace.title}
+                src={selectedWorkspace.logoUrl || ""}
+                alt={selectedWorkspace.name!}
                 className="grayscale"
               />
               <AvatarFallback>
-                {selectedWorkspace.title.charAt(0)}
+                {selectedWorkspace.name!.charAt(0)}
               </AvatarFallback>
             </Avatar>
-            {selectedWorkspace.title}
+            {selectedWorkspace.name}
             <ChevronsUpDown className="ml-auto h-4 w-4 shrink-0 opacity-50" />
           </Button>
         </PopoverTrigger>
@@ -96,7 +82,7 @@ export function WorkspaceSwitcher({
               <CommandEmpty>No workspace found.</CommandEmpty>
               {workspaces.map((workspace) => (
                 <CommandItem
-                  key={workspace.internalValue}
+                  key={workspace.id}
                   onSelect={() => {
                     setSelectedWorkspace(workspace);
                     setOpen(false);
@@ -105,18 +91,17 @@ export function WorkspaceSwitcher({
                 >
                   <Avatar className="mr-2 h-5 w-5">
                     <AvatarImage
-                      src={workspace.avatarUrl}
-                      alt={workspace.title}
+                      src={workspace.logoUrl || ""}
+                      alt={workspace.name!}
                       className="grayscale"
                     />
-                    <AvatarFallback>{workspace.title.charAt(0)}</AvatarFallback>
+                    <AvatarFallback>{workspace.name!.charAt(0)}</AvatarFallback>
                   </Avatar>
-                  {workspace.title}
+                  {workspace.name!}
                   <CheckIcon
                     className={cn(
                       "ml-auto h-4 w-4",
-                      selectedWorkspace.internalValue ===
-                        workspace.internalValue
+                      selectedWorkspace.id === workspace.id
                         ? "opacity-100"
                         : "opacity-0",
                     )}
@@ -143,53 +128,7 @@ export function WorkspaceSwitcher({
           </Command>
         </PopoverContent>
       </Popover>
-      <DialogContent className="p-5">
-        <DialogHeader>
-          <DialogTitle>Create workspace</DialogTitle>
-          <DialogDescription>
-            Add a new workspace to manage products and customers.
-          </DialogDescription>
-        </DialogHeader>
-        <div>
-          <div className="space-y-4 py-2 pb-4">
-            <div className="space-y-2">
-              <Label htmlFor="name">Workspace name</Label>
-              <Input id="name" placeholder="Acme Inc." />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="plan">Subscription plan</Label>
-              <Select>
-                <SelectTrigger>
-                  <SelectValue placeholder="Select a plan" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="free">
-                    <span className="font-medium">Free</span> -{" "}
-                    <span className="text-muted-foreground">
-                      Trial for two weeks
-                    </span>
-                  </SelectItem>
-                  <SelectItem value="pro">
-                    <span className="font-medium">Pro</span> -{" "}
-                    <span className="text-muted-foreground">
-                      $9/month per user
-                    </span>
-                  </SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-          </div>
-        </div>
-        <DialogFooter>
-          <Button
-            variant="outline"
-            onClick={() => setShowNewWorkspaceDialog(false)}
-          >
-            Cancel
-          </Button>
-          <Button type="submit">Continue</Button>
-        </DialogFooter>
-      </DialogContent>
+      <DialogContent className="p-5">new workspace form</DialogContent>
     </Dialog>
   );
 }
