@@ -1,7 +1,10 @@
 import { z } from "zod";
 
 export const signUpSchema = z.object({
-  email: z.string().email({ message: "Please enter a valid email address." }),
+  email: z
+    .string()
+    .email({ message: "Please enter a valid email address." })
+    .max(255),
   password: z
     .string()
     .min(12, { message: "Password must be at least 12 characters long." })
@@ -9,7 +12,10 @@ export const signUpSchema = z.object({
 });
 
 export const loginSchema = z.object({
-  email: z.string().email({ message: "Please enter a valid email address." }),
+  email: z
+    .string()
+    .email({ message: "Please enter a valid email address." })
+    .max(255),
   password: z.string(),
 });
 

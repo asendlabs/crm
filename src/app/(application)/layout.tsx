@@ -12,7 +12,7 @@ export default async function ApplicationLayout({
 }>) {
   const user = await fetchLogggedInUser();
   let isAuth = false;
-  await authGateways.internalAppAuthGateway().then(() => {
+  await authGateways.internalApp().then(() => {
     isAuth = true;
   });
   if (isAuth) {
@@ -25,7 +25,7 @@ export default async function ApplicationLayout({
   }
   return (
     <main className="flex h-screen flex-col items-center justify-center">
-      <Loader2 className="h-10 w-10 text-black/50 animate-spin" />
+      <Loader2 className="h-10 w-10 animate-spin text-black/50" />
     </main>
   );
 }

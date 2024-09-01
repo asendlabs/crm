@@ -3,18 +3,20 @@ import { authSchema } from "./schemas";
 
 export const userTable = authSchema.table("users", {
   id: text("id").primaryKey(),
-  email: varchar("email").unique(),
+  email: varchar("email", { length: 255 }).unique(),
   encryptedPassword: varchar("encrypted_password"),
-  // Verification
+  name: varchar("name", { length: 255 }),
+  avatarUrl: varchar("avatar_url", { length: 255 }),
   verificationCodeCreatedAt: timestamp("verification_code_created_at"),
-  verificationCode: varchar("verification_code"),
+  verificationCode: varchar("verification_code", { length: 255 }),
   verifiedAt: timestamp("verified_at"),
-  // Onboarding
-  onboardedAt: timestamp("onboarded_at"),
-  // OAuth
-  oAuthProvider: varchar("o_auth_provider"),
-  oAuthId: text("oauth_id"),
-  // Metatadata
+  onboardingStep: varchar("onboarding_step", { length: 50 })
+    .notNull()
+    .default("not_started"),
+  onboardingCompletedAt: timestamp("onboarding_completed_at"),
+  oAuthProvider: varchar("o_auth_provider", { length: 255 }),
+  oAuthId: text("oauth_id").unique(),
+  marketingConsent: boolean("marketing_consent").notNull().default(false),
   createdAt: timestamp("created_at").notNull().defaultNow(),
   updatedAt: timestamp("updated_at"),
 });

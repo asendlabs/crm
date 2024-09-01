@@ -1,4 +1,4 @@
-import { userSessionTable, userTable } from "@database/models";
+import { userSessionTable, userTable } from "@database/tables";
 
 import { DrizzlePostgreSQLAdapter } from "@lucia-auth/adapter-drizzle";
 import { Lucia } from "lucia";

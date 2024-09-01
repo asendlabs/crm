@@ -8,7 +8,7 @@ export default async function AuthenticationLayout({
   children: React.ReactNode;
 }>) {
   let isAuth = false;
-  await authGateways.externalAppAuthGateway().then(() => {
+  await authGateways.externalApp().then(() => {
     isAuth = true;
   });
   if (isAuth) {
@@ -16,7 +16,7 @@ export default async function AuthenticationLayout({
   }
   return (
     <main className="flex h-screen flex-col items-center justify-center">
-      <Loader2 className="h-10 w-10 text-black/50 animate-spin" />
+      <Loader2 className="h-10 w-10 animate-spin text-black/50" />
     </main>
   );
 }
