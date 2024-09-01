@@ -1,7 +1,7 @@
 import { eq, inArray } from "drizzle-orm";
 import { ulid } from "ulid";
 import { db } from "@database";
-import { workspaceTable, workspaceUserTable } from "@database/tables";
+import { userTable, workspaceTable, workspaceUserTable } from "@database/tables";
 import { Workspace } from "@database/types";
 
 export const getWorkspaceById = async (
@@ -34,11 +34,11 @@ export const getAllUserWorkspaces = async (
 export const createWorkspace = async ({
   name,
   primaryOwnerId,
-  logoUrl,
+  logoUrl
 }: {
   name: string;
   primaryOwnerId: string;
-  logoUrl: string;
+  logoUrl?: string
 }) => {
   const workspace = await db
     .insert(workspaceTable)
@@ -53,7 +53,6 @@ export const createWorkspace = async ({
       updatedById: primaryOwnerId,
     })
     .returning();
-
   return workspace[0];
 };
 

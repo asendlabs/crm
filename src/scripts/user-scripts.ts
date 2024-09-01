@@ -59,6 +59,18 @@ export const setUserVerified = async (id: string) => {
   return user;
 };
 
+export const setWorkspaceCreated = async (userId: string) => {
+  const user = await db
+    .update(userTable)
+    .set({
+      onboardingStep: "workspace_created",
+    })
+    .where(eq(userTable.id, userId))
+    .returning();
+
+  return user;
+};
+
 export const createUserProfile = async ({
   userId,
   name,
@@ -67,7 +79,7 @@ export const createUserProfile = async ({
 }: {
   userId: string;
   name: string;
-  avatarUrl: string;
+  avatarUrl?: string;
   marketingConsent: boolean;
 }) => {
   const updatedUser = await db

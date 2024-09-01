@@ -5,14 +5,13 @@ import {
   getUserByEmail,
   setUserVerified,
   getUserById,
-} from "@/scripts/user.script";
+} from "@/scripts/user-scripts";
 import { cookies } from "next/headers";
 import { lucia } from "@/lib/lucia";
 import { loginSchema, signUpSchema } from "@/schemas/auth.schema";
 import { z } from "zod";
 import { compare, genSalt, hash } from "bcryptjs";
 import { sendEmail } from "@/lib/resend";
-import { redirect } from "next/navigation";
 
 export const fetchLogggedInUser = async () => {
   "use server";
