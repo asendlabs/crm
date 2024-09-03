@@ -14,17 +14,15 @@ import {
   CommandList,
   CommandSeparator,
 } from "@/components/ui/command";
-import {
-  Dialog,
-  DialogContent,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Workspace } from "@database/types";
+import { svSetSelectedWorkspace } from "@/server/workspace";
+import { toast } from "sonner";
 
 interface WorkspaceSwitcherProps {
   workspaces: Workspace[];
@@ -40,12 +38,31 @@ export function WorkspaceSwitcher({
   const [open, setOpen] = React.useState(false);
   const [showNewWorkspaceDialog, setShowNewWorkspaceDialog] =
     React.useState(false);
-  const initialSelectedWorkspace = workspaces.find(
-    (ws) => ws.id === cookieSelectedWorkspaceId,
-  );
-  const [selectedWorkspace, setSelectedWorkspace] = React.useState<Workspace>(
-    initialSelectedWorkspace || workspaces[0],
-  );
+  const [selectedWorkspace, setSelectedWorkspace] =
+    React.useState<Workspace | null>(null);
+  const [loading, setLoading] = React.useState(true); // Initialize loading as true to show loading state first
+
+  React.useEffect(() => {
+    const workspaceLogic = async () => {
+      const previouslySelectedWorkspace = workspaces.find(
+        (ws) => ws.id === cookieSelectedWorkspaceId,
+      );
+
+      if (!previouslySelectedWorkspace) {
+        const firstWorkspaceInArray = workspaces[0];
+        await svSetSelectedWorkspace(firstWorkspaceInArray.id);
+        setSelectedWorkspace(firstWorkspaceInArray);
+      } else {
+        setSelectedWorkspace(previouslySelectedWorkspace);
+      }
+
+      setLoading(false); // Set loading to false after fetching the workspace
+    };
+
+    workspaceLogic();
+  }, [workspaces, cookieSelectedWorkspaceId]); // Add dependencies to useEffect
+
+  if (loading) return null; // Render nothing or a loading spinner while loading
 
   return (
     <Dialog
@@ -63,15 +80,15 @@ export function WorkspaceSwitcher({
           >
             <Avatar className="mr-2 h-5 w-5">
               <AvatarImage
-                src={selectedWorkspace.logoUrl || ""}
-                alt={selectedWorkspace.name!}
+                src={selectedWorkspace?.logoUrl || ""}
+                alt={selectedWorkspace?.name || ""}
                 className="grayscale"
               />
               <AvatarFallback>
-                {selectedWorkspace.name!.charAt(0)}
+                {selectedWorkspace?.name?.charAt(0) || ""}
               </AvatarFallback>
             </Avatar>
-            {selectedWorkspace.name}
+            {selectedWorkspace?.name}
             <ChevronsUpDown className="ml-auto h-4 w-4 shrink-0 opacity-50" />
           </Button>
         </PopoverTrigger>
@@ -83,8 +100,12 @@ export function WorkspaceSwitcher({
               {workspaces.map((workspace) => (
                 <CommandItem
                   key={workspace.id}
-                  onSelect={() => {
+                  onSelect={async () => {
                     setSelectedWorkspace(workspace);
+                    const response = await svSetSelectedWorkspace(workspace.id);
+                    if (!response.success) {
+                      toast.error("Unable to change workspace");
+                    }
                     setOpen(false);
                   }}
                   className="text-sm"
@@ -101,7 +122,7 @@ export function WorkspaceSwitcher({
                   <CheckIcon
                     className={cn(
                       "ml-auto h-4 w-4",
-                      selectedWorkspace.id === workspace.id
+                      selectedWorkspace?.id === workspace.id
                         ? "opacity-100"
                         : "opacity-0",
                     )}

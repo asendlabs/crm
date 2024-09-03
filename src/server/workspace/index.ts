@@ -3,7 +3,6 @@ import { z } from "zod";
 import {
   createWorkspace,
   createWorkspaceUser,
-  getWorkspaceByWorkspaceId,
   getWorkspacesByUserId,
 } from "@/scripts/workspace-scripts";
 import { createWorkspaceSchema } from "@/schemas/onboarding.schema";
@@ -99,6 +98,31 @@ export const svFetchAllUserWorkspaces = async () => {
       message:
         "An unexpected error occurred during fetching workspaces. Please contact support if the issue persists.",
       data: [],
+    };
+  }
+};
+
+export const svSetSelectedWorkspace = async (workspaceId: string) => {
+  try {
+    const user = await fetchLogggedInUser();
+    if (!user) {
+      return {
+        success: false,
+        message: "You don't have access to this page",
+      };
+    }
+
+    cookies().set("selected_workspace", workspaceId);
+    return {
+      success: true,
+      message: "Workspace set successfully",
+    };
+  } catch (error) {
+    console.error("Error during setting selected workspace:", error);
+    return {
+      success: false,
+      message:
+        "An unexpected error occurred during setting selected workspace. Please contact support if the issue persists.",
     };
   }
 };

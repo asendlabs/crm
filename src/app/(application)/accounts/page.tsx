@@ -1,5 +1,6 @@
 import { AccountColumns } from "@/components/tables/accounts/AccountColumns";
 import { AccountTable } from "@/components/tables/accounts/AccountTable";
+import { svFetchAllWorkspaceAccounts } from "@/server/accounts";
 import { Metadata } from "next";
 import React from "react";
 
@@ -9,7 +10,8 @@ export const metadata: Metadata = {
 };
 
 async function AccountsPage() {
-  return <AccountTable columns={AccountColumns} tableData={[]} />;
+  const { data } = await svFetchAllWorkspaceAccounts();
+  return <AccountTable columns={AccountColumns} tableData={data} />;
 }
 
 export default AccountsPage;

@@ -1,9 +1,9 @@
 import { jsonb, text, timestamp, varchar } from "drizzle-orm/pg-core";
-import { accountSchema } from "./_schemas";
+import { entitySchema } from "./_schemas";
 import { userTable } from "./auth";
 import { workspaceTable } from "./workspace";
 
-export const accountTable = accountSchema.table("entities", {
+export const accountTable = entitySchema.table("accounts", {
   id: text("id").primaryKey(),
   workspaceId: text("workspace_id")
     .notNull()
@@ -21,7 +21,7 @@ export const accountTable = accountSchema.table("entities", {
   metadata: jsonb("metadata"),
 });
 
-export const contactTable = accountSchema.table("contacts", {
+export const contactTable = entitySchema.table("contacts", {
   id: text("id").primaryKey(),
   workspaceId: text("workspace_id")
     .notNull()
@@ -38,7 +38,7 @@ export const contactTable = accountSchema.table("contacts", {
   metadata: jsonb("metadata"),
 });
 
-export const contactPhoneTable = accountSchema.table("contact_phones", {
+export const contactPhoneTable = entitySchema.table("contact_phones", {
   id: text("id").primaryKey(),
   contactId: text("contact_id")
     .notNull()
@@ -56,7 +56,7 @@ export const contactPhoneTable = accountSchema.table("contact_phones", {
   updatedById: text("updated_by_id").references(() => userTable.id),
 });
 
-export const contactEmailTable = accountSchema.table("contact_emails", {
+export const contactEmailTable = entitySchema.table("contact_emails", {
   id: text("id").primaryKey(),
   contactId: text("contact_id")
     .notNull()

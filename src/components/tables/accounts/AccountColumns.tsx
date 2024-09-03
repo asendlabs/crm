@@ -14,7 +14,7 @@ export const AccountColumns: ColumnDef<Account>[] = [
     cell: DataTableCheckbox,
   },
   {
-    accessorKey: "accountName",
+    accessorKey: "name",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Account Name" />
     ),

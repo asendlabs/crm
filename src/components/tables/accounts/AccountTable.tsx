@@ -38,7 +38,7 @@ export function AccountTable<TData, TValue>({
   const [data, setData] = useState<TData[]>(tableData);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [sorting, setSorting] = useState<SortingState>([
-    { id: "accountName", desc: false },
+    { id: "name", desc: false },
   ]);
   const [rowSelectionState, setRowSelectionState] = useState({});
   const router = useRouter();
@@ -47,7 +47,7 @@ export function AccountTable<TData, TValue>({
     router.refresh();
   };
 
-  const primaryFields = ["accountName"];
+  const primaryFields = ["name"];
 
   const updateData = async ({
     rowIndex,
@@ -136,6 +136,7 @@ export function AccountTable<TData, TValue>({
       deleteData,
     },
   });
+  console.log(tableData);
   return (
     <>
       <section className="flex h-screen flex-col justify-between gap-6 px-6 py-5">
@@ -156,7 +157,7 @@ export function AccountTable<TData, TValue>({
             </div>
             <DataTableSearch
               table={table}
-              primaryField="accountName"
+              primaryField="name"
               primaryFieldPrettyName="Account"
             />
             {/* <NewLeadForm addLead={addData} /> */}
