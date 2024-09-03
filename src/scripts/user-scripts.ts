@@ -1,3 +1,4 @@
+import "server-only";
 import { eq } from "drizzle-orm";
 import { ulid } from "ulid";
 import { generateEmailVerifyCode } from "@/utils/generators";
