@@ -18,37 +18,36 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { deleteLead, updateLead } from "@/server/lead.action";
 
-import DataTableDeleteButton from "@/components/data-table/DataTableDeleteButton";
-import DataTableSearch from "@/components/data-table/other/DataTableSearch";
+import {DataTableDeleteButton} from "@/components/data-table/DataTableDeleteButton";
+import { DataTableSearch } from "@/components/data-table/DataTableSearch";
 import { DataTableViewOptions } from "@/components/data-table/DataTableViewOptions";
 import { NewLeadForm } from "../../forms/NewLeadForm";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-interface LeadsTableProps<TData, TValue> {
+interface AccountTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   tableData: TData[];
 }
 
-export function LeadsTable<TData, TValue>({
+export function AccountTable<TData, TValue>({
   columns,
   tableData,
-}: LeadsTableProps<TData, TValue>) {
+}: AccountTableProps<TData, TValue>) {
   const [data, setData] = useState<TData[]>(tableData);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [sorting, setSorting] = useState<SortingState>([
-    { id: "leadName", desc: false },
+    { id: "accountName", desc: false },
   ]);
   const [rowSelectionState, setRowSelectionState] = useState({});
   const router = useRouter();
   const addData = (newData: any) => {
-    setData((prevLeads) => [...prevLeads, newData]);
+    setData((prevAccounts) => [...prevAccounts, newData]);
     router.refresh();
   };
 
-  const primaryFields = ["leadName"];
+  const primaryFields = ["accountName"];
 
   const updateData = async ({
     rowIndex,
@@ -72,22 +71,22 @@ export function LeadsTable<TData, TValue>({
             : row,
         ),
       );
-      const response = await updateLead({
-        columnId,
-        newValue,
-        itemId,
-      });
-      if (!response.success) {
-        return {
-          success: false,
-          message: "Coudln't successfully execute updateData function",
-        };
-      }
-      router.refresh();
-      return {
-        success: true,
-        message: "UpdateData function successfully executed",
-      };
+      // const response = await updateAccount({
+      //   columnId,
+      //   newValue,
+      //   itemId,
+      // });
+      // if (!response.success) {
+      //   return {
+      //     success: false,
+      //     message: "Coudln't successfully execute updateData function",
+      //   };
+      // }
+      // router.refresh();
+      // return {
+      //   success: true,
+      //   message: "UpdateData function successfully executed",
+      // };
     } catch (error) {
       console.log("error", error);
     }
@@ -95,20 +94,20 @@ export function LeadsTable<TData, TValue>({
 
   const deleteData = async (itemIds: string[]) => {
     try {
-      const response = await deleteLead(itemIds);
-      if (!response.success) {
-        return {
-          success: false,
-          message: response.message,
-        };
-      }
+      // const response = await deleteAccount(itemIds);
+      // if (!response.success) {
+      //   return {
+      //     success: false,
+      //     message: response.message,
+      //   };
+      // }
       setData((prev) => prev.filter((row: any) => !itemIds.includes(row.id)));
       table.resetRowSelection();
       router.refresh();
-      return {
-        success: true,
-        message: response.message,
-      };
+      // return {
+      //   success: true,
+      //   message: response.message,
+      // };
     } catch (error) {
       console.log("error", error);
       return {
@@ -141,12 +140,12 @@ export function LeadsTable<TData, TValue>({
     <>
       <section className="flex h-screen flex-col justify-between gap-6 px-6 py-5">
         <div className="flex flex-row items-center justify-between">
-          <h1 className="text-xl font-semibold">Leads</h1>
+          <h1 className="text-xl font-semibold">Accounts</h1>
           <div className="flex flex-row gap-2">
             <div>
               <DataTableDeleteButton
                 table={table}
-                description="Deleting a lead will delete all associated contacts. It can't be undone."
+                description="Deleting a account will delete all associated contacts. It can't be undone."
               />
             </div>
             <div>
@@ -157,10 +156,10 @@ export function LeadsTable<TData, TValue>({
             </div>
             <DataTableSearch
               table={table}
-              primaryField="leadName"
-              primaryFieldPrettyName="Lead"
+              primaryField="accountName"
+              primaryFieldPrettyName="Account"
             />
-            <NewLeadForm addLead={addData} />
+            {/* <NewLeadForm addLead={addData} /> */}
           </div>
         </div>
         <div className="custom-scrollbar min-h-[89vh] overflow-y-auto">

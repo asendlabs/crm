@@ -20,7 +20,7 @@ interface DataTableDeleteButtonProps<TData> {
   table: any;
   description: string;
 }
-function DataTableDeleteButton<TData>({
+export function DataTableDeleteButton<TData>({
   table,
   description,
 }: DataTableDeleteButtonProps<TData>) {
@@ -86,4 +86,3 @@ function DataTableDeleteButton<TData>({
   );
 }
 
-export default DataTableDeleteButton;

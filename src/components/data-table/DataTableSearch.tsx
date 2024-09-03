@@ -7,7 +7,7 @@ interface DataTableSearchProps<TData> {
   primaryField: string;
   primaryFieldPrettyName?: string;
 }
-function DataTableSearch<TData>({
+export function DataTableSearch<TData>({
   table,
   primaryField,
   primaryFieldPrettyName,
@@ -32,4 +32,3 @@ function DataTableSearch<TData>({
   );
 }
 
-export default DataTableSearch;
