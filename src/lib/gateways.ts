@@ -44,17 +44,17 @@ const internalApp = async (page: string) => {
   return true;
 };
 
-// External app authentication logic
 const externalApp = async () => {
-  "use server";
   const user = await fetchLogggedInUser();
-  if (user?.verifiedAt && user.onboardingCompletedAt) {
+  if (!user) {
+    return redirect("/login");
+  }
+  if (user.verifiedAt && user.onboardingCompletedAt) {
     return redirect("/home");
   }
-  // No redirection needed if user is not verified or onboarding is not completed
+  return redirect("/login");
 };
 
-// Access layer authentication logic
 const accessLayerApp = async (
   page:
     | "signup"
@@ -115,7 +115,6 @@ const accessLayerApp = async (
   }
 };
 
-// Export all authentication gateways
 export const authGateways = {
   internalApp,
   externalApp,
