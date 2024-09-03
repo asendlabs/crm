@@ -58,7 +58,7 @@ export const svSignUp = async (data: z.infer<typeof signUpSchema>) => {
     if (user && user.verifiedAt) {
       return {
         success: false,
-        message: "An account already exists with this email address.",
+        message: "An lead already exists with this email address.",
         code: 409, // Conflict
       };
     }
@@ -76,7 +76,7 @@ export const svSignUp = async (data: z.infer<typeof signUpSchema>) => {
     if (!createdUser) {
       return {
         success: false,
-        message: "Failed to create a new account. Please try again later.",
+        message: "Failed to create a new lead. Please try again later.",
         code: 500, // Internal Server Error
       };
     }
@@ -113,7 +113,7 @@ export const svSignUp = async (data: z.infer<typeof signUpSchema>) => {
 
     return {
       success: true,
-      message: "Account created successfully.",
+      message: "Lead created successfully.",
       code: 201,
     }; // Created
   } catch (error) {
@@ -121,7 +121,7 @@ export const svSignUp = async (data: z.infer<typeof signUpSchema>) => {
     return {
       success: false,
       message:
-        "An unexpected error occurred during account creation. Please contact support if the issue persists.",
+        "An unexpected error occurred during lead creation. Please contact support if the issue persists.",
       code: 500, // Internal Server Error
     };
   }
@@ -162,7 +162,8 @@ export const svCreateProfile = async (
     return {
       success: false,
       message:
-        "An unexpected error occurred during profile creation. Please contact support if the issue persists.",    };
+        "An unexpected error occurred during profile creation. Please contact support if the issue persists.",
+    };
   }
 };
 
@@ -176,7 +177,7 @@ export const svLogin = async (data: z.infer<typeof loginSchema>) => {
     if (!user) {
       return {
         success: false,
-        message: "No account found with this email address.",
+        message: "No lead found with this email address.",
         code: 404, // Not Found
       };
     }
@@ -292,7 +293,7 @@ export const svCheckEmailAvailability = async (email: string) => {
     }
     return {
       success: false,
-      message: "Already Existing Account, Login Instead",
+      message: "Already Existing Lead, Login Instead",
       code: 400, // Bad Request
     };
   } catch (error: any) {

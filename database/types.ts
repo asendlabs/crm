@@ -1,9 +1,10 @@
-import { accountTable } from "./schema/entities";
+import { db } from "@database";
+import { leadTable } from "./schema/entities";
 import { workspaceTable, userTable } from "./tables";
 
 // Auth Models
 type User = typeof userTable.$inferSelect;
 type Workspace = typeof workspaceTable.$inferSelect;
-type Account = typeof accountTable.$inferSelect;
+type Lead = typeof leadTable.$inferSelect;
 
-export type { User, Workspace, Account };
+export type { User, Workspace, Lead };

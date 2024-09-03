@@ -1,7 +1,7 @@
 import { userTable, userSessionTable } from "./schema/auth";
 import { workspaceTable, workspaceUserTable } from "./schema/workspace";
 import {
-  accountTable,
+  leadTable,
   contactTable,
   contactEmailTable,
   contactPhoneTable,
@@ -9,5 +9,5 @@ import {
 
 // Exporting the tables
 export { userTable, userSessionTable };
-export { accountTable, contactTable, contactEmailTable, contactPhoneTable };
+export { leadTable, contactTable, contactEmailTable, contactPhoneTable };
 export { workspaceTable, workspaceUserTable };

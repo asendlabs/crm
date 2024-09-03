@@ -115,7 +115,7 @@ export function NewContactForm({
 
               <FormField
                 control={form.control}
-                name="leadId"
+                name="contactId"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Lead</FormLabel>
@@ -131,7 +131,7 @@ export function NewContactForm({
                           {leadList && leadList.length > 0 ? (
                             leadList.map((lead: Lead) => (
                               <SelectItem key={lead.id} value={lead.id}>
-                                {lead.leadName}
+                                {lead.name}
                               </SelectItem>
                             ))
                           ) : (

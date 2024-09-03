@@ -3,7 +3,7 @@ import { entitySchema } from "./_schemas";
 import { userTable } from "./auth";
 import { workspaceTable } from "./workspace";
 
-export const accountTable = entitySchema.table("accounts", {
+export const leadTable = entitySchema.table("leads", {
   id: text("id").primaryKey(),
   workspaceId: text("workspace_id")
     .notNull()
@@ -26,7 +26,7 @@ export const contactTable = entitySchema.table("contacts", {
   workspaceId: text("workspace_id")
     .notNull()
     .references(() => workspaceTable.id),
-  accountId: text("account_id").references(() => accountTable.id),
+  leadId: text("lead_id").references(() => leadTable.id),
   name: varchar("name", { length: 255 }).notNull(),
   jobTitle: varchar("job_title", { length: 255 }),
   createdAt: timestamp("created_at").notNull().defaultNow(),

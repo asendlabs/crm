@@ -1,10 +1,10 @@
 "use server";
 import { z } from "zod";
-import { getAccountsByWorkspaceId } from "@/scripts/account-scripts";
+import { getLeadsByWorkspaceId } from "@/scripts/lead-scripts";
 import { fetchLogggedInUser } from "../auth";
 import { cookies } from "next/headers";
 
-export const svFetchAllWorkspaceAccounts = async () => {
+export const svFetchAllWorkspaceLeads = async () => {
   try {
     const user = await fetchLogggedInUser();
     if (!user) {
@@ -22,25 +22,25 @@ export const svFetchAllWorkspaceAccounts = async () => {
         data: [],
       };
     }
-    const accounts = await getAccountsByWorkspaceId('01J6PWHCK87A0FHCNV3T3E5A3F');
-    if (!accounts) {
+    const leads = await getLeadsByWorkspaceId("01J6PWHCK87A0FHCNV3T3E5A3F");
+    if (!leads) {
       return {
         success: false,
-        message: "Failed to fetch accounts",
+        message: "Failed to fetch leads",
         data: [],
       };
     }
     return {
       success: true,
-      message: "Fetched accounts successfully",
-      data: accounts,
+      message: "Fetched leads successfully",
+      data: leads,
     };
   } catch (error) {
-    console.error("Error during fetching accounts:", error);
+    console.error("Error during fetching leads:", error);
     return {
       success: false,
       message:
-        "An unexpected error occurred during fetching accounts. Please contact support if the issue persists.",
+        "An unexpected error occurred during fetching leads. Please contact support if the issue persists.",
       data: [],
     };
   }

@@ -19,22 +19,22 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-import {DataTableDeleteButton} from "@/components/data-table/DataTableDeleteButton";
+import { DataTableDeleteButton } from "@/components/data-table/DataTableDeleteButton";
 import { DataTableSearch } from "@/components/data-table/DataTableSearch";
 import { DataTableViewOptions } from "@/components/data-table/DataTableViewOptions";
 import { NewLeadForm } from "../../forms/NewLeadForm";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-interface AccountTableProps<TData, TValue> {
+interface LeadTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   tableData: TData[];
 }
 
-export function AccountTable<TData, TValue>({
+export function LeadTable<TData, TValue>({
   columns,
   tableData,
-}: AccountTableProps<TData, TValue>) {
+}: LeadTableProps<TData, TValue>) {
   const [data, setData] = useState<TData[]>(tableData);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [sorting, setSorting] = useState<SortingState>([
@@ -43,7 +43,7 @@ export function AccountTable<TData, TValue>({
   const [rowSelectionState, setRowSelectionState] = useState({});
   const router = useRouter();
   const addData = (newData: any) => {
-    setData((prevAccounts) => [...prevAccounts, newData]);
+    setData((prevLeads) => [...prevLeads, newData]);
     router.refresh();
   };
 
@@ -71,7 +71,7 @@ export function AccountTable<TData, TValue>({
             : row,
         ),
       );
-      // const response = await updateAccount({
+      // const response = await updateLead({
       //   columnId,
       //   newValue,
       //   itemId,
@@ -94,7 +94,7 @@ export function AccountTable<TData, TValue>({
 
   const deleteData = async (itemIds: string[]) => {
     try {
-      // const response = await deleteAccount(itemIds);
+      // const response = await deleteLead(itemIds);
       // if (!response.success) {
       //   return {
       //     success: false,
@@ -136,17 +136,16 @@ export function AccountTable<TData, TValue>({
       deleteData,
     },
   });
-  console.log(tableData);
   return (
     <>
       <section className="flex h-screen flex-col justify-between gap-6 px-6 py-5">
         <div className="flex flex-row items-center justify-between">
-          <h1 className="text-xl font-semibold">Accounts</h1>
+          <h1 className="text-xl font-semibold">Leads</h1>
           <div className="flex flex-row gap-2">
             <div>
               <DataTableDeleteButton
                 table={table}
-                description="Deleting a account will delete all associated contacts. It can't be undone."
+                description="Deleting a lead will delete all associated contacts. It can't be undone."
               />
             </div>
             <div>
@@ -158,7 +157,7 @@ export function AccountTable<TData, TValue>({
             <DataTableSearch
               table={table}
               primaryField="name"
-              primaryFieldPrettyName="Account"
+              primaryFieldPrettyName="Lead"
             />
             {/* <NewLeadForm addLead={addData} /> */}
           </div>

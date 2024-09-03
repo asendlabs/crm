@@ -5,9 +5,9 @@ import { DataTableCheckbox } from "@/components/table-fields/DataTableCheckbox";
 import { DataTableColumnHeader } from "@/components/table-headers/DataTableColumnHeader";
 import { DataTableHeaderCheckbox } from "@/components/table-headers/DataTableHeaderCheckbox";
 import { DataTablePrimaryField } from "@/components/table-fields/DataTablePrimaryField";
-import { Account } from "@database/types";
+import { Lead } from "@database/types";
 
-export const AccountColumns: ColumnDef<Account>[] = [
+export const LeadColumns: ColumnDef<Lead>[] = [
   {
     id: "select",
     header: DataTableHeaderCheckbox,
@@ -16,7 +16,7 @@ export const AccountColumns: ColumnDef<Account>[] = [
   {
     accessorKey: "name",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Account Name" />
+      <DataTableColumnHeader column={column} title="Lead Name" />
     ),
     cell: DataTablePrimaryField,
   },
