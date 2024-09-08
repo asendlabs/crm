@@ -36,7 +36,7 @@ export function ResendVerifyEmailButton() {
     startTimer(); // Start timer and loading
 
     try {
-      const [err] = await execute(); // Execute async operation
+      const [data, err] = await execute(); // Execute async operation
 
       if (err) {
         toast.error(err.message); // Show error message if there's an error

@@ -21,7 +21,7 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { toast } from "sonner";
-import { PasswordField, PasswordInput } from "../ui/password-input";
+import { PasswordField } from "../ui/password-input";
 
 export const LoginForm = ({
   login,
@@ -45,7 +45,9 @@ export const LoginForm = ({
     const [data, err] = await execute(formData);
 
     if (err) {
-      toast.error(err.message);
+      toast.error(err.message, {
+        duration: 2000,
+      });
       setIsSubmitting(false);
       return;
     }

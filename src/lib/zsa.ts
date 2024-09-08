@@ -11,7 +11,7 @@ function shapeErrors({ err }: any) {
     console.error(err);
     return {
       code: err.code ?? "ERROR",
-      message: `${isDev ? "DEV ONLY ENABLED - " : ""}${err.message}`,
+      message: `${isDev ? "DEV - " : ""}${err.message}`,
     };
   } else {
     return {

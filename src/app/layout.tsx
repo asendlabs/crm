@@ -24,7 +24,7 @@ export default async function RootLayout({
       <html lang="en">
         <body className={inter.className}>
           {children}
-          <Toaster position="top-right" richColors />
+          <Toaster position="bottom-right" richColors />
         </body>
       </html>
     </ViewTransitions>
