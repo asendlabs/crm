@@ -1,5 +1,4 @@
-import { db } from "@database";
-import { leadTable } from "./schema/entities";
+import { leadTable } from "../ideas/entities";
 import { workspaceTable, userTable } from "./tables";
 
 // Auth Models

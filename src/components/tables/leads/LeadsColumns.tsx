@@ -7,7 +7,7 @@ import { DataTableHeaderCheckbox } from "@/components/table-headers/DataTableHea
 import { DataTablePrimaryField } from "@/components/table-fields/DataTablePrimaryField";
 import { Lead } from "@database/types";
 
-export const LeadColumns: ColumnDef<Lead>[] = [
+export const LeadsColumns: ColumnDef<Lead>[] = [
   {
     id: "select",
     header: DataTableHeaderCheckbox,
@@ -20,17 +20,4 @@ export const LeadColumns: ColumnDef<Lead>[] = [
     ),
     cell: DataTablePrimaryField,
   },
-  // {
-  //   accessorKey: "status",
-  //   header: "Status",
-  //   cell: ({ getValue, row, column, table }) => (
-  //     <DataTableStatusField
-  //       statusEnum={leadStatusEnum}
-  //       getValue={getValue}
-  //       row={row}
-  //       column={column}
-  //       table={table}
-  //     />
-  //   ),
-  // },
 ];

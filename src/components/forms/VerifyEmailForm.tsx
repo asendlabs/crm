@@ -9,20 +9,29 @@ import {
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
-import { toast } from "sonner";
 import { Input } from "../ui/input";
 import { Loader2, RefreshCw } from "lucide-react";
 import { verificationCodeSchema } from "@/schemas/auth.schema";
-import { svVerifyEmail } from "@/server/auth";
-import { useRouter } from "next/navigation";
+import { useServerAction } from "zsa-react";
+import { cn } from "@/utils/tailwind";
+import { InputOTP, InputOTPGroup, InputOTPSlot } from "../ui/input-otp";
+import { REGEXP_ONLY_DIGITS } from "input-otp";
+import { ResendVerifyEmailButton } from "./related/ResendVerifyEmailButton";
 
-export const VerifyEmailForm = ({ email }: { email: string }) => {
+export const VerifyEmailForm = ({
+  email,
+  action,
+  resendAction,
+}: {
+  email: string;
+  action: (formData: z.infer<typeof verificationCodeSchema>) => Promise<any>;
+  resendAction: () => Promise<any>;
+}) => {
+  const { execute, isPending, error } = useServerAction(action);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const router = useRouter();
 
   const form = useForm<z.infer<typeof verificationCodeSchema>>({
     resolver: zodResolver(verificationCodeSchema),
@@ -30,53 +39,81 @@ export const VerifyEmailForm = ({ email }: { email: string }) => {
       code: "",
     },
   });
+  const { handleSubmit, control, reset, setError } = form;
 
-  const { handleSubmit, control, setError } = form;
-
-  // if (!email) {
-  //toast.error("Something went wrong, Please logout and login/signup again!");
-  //return;
-  //}
-
-  const onSubmit = async (data: z.infer<typeof verificationCodeSchema>) => {
+  const onSubmit = async (formData: z.infer<typeof verificationCodeSchema>) => {
     setIsSubmitting(true);
-    try {
-      const response = await svVerifyEmail(email!, data.code);
-      if (!response.success) {
-        if (response.code === 401) {
-          setError("code", {
-            message: "Incorrect code, please check your code and try again",
-          });
-        } else {
-          toast.error(response.message);
-        }
-      }
-      router.replace("/onboarding/create-profile");
-    } catch (error) {
-      toast.error("Something went wrong");
-    } finally {
+    const [data, err] = await execute(formData);
+
+    if (err) {
+      setError("code", { message: err.message });
+      // toast.error(err.message); // Show a toast instead
       setIsSubmitting(false);
+      return;
     }
+    setIsSubmitting(false);
+    reset();
   };
 
   return (
-    <div className="flex flex-col gap-4">
-      <Form {...form}>
-        <form className="grid gap-3" onSubmit={handleSubmit(onSubmit)}>
-          <div className="flex w-full items-center justify-center gap-2">
+    <div className="flex min-h-screen flex-col items-center justify-center space-y-6 px-4 py-8">
+      <div className="text-center">
+        <h1 className="text-3xl font-semibold tracking-tight">
+          Verify your Email
+        </h1>
+        <div className="group mt-2 flex flex-row items-center justify-center gap-2 text-sm text-gray-600">
+          <p>
+            We sent a code to{" "}
+            <span
+              className={
+                email ? "cursor-pointer font-semibold" : "text-muted-foreground"
+              }
+            >
+              {email ? email : "your email"}
+            </span>
+          </p>
+
+          {""}
+        </div>
+      </div>
+      {/* Form */}
+      <div className="flex flex-col gap-4">
+        <Form {...form}>
+          <form className="grid gap-3" onSubmit={handleSubmit(onSubmit)}>
             <FormField
               name="code"
               control={control}
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <Input
-                      placeholder="Enter your verification code"
-                      className="w-[21rem]"
-                      autoComplete="off"
-                      disabled={isSubmitting}
+                    <InputOTP
+                      maxLength={5}
                       {...field}
-                    />
+                      pattern={REGEXP_ONLY_DIGITS}
+                    >
+                      <InputOTPGroup className="h-[4.25rem] w-full">
+                        <InputOTPSlot
+                          index={0}
+                          className="h-full w-full text-2xl"
+                        />
+                        <InputOTPSlot
+                          index={1}
+                          className="h-full w-full text-2xl"
+                        />
+                        <InputOTPSlot
+                          index={2}
+                          className="h-full w-full text-2xl"
+                        />
+                        <InputOTPSlot
+                          index={3}
+                          className="h-full w-full text-2xl"
+                        />
+                        <InputOTPSlot
+                          index={4}
+                          className="h-full w-full text-2xl"
+                        />
+                      </InputOTPGroup>
+                    </InputOTP>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -84,23 +121,18 @@ export const VerifyEmailForm = ({ email }: { email: string }) => {
             />
             <Button
               disabled={isSubmitting}
-              type="button"
-              variant="outline"
-              className="h-full w-10 p-0 text-muted-foreground hover:text-black"
+              type="submit"
+              className="mt-1 w-96 select-none"
             >
-              <RefreshCw size={16} />
+              {isSubmitting && (
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              )}
+              Verify
             </Button>
-          </div>
-          <Button
-            disabled={isSubmitting}
-            type="submit"
-            className="mt-1 w-96 select-none"
-          >
-            {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-            Verify
-          </Button>
-        </form>
-      </Form>
+          </form>
+        </Form>
+      </div>
+      <ResendVerifyEmailButton />
     </div>
   );
 };

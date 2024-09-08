@@ -21,8 +21,9 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Workspace } from "@database/types";
-import { svSetSelectedWorkspace } from "@/server/workspace";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface WorkspaceSwitcherProps {
   workspaces: Workspace[];
@@ -35,6 +36,7 @@ export function WorkspaceSwitcher({
   className,
   cookieSelectedWorkspaceId,
 }: WorkspaceSwitcherProps) {
+  const router = useRouter();
   const [open, setOpen] = React.useState(false);
   const [showNewWorkspaceDialog, setShowNewWorkspaceDialog] =
     React.useState(false);
@@ -50,7 +52,7 @@ export function WorkspaceSwitcher({
 
       if (!previouslySelectedWorkspace) {
         const firstWorkspaceInArray = workspaces[0];
-        await svSetSelectedWorkspace(firstWorkspaceInArray.id);
+        // await svSetSelectedWorkspace(firstWorkspaceInArray.id);
         setSelectedWorkspace(firstWorkspaceInArray);
       } else {
         setSelectedWorkspace(previouslySelectedWorkspace);
@@ -62,7 +64,15 @@ export function WorkspaceSwitcher({
     workspaceLogic();
   }, [workspaces, cookieSelectedWorkspaceId]); // Add dependencies to useEffect
 
-  if (loading) return null; // Render nothing or a loading spinner while loading
+  if (loading)
+    return (
+      <div className="flex w-full items-center justify-between px-2">
+        <div className="flex items-center">
+          <Skeleton className="h-4 w-20" />
+        </div>
+        <Skeleton className="ml-auto h-4 w-4 rounded" />
+      </div>
+    );
 
   return (
     <Dialog
@@ -78,7 +88,7 @@ export function WorkspaceSwitcher({
             aria-label="Select a workspace"
             className={cn("w-full justify-between px-2", className)}
           >
-            <Avatar className="mr-2 h-5 w-5">
+            {/* <Avatar className="mr-2 h-5 w-5">
               <AvatarImage
                 src={selectedWorkspace?.logoUrl || ""}
                 alt={selectedWorkspace?.name || ""}
@@ -87,12 +97,12 @@ export function WorkspaceSwitcher({
               <AvatarFallback>
                 {selectedWorkspace?.name?.charAt(0) || ""}
               </AvatarFallback>
-            </Avatar>
+            </Avatar> */}
             {selectedWorkspace?.name}
             <ChevronsUpDown className="ml-auto h-4 w-4 shrink-0 opacity-50" />
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="w-full p-[2px]">
+        <PopoverContent className="w-56 p-[2px]">
           <Command>
             <CommandInput placeholder="Search workspace..." />
             <CommandList className="px-0.5 py-1">
@@ -102,22 +112,22 @@ export function WorkspaceSwitcher({
                   key={workspace.id}
                   onSelect={async () => {
                     setSelectedWorkspace(workspace);
-                    const response = await svSetSelectedWorkspace(workspace.id);
-                    if (!response.success) {
-                      toast.error("Unable to change workspace");
-                    }
+                    // const response = await svSetSelectedWorkspace(workspace.id);
+                    // if (!response.success) {
+                    //   toast.error("Unable to change workspace");
+                    // }
                     setOpen(false);
                   }}
                   className="text-sm"
                 >
-                  <Avatar className="mr-2 h-5 w-5">
+                  {/* <Avatar className="mr-2 h-5 w-5">
                     <AvatarImage
                       src={workspace.logoUrl || ""}
                       alt={workspace.name!}
                       className="grayscale"
                     />
                     <AvatarFallback>{workspace.name!.charAt(0)}</AvatarFallback>
-                  </Avatar>
+                  </Avatar> */}
                   {workspace.name!}
                   <CheckIcon
                     className={cn(

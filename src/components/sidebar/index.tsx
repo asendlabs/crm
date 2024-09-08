@@ -23,7 +23,7 @@ export const Sidebar = ({
   workspaces,
   cookieSelectedWorkspaceId,
 }: {
-  user: User;
+  user: any;
   workspaces: Workspace[];
   cookieSelectedWorkspaceId: string;
 }) => {
@@ -46,9 +46,11 @@ export const Sidebar = ({
             <span>Search</span>
           </div>
           <Link
-            href="/home"
+            href="/app/home"
             className={`${sidebarItemClassName} ${
-              pathname === "/home" ? "bg-muted-foreground/10 !text-black" : ""
+              pathname === "/app/home"
+                ? "bg-muted-foreground/10 !text-black"
+                : ""
             }`}
           >
             <Inbox className="h-4 w-4" />
@@ -107,8 +109,12 @@ export const Sidebar = ({
         <div className="ml-2 flex items-center">
           <UserButton
             email={user?.email || ""}
-            name={user?.name || ""}
-            avatarUrl={user?.avatarUrl || ""}
+            name={
+              user.profile.firstName + " " + user.profile.lastName ||
+              user?.email?.slice(0, user?.email?.indexOf("@")) ||
+              ""
+            }
+            avatarUrl={user?.profile.avatarUrl || ""}
           />
         </div>
       </div>

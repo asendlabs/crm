@@ -1,13 +1,5 @@
-import { userTable, userSessionTable } from "./schema/auth";
-import { workspaceTable, workspaceUserTable } from "./schema/workspace";
-import {
-  leadTable,
-  contactTable,
-  contactEmailTable,
-  contactPhoneTable,
-} from "./schema/entities";
-
+import { userTable, sessionTable, profileTable } from "./schema/users";
+import { workspaceTable, workspaceUserTable } from "./schema/workspaces";
 // Exporting the tables
-export { userTable, userSessionTable };
-export { leadTable, contactTable, contactEmailTable, contactPhoneTable };
+export { userTable, sessionTable, profileTable };
 export { workspaceTable, workspaceUserTable };

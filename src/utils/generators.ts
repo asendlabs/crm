@@ -1,5 +1,5 @@
 export function generateEmailVerifyCode() {
-  const length: number = 6;
+  const length: number = 5;
   const characters = "0123456789";
   let code: string = "";
 

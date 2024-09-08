@@ -22,6 +22,5 @@ export const loginSchema = z.object({
 export const verificationCodeSchema = z.object({
   code: z
     .string()
-    .min(6, "Verification code must be 6 characters long")
-    .max(6, "Verification code must be 6 characters long"),
+    .length(5, { message: "Verification code must be 5 characters long." }),
 });

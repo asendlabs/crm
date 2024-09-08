@@ -1,16 +1,8 @@
 import { z } from "zod";
 
-export const createProfileSchema = z.object({
-  name: z
-    .string()
-    .min(2, { message: "Name must be at least 2 characters long" })
-    .max(255, { message: "Name cannot exceed 255 characters" }),
+export const onboardingSchema = z.object({
+  firstName: z.string().min(2, { message: "First name is too short" }),
+  lastName: z.string().optional(),
   marketingConsent: z.boolean(),
-});
-
-export const createWorkspaceSchema = z.object({
-  name: z
-    .string()
-    .min(2, { message: "Name must be at least 2 characters long" })
-    .max(255, { message: "Name cannot exceed 255 characters" }),
+  workspaceName: z.string().min(2, { message: "Workspace name is too short" }),
 });
