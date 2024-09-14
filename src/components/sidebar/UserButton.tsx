@@ -55,7 +55,7 @@ export function UserButton({
           <DropdownMenuItem>
             <p className="flex items-center gap-2">{email}</p>
           </DropdownMenuItem>
-          <DropdownMenuItem>
+          {/* <DropdownMenuItem>
             <Link
               href="/support"
               className="flex items-center gap-2"
@@ -74,7 +74,7 @@ export function UserButton({
               <LibraryBig className="h-4 w-4" />
               <span>Docs</span>
             </Link>
-          </DropdownMenuItem>
+          </DropdownMenuItem> */}
           <DropdownMenuSeparator />
           <button
             className="flex w-full cursor-pointer flex-row items-center justify-start gap-2 px-2 py-2 text-sm"

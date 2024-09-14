@@ -20,4 +20,18 @@ export const LeadsColumns: ColumnDef<Account>[] = [
     ),
     cell: DataTablePrimaryField,
   },
+  {
+    accessorKey: "accountName",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Account Name" />
+    ),
+    cell: DataTablePrimaryField,
+  },
+  {
+    accessorKey: "accountName",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Account Name" />
+    ),
+    cell: DataTablePrimaryField,
+  },
 ];

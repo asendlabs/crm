@@ -6,7 +6,7 @@ import React from "react";
 export function DataTableCheckbox({ row }: { row: any }) {
   return (
     <div
-      className="flex h-9 w-11 cursor-pointer items-center justify-center"
+      className="flex cursor-pointer items-center"
       onClick={() => row.toggleSelected()}
     >
       <Checkbox

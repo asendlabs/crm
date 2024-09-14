@@ -5,7 +5,7 @@ import { Table } from "drizzle-orm";
 export function DataTableHeaderCheckbox({ table }: { table: any }) {
   return (
     <div
-      className="flex w-6 cursor-pointer items-center justify-center"
+      className="flex cursor-pointer items-center select-none"
       onClick={() => table.toggleAllPageRowsSelected()}
     >
       <Checkbox
