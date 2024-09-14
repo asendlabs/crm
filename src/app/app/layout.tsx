@@ -35,14 +35,14 @@ export default async function ApplicationLayout({
   const workspaces = await getAllUserWorkspaces(user.id);
 
   const cookieSelectedWorkspaceId =
-    cookies().get("selected_workspace")?.value || "";
+    cookies().get("selectedWorkspaceId")?.value || "";
 
   return (
     <main className="grid min-h-screen w-full grid-cols-[240px_1fr]">
       <Sidebar
         user={dbUser}
         workspaces={workspaces}
-        cookieSelectedWorkspaceId={"waris"}
+        cookieSelectedWorkspaceId={cookieSelectedWorkspaceId}
       />
       <div>{children}</div>
     </main>

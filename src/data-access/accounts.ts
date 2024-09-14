@@ -1,7 +1,7 @@
 import "server-only";
 import { db } from "@database";
 import { accountTable } from "@database/tables";
-import { eq } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 import { ulid } from "ulid";
 import { Account } from "@database/types";
 
@@ -15,6 +15,16 @@ export async function getAccountById(id: string) {
 export async function getAllWorkspaceAccounts(workspaceId: string) {
   const workspaceAccounts = await db.query.accountTable.findMany({
     where: eq(accountTable.workspaceId, workspaceId),
+  });
+  return workspaceAccounts;
+}
+
+export async function getAllWorkspaceLeads(workspaceId: string) {
+  const workspaceAccounts = await db.query.accountTable.findMany({
+    where: and(
+      eq(accountTable.workspaceId, workspaceId),
+      eq(accountTable.type, "lead"),
+    ),
   });
   return workspaceAccounts;
 }

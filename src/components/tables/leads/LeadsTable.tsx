@@ -38,7 +38,7 @@ export function LeadTable<TData, TValue>({
   const [data, setData] = useState<TData[]>(tableData);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [sorting, setSorting] = useState<SortingState>([
-    { id: "name", desc: false },
+    { id: "accountName", desc: false },
   ]);
   const [rowSelectionState, setRowSelectionState] = useState({});
   const router = useRouter();
@@ -47,7 +47,7 @@ export function LeadTable<TData, TValue>({
     router.refresh();
   };
 
-  const primaryFields = ["name"];
+  const primaryFields = ["accountName"];
 
   const updateData = async ({
     rowIndex,
@@ -156,8 +156,8 @@ export function LeadTable<TData, TValue>({
             </div>
             <DataTableSearch
               table={table}
-              primaryField="name"
-              primaryFieldPrettyName="Lead"
+              primaryField="accountName"
+              primaryFieldPrettyName="Leads"
             />
             {/* <NewLeadForm addLead={addData} /> */}
           </div>

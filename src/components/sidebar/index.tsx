@@ -59,16 +59,7 @@ export const Sidebar = ({
         </ul>
         <ul className="">
           <Link
-            href="/deals"
-            className={`${sidebarItemClassName} ${
-              pathname === "/deals" ? "bg-muted-foreground/10 !text-black" : ""
-            }`}
-          >
-            <Zap className="h-4 w-4" />
-            <span>Deals</span>
-          </Link>
-          <Link
-            href="/leads"
+            href="/app/leads"
             prefetch={false}
             className={`${sidebarItemClassName} ${
               pathname === "/leads" ? "bg-muted-foreground/10 !text-black" : ""
@@ -78,7 +69,16 @@ export const Sidebar = ({
             <span>Leads</span>
           </Link>
           <Link
-            href="/contacts"
+            href="/app/opportunities"
+            className={`${sidebarItemClassName} ${
+              pathname === "/deals" ? "bg-muted-foreground/10 !text-black" : ""
+            }`}
+          >
+            <Zap className="h-4 w-4" />
+            <span>Opportunities</span>
+          </Link>
+          <Link
+            href="/app/contacts"
             prefetch={false}
             className={`${sidebarItemClassName} ${
               pathname === "/contacts"
@@ -101,7 +101,7 @@ export const Sidebar = ({
             <Map className="h-4 w-4" />
             <span>Roadmap</span>
           </Link>
-          <Link href="/settings" className={`${sidebarItemClassName}`}>
+          <Link href="/app/settings" className={`${sidebarItemClassName}`}>
             <Settings className="h-4 w-4" />
             <span>Settings</span>
           </Link>

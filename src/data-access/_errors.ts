@@ -79,3 +79,10 @@ export class CouldntCreateProfileError extends PublicError {
     this.name = "CouldntCreateProfileError";
   }
 }
+
+export class CouldntSetSelectedWorkspaceError extends PublicError {
+  constructor() {
+    super("Couldn't open selected workspace");
+    this.name = "CouldntSetSelectedWorkspaceError";
+  }
+}

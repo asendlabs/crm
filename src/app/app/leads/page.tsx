@@ -1,8 +1,12 @@
 import { LeadsColumns } from "@/components/tables/leads/LeadsColumns";
 import { LeadTable } from "@/components/tables/leads/LeadsTable";
-import { svFetchAllWorkspaceLeads } from "@/actions/leads";
 import { Metadata } from "next";
 import React from "react";
+import {
+  getAllWorkspaceAccounts,
+  getAllWorkspaceLeads,
+} from "@/data-access/accounts";
+import { cookies } from "next/headers";
 
 export const metadata: Metadata = {
   title: "Leads | Asend",
@@ -10,7 +14,8 @@ export const metadata: Metadata = {
 };
 
 async function LeadsPage() {
-  const { data } = await svFetchAllWorkspaceLeads();
+  const workspaceId = cookies().get("selectedWorkspaceId")?.value || "";
+  const data = await getAllWorkspaceLeads(workspaceId);
   return <LeadTable columns={LeadsColumns} tableData={data} />;
 }
 

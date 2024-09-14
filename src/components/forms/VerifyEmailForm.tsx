@@ -12,11 +12,9 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
-import { Input } from "../ui/input";
 import { Loader2, RefreshCw } from "lucide-react";
 import { verificationCodeSchema } from "@/schemas/auth.schema";
 import { useServerAction } from "zsa-react";
-import { cn } from "@/utils/tailwind";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "../ui/input-otp";
 import { REGEXP_ONLY_DIGITS } from "input-otp";
 import { ResendVerifyEmailButton } from "./related/ResendVerifyEmailButton";

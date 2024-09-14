@@ -24,6 +24,8 @@ import { Workspace } from "@database/types";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { Skeleton } from "@/components/ui/skeleton";
+import { setSelectedWorkspaceAction } from "@/server/workspaces";
+import { useServerAction } from "zsa-react";
 
 interface WorkspaceSwitcherProps {
   workspaces: Workspace[];
@@ -43,6 +45,7 @@ export function WorkspaceSwitcher({
   const [selectedWorkspace, setSelectedWorkspace] =
     React.useState<Workspace | null>(null);
   const [loading, setLoading] = React.useState(true); // Initialize loading as true to show loading state first
+  const { execute } = useServerAction(setSelectedWorkspaceAction);
 
   React.useEffect(() => {
     const workspaceLogic = async () => {
@@ -52,7 +55,7 @@ export function WorkspaceSwitcher({
 
       if (!previouslySelectedWorkspace) {
         const firstWorkspaceInArray = workspaces[0];
-        // await svSetSelectedWorkspace(firstWorkspaceInArray.id);
+        await execute({ workspaceId: firstWorkspaceInArray.id });
         setSelectedWorkspace(firstWorkspaceInArray);
       } else {
         setSelectedWorkspace(previouslySelectedWorkspace);
@@ -112,10 +115,12 @@ export function WorkspaceSwitcher({
                   key={workspace.id}
                   onSelect={async () => {
                     setSelectedWorkspace(workspace);
-                    // const response = await svSetSelectedWorkspace(workspace.id);
-                    // if (!response.success) {
-                    //   toast.error("Unable to change workspace");
-                    // }
+                    const response = await execute({
+                      workspaceId: workspace.id,  
+                    });
+                    if (!response) {
+                      toast.error("Unable to change workspace");
+                    }
                     setOpen(false);
                   }}
                   className="text-sm"
