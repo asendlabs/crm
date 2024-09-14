@@ -18,7 +18,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { deleteContact, updateContact } from "../../../actions/contact.action";
+import { deleteContact, updateContact } from "../../../server/contact.action";
 
 import DataTableDeleteButton from "@/components/data-table/DataTableDeleteButton";
 import DataTableSearch from "@/components/data-table/other/DataTableSearch";

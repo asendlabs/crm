@@ -1,5 +1,5 @@
 import { SignUpForm } from "@/components/forms/SignUpForm";
-import { signUpAction } from "./actions";
+import { signUpAction } from "@/server/signup";
 import { Metadata } from "next";
 import { fetchAuthenticatedUser } from "@/lib/session";
 import { redirect } from "next/navigation";

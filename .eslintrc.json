@@ -3,11 +3,7 @@
     "next/core-web-vitals",
     "prettier"
   ],
-  "plugins": [
-    "@c-ehrlich/eslint-plugin-use-server"
-  ],
   "rules": {
-    "react/no-unescaped-entities": "off",
-    "@c-ehrlich/use-server/no-top-level-use-server": "error"
+    "react/no-unescaped-entities": "off"
   }
 }

@@ -6,11 +6,9 @@ import { authenticatedAction } from "@/lib/zsa";
 import { afterVerifyUrl } from "@/app-config";
 import {
   getUserById,
-  resendVerificationCode,
   updateUser,
 } from "@/data-access/users";
 import {
-  AuthenticationError,
   EmailVerificationError,
   SomethingWentWrongError,
 } from "@/data-access/_errors";

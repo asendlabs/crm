@@ -22,7 +22,7 @@
 # misc
 .DS_Store
 *.pem
-/ideas
+/.temp
 
 # debug
 npm-debug.log*

@@ -1,5 +1,5 @@
 import { LoginForm } from "@/components/forms/LoginForm";
-import { loginAction } from "./actions";
+import { loginAction } from "@/server/login";
 import { Metadata } from "next";
 import { fetchAuthenticatedUser } from "@/lib/session";
 import { redirect } from "next/navigation";

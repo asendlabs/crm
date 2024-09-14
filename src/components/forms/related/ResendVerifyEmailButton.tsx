@@ -1,5 +1,5 @@
 "use client";
-import { resendVerifyEmailAction } from "@/app/(auth)/verify-email/actions";
+import { resendVerifyEmailAction } from "@/server/verify-email";
 import React, { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { useServerAction } from "zsa-react";
