@@ -5,6 +5,7 @@ import { Lucia, Session, User } from "lucia";
 import { db } from "@database";
 import { env } from "@/env";
 import { cookies } from "next/headers";
+import { ckAuthSession } from "@/utils/cookie-names";
 
 const adapter = new DrizzlePostgreSQLAdapter(
   db,
@@ -14,7 +15,7 @@ const adapter = new DrizzlePostgreSQLAdapter(
 
 export const lucia = new Lucia(adapter, {
   sessionCookie: {
-    name: "session",
+    name: ckAuthSession,
     attributes: {
       sameSite: "strict",
       secure: env.NODE_ENV === "production",

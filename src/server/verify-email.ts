@@ -3,7 +3,7 @@ import { createServerAction } from "zsa";
 import { verificationCodeSchema } from "@/schemas/auth.schema";
 import { redirect } from "next/navigation";
 import { authenticatedAction } from "@/lib/zsa";
-import { afterVerifyUrl } from "@/app-config";
+import { afterVerifyUrl } from "@/utils/frequent-urls";
 import {
   getUserById,
   updateUser,

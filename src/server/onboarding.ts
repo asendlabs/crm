@@ -9,7 +9,7 @@ import {
 } from "@/data-access/_errors";
 import { onboardingSchema } from "@/schemas/onboarding.schema";
 import { createWorkspace, createWorkspaceUser } from "@/data-access/workspaces";
-import { authenticatedUrl } from "@/app-config";
+import { authenticatedUrl } from "@/utils/frequent-urls";
 
 export const onboardingAction = authenticatedAction
   .createServerAction()

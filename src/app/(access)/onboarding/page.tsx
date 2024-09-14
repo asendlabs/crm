@@ -5,7 +5,7 @@ import { getUserById } from "@/data-access/users";
 import { fetchAuthenticatedUser } from "@/lib/session";
 import { onboardingAction } from "@/server/onboarding";
 import { redirect } from "next/navigation";
-import { authenticatedUrl, unauthenticatedUrl } from "@/app-config";
+import { authenticatedUrl, unauthenticatedUrl } from "@/utils/frequent-urls";
 import { OnboardingForm } from "@/components/forms/OnboardingForm";
 
 export const metadata: Metadata = {

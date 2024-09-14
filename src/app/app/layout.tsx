@@ -9,8 +9,9 @@ import {
   afterSignUpUrl,
   afterVerifyUrl,
   unauthenticatedUrl,
-} from "@/app-config";
+} from "@/utils/frequent-urls";
 import { getAllUserWorkspaces } from "@/data-access/workspaces";
+import { ckSelectedWorkspaceId } from "@/utils/cookie-names";
 
 export default async function ApplicationLayout({
   children,
@@ -35,7 +36,7 @@ export default async function ApplicationLayout({
   const workspaces = await getAllUserWorkspaces(user.id);
 
   const cookieSelectedWorkspaceId =
-    cookies().get("selectedWorkspaceId")?.value || "";
+    cookies().get(ckSelectedWorkspaceId)?.value || "";
 
   return (
     <main className="grid min-h-screen w-full grid-cols-[240px_1fr]">

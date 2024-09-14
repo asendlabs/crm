@@ -7,14 +7,15 @@ import {
   getAllWorkspaceLeads,
 } from "@/data-access/accounts";
 import { cookies } from "next/headers";
+import { ckSelectedWorkspaceId } from "@/utils/cookie-names";
 
 export const metadata: Metadata = {
-  title: "Leads | Asend",
+  title: "Leads",
   description: "List of Leads",
 };
 
 async function LeadsPage() {
-  const workspaceId = cookies().get("selectedWorkspaceId")?.value || "";
+  const workspaceId = cookies().get(ckSelectedWorkspaceId)?.value || "";
   const data = await getAllWorkspaceLeads(workspaceId);
   return <LeadTable columns={LeadsColumns} tableData={data} />;
 }
