@@ -81,6 +81,9 @@ export const activityTable = table("activities", {
   accountId: text("account_id")
     .notNull()
     .references(() => accountTable.id),
+  workspaceId: text("workspace_id")
+    .notNull()
+    .references(() => workspaceTable.id),
   activityType: activityTypeEnum("activity_type").notNull().default("email"),
   description: text("description"),
   fromTimeStamp: timestamp("from_timestamp").notNull(),
@@ -107,9 +110,7 @@ export const opportunityTable = table("opportunities", {
   value: varchar("deal_value", { length: 255 }).notNull(),
   probability: integer("probability"),
   expectedCloseDate: timestamp("expected_close_date"),
-  assignedToId: text("assigned_to_id")
-    .notNull()
-    .references(() => userTable.id),
+  assignedToId: text("assigned_to_id").references(() => userTable.id),
   primaryContactId: text("primary_contact_id")
     .notNull()
     .references(() => contactTable.id),

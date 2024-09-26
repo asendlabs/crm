@@ -1,10 +1,27 @@
-import { accountTable, contactTable } from "./tables";
-import { workspaceTable, userTable } from "./tables";
+import * as tables from "./tables";
 
-// Auth Models
-type User = typeof userTable.$inferSelect;
-type Workspace = typeof workspaceTable.$inferSelect;
-type Account = typeof accountTable.$inferSelect;
-type Contact = typeof contactTable.$inferSelect;
+type User = typeof tables.userTable.$inferSelect;
+type Workspace = typeof tables.workspaceTable.$inferSelect;
+type Account = typeof tables.accountTable.$inferSelect;
+type Contact = typeof tables.contactTable.$inferSelect;
+type Profile = typeof tables.profileTable.$inferSelect;
+type Session = typeof tables.sessionTable.$inferSelect;
+type WorkspaceUser = typeof tables.workspaceUserTable.$inferSelect;
+type Activity = typeof tables.activityTable.$inferSelect;
+type Opportunity = typeof tables.opportunityTable.$inferSelect;
+type ContactEmail = typeof tables.contactEmailTable.$inferSelect;
+type ContactPhone = typeof tables.contactPhoneTable.$inferSelect;
 
-export type { User, Workspace, Account, Contact };
+export type {
+  User,
+  Workspace,
+  Account,
+  Contact,
+  Profile,
+  Session,
+  WorkspaceUser,
+  Activity,
+  Opportunity,
+  ContactEmail,
+  ContactPhone,
+};

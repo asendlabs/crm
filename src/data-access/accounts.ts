@@ -29,12 +29,21 @@ export async function getAllWorkspaceLeads(workspaceId: string) {
   return workspaceAccounts;
 }
 
+export async function getAllWorkspaceCustomers(workspaceId: string) {
+  const workspaceAccounts = await db.query.accountTable.findMany({
+    where: and(
+      eq(accountTable.workspaceId, workspaceId),
+      eq(accountTable.type, "customer"),
+    ),
+  });
+  return workspaceAccounts;
+}
+
 export async function createAccount(
   workspaceId: string,
   userId: string,
   accountName: string,
   type: "lead" | "customer",
-  description?: string,
 ) {
   const [created] = await db
     .insert(accountTable)
@@ -43,7 +52,6 @@ export async function createAccount(
       workspaceId,
       accountName,
       type,
-      description,
       createdAt: new Date(),
       updatedAt: new Date(),
       createdById: workspaceId,
