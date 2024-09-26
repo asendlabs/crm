@@ -8,6 +8,7 @@ import {
 } from "drizzle-orm/pg-core";
 import { workspaces } from "./_schemas";
 import { userTable } from "./users";
+import { defaultAccountStatusOptions } from "./_objects";
 
 const { table } = workspaces;
 
@@ -25,6 +26,9 @@ export const workspaceTable = table("workspaces", {
   updatedById: text("updated_by_id")
     .notNull()
     .references(() => userTable.id),
+  defaultStatusOptions: jsonb("default_status_options").default(
+    JSON.stringify(defaultAccountStatusOptions),
+  ),
   metadata: jsonb("metadata"),
 });
 
