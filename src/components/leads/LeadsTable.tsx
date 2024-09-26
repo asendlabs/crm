@@ -19,9 +19,9 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-import { DataTableDeleteButton } from "@/components/tables/DataTableDeleteButton";
-import { DataTableSearch } from "@/components/tables/DataTableSearch";
-import { DataTableViewOptions } from "@/components/tables/DataTableViewOptions";
+import { DataTableDeleteButton } from "@/components/tables/nav/DataTableDeleteButton";
+import { DataTableSearch } from "@/components/tables/nav/DataTableSearch";
+import { DataTableViewOptions } from "@/components/tables/nav/DataTableViewOptions";
 import { NewLeadForm } from "@/components/forms/NewLeadForm";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -50,7 +50,7 @@ export function LeadTable<TData, TValue>({
   };
   const { execute } = useServerAction(updateAccountAction);
 
-  const primaryFields = ["accountName"];
+  const primaryFields = ["accountName", "contacts"];
 
   const updateData = async ({
     rowIndex,
@@ -139,9 +139,11 @@ export function LeadTable<TData, TValue>({
       deleteData,
     },
   });
+
+  console.log(tableData);
   return (
     <>
-      <section className="flex h-screen flex-col justify-between gap-6 px-6 py-5">
+      <section className="justify- flex h-screen flex-col gap-6 px-6 py-5">
         <div className="flex select-none flex-row items-center justify-between">
           <h1 className="text-xl font-semibold">Leads</h1>
           <div className="flex flex-row gap-2">
@@ -167,7 +169,7 @@ export function LeadTable<TData, TValue>({
             <NewLeadForm addLead={addData} />
           </div>
         </div>
-        <div className="custom-scrollbar min-h-[89vh] overflow-y-auto">
+        <div className="custom-scrollbar overflow-y-auto">
           <Table>
             <TableHeader>
               {table.getHeaderGroups().map((headerGroup) => (

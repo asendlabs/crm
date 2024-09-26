@@ -18,6 +18,7 @@ import { useServerAction } from "zsa-react";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "../ui/input-otp";
 import { REGEXP_ONLY_DIGITS } from "input-otp";
 import { ResendVerifyEmailButton } from "./related/ResendVerifyEmailButton";
+import Image from "next/image";
 
 export const VerifyEmailForm = ({
   email,
@@ -55,8 +56,14 @@ export const VerifyEmailForm = ({
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center space-y-6 px-4 py-8">
-      <div className="text-center">
-        <h1 className="text-3xl font-semibold tracking-tight">
+      <div className="flex flex-col space-y-2 text-center">
+        <h1 className="flex flex-row items-center justify-center gap-2 text-2xl font-semibold tracking-tight">
+          <Image
+            src={"/assets/logo_app.svg"}
+            alt="Logo"
+            width={25}
+            height={25}
+          />
           Verify your Email
         </h1>
         <div className="group mt-2 flex flex-row items-center justify-center gap-2 text-sm text-gray-600">

@@ -69,7 +69,13 @@ export const LoginForm = ({
       <div>
         <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
           <div className="flex flex-col space-y-2 text-center">
-            <h1 className="text-2xl font-semibold tracking-tight">
+            <h1 className="flex flex-row items-center justify-center gap-2 text-2xl font-semibold tracking-tight">
+              <Image
+                src={"/assets/logo_app.svg"}
+                alt="Logo"
+                width={25}
+                height={25}
+              />
               Login to Asend
             </h1>
             <p className="text-sm text-muted-foreground">

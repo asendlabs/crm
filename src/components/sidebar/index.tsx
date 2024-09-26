@@ -17,6 +17,7 @@ import { UserButton } from "./UserButton";
 import { WorkspaceSwitcher } from "./WorkspaceSwitcher";
 import { usePathname } from "next/navigation";
 import { User, Workspace } from "@database/types";
+import Image from "next/image";
 
 export const Sidebar = ({
   user,
@@ -34,7 +35,7 @@ export const Sidebar = ({
   return (
     <div className="flex h-screen w-60 select-none flex-col justify-between border-r bg-card outline-none">
       <div className="flex flex-col pl-2 pr-2 pt-3">
-        <div className="ml-1 flex items-center">
+        <div className="ml-1 flex items-center gap-2">
           <WorkspaceSwitcher
             workspaces={workspaces}
             cookieSelectedWorkspaceId={cookieSelectedWorkspaceId}
@@ -62,7 +63,9 @@ export const Sidebar = ({
             href="/app/leads"
             prefetch={false}
             className={`${sidebarItemClassName} ${
-              pathname === "/app/leads" ? "bg-muted-foreground/10 !text-black" : ""
+              pathname === "/app/leads"
+                ? "bg-muted-foreground/10 !text-black"
+                : ""
             }`}
           >
             <Building className="h-4 w-4" />

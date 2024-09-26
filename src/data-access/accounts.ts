@@ -15,6 +15,9 @@ export async function getAccountById(id: string) {
 export async function getAllWorkspaceAccounts(workspaceId: string) {
   const workspaceAccounts = await db.query.accountTable.findMany({
     where: eq(accountTable.workspaceId, workspaceId),
+    with: {
+      contacts: true,
+    },
   });
   return workspaceAccounts;
 }
@@ -25,6 +28,9 @@ export async function getAllWorkspaceLeads(workspaceId: string) {
       eq(accountTable.workspaceId, workspaceId),
       eq(accountTable.type, "lead"),
     ),
+    with: {
+      contacts: true,
+    },
   });
   return workspaceAccounts;
 }

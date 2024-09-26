@@ -89,18 +89,8 @@ export function WorkspaceSwitcher({
             role="combobox"
             aria-expanded={open}
             aria-label="Select a workspace"
-            className={cn("w-full justify-between px-2", className)}
+            className={cn("h-7 w-full justify-between px-2", className)}
           >
-            {/* <Avatar className="mr-2 h-5 w-5">
-              <AvatarImage
-                src={selectedWorkspace?.logoUrl || ""}
-                alt={selectedWorkspace?.name || ""}
-                className="grayscale"
-              />
-              <AvatarFallback>
-                {selectedWorkspace?.name?.charAt(0) || ""}
-              </AvatarFallback>
-            </Avatar> */}
             {selectedWorkspace?.name}
             <ChevronsUpDown className="ml-auto h-4 w-4 shrink-0 opacity-50" />
           </Button>
@@ -116,7 +106,7 @@ export function WorkspaceSwitcher({
                   onSelect={async () => {
                     setSelectedWorkspace(workspace);
                     const response = await execute({
-                      workspaceId: workspace.id,  
+                      workspaceId: workspace.id,
                     });
                     if (!response) {
                       toast.error("Unable to change workspace");

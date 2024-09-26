@@ -2,14 +2,19 @@
 
 import React, { useEffect, useRef } from "react";
 
-interface BasicFieldProps {
+interface EditableFieldProps {
   getValue: () => any;
   row: any;
   column: any;
   table: any;
 }
 
-export function BasicField({ getValue, row, column, table }: BasicFieldProps) {
+export function EditableField({
+  getValue,
+  row,
+  column,
+  table,
+}: EditableFieldProps) {
   const initialValue = getValue();
   const [active, setActive] = React.useState(false);
   const [value, setValue] = React.useState(initialValue);
@@ -47,7 +52,7 @@ export function BasicField({ getValue, row, column, table }: BasicFieldProps) {
         onChange={(e) => setValue(e.target.value)}
         onBlur={onBlur}
         readOnly={!active}
-        className={`w-full truncate rounded-none border-none p-2 outline-none ring-0 ${active ? "cursor-text focus:ring-1 focus:ring-gray-900" : "cursor-pointer"}`}
+        className={`w-full truncate rounded-none border-none p-2 outline-none ring-0 ${active ? "cursor-text focus:ring-1 focus:ring-primary" : "cursor-pointer"}`}
       />
     </div>
   );

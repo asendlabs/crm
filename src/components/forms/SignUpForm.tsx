@@ -66,9 +66,15 @@ export const SignUpForm = ({
       </Link>
       <div>
         <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
-          <div className="flex flex-col space-y-2 text-center">
-            <h1 className="text-2xl font-semibold tracking-tight">
-              Create an Account
+          <div className="flex flex-col text-center space-y-2">
+            <h1 className="flex flex-row items-center gap-2 justify-center text-2xl font-semibold tracking-tight">
+              <Image
+                src={"/assets/logo_app.svg"}
+                alt="Logo"
+                width={25}
+                height={25} 
+              />
+              Create a free account
             </h1>
             <p className="text-sm text-muted-foreground">
               Provide your email and choose a password.

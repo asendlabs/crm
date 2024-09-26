@@ -1,29 +1,37 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
-import { HeaderCheckbox } from "@/components/tables/fields/HeaderCheckbox";
 import { Account } from "@database/types";
-import { BasicField } from "@/components/tables/fields/BasicField";
 import { CheckboxField } from "@/components/tables/fields/CheckboxField";
-import { BasicTitle } from "@/components/tables/fields/BasicTitle";
 import { PrimaryField } from "@/components/tables/fields/PrimaryField";
-import { PrimaryTitle } from "../tables/fields/PrimaryTitle";
+import { LucideFileText, LucideUsers } from "lucide-react";
+import { LogoHead } from "@/components/tables/headers/LogoHead";
+import { CheckboxHead } from "@/components/tables/headers/CheckboxHead";
+import { PrimaryHead } from "@/components/tables/headers/PrimaryHead";
+import { EditableField } from "../tables/fields/EditableField";
+import { SecondaryField } from "../tables/fields/SecondaryField";
+import { StatusField } from "../tables/fields/StatusField";
 
 export const LeadsColumns: ColumnDef<Account>[] = [
   {
     id: "select",
-    header: HeaderCheckbox,
+    header: CheckboxHead,
     cell: CheckboxField,
   },
   {
     id: "accountName",
     accessorKey: "accountName",
-    header: () => <PrimaryTitle title="Lead Name" />,
+    header: () => <PrimaryHead title="Lead Name" />,
     cell: PrimaryField,
   },
   {
-    accessorKey: "description",
-    header: () => <BasicTitle title="Description" />,
-    cell: BasicField,
+    accessorKey: "contacts",
+    header: () => <LogoHead title="Contacts" Icon={LucideUsers} />,
+    cell: SecondaryField,
+  },
+  {
+    accessorKey: "status",
+    header: () => <LogoHead title="Status" Icon={LucideUsers} />,
+    cell: StatusField,
   },
 ];
