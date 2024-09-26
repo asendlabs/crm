@@ -44,7 +44,7 @@ export async function createAccount(
   userId: string,
   accountName: string,
   type: "lead" | "customer",
-) {
+): Promise<Account> {
   const [created] = await db
     .insert(accountTable)
     .values({
@@ -54,7 +54,7 @@ export async function createAccount(
       type,
       createdAt: new Date(),
       updatedAt: new Date(),
-      createdById: workspaceId,
+      createdById: userId,
       updatedById: userId,
     })
     .returning();

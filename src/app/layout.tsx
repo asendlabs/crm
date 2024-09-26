@@ -19,7 +19,7 @@ export default async function RootLayout({
   return (
     <ViewTransitions>
       <html lang="en">
-        <body className={GeistSans.className}>
+        <body className={GeistSans.className + "max-h-screen"}>
           {children}
           <Toaster position="bottom-right" richColors />
         </body>

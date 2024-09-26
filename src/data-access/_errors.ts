@@ -107,3 +107,10 @@ export class WorkspaceNotFoundError extends PublicError {
     this.name = "WorkspaceNotFoundError";
   }
 }
+
+export class CouldntCreateAccountError extends PublicError {
+  constructor() {
+    super("Couldn't create account");
+    this.name = "CouldntCreateAccountError";
+  }
+}

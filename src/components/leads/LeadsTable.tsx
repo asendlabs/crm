@@ -22,7 +22,7 @@ import {
 import { DataTableDeleteButton } from "@/components/tables/DataTableDeleteButton";
 import { DataTableSearch } from "@/components/tables/DataTableSearch";
 import { DataTableViewOptions } from "@/components/tables/DataTableViewOptions";
-// import { NewLeadForm } from "../forms/NewLeadForm";
+import { NewLeadForm } from "@/components/forms/NewLeadForm";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useServerAction } from "zsa-react";
@@ -164,7 +164,7 @@ export function LeadTable<TData, TValue>({
                 primaryFieldPrettyName="Leads"
               />
             </div>
-            {/* <NewLeadForm addLead={addData} /> */}
+            <NewLeadForm addLead={addData} />
           </div>
         </div>
         <div className="custom-scrollbar min-h-[89vh] overflow-y-auto">

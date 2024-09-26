@@ -45,7 +45,7 @@ export async function createContact(
       contactName,
       createdAt: new Date(),
       updatedAt: new Date(),
-      createdById: workspaceId,
+      createdById: userId,
       updatedById: userId,
     })
     .returning();

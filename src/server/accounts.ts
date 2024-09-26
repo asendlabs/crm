@@ -1,15 +1,22 @@
 "use server";
 import { createServerAction } from "zsa";
 import {
+  CouldntCreateAccountError,
   CouldntDeleteLeadError,
   CouldntUpdateLeadError,
   WorkspaceNotFoundError,
 } from "@/data-access/_errors";
 import { authenticatedAction } from "@/lib/zsa";
 import { z } from "zod";
-import { createAccount, deleteAccount, updateAccount } from "@/data-access/accounts";
+import {
+  createAccount,
+  deleteAccount,
+  updateAccount,
+} from "@/data-access/accounts";
 import { ckSelectedWorkspaceId } from "@/utils/cookie-names";
 import { cookies } from "next/headers";
+import { accountCreateSchema } from "@/schemas/account.schema";
+import { createContact, deleteContact, getAllAccountContacts } from "@/data-access/contacts";
 
 export const updateAccountAction = authenticatedAction
   .createServerAction()
@@ -42,6 +49,13 @@ export const deleteAccountAction = authenticatedAction
     const { itemIds } = input;
     const { user } = ctx;
     for (const itemId of itemIds) {
+      // fetch the contacts associated with the account
+      const contacts = await getAllAccountContacts(itemId);
+      // delete the contacts
+      for (const contact of contacts) {
+        await deleteContact(contact.id);
+      }
+      // delete the account
       const res = await deleteAccount(itemId);
       if (!res) {
         throw new CouldntDeleteLeadError();
@@ -50,25 +64,35 @@ export const deleteAccountAction = authenticatedAction
     return true;
   });
 
-  export const createAccountAction = authenticatedAction
-    .createServerAction()
-    .input(
-      z.object({
-        accountName: z.string(),
-        type: z.enum(["lead", "customer"]),
-        description: z.string().optional(),
-      }),
-    )
-    .handler(async ({ input, ctx }) => {
-      const { accountName, type, description } = input;
-      const { user } = ctx;
-      const currentWorkspaceId = cookies().get(ckSelectedWorkspaceId)?.value;
-      if (!currentWorkspaceId) {
-        throw new WorkspaceNotFoundError();
-      }
-      const res = await createAccount(currentWorkspaceId, user.id, accountName, type, description);
-      if (!res) {
-        throw new CouldntUpdateLeadError();
-      }
-      return true;
-    });
+export const createAccountAction = authenticatedAction
+  .createServerAction()
+  .input(accountCreateSchema)
+  .output(z.object({ success: z.boolean(), data: z.any() }))
+  .handler(async ({ input, ctx }) => {
+    const { accountName, type, contactName } = input;
+    const { user } = ctx;
+    const currentWorkspaceId = cookies().get(ckSelectedWorkspaceId)?.value;
+    if (!currentWorkspaceId) {
+      throw new WorkspaceNotFoundError();
+    }
+    const accountRes = await createAccount(
+      currentWorkspaceId,
+      user.id,
+      accountName,
+      type,
+    );
+    const contactRes = await createContact(
+      currentWorkspaceId,
+      user.id,
+      accountRes.id,
+      contactName,
+    );
+
+    if (!accountRes || !contactRes) {
+      throw new CouldntCreateAccountError();
+    }
+    return {
+      success: true,
+      data: accountRes,
+    };
+  });
