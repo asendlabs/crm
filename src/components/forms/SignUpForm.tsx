@@ -125,7 +125,7 @@ export const SignUpForm = ({
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
               ) : (
                 <Image
-                  src="/assets/images/google_g.png"
+                  src="/logos/google.png"
                   alt="Google"
                   height={16}
                   width={16}

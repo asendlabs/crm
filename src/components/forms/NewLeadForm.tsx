@@ -71,64 +71,56 @@ export function NewLeadForm({ addLead }: { addLead: (newLead: any) => void }) {
         <Plus className="h-4 w-4" />
         <span>New</span>
       </DialogTrigger>
-      <DialogContent className="flex flex-col">
-        <div className="hidden">
-          <DialogTitle>Add New Lead</DialogTitle>
-        </div>
-        <div className="flex w-full flex-row items-center justify-between border-b px-3.5 pb-2 pt-4">
-          <span className="text-sm">Create New Lead</span>
-          <Close className="rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground">
-            <X className="h-5 w-5" />
-            <span className="sr-only">Close</span>
-          </Close>
-        </div>
+      <DialogContent className="flex flex-col py-2">
         <div className="mb-3 px-5">
           <Form {...form}>
             <form
               onSubmit={form.handleSubmit(handleSubmit)}
-              className="flex flex-col gap-4"
+              className="flex flex-col gap-4 pt-2"
             >
-              <FormField
-                control={form.control}
-                name="accountName"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Lead Name</FormLabel>
-                    <FormControl>
-                      <Input
-                        {...field}
-                        placeholder="eg. Acme Inc"
-                        className="w-full"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+              <div className="flex flex-col sm:flex-row gap-3">
+                <FormField
+                  control={form.control}
+                  name="accountName"
+                  render={({ field }) => (
+                    <FormItem className="flex-1">
+                      <FormLabel>Lead Name</FormLabel>
+                      <FormControl>
+                        <Input
+                          {...field}
+                          placeholder="eg. Acme Inc"
+                          className="w-full h-9"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
-              <FormField
-                control={form.control}
-                name="contactName"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Contact Name</FormLabel>
-                    <FormControl>
-                      <Input
-                        {...field}
-                        placeholder="eg. John Doe"
-                        className="w-full"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <div className="flex flex-row justify-end gap-2 py-2">
+                <FormField
+                  control={form.control}
+                  name="contactName"
+                  render={({ field }) => (
+                    <FormItem className="flex-1">
+                      <FormLabel>Contact Name</FormLabel>
+                      <FormControl>
+                        <Input
+                          {...field}
+                          placeholder="eg. John Doe"
+                          className="w-full h-9"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+              <div className="flex flex-row justify-end gap-2">
                 <Button
                   type="button"
                   variant="outline"
                   tabIndex={-1}
-                  className="w-30 h-7"
+                  className="w-30 h-8"
                   onClick={() => {
                     setLoading(false);
                     form.reset();
@@ -137,7 +129,7 @@ export function NewLeadForm({ addLead }: { addLead: (newLead: any) => void }) {
                 >
                   Cancel
                 </Button>
-                <Button type="submit" className="h-7" disabled={loading}>
+                <Button type="submit" className="h-8" disabled={loading}>
                   {loading ? "Creating..." : "Create New Lead"}
                 </Button>
               </div>

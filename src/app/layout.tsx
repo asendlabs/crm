@@ -9,6 +9,9 @@ export const metadata: Metadata = {
     default: "Asend",
     template: "%s | Asend",
   },
+  icons: {
+    icon: '/assets/favicon.ico',
+  },
 };
 
 export default async function RootLayout({
