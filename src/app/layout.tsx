@@ -1,11 +1,8 @@
 import "@/styles/globals.css";
-
-import { Inter } from "next/font/google";
+import { GeistSans } from "geist/font/sans";
 import type { Metadata } from "next";
 import { Toaster } from "sonner";
 import { ViewTransitions } from "next-view-transitions";
-
-const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: {
@@ -22,7 +19,7 @@ export default async function RootLayout({
   return (
     <ViewTransitions>
       <html lang="en">
-        <body className={inter.className}>
+        <body className={GeistSans.className}>
           {children}
           <Toaster position="bottom-right" richColors />
         </body>

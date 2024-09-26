@@ -6,10 +6,11 @@ import {
   timestamp,
   varchar,
 } from "drizzle-orm/pg-core";
-import { userTable } from "./users";
 import { workspaces } from "./_schemas";
+import { userTable } from "./users";
 
 const { table } = workspaces;
+
 export const workspaceTable = table("workspaces", {
   id: text("id").primaryKey(),
   name: varchar("name", { length: 255 }),

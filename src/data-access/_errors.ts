@@ -86,3 +86,24 @@ export class CouldntSetSelectedWorkspaceError extends PublicError {
     this.name = "CouldntSetSelectedWorkspaceError";
   }
 }
+
+export class CouldntUpdateLeadError extends PublicError {
+  constructor() {
+    super("Couldn't update lead");
+    this.name = "CouldntUpdateAccountError";
+  }
+}
+
+export class CouldntDeleteLeadError extends PublicError {
+  constructor() {
+    super("Couldn't delete lead");
+    this.name = "CouldntDeleteLeadError";
+  }
+}
+
+export class WorkspaceNotFoundError extends PublicError {
+  constructor() {
+    super("Workspace not found");
+    this.name = "WorkspaceNotFoundError";
+  }
+}

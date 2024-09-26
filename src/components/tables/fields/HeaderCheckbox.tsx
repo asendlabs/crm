@@ -2,12 +2,9 @@ import { Checkbox } from "@/components/ui/checkbox";
 import React from "react";
 import { Table } from "drizzle-orm";
 
-export function DataTableHeaderCheckbox({ table }: { table: any }) {
+export function HeaderCheckbox({ table }: { table: any }) {
   return (
-    <div
-      className="flex cursor-pointer items-center select-none"
-      onClick={() => table.toggleAllPageRowsSelected()}
-    >
+    <div className="flex items-center cursor-pointer z max-w-1 min-w-1 w-1" onClick={() => table.toggleAllPageRowsSelected()}>
       <Checkbox
         checked={
           table.getIsAllPageRowsSelected() ||

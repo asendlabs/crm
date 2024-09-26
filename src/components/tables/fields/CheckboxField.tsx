@@ -3,10 +3,10 @@
 import { Checkbox } from "@/components/ui/checkbox";
 import React from "react";
 
-export function DataTableCheckbox({ row }: { row: any }) {
+export function CheckboxField({ row }: { row: any }) {
   return (
     <div
-      className="flex cursor-pointer items-center"
+      className="flex w-1 min-w-1 max-w-1 cursor-pointer items-center"
       onClick={() => row.toggleSelected()}
     >
       <Checkbox

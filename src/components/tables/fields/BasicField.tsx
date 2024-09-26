@@ -2,21 +2,14 @@
 
 import React, { useEffect, useRef } from "react";
 
-import { Field } from "@/components/ui/field";
-
-interface DataTableFieldProps {
+interface BasicFieldProps {
   getValue: () => any;
   row: any;
   column: any;
   table: any;
 }
 
-export function DataTableField({
-  getValue,
-  row,
-  column,
-  table,
-}: DataTableFieldProps) {
+export function BasicField({ getValue, row, column, table }: BasicFieldProps) {
   const initialValue = getValue();
   const [active, setActive] = React.useState(false);
   const [value, setValue] = React.useState(initialValue);
@@ -44,14 +37,17 @@ export function DataTableField({
   }, [active]);
 
   return (
-    <div onClick={() => setActive(true)}>
+    <div
+      onClick={() => setActive(true)}
+      className="min-w-full max-w-36 select-none border-l border-gray-200"
+    >
       <input
         ref={inputRef}
         value={value || ""}
         onChange={(e) => setValue(e.target.value)}
         onBlur={onBlur}
         readOnly={!active}
-        className="h-9 w-full truncate rounded-none px-2.5 outline-black hover:cursor-pointer"
+        className={`w-full truncate rounded-none border-none p-2 outline-none ring-0 ${active ? "cursor-text focus:ring-1 focus:ring-gray-900" : "cursor-pointer"}`}
       />
     </div>
   );

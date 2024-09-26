@@ -19,12 +19,14 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-import { DataTableDeleteButton } from "@/components/data-table/DataTableDeleteButton";
-import { DataTableSearch } from "@/components/data-table/DataTableSearch";
-import { DataTableViewOptions } from "@/components/data-table/DataTableViewOptions";
-import { NewLeadForm } from "../../forms/NewLeadForm";
+import { DataTableDeleteButton } from "@/components/tables/DataTableDeleteButton";
+import { DataTableSearch } from "@/components/tables/DataTableSearch";
+import { DataTableViewOptions } from "@/components/tables/DataTableViewOptions";
+// import { NewLeadForm } from "../forms/NewLeadForm";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { useServerAction } from "zsa-react";
+import { deleteAccountAction, updateAccountAction } from "@/server/accounts";
 
 interface LeadTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -46,6 +48,7 @@ export function LeadTable<TData, TValue>({
     setData((prevLeads) => [...prevLeads, newData]);
     router.refresh();
   };
+  const { execute } = useServerAction(updateAccountAction);
 
   const primaryFields = ["accountName"];
 
@@ -71,22 +74,22 @@ export function LeadTable<TData, TValue>({
             : row,
         ),
       );
-      // const response = await updateLead({
-      //   columnId,
-      //   newValue,
-      //   itemId,
-      // });
-      // if (!response.success) {
-      //   return {
-      //     success: false,
-      //     message: "Coudln't successfully execute updateData function",
-      //   };
-      // }
-      // router.refresh();
-      // return {
-      //   success: true,
-      //   message: "UpdateData function successfully executed",
-      // };
+      const [data, err] = await execute({
+        columnId,
+        itemId,
+        newValue,
+      });
+      if (err) {
+        return {
+          success: false,
+          message: "Coudln't successfully execute updateData function",
+        };
+      }
+      router.refresh();
+      return {
+        success: true,
+        message: "UpdateData function successfully executed",
+      };
     } catch (error) {
       console.log("error", error);
     }
@@ -94,20 +97,20 @@ export function LeadTable<TData, TValue>({
 
   const deleteData = async (itemIds: string[]) => {
     try {
-      // const response = await deleteLead(itemIds);
-      // if (!response.success) {
-      //   return {
-      //     success: false,
-      //     message: response.message,
-      //   };
-      // }
+      const [data, err] = await deleteAccountAction({ itemIds });
+      if (err) {
+        return {
+          success: false,
+          message: err.message,
+        };
+      }
       setData((prev) => prev.filter((row: any) => !itemIds.includes(row.id)));
       table.resetRowSelection();
       router.refresh();
-      // return {
-      //   success: true,
-      //   message: response.message,
-      // };
+      return {
+        success: true,
+        message: "Deleted",
+      };
     } catch (error) {
       console.log("error", error);
       return {
@@ -139,7 +142,7 @@ export function LeadTable<TData, TValue>({
   return (
     <>
       <section className="flex h-screen flex-col justify-between gap-6 px-6 py-5">
-        <div className="flex flex-row items-center justify-between">
+        <div className="flex select-none flex-row items-center justify-between">
           <h1 className="text-xl font-semibold">Leads</h1>
           <div className="flex flex-row gap-2">
             <div>
@@ -154,11 +157,13 @@ export function LeadTable<TData, TValue>({
                 primaryFields={primaryFields}
               />
             </div>
-            <DataTableSearch
-              table={table}
-              primaryField="accountName"
-              primaryFieldPrettyName="Leads"
-            />
+            <div className="select-text">
+              <DataTableSearch
+                table={table}
+                primaryField="accountName"
+                primaryFieldPrettyName="Leads"
+              />
+            </div>
             {/* <NewLeadForm addLead={addData} /> */}
           </div>
         </div>
@@ -201,7 +206,7 @@ export function LeadTable<TData, TValue>({
                 <TableRow>
                   <TableCell
                     colSpan={columns.length}
-                    className="h-24 text-center"
+                    className="h-24 select-none text-center"
                   >
                     No results.
                   </TableCell>

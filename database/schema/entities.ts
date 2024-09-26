@@ -22,6 +22,8 @@ export const accountTable = table("accounts", {
   assignedToId: text("assigned_to_id").references(() => userTable.id),
   accountName: varchar("account_name", { length: 255 }).notNull(),
   type: accountTypeEnum("type").notNull().default("lead"),
+  status: varchar("status", { length: 50 }).notNull().default("new"),
+  aiScore: varchar("ai_score", { length: 50 }).notNull().default(""),
   description: text("description"),
   createdAt: timestamp("created_at").notNull().defaultNow(),
   updatedAt: timestamp("updated_at"),

@@ -62,7 +62,7 @@ export const Sidebar = ({
             href="/app/leads"
             prefetch={false}
             className={`${sidebarItemClassName} ${
-              pathname === "/leads" ? "bg-muted-foreground/10 !text-black" : ""
+              pathname === "/app/leads" ? "bg-muted-foreground/10 !text-black" : ""
             }`}
           >
             <Building className="h-4 w-4" />

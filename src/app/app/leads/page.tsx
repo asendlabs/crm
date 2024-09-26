@@ -1,11 +1,8 @@
-import { LeadsColumns } from "@/components/tables/leads/LeadsColumns";
-import { LeadTable } from "@/components/tables/leads/LeadsTable";
+import { LeadsColumns } from "@/components/leads/LeadsColumns";
+import { LeadTable } from "@/components/leads/LeadsTable";
 import { Metadata } from "next";
 import React from "react";
-import {
-  getAllWorkspaceAccounts,
-  getAllWorkspaceLeads,
-} from "@/data-access/accounts";
+import { getAllWorkspaceLeads } from "@/data-access/accounts";
 import { cookies } from "next/headers";
 import { ckSelectedWorkspaceId } from "@/utils/cookie-names";
 
