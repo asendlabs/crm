@@ -5,7 +5,7 @@ import { compare, genSalt, hash } from "bcryptjs";
 import { User } from "@database/types";
 import { eq } from "drizzle-orm";
 import { ulid } from "ulid";
-import { generateEmailVerifyCode } from "@/utils/generators";
+import { generateEmailVerifyCode } from "@/utils";
 import { profileTable } from "@database/schema/users";
 
 export async function getUserByEmail(email: string) {

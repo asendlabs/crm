@@ -1,4 +1,4 @@
-import { authenticatedUrl, unauthenticatedUrl } from "@/utils/frequent-urls";
+import { authenticatedUrl, unauthenticatedUrl } from "@/urls";
 import { getUserById } from "@/data-access/users";
 import { fetchAuthenticatedUser } from "@/lib/session";
 import { redirect } from "next/navigation";

@@ -1,6 +1,6 @@
 "use client";
 
-import { timeAgo } from "@/utils/generators";
+import { timeAgo } from "@/utils";
 import React, { useEffect, useState } from "react";
 
 interface TimestampFieldProps {

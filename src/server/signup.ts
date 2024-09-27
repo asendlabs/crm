@@ -11,7 +11,7 @@ import { EmailInUseError, UserNotCreatedError } from "@/data-access/_errors";
 import { createSessionForUser } from "@/lib/session";
 import { redirect } from "next/navigation";
 import { unauthenticatedAction } from "@/lib/zsa";
-import { afterSignUpUrl } from "@/utils/frequent-urls";
+import { afterSignUpUrl } from "@/urls";
 import { sendVerificationEmail } from "@/lib/mailers";
 
 export const signUpAction = unauthenticatedAction

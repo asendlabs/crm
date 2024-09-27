@@ -9,18 +9,13 @@ import {
 } from "@/data-access/_errors";
 import { onboardingSchema } from "@/schemas/onboarding.schema";
 import { createWorkspace, createWorkspaceUser } from "@/data-access/workspaces";
-import { authenticatedUrl } from "@/utils/frequent-urls";
+import { authenticatedUrl } from "@/urls";
 
 export const onboardingAction = authenticatedAction
   .createServerAction()
   .input(onboardingSchema)
   .handler(async ({ input, ctx }) => {
-    const {
-      firstName,
-      lastName,
-      marketingConsent,
-      workspaceName,
-    } = input;
+    const { firstName, lastName, marketingConsent, workspaceName } = input;
     const user = await getUserById(ctx.user.id);
     if (!user) {
       throw new AuthenticationError();
@@ -34,10 +29,7 @@ export const onboardingAction = authenticatedAction
     if (!profileCreated) {
       throw new Error("Failed to create profile");
     }
-    const workspaceCreated = await createWorkspace(
-      workspaceName,
-      user.id,
-    );
+    const workspaceCreated = await createWorkspace(workspaceName, user.id);
     if (!workspaceCreated) {
       throw new Error("Failed to create workspace");
     }

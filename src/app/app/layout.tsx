@@ -5,13 +5,9 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { getUserById } from "@/data-access/users";
 import { fetchAuthenticatedUser } from "@/lib/session";
-import {
-  afterSignUpUrl,
-  afterVerifyUrl,
-  unauthenticatedUrl,
-} from "@/utils/frequent-urls";
+import { afterSignUpUrl, afterVerifyUrl, unauthenticatedUrl } from "@/urls";
 import { getAllUserWorkspaces } from "@/data-access/workspaces";
-import { ckSelectedWorkspaceId } from "@/utils/cookie-names";
+import { selectedWorkspaceCookie } from "@/config";
 
 export default async function ApplicationLayout({
   children,
@@ -36,7 +32,7 @@ export default async function ApplicationLayout({
   const workspaces = await getAllUserWorkspaces(user.id);
 
   const cookieSelectedWorkspaceId =
-    cookies().get(ckSelectedWorkspaceId)?.value || "";
+    cookies().get(selectedWorkspaceCookie)?.value || "";
 
   return (
     <main className="grid min-h-screen w-full grid-cols-[240px_1fr]">

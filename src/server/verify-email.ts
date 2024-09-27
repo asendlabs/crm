@@ -3,17 +3,14 @@ import { createServerAction } from "zsa";
 import { verificationCodeSchema } from "@/schemas/auth.schema";
 import { redirect } from "next/navigation";
 import { authenticatedAction } from "@/lib/zsa";
-import { afterVerifyUrl } from "@/utils/frequent-urls";
-import {
-  getUserById,
-  updateUser,
-} from "@/data-access/users";
+import { afterVerifyUrl } from "@/urls";
+import { getUserById, updateUser } from "@/data-access/users";
 import {
   EmailVerificationError,
   SomethingWentWrongError,
 } from "@/data-access/_errors";
 import { sendVerificationEmail } from "@/lib/mailers";
-import { generateEmailVerifyCode } from "@/utils/generators";
+import { generateEmailVerifyCode } from "@/utils";
 
 export const verifyEmailAction = authenticatedAction
   .createServerAction()

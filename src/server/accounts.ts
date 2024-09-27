@@ -13,10 +13,14 @@ import {
   deleteAccount,
   updateAccount,
 } from "@/data-access/accounts";
-import { ckSelectedWorkspaceId } from "@/utils/cookie-names";
+import { selectedWorkspaceCookie } from "@/config";
 import { cookies } from "next/headers";
 import { accountCreateSchema } from "@/schemas/account.schema";
-import { createContact, deleteContact, getAllAccountContacts } from "@/data-access/contacts";
+import {
+  createContact,
+  deleteContact,
+  getAllAccountContacts,
+} from "@/data-access/contacts";
 
 export const updateAccountAction = authenticatedAction
   .createServerAction()
@@ -71,7 +75,7 @@ export const createAccountAction = authenticatedAction
   .handler(async ({ input, ctx }) => {
     const { accountName, type, contactName } = input;
     const { user } = ctx;
-    const currentWorkspaceId = cookies().get(ckSelectedWorkspaceId)?.value;
+    const currentWorkspaceId = cookies().get(selectedWorkspaceCookie)?.value;
     if (!currentWorkspaceId) {
       throw new WorkspaceNotFoundError();
     }

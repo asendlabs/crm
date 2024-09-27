@@ -6,7 +6,7 @@ import { LoginError } from "@/data-access/_errors";
 import { createSessionForUser } from "@/lib/session";
 import { redirect } from "next/navigation";
 import { unauthenticatedAction } from "@/lib/zsa";
-import { authenticatedUrl } from "@/utils/frequent-urls";
+import { authenticatedUrl } from "@/urls";
 
 export const loginAction = unauthenticatedAction
   .createServerAction()
