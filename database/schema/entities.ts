@@ -107,13 +107,15 @@ export const opportunityTable = table("opportunities", {
   accountId: text("account_id")
     .notNull()
     .references(() => accountTable.id),
-  value: varchar("deal_value", { length: 255 }).notNull(),
-  probability: integer("probability"),
+  title: varchar("title", { length: 255 }).notNull(),
+  value: varchar("deal_value", { length: 255 }),
+  stage: varchar("stage", { length: 255 }),
+  probability: integer("ai_`probability"),
   expectedCloseDate: timestamp("expected_close_date"),
   assignedToId: text("assigned_to_id").references(() => userTable.id),
-  primaryContactId: text("primary_contact_id")
-    .notNull()
-    .references(() => contactTable.id),
+  primaryContactId: text("primary_contact_id").references(
+    () => contactTable.id,
+  ),
   description: text("description"),
   createdAt: timestamp("created_at").notNull().defaultNow(),
   updatedAt: timestamp("updated_at"),

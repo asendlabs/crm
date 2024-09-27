@@ -74,7 +74,7 @@ export const Sidebar = ({
           <Link
             href="/app/opportunities"
             className={`${sidebarItemClassName} ${
-              pathname === "/deals" ? "bg-muted-foreground/10 !text-black" : ""
+              pathname === "/app/opportunities" ? "bg-muted-foreground/10 !text-black" : ""
             }`}
           >
             <Zap className="h-4 w-4" />

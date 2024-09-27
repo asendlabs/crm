@@ -23,6 +23,7 @@
 .DS_Store
 *.pem
 /.temp
+/.VSCodeCounter
 
 # debug
 npm-debug.log*

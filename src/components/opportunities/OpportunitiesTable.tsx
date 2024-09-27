@@ -23,22 +23,22 @@ import {
 import { DataTableDeleteButton } from "@/components/tables/nav/DataTableDeleteButton";
 import { DataTableSearch } from "@/components/tables/nav/DataTableSearch";
 import { DataTableViewOptions } from "@/components/tables/nav/DataTableViewOptions";
-import { NewLeadForm } from "@/components/forms/NewLeadForm";
+import { NewOpportunityForm } from "@/components/forms/NewOpportunityForm";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useServerAction } from "zsa-react";
-import { deleteAccountAction, updateAccountAction } from "@/server/accounts";
 import { toast } from "sonner";
+import { deleteOpportunityAction, updateOpportunityAction } from "@/server/opportunity";
 
-interface LeadTableProps<TData, TValue> {
+interface OpportunityTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   tableData: TData[];
 }
 
-export function LeadTable<TData, TValue>({
+export function OpportunityTable<TData, TValue>({
   columns,
   tableData,
-}: LeadTableProps<TData, TValue>) {
+}: OpportunityTableProps<TData, TValue>) {
   const [data, setData] = useState<TData[]>(tableData);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [sorting, setSorting] = useState<SortingState>([
@@ -47,11 +47,11 @@ export function LeadTable<TData, TValue>({
   const [rowSelectionState, setRowSelectionState] = useState({});
   const router = useRouter();
   const addData = (newData: any) => {
-    setData((prevLeads) => [...prevLeads, newData]);
+    setData((prevOpportunitys) => [...prevOpportunitys, newData]);
     router.refresh();
   };
 
-  const primaryFields = ["accountName", "contacts"];
+  const primaryFields = ["value", "contacts"];
 
   const updateData = async ({
     rowIndex,
@@ -75,7 +75,7 @@ export function LeadTable<TData, TValue>({
             : row,
         ),
       );
-            const { execute } = useServerAction(updateAccountAction);
+      const { execute } = useServerAction(updateOpportunityAction);
       const [data, err] = await execute({
         columnId,
         itemId,
@@ -99,8 +99,8 @@ export function LeadTable<TData, TValue>({
 
   const deleteData = async (itemIds: string[]) => {
     try {
-            const { execute } = useServerAction(deleteAccountAction);
-            const [data, err] = await execute({ itemIds });
+      const { execute } = useServerAction(deleteOpportunityAction);
+      const [data, err] = await execute({ itemIds });
       if (err) {
         return {
           success: false,
@@ -142,12 +142,11 @@ export function LeadTable<TData, TValue>({
       deleteData,
     },
   });
-  console.log(tableData);
   return (
     <>
       <section className="justify- flex h-screen flex-col gap-3 px-6 py-4">
         <div className="flex select-none flex-row items-center justify-between">
-          <h1 className="text-xl font-semibold">Leads</h1>
+          <h1 className="text-xl font-semibold">Opportunities</h1>
           <div className="flex flex-row gap-2">
             <div>
               <DataTableDeleteButton
@@ -165,14 +164,14 @@ export function LeadTable<TData, TValue>({
               <DataTableSearch
                 table={table}
                 primaryField="accountName"
-                primaryFieldPrettyName="Leads"
+                primaryFieldPrettyName="Opportunity"
               />
             </div>
-            <NewLeadForm addLead={addData} />
+            <NewOpportunityForm addOpportunity={addData} />
           </div>
         </div>
         <Table>
-          <TableHeader className="  ">
+          <TableHeader className=" ">
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => (

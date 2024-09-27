@@ -114,3 +114,24 @@ export class CouldntCreateAccountError extends PublicError {
     this.name = "CouldntCreateAccountError";
   }
 }
+
+export class CouldntCreateOpportunityError extends PublicError {
+  constructor() {
+    super("Couldn't create opportunity");
+    this.name = "CouldntCreateOpportunityError";
+  }
+}
+
+export class CouldntDeleteOpportunityError extends PublicError {
+  constructor() {
+    super("Couldn't delete opportunity");
+    this.name = "CouldntDeleteOpportunityError";
+  }
+}
+
+export class CouldntUpdateOpportunityError extends PublicError {
+  constructor() {
+    super("Couldn't update opportunity");
+    this.name = "CouldntUpdateOpportunityError";
+  }
+}
