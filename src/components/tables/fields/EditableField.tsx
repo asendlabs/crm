@@ -52,7 +52,7 @@ export function EditableField({
         onChange={(e) => setValue(e.target.value)}
         onBlur={onBlur}
         readOnly={!active}
-        className={`w-full truncate rounded-none border-none p-2 outline-none ring-0 ${active ? "cursor-text focus:ring-1 focus:ring-primary" : "cursor-pointer"}`}
+        className={`w-full truncate rounded-none border-none px-2 py-1 outline-none ring-0 ${active ? "cursor-text focus:ring-1 focus:ring-primary" : "cursor-pointer"}`}
       />
     </div>
   );

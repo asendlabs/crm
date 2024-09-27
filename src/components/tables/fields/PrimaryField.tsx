@@ -5,7 +5,7 @@ import React, { useEffect, useRef, useState } from "react";
 
 interface PrimaryFieldProps {
   getValue: () => any;
-  row: any
+  row: any;
 }
 
 export function PrimaryField({ getValue, row }: PrimaryFieldProps) {
@@ -20,7 +20,10 @@ export function PrimaryField({ getValue, row }: PrimaryFieldProps) {
   }, [initialValue]);
 
   return (
-    <div className="min-w-full max-w-36 select-none hover:underline p-2" onClick={() => router.push(`/app/leads/${id}`) }>
+    <div
+      className="select-none px-2 py-1 hover:underline min-w-36"
+      onClick={() => router.push(`/app/leads/${id}`)}
+    >
       {value}
     </div>
   );

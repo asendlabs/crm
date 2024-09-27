@@ -57,6 +57,7 @@ export function NewLeadForm({ addLead }: { addLead: (newLead: any) => void }) {
         return;
       }
       addLead(data?.data);
+      router.refresh();
     } catch (error) {
       toast.error("Internal Error");
     } finally {

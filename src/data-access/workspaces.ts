@@ -12,17 +12,6 @@ export async function getWorkspaceById(id: string) {
   return workspace;
 }
 
-export async function getWorkspaceStatusValues(workspaceId: string) {
-  const workspace = await db.query.workspaceTable.findFirst({
-    where: eq(workspaceTable.id, workspaceId),
-  });
-  if (!workspace || !workspace.defaultStatusOptions) {
-    console.error("Workspace not found or no defaultStatuses available");
-    return [];
-  }
-  const statusEnum = workspace.defaultStatusOptions;
-  return statusEnum as any;
-}
 export async function getAllUserWorkspaces(userId: string) {
   // Fetch user and extract workspace IDs
   const user = await getUserById(userId);

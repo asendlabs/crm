@@ -17,7 +17,6 @@ import {
 } from "./_enums";
 import { workspaceTable } from "./workspaces";
 import { userTable } from "./users";
-import { count } from "console";
 
 const { table } = entities;
 
@@ -30,10 +29,11 @@ export const accountTable = table("accounts", {
   accountName: varchar("account_name", { length: 255 }).notNull(),
   type: accountTypeEnum("type").notNull().default("lead"),
   status: varchar("status", { length: 255 }).notNull().default("new"),
-  aiScore: varchar("ai_score", { length: 50 }).notNull().default(""),
+  score: varchar("ai_score", { length: 50 }).notNull().default(""),
   description: text("description"),
   createdAt: timestamp("created_at").notNull().defaultNow(),
   updatedAt: timestamp("updated_at"),
+  interaction: timestamp("last_interaction", { mode: "string" }),
   createdById: text("created_by_id")
     .notNull()
     .references(() => userTable.id),

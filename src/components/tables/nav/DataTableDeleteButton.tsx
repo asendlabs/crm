@@ -55,7 +55,7 @@ export function DataTableDeleteButton<TData>({
       <Button
         variant="outline"
         disabled={!active}
-        className="flex h-8 items-center gap-2 rounded-lg px-2 text-sm hover:text-red-600"
+        className="flex h-8 items-center gap-1 rounded-lg px-2 text-sm hover:text-red-600"
         onClick={() => setOpen(true)}
       >
         <Trash className="h-4 w-4" />

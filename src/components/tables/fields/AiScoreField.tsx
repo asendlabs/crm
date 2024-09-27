@@ -1,31 +1,36 @@
 "use client";
 
-import { Circle, Sparkle } from "lucide-react";
+import { Account } from "@database/types";
+import { Row } from "@tanstack/react-table";
+import { Sparkle } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useRef, useState } from "react";
 
-interface StatusFieldProps {
+interface AiScoreFieldProps {
   getValue: () => any;
   row: any;
 }
 
-export function StatusField({ getValue, row }: StatusFieldProps) {
+export function AiScoreField({ getValue, row }: AiScoreFieldProps) {
   const initialValue = getValue();
   const [value, setValue] = useState(initialValue);
   const router = useRouter();
   const id = row.original.id;
   return (
-    <div className="select-none border-l border-gray-200 px-2 py-1">
+    <div
+      className="select-none border-l border-gray-200 px-2 py-1"
+      onClick={() => router.push(`/app/leads/${id}`)}
+    >
       <div className="flex items-center gap-1 py-0.5">
         {value ? (
           <>
-            <Circle className="mr-1 h-3 w-3" />
-            <span className="underline decoration-muted-foreground decoration-2 capitalize">
+            <Sparkle className="mr-1 h-4 w-4" />
+            <span className="underline decoration-muted-foreground decoration-2">
               {value}
             </span>
           </>
         ) : (
-          <div />
+          "\u3164"
         )}
       </div>
     </div>

@@ -1,13 +1,12 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 
-interface PrimaryFieldProps {
+interface UneditableFieldProps {
   getValue: () => any;
 }
 
-export function UneditableField({ getValue }: PrimaryFieldProps) {
+export function UneditableField({ getValue }: UneditableFieldProps) {
   const initialValue = getValue();
   const [value, setValue] = useState(initialValue);
 
@@ -15,5 +14,7 @@ export function UneditableField({ getValue }: PrimaryFieldProps) {
     setValue(initialValue);
   }, [initialValue]);
 
-  return <div className="min-w-full max-w-36 select-none p-2">{value}</div>;
+  return (
+    <div className="min-w-full max-w-36 select-none px-2 py-1 border-l border-gray-200">{value}</div>
+  );
 }

@@ -6,7 +6,7 @@ import React from "react";
 export function CheckboxField({ row }: { row: any }) {
   return (
     <div
-      className="flex w-1 min-w-1 max-w-1 cursor-pointer items-center"
+      className="flex w-2 min-w-2 max-w-2 cursor-pointer items-center"
       onClick={() => row.toggleSelected()}
     >
       <Checkbox
