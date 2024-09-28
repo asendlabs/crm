@@ -30,7 +30,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { createAccountAction } from "@/server/accounts";
 import { useServerAction } from "zsa-react";
 
-export function NewOpportunityForm({ addOpportunity }: { addOpportunity: (newOpportunity: any) => void }) {
+export function NewOpportunityForm({
+  addOpportunity,
+}: {
+  addOpportunity?: (newOpportunity: any) => void;
+}) {
   const [loading, setLoading] = React.useState(false);
   const [open, setOpen] = React.useState(false);
   const router = useRouter();
@@ -56,8 +60,12 @@ export function NewOpportunityForm({ addOpportunity }: { addOpportunity: (newOpp
         toast.error(err.message);
         return;
       }
-      addOpportunity(data?.data);
-      router.refresh();
+      if (!addOpportunity) {
+        router.refresh();
+      } else {
+        addOpportunity(data?.data);
+        router.refresh();
+      }
     } catch (error) {
       toast.error("Internal Error");
     } finally {
@@ -79,7 +87,7 @@ export function NewOpportunityForm({ addOpportunity }: { addOpportunity: (newOpp
               onSubmit={form.handleSubmit(handleSubmit)}
               className="flex flex-col gap-4 pt-2"
             >
-              <div className="flex flex-col sm:flex-row gap-3">
+              <div className="flex flex-col gap-3 sm:flex-row">
                 <FormField
                   control={form.control}
                   name="accountName"
@@ -90,7 +98,7 @@ export function NewOpportunityForm({ addOpportunity }: { addOpportunity: (newOpp
                         <Input
                           {...field}
                           placeholder="eg. Acme Inc"
-                          className="w-full h-9"
+                          className="h-9 w-full"
                         />
                       </FormControl>
                       <FormMessage />
@@ -108,7 +116,7 @@ export function NewOpportunityForm({ addOpportunity }: { addOpportunity: (newOpp
                         <Input
                           {...field}
                           placeholder="eg. John Doe"
-                          className="w-full h-9"
+                          className="h-9 w-full"
                         />
                       </FormControl>
                       <FormMessage />

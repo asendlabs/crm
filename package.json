@@ -42,8 +42,8 @@
     "input-otp": "^1.2.4",
     "lucia": "^3.2.0",
     "lucide-react": "^0.401.0",
-    "next": "14.2.5",
-    "next-view-transitions": "^0.3.0",
+    "next": "14.2.13",
+    "next-view-transitions": "^0.3.2",
     "postgres": "^3.4.4",
     "prettier": "^3.3.3",
     "react": "^18.3.1",
@@ -52,19 +52,20 @@
     "react-hook-form": "^7.53.0",
     "react-spring": "^9.7.4",
     "resend": "^3.5.0",
+    "sharp": "^0.33.5",
     "sonner": "^1.5.0",
     "tailwind-merge": "^2.5.2",
     "tailwindcss-animate": "^1.0.7",
     "ulid": "^2.3.0",
     "zod": "^3.23.8",
     "zsa": "^0.6.0",
-    "zsa-react": "^0.2.2"
+    "zsa-react": "^0.2.3"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.6",
-    "@types/node": "^20.16.5",
+    "@types/node": "^20.16.9",
     "@types/pg": "^8.11.10",
-    "@types/react": "^18.3.5",
+    "@types/react": "^18.3.9",
     "@types/react-dom": "^18.3.0",
     "drizzle-kit": "^0.22.8",
     "esbuild-register": "3.5.0",
@@ -73,8 +74,8 @@
     "eslint-config-prettier": "^9.1.0",
     "postcss": "8.4.38",
     "prettier": "^3.3.2",
-    "prettier-plugin-tailwindcss": "^0.6.6",
-    "tailwindcss": "^3.4.11",
+    "prettier-plugin-tailwindcss": "^0.6.8",
+    "tailwindcss": "^3.4.13",
     "typescript": "^5.6.2"
   }
 }

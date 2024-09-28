@@ -14,6 +14,7 @@ import { StatusField } from "../tables/fields/StatusField";
 import { AiScoreField } from "../tables/fields/AiScoreField";
 import { UneditableField } from "../tables/fields/UneditableField";
 import { TimestampField } from "../tables/fields/TimestampField";
+import { get } from "http";
 
 export const LeadsColumns: ColumnDef<Account>[] = [
   {
@@ -30,7 +31,7 @@ export const LeadsColumns: ColumnDef<Account>[] = [
   {
     accessorKey: "contacts",
     header: () => <LogoHead title="Contacts" Icon={LucideUsers} />,
-    cell: SecondaryField,
+    cell: ({getValue, row}) => <SecondaryField arrayName="contacts" getValue={getValue} row={row} />,
   },
   
   {

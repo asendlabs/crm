@@ -50,7 +50,8 @@ export function LeadTable<TData, TValue>({
     setData((prevLeads) => [...prevLeads, newData]);
     router.refresh();
   };
-
+  const updateAccountServerAction = useServerAction(updateAccountAction);
+  const deleteAccountServerAction = useServerAction(deleteAccountAction);
   const primaryFields = ["accountName", "contacts"];
 
   const updateData = async ({
@@ -75,8 +76,8 @@ export function LeadTable<TData, TValue>({
             : row,
         ),
       );
-            const { execute } = useServerAction(updateAccountAction);
-      const [data, err] = await execute({
+
+      const [data, err] = await updateAccountServerAction.execute({
         columnId,
         itemId,
         newValue,
@@ -99,8 +100,7 @@ export function LeadTable<TData, TValue>({
 
   const deleteData = async (itemIds: string[]) => {
     try {
-            const { execute } = useServerAction(deleteAccountAction);
-            const [data, err] = await execute({ itemIds });
+      const [data, err] = await deleteAccountServerAction.execute({ itemIds });
       if (err) {
         return {
           success: false,
@@ -142,7 +142,6 @@ export function LeadTable<TData, TValue>({
       deleteData,
     },
   });
-  console.log(tableData);
   return (
     <>
       <section className="justify- flex h-screen flex-col gap-3 px-6 py-4">
@@ -172,7 +171,7 @@ export function LeadTable<TData, TValue>({
           </div>
         </div>
         <Table>
-          <TableHeader className="  ">
+          <TableHeader className=" ">
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => (

@@ -135,3 +135,10 @@ export class CouldntUpdateOpportunityError extends PublicError {
     this.name = "CouldntUpdateOpportunityError";
   }
 }
+
+export class AccountNotFoundError extends PublicError {
+  constructor() {
+    super("Account not found");
+    this.name = "AccountNotFoundError";
+  }
+}

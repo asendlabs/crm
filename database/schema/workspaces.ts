@@ -8,7 +8,6 @@ import {
 } from "drizzle-orm/pg-core";
 import { workspaces } from "./_schemas";
 import { userTable } from "./users";
-import { defaultAccountStatusOptions } from "./_objects";
 
 const { table } = workspaces;
 

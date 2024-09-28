@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useRef, useState } from "react";
 
@@ -11,7 +12,6 @@ interface PrimaryFieldProps {
 export function PrimaryField({ getValue, row }: PrimaryFieldProps) {
   const initialValue = getValue();
   const [value, setValue] = useState(initialValue);
-  const router = useRouter();
 
   const id = row.original.id;
 
@@ -20,11 +20,13 @@ export function PrimaryField({ getValue, row }: PrimaryFieldProps) {
   }, [initialValue]);
 
   return (
-    <div
-      className="select-none px-2 py-1 hover:underline min-w-36"
-      onClick={() => router.push(`/app/leads/${id}`)}
+    <Link
+      href={`/app/leads/${id.toLowerCase()}`}
+      replace={false}
+      prefetch={true}
+      className="ml-2 min-w-36 select-none underline cursor-pointer"
     >
       {value}
-    </div>
+    </Link>
   );
 }

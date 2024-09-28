@@ -46,12 +46,14 @@ export function OpportunityTable<TData, TValue>({
   ]);
   const [rowSelectionState, setRowSelectionState] = useState({});
   const router = useRouter();
+  const updateOpportunityServerAction = useServerAction(updateOpportunityAction);
+        const deleteOpportunityServerAction = useServerAction(deleteOpportunityAction);
   const addData = (newData: any) => {
     setData((prevOpportunitys) => [...prevOpportunitys, newData]);
     router.refresh();
   };
 
-  const primaryFields = ["value", "contacts"];
+  const primaryFields = ["", ""];
 
   const updateData = async ({
     rowIndex,
@@ -75,8 +77,7 @@ export function OpportunityTable<TData, TValue>({
             : row,
         ),
       );
-      const { execute } = useServerAction(updateOpportunityAction);
-      const [data, err] = await execute({
+      const [data, err] = await updateOpportunityServerAction.execute({
         columnId,
         itemId,
         newValue,
@@ -99,8 +100,8 @@ export function OpportunityTable<TData, TValue>({
 
   const deleteData = async (itemIds: string[]) => {
     try {
-      const { execute } = useServerAction(deleteOpportunityAction);
-      const [data, err] = await execute({ itemIds });
+
+      const [data, err] = await deleteOpportunityServerAction.execute({ itemIds });
       if (err) {
         return {
           success: false,

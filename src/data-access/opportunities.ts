@@ -15,6 +15,9 @@ export async function getOpportunityById(id: string) {
 export async function getAllWorkspaceOpportunities(workspaceId: string) {
   const workspaceOpportunities = await db.query.opportunityTable.findMany({
     where: eq(opportunityTable.workspaceId, workspaceId),
+    with: {
+      account: true,
+    },
   });
   return workspaceOpportunities;
 }

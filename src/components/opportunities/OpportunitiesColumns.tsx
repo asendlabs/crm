@@ -5,6 +5,8 @@ import { Account, Opportunity } from "@database/types";
 import { CheckboxField } from "@/components/tables/fields/CheckboxField";
 import { PrimaryField } from "@/components/tables/fields/PrimaryField";
 import {
+  Bot,
+  Building,
   CalendarDays,
   Component,
   LucideFileText,
@@ -33,4 +35,16 @@ export const OpportunityColumns: ColumnDef<Opportunity>[] = [
     header: () => <PrimaryHead title="Opportunity Value" />,
     cell: PrimaryField,
   },
+  {
+    id: "accountName",
+    header: () => <LogoHead title="Lead or Customer" Icon={Building} />,
+    cell: ({ getValue, row }) => (
+      <SecondaryField arrayName="account" getValue={getValue} row={row} />
+    ),
+  },
+  {
+    id: "ai_probability",
+    header: () => <LogoHead title="Probability" Icon={Bot} />,
+    
+  }
 ];

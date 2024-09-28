@@ -11,6 +11,8 @@ import {
   Clock,
   Map,
   Settings,
+  Trophy,
+  Users,
 } from "lucide-react";
 import Link from "next/link";
 import { UserButton } from "./UserButton";
@@ -50,7 +52,7 @@ export const Sidebar = ({
             href="/app/home"
             className={`${sidebarItemClassName} ${
               pathname === "/app/home"
-                ? "bg-muted-foreground/10 !text-black"
+                ? "bg-muted-foreground/10 !text-primary"
                 : ""
             }`}
           >
@@ -63,7 +65,7 @@ export const Sidebar = ({
             href="/app/leads"
             prefetch={false}
             className={`${sidebarItemClassName} ${
-              pathname === "/app/leads"
+              pathname.startsWith("/app/leads")
                 ? "bg-muted-foreground/10 !text-black"
                 : ""
             }`}
@@ -74,23 +76,37 @@ export const Sidebar = ({
           <Link
             href="/app/opportunities"
             className={`${sidebarItemClassName} ${
-              pathname === "/app/opportunities" ? "bg-muted-foreground/10 !text-black" : ""
+              pathname === "/app/opportunities"
+                ? "bg-muted-foreground/10 !text-primary"
+                : ""
             }`}
           >
-            <Zap className="h-4 w-4" />
+            <Trophy className="h-4 w-4" />
             <span>Opportunities</span>
           </Link>
           <Link
-            href="/app/contacts"
+            href="/app/customers"
             prefetch={false}
             className={`${sidebarItemClassName} ${
-              pathname === "/contacts"
-                ? "bg-muted-foreground/10 !text-black"
+              pathname === "/customers"
+                ? "bg-muted-foreground/10 !text-primary"
                 : ""
             }`}
           >
             <SquareUserRound className="h-4 w-4" />
-            <span>Contacts</span>
+            <span>Customers</span>
+          </Link>
+          <Link
+            href="/app/integrations"
+            prefetch={false}
+            className={`${sidebarItemClassName} ${
+              pathname === "/integrations"
+                ? "bg-muted-foreground/10 !text-black"
+                : ""
+            }`}
+          >
+            <Zap className="h-4 w-4" />
+            <span>Integrations</span>
           </Link>
         </ul>
       </div>
@@ -103,6 +119,10 @@ export const Sidebar = ({
           <Link href="/roadmap" className={`${sidebarItemClassName}`}>
             <Map className="h-4 w-4" />
             <span>Roadmap</span>
+          </Link>
+          <Link href="/app/team" className={`${sidebarItemClassName}`}>
+            <Users className="h-4 w-4" />
+            <span>Team</span>
           </Link>
           <Link href="/app/settings" className={`${sidebarItemClassName}`}>
             <Settings className="h-4 w-4" />

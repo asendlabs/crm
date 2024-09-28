@@ -1,6 +1,7 @@
 "use server";
 import { createServerAction } from "zsa";
 import {
+  AccountNotFoundError,
   CouldntCreateAccountError,
   CouldntDeleteLeadError,
   CouldntUpdateLeadError,
@@ -11,6 +12,7 @@ import { z } from "zod";
 import {
   createAccount,
   deleteAccount,
+  getAccountById,
   updateAccount,
 } from "@/data-access/accounts";
 import { selectedWorkspaceCookie } from "@/config";
@@ -21,6 +23,34 @@ import {
   deleteContact,
   getAllAccountContacts,
 } from "@/data-access/contacts";
+import { getAllUserWorkspaces } from "@/data-access/workspaces";
+
+export const checkAccountAccessAction = authenticatedAction
+  .createServerAction()
+  .input(
+    z.object({
+      accountId: z.string(),
+    }),
+  )
+  .handler(async ({ input, ctx }) => {
+    const {user} = ctx;
+    const { accountId } = input;
+    const res = await getAccountById(accountId);
+    if (!res) {
+      throw new AccountNotFoundError();
+    }
+    const workspaces = await getAllUserWorkspaces(user.id);
+    if (!workspaces) {
+      throw new WorkspaceNotFoundError();
+    }
+    const isUserWorkspaceMember = workspaces.find(
+      (workspace) => workspace.id === res.workspaceId,
+    );
+    if (!isUserWorkspaceMember) {
+      throw new AccountNotFoundError();
+    }
+    return true;
+  });
 
 export const updateAccountAction = authenticatedAction
   .createServerAction()
