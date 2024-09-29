@@ -1,11 +1,5 @@
 "use server";
 import { createServerAction } from "zsa";
-import {
-  CouldntCreateOpportunityError,
-  CouldntDeleteOpportunityError,
-  CouldntUpdateOpportunityError,
-  WorkspaceNotFoundError,
-} from "@/data-access/_errors";
 import { authenticatedAction } from "@/lib/zsa";
 import { z } from "zod";
 import {
@@ -28,11 +22,11 @@ export const updateOpportunityAction = authenticatedAction
   )
   .handler(async ({ input }) => {
     const { columnId, itemId, newValue } = input;
-    const res = updateOpportunity(itemId, {
+    const res = await updateOpportunity(itemId, {
       [columnId]: newValue,
     });
     if (!res) {
-      throw new CouldntUpdateOpportunityError();
+      throw new Error("Could not update the opportunity."); // Inline error message
     }
     return true;
   });
@@ -44,13 +38,12 @@ export const deleteOpportunityAction = authenticatedAction
       itemIds: z.array(z.string()),
     }),
   )
-  .handler(async ({ input, ctx }) => {
+  .handler(async ({ input }) => {
     const { itemIds } = input;
-    const { user } = ctx;
     for (const itemId of itemIds) {
       const res = await deleteOpportunity(itemId);
       if (!res) {
-        throw new CouldntDeleteOpportunityError();
+        throw new Error("Could not delete the opportunity."); // Inline error message
       }
     }
     return true;
@@ -64,35 +57,25 @@ export const createOpportunityAction = authenticatedAction
     const {
       title,
       value,
-      stage,
-      assignedToId,
-      primaryContactId,
-      probability,
       expectedCloseDate,
-      description,
       accountId,
     } = input;
     const { user } = ctx;
     const currentWorkspaceId = cookies().get(selectedWorkspaceCookie)?.value;
     if (!currentWorkspaceId) {
-      throw new WorkspaceNotFoundError();
+      throw new Error("Workspace not found."); // Inline error message
     }
-    const opportunityRes = await createOpportunity(
-      user.id,
-      currentWorkspaceId,
+    const opportunityRes = await createOpportunity({
+      userId: user.id,
+      workspaceId: currentWorkspaceId,
       accountId,
       title,
       value,
-      stage,
-      primaryContactId,
-      probability,
       expectedCloseDate,
-      description,
-      assignedToId,
-    );
+    });
 
     if (!opportunityRes) {
-      throw new CouldntCreateOpportunityError();
+      throw new Error("Could not create the opportunity."); // Inline error message
     }
     return {
       success: true,

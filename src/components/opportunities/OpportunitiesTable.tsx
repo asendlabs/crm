@@ -171,7 +171,7 @@ export function OpportunityTable<TData, TValue>({
                 primaryFieldPrettyName="Opportunity"
               />
             </div>
-            <NewOpportunityForm addOpportunity={addData} accounts={[] as Account[]}/>
+            <NewOpportunityForm addOpportunity={addData} accounts={accounts}/>
           </div>
         </div>
         <Table>

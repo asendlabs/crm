@@ -1,12 +1,5 @@
 "use server";
 import { createServerAction } from "zsa";
-import {
-  AccountNotFoundError,
-  CouldntCreateAccountError,
-  CouldntDeleteLeadError,
-  CouldntUpdateLeadError,
-  WorkspaceNotFoundError,
-} from "@/data-access/_errors";
 import { authenticatedAction } from "@/lib/zsa";
 import { z } from "zod";
 import {
@@ -24,33 +17,7 @@ import {
   getAllAccountContacts,
 } from "@/data-access/contacts";
 import { getAllUserWorkspaces } from "@/data-access/workspaces";
-
-export const checkAccountAccessAction = authenticatedAction
-  .createServerAction()
-  .input(
-    z.object({
-      accountId: z.string(),
-    }),
-  )
-  .handler(async ({ input, ctx }) => {
-    const { user } = ctx;
-    const { accountId } = input;
-    const res = await getAccountById(accountId);
-    if (!res) {
-      throw new AccountNotFoundError();
-    }
-    const workspaces = await getAllUserWorkspaces(user.id);
-    if (!workspaces) {
-      throw new WorkspaceNotFoundError();
-    }
-    const isUserWorkspaceMember = workspaces.find(
-      (workspace) => workspace.id === res.workspaceId,
-    );
-    if (!isUserWorkspaceMember) {
-      throw new AccountNotFoundError();
-    }
-    return true;
-  });
+import { deleteOpportunity, getAllAccountOpportunities } from "@/data-access/opportunities";
 
 export const updateAccountAction = authenticatedAction
   .createServerAction()
@@ -63,11 +30,11 @@ export const updateAccountAction = authenticatedAction
   )
   .handler(async ({ input }) => {
     const { columnId, itemId, newValue } = input;
-    const res = updateAccount(itemId, {
+    const res = await updateAccount(itemId, {
       [columnId]: newValue,
     });
     if (!res) {
-      throw new CouldntUpdateLeadError();
+      throw new Error("Couldn't update account"); // Inline error
     }
     return true;
   });
@@ -83,6 +50,11 @@ export const deleteAccountAction = authenticatedAction
     const { itemIds } = input;
     const { user } = ctx;
     for (const itemId of itemIds) {
+      const opportunities = await getAllAccountOpportunities(itemId)
+      // delete the opportunities
+      for (const opportunity of opportunities) {
+        await deleteOpportunity(opportunity.id);
+      }
       // fetch the contacts associated with the account
       const contacts = await getAllAccountContacts(itemId);
       // delete the contacts
@@ -92,7 +64,7 @@ export const deleteAccountAction = authenticatedAction
       // delete the account
       const res = await deleteAccount(itemId);
       if (!res) {
-        throw new CouldntDeleteLeadError();
+        throw new Error("Couldn't delete account"); // Inline error
       }
     }
     return true;
@@ -107,7 +79,7 @@ export const createAccountAction = authenticatedAction
     const { user } = ctx;
     const currentWorkspaceId = cookies().get(selectedWorkspaceCookie)?.value;
     if (!currentWorkspaceId) {
-      throw new WorkspaceNotFoundError();
+      throw new Error("Workspace not found"); // Inline error
     }
     const accountRes = await createAccount(
       currentWorkspaceId,
@@ -123,11 +95,11 @@ export const createAccountAction = authenticatedAction
     );
 
     if (!accountRes || !contactRes) {
-      throw new CouldntCreateAccountError();
+      throw new Error("Couldn't create account"); // Inline error
     }
     const account = await getAccountById(accountRes.id);
     if (!account) {
-      throw new CouldntCreateAccountError();
+      throw new Error('Account not found after creation');
     }
     return {
       success: true,

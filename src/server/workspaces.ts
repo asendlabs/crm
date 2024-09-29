@@ -3,7 +3,6 @@ import { createServerAction } from "zsa";
 import { authenticatedAction } from "@/lib/zsa";
 import { z } from "zod";
 import { cookies } from "next/headers";
-import { CouldntSetSelectedWorkspaceError } from "@/data-access/_errors";
 import { selectedWorkspaceCookie } from "@/config";
 
 export const setSelectedWorkspaceAction = authenticatedAction
@@ -20,7 +19,7 @@ export const setSelectedWorkspaceAction = authenticatedAction
 
     const res = cookieStore.set(selectedWorkspaceCookie, workspaceId);
     if (!res) {
-      throw new CouldntSetSelectedWorkspaceError();
+      throw new Error('Something went wrong. Unable to set selected workspace.');
     }
 
     return true;

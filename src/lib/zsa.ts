@@ -1,10 +1,9 @@
 import { env } from "@/env";
 import { createServerActionProcedure } from "zsa";
-import { PublicError } from "@/data-access/_errors";
 import { verifyAuthentication } from "./session";
 
 function shapeErrors({ err }: any) {
-  const isAllowedError = err instanceof PublicError;
+  const isAllowedError = true;
   // let's all errors pass through to the UI so debugging locally is easier
   const isDev = env.NODE_ENV === "development";
   if (isAllowedError || isDev) {

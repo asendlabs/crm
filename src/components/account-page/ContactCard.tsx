@@ -3,15 +3,17 @@
 import { Card } from "@/components/ui/card";
 import { Contact, ContactEmail, ContactPhone } from "@database/types";
 import React from "react";
-import { NewOpportunityForm } from "../forms/NewOpportunityForm";
-import { MailIcon, PhoneIcon } from "lucide-react";
+import { ArrowUpRight, MailIcon, PhoneIcon } from "lucide-react";
+import { NewContactForm } from "../forms/NewContactForm";
 
 export function ContactCard({
   contacts,
+  accountId,
 }: {
   contacts: Array<
     Contact & { contactPhone: ContactPhone; contactEmail: ContactEmail }
   >;
+  accountId: string;
 }) {
   return (
     <Card>
@@ -20,15 +22,14 @@ export function ContactCard({
           <h1>Contacts</h1>
           {contacts && contacts.length > 0 && (
             <p className="flex h-5 w-5 items-center justify-center rounded-full border border-gray-300 text-xs">
-              {contacts.length}
+              {contacts.length > 0 ? contacts.length : 0}
             </p>
           )}
         </div>
-        <NewOpportunityForm />
+        <NewContactForm accountId={accountId} />
       </div>
-      <div className="p-2">
-        {contacts ? (
-          contacts.length > 0 &&
+      <div className="flex flex-col gap-2 p-2">
+        {contacts && contacts.length > 0 ? (
           contacts.map(
             (
               contact: Contact & {
@@ -37,8 +38,8 @@ export function ContactCard({
               },
             ) => (
               <Card key={contact.id}>
-                <div className="p-2">
-                  <div className="flex justify-between">
+                <div className="flex w-full justify-between p-2">
+                  <div className="flex items-center gap-2">
                     <h1>{contact.contactName}</h1>
                     <div className="flex">
                       <button
@@ -58,6 +59,9 @@ export function ContactCard({
                         <MailIcon className="h-4 w-4" />
                       </button>
                     </div>
+                  </div>
+                  <div className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full border border-gray-200 hover:bg-gray-200">
+                    <ArrowUpRight className="h-5 w-5" />
                   </div>
                 </div>
               </Card>

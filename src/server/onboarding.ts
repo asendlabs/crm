@@ -3,10 +3,6 @@ import { createServerAction } from "zsa";
 import { redirect } from "next/navigation";
 import { authenticatedAction } from "@/lib/zsa";
 import { createProfile, getUserById, updateUser } from "@/data-access/users";
-import {
-  AuthenticationError,
-  SomethingWentWrongError,
-} from "@/data-access/_errors";
 import { onboardingSchema } from "@/schemas/onboarding.schema";
 import { createWorkspace, createWorkspaceUser } from "@/data-access/workspaces";
 import { authenticatedUrl } from "@/urls";
@@ -18,7 +14,7 @@ export const onboardingAction = authenticatedAction
     const { firstName, lastName, marketingConsent, workspaceName } = input;
     const user = await getUserById(ctx.user.id);
     if (!user) {
-      throw new AuthenticationError();
+      throw new Error("You need to be logged in to access this content");
     }
     const profileCreated = await createProfile(
       user.id,
@@ -46,7 +42,7 @@ export const onboardingAction = authenticatedAction
       updatedAt: new Date(),
     });
     if (!setOnboarded) {
-      throw new SomethingWentWrongError();
+      throw new Error("Failed to update user onboard status");
     }
     return redirect(authenticatedUrl);
   });

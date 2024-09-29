@@ -1,13 +1,7 @@
 "use server";
 import { createServerAction } from "zsa";
 import { loginSchema } from "@/schemas/auth.schema";
-import {
-  createUser,
-  getUserByEmail,
-  recreateUser,
-  updateUser,
-} from "@/data-access/users";
-import { EmailInUseError, UserNotCreatedError } from "@/data-access/_errors";
+import { createUser, getUserByEmail, recreateUser } from "@/data-access/users";
 import { createSessionForUser } from "@/lib/session";
 import { redirect } from "next/navigation";
 import { unauthenticatedAction } from "@/lib/zsa";
@@ -23,18 +17,18 @@ export const signUpAction = unauthenticatedAction
     if (!user) {
       const createdUser = await createUser(email, password);
       if (!createdUser) {
-        throw new UserNotCreatedError();
+        throw new Error("Something went wrong. Unable to sign up.");
       }
       await sendVerificationEmail(email, createdUser.verificationCode!);
       await createSessionForUser(createdUser.id);
     }
     if (user && user.verifiedAt) {
-      throw new EmailInUseError();
+      throw new Error("An existing account is associated with this email.");
     }
     if (user && !user.verifiedAt) {
       const recreatedUser = await recreateUser(email, password);
       if (!recreatedUser) {
-        throw new UserNotCreatedError();
+        throw new Error("Something went wrong. Unable to sign up.");
       }
       await sendVerificationEmail(email, recreatedUser.verificationCode!);
       await createSessionForUser(recreatedUser.id);

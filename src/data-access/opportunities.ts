@@ -29,19 +29,31 @@ export async function getAllAccountOpportunities(accountId: string) {
   return accountOpportunities;
 }
 
-export async function createOpportunity(
-  userId: string,
-  workspaceId: string,
-  accountId: string,
-  title: string,
-  value?: string,
-  stage?: string,
-  primaryContactId?: string,
-  probability?: number,
-  expectedCloseDate?: Date,
-  description?: string,
-  assignedToId?: string,
-) {
+export async function createOpportunity({
+  userId,
+  workspaceId,
+  accountId,
+  title,
+  value,
+  stage,
+  primaryContactId,
+  probability,
+  expectedCloseDate,
+  description,
+  assignedToId,
+}: {
+  userId: string;
+  workspaceId: string;
+  accountId: string;
+  title: string;
+  value?: string;
+  stage?: string;
+  primaryContactId?: string;
+  probability?: number;
+  expectedCloseDate?: Date;
+  description?: string;
+  assignedToId?: string;
+}) {
   const [created] = await db
     .insert(opportunityTable)
     .values({

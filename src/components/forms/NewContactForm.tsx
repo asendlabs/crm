@@ -1,33 +1,26 @@
 "use client";
 
 import {
-  Dialog,
-  DialogContent,
-  DialogDescription, DialogTrigger
+    Dialog,
+    DialogContent,
+    DialogDescription, DialogTrigger
 } from "@/components/ui/dialog";
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
 } from "@/components/ui/select";
 import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
+    Form,
+    FormControl,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormMessage,
 } from "@/components/ui/form";
-import { CalendarIcon, Plus } from "lucide-react";
-import { format } from "date-fns";
-
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+import { Plus } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -37,52 +30,51 @@ import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { createOpportunityAction } from "@/server/opportunity";
+import { createContactAction } from "@/server/contacts";
 import { useServerAction } from "zsa-react";
-import { opportunityCreateSchema } from "@/schemas/opportunity.schema";
-import { Calendar } from "../ui/calendar";
-import { cn } from "@/utils/tailwind";
+import { contactCreateSchema } from "@/schemas/contact.schema";
 import { Account } from "@database/types";
 
-export function NewOpportunityForm({
-  addOpportunity,
+export function NewContactForm({
+  addContact,
   accountId,
   accounts,
 }: {
-  addOpportunity?: (newOpportunity: any) => void;
+  addContact?: (newContact: any) => void;
   accountId?: string;
   accounts?: Account[];
 }) {
   const [loading, setLoading] = React.useState(false);
   const [open, setOpen] = React.useState(false);
   const router = useRouter();
-  const { execute, data } = useServerAction(createOpportunityAction);
-  const opportunityform = useForm<z.infer<typeof opportunityCreateSchema>>({
-    resolver: zodResolver(opportunityCreateSchema),
+  const { execute, data } = useServerAction(createContactAction);
+  const contactform = useForm<z.infer<typeof contactCreateSchema>>({
+    resolver: zodResolver(contactCreateSchema),
     defaultValues: {
-      title: "",
-      value: "",
-      accountId: accountId || "", // Default accountId if passed
+      contactName: "",
+      contactEmail: "",
+      contactPhone: "",
+      accountId: accountId || "",
     },
   });
 
   // Handle form submission
-  async function onSubmit(values: z.infer<typeof opportunityCreateSchema>) {
+  async function onSubmit(values: z.infer<typeof contactCreateSchema>) {
     try {
       setLoading(true);
       const [data, err] = await execute({
         ...values,
       });
       if (!err) {
-        toast.success("Opportunity created successfully!");
-        opportunityform.reset();
+        toast.success("Contact created successfully!");
+        contactform.reset();
         setOpen(false);
         router.refresh(); // Refresh the page or data
       } else {
-        toast.error("Failed to create opportunity.");
+        toast.error("Failed to create contact.");
       }
     } catch (error) {
-      toast.error("An error occurred while creating the opportunity.");
+      toast.error("An error occurred while creating the contact.");
     } finally {
       setLoading(false);
     }
@@ -96,15 +88,15 @@ export function NewOpportunityForm({
       </DialogTrigger>
       <DialogContent className="flex flex-col py-2">
         <div className="mb-3 px-5">
-          <Form {...opportunityform}>
+          <Form {...contactform}>
             <form
               className="flex flex-col gap-4 pt-2"
-              onSubmit={opportunityform.handleSubmit(onSubmit)}
+              onSubmit={contactform.handleSubmit(onSubmit)}
             >
               <div className="flex flex-col gap-5">
                 {!accountId && accounts && (
                   <FormField
-                    control={opportunityform.control}
+                    control={contactform.control}
                     name="accountId"
                     render={({ field }) => (
                       <FormItem className="flex-1">
@@ -135,15 +127,15 @@ export function NewOpportunityForm({
                   />
                 )}
                 <FormField
-                  control={opportunityform.control}
-                  name="title"
+                  control={contactform.control}
+                  name="contactName"
                   render={({ field }) => (
                     <FormItem className="flex-1">
-                      <FormLabel>Opportunity Name</FormLabel>
+                      <FormLabel>Contact Name</FormLabel>
                       <FormControl>
                         <Input
                           {...field}
-                          placeholder="eg. New Product Line Expansion"
+                          placeholder="eg. John Doe"
                           className="h-9 w-full"
                         />
                       </FormControl>
@@ -153,60 +145,18 @@ export function NewOpportunityForm({
                 />
 
                 <FormField
-                  control={opportunityform.control}
-                  name="value"
+                  control={contactform.control}
+                  name="contactEmail"
                   render={({ field }) => (
                     <FormItem className="flex-1">
-                      <FormLabel>Value</FormLabel>
+                      <FormLabel>Email</FormLabel>
                       <FormControl>
                         <Input
                           {...field}
-                          type="number"
-                          placeholder="eg. 10,000"
+                          placeholder="eg. abc@example.com"
                           className="h-9 w-full"
                         />
                       </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={opportunityform.control}
-                  name="expectedCloseDate"
-                  render={({ field }) => (
-                    <FormItem className="flex flex-col">
-                      <FormLabel>Expected Close</FormLabel>
-                      <Popover>
-                        <PopoverTrigger asChild>
-                          <FormControl>
-                            <Button
-                              variant={"outline"}
-                              className={cn(
-                                "h-9 w-full pl-3 text-left font-normal",
-                                !field.value && "text-muted-foreground",
-                              )}
-                            >
-                              {field.value ? (
-                                format(field.value, "PPP")
-                              ) : (
-                                <span>Pick a date</span>
-                              )}
-                              <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                            </Button>
-                          </FormControl>
-                        </PopoverTrigger>
-                        <PopoverContent className="w-auto p-0" align="start">
-                          <Calendar
-                            mode="single"
-                            selected={field.value}
-                            onSelect={field.onChange}
-                            className="select-none"
-                            disabled={(date) => date < new Date("1900-01-01")}
-                            initialFocus
-                            {...field}
-                          />
-                        </PopoverContent>
-                      </Popover>
                       <FormMessage />
                     </FormItem>
                   )}
@@ -220,14 +170,14 @@ export function NewOpportunityForm({
                   className="w-30 h-8"
                   onClick={() => {
                     setLoading(false);
-                    opportunityform.reset();
+                    contactform.reset();
                     setOpen(false);
                   }}
                 >
                   Cancel
                 </Button>
                 <Button type="submit" className="h-8" disabled={loading}>
-                  {loading ? "Creating..." : "Create New Opportunity"}
+                  {loading ? "Creating..." : "Create New Contact"}
                 </Button>
               </div>
             </form>

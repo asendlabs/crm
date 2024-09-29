@@ -2,7 +2,6 @@
 import { createServerAction } from "zsa";
 import { loginSchema } from "@/schemas/auth.schema";
 import { checkUserPassword } from "@/data-access/users";
-import { LoginError } from "@/data-access/_errors";
 import { createSessionForUser } from "@/lib/session";
 import { redirect } from "next/navigation";
 import { unauthenticatedAction } from "@/lib/zsa";
@@ -15,7 +14,7 @@ export const loginAction = unauthenticatedAction
     const { email, password } = input;
     const user = await checkUserPassword(email, password);
     if (!user) {
-      throw new LoginError();
+      throw new Error("Invalid email or password"); // Inline error
     }
     await createSessionForUser(user.id);
     return redirect(authenticatedUrl);

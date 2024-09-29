@@ -1,7 +1,6 @@
 import { cache } from "react";
 import { lucia, validateRequest } from "./lucia";
 import { cookies } from "next/headers";
-import { AuthenticationError } from "@/data-access/_errors";
 
 export const fetchAuthenticatedUser = cache(async () => {
   const session = await validateRequest();
@@ -14,7 +13,7 @@ export const fetchAuthenticatedUser = cache(async () => {
 export const verifyAuthentication = async () => {
   const user = await fetchAuthenticatedUser();
   if (!user) {
-    throw new AuthenticationError();
+    throw new Error("You need to be logged in to access this content");
   }
   return user;
 };

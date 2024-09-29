@@ -1,23 +1,17 @@
 "use client ";
 
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
+  Card
 } from "@/components/ui/card";
 import {
-  Account,
   Contact,
   ContactEmail,
   ContactPhone,
-  Opportunity,
+  Opportunity
 } from "@database/types";
-import React from "react";
 import { NewOpportunityForm } from "../forms/NewOpportunityForm";
-import { MailIcon, PhoneIcon } from "lucide-react";
+import { ArrowUpRight, MailIcon, PhoneIcon } from "lucide-react";
+import { formatDate } from "@/utils";
 
 export function OpportunityCard({
   opportunities,
@@ -38,13 +32,15 @@ export function OpportunityCard({
       <div className="flex justify-between border-b border-gray-200 p-3">
         <div className="flex items-center gap-2">
           <h1>Opportunities</h1>
-          <p className="flex h-5 w-5 items-center justify-center rounded-full border border-gray-300 text-xs">
-            {opportunities.length > 0 ? opportunities.length : 0}
-          </p>
+          {opportunities && opportunities.length > 0 && (
+            <p className="flex h-5 w-5 items-center justify-center rounded-full border border-gray-300 text-xs">
+              {opportunities.length > 0 ? opportunities.length : 0}
+            </p>
+          )}
         </div>
         <NewOpportunityForm accountId={accountId} />
       </div>
-      <div className="p-2 flex flex-col gap-2">
+      <div className="flex flex-col gap-2 p-2">
         {opportunities.length > 0 ? (
           opportunities.map(
             (
@@ -56,19 +52,29 @@ export function OpportunityCard({
               },
             ) => (
               <Card key={opportunity.id}>
-                <div className="p-2">
-                  <h1 className="flex gap-1 text-lg font-semibold">
-                    <span>{opportunity.title}</span>[${opportunity.value}]
-                  </h1>
-                  <p className="text-xs text-gray-700">
-                    <span className="font-medium">
-                      {opportunity.probability}%
-                    </span>{" "}
-                    probability on{" "}
-                    <span className="font-medium">
-                      {opportunity.expectedCloseDate?.toLocaleString()}
-                    </span>
-                  </p>
+                <div className="flex items-center justify-between p-2">
+                  <div>
+                    <h1 className="flex gap-1 text-lg font-semibold">
+                      {opportunity.title}
+                      <span className="font-light">(${opportunity.value})</span>
+                    </h1>
+                    <p className="text-xs text-gray-700">
+                      {opportunity.probability && (
+                        <>
+                          <span className="font-medium">
+                            {opportunity.probability}%
+                          </span>{" "}
+                          probability on{" "}
+                        </>
+                      )}
+                      <span className="font-medium">
+                        {formatDate(opportunity?.expectedCloseDate) ?? "\u3164"}
+                      </span>
+                    </p>
+                  </div>
+                  <div className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full border border-gray-200 hover:bg-gray-200">
+                    <ArrowUpRight className="h-5 w-5" />
+                  </div>
                   {opportunity.contact && (
                     <>
                       <p className="text-center text-xs text-gray-200">
