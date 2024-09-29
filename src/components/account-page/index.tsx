@@ -53,7 +53,7 @@ export function AccountPage({
             <TopTabs />{" "}
             <div className="grid h-full w-[22rem] gap-3 py-1 pl-2 overflow-y-auto">
               <ContactCard contacts={accountContacts} />
-              <OpportunityCard opportunities={accountOpportunities} />
+              <OpportunityCard opportunities={accountOpportunities} accountId={account.id}/>
               <DetailsCard account={account} />
             </div>
           </section>

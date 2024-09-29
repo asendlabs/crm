@@ -29,15 +29,18 @@ import { useState } from "react";
 import { useServerAction } from "zsa-react";
 import { toast } from "sonner";
 import { deleteOpportunityAction, updateOpportunityAction } from "@/server/opportunity";
+import { Account } from "@database/types";
 
 interface OpportunityTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   tableData: TData[];
+  accounts: Account[];
 }
 
 export function OpportunityTable<TData, TValue>({
   columns,
   tableData,
+  accounts,
 }: OpportunityTableProps<TData, TValue>) {
   const [data, setData] = useState<TData[]>(tableData);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -168,7 +171,7 @@ export function OpportunityTable<TData, TValue>({
                 primaryFieldPrettyName="Opportunity"
               />
             </div>
-            <NewOpportunityForm addOpportunity={addData} />
+            <NewOpportunityForm addOpportunity={addData} accounts={[] as Account[]}/>
           </div>
         </div>
         <Table>

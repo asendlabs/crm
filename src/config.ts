@@ -1,2 +1,2 @@
-export const selectedWorkspaceCookie = "DATA_PROVIDER";
+export const selectedWorkspaceCookie = "PROVIDER";
 export const authCookie = "SESSION";

@@ -19,7 +19,7 @@ export function DetailsCard({ account }: { account: Account }) {
         <div className="flex items-center gap-3">
           <Label className="w-28">Website</Label>
           <Input
-            value={account?.website ?? ""}
+            // value={account?.website ?? ""}
             placeholder={`Enter ${account.type} URL`}
             className="h-8"
           />
@@ -27,7 +27,7 @@ export function DetailsCard({ account }: { account: Account }) {
         <div className="flex items-center gap-3">
           <Label className="w-28">Address</Label>
           <Input
-            value={account?.address ?? ""}
+            // value={account?.address ?? ""}
             placeholder={`Enter ${account.type} address`}
             className="h-8"
           />

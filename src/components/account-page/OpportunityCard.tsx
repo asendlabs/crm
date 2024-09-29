@@ -9,6 +9,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import {
+  Account,
   Contact,
   ContactEmail,
   ContactPhone,
@@ -20,6 +21,7 @@ import { MailIcon, PhoneIcon } from "lucide-react";
 
 export function OpportunityCard({
   opportunities,
+  accountId,
 }: {
   opportunities: Array<
     Opportunity & {
@@ -29,6 +31,7 @@ export function OpportunityCard({
       };
     }
   >;
+  accountId: string;
 }) {
   return (
     <Card>
@@ -39,9 +42,9 @@ export function OpportunityCard({
             {opportunities.length > 0 ? opportunities.length : 0}
           </p>
         </div>
-        <NewOpportunityForm />
+        <NewOpportunityForm accountId={accountId} />
       </div>
-      <div className="p-2">
+      <div className="p-2 flex flex-col gap-2">
         {opportunities.length > 0 ? (
           opportunities.map(
             (
@@ -54,8 +57,8 @@ export function OpportunityCard({
             ) => (
               <Card key={opportunity.id}>
                 <div className="p-2">
-                  <h1 className="text-lg font-semibold">
-                    ${opportunity.value}
+                  <h1 className="flex gap-1 text-lg font-semibold">
+                    <span>{opportunity.title}</span>[${opportunity.value}]
                   </h1>
                   <p className="text-xs text-gray-700">
                     <span className="font-medium">
@@ -66,33 +69,37 @@ export function OpportunityCard({
                       {opportunity.expectedCloseDate?.toLocaleString()}
                     </span>
                   </p>
-                  <p className="text-center text-xs text-gray-200">
-                    ----------------------------------------------
-                  </p>
-                  <div>
-                    <p className="text-xs font-medium">Contact</p>
-                    <div className="flex justify-between">
-                      <h1>{opportunity.contact.contactName}</h1>
-                      <div className="flex">
-                        <button
-                          className="flex h-6 w-7 items-center justify-center rounded border-y border-l border-gray-200 hover:bg-gray-200"
-                          onClick={() =>
-                            (window.location.href = `tel:${opportunity.contact.contactPhone.countryCode ?? ""}${opportunity.contact.contactPhone.phoneNumber ?? ""}`)
-                          }
-                        >
-                          <PhoneIcon className="h-4 w-4" />
-                        </button>
-                        <button
-                          className="flex h-6 w-7 items-center justify-center rounded border-y border-r border-gray-200 hover:bg-gray-200"
-                          onClick={() =>
-                            (window.location.href = `mailto:${opportunity.contact.contactEmail.email ?? ""}`)
-                          }
-                        >
-                          <MailIcon className="h-4 w-4" />
-                        </button>
+                  {opportunity.contact && (
+                    <>
+                      <p className="text-center text-xs text-gray-200">
+                        ----------------------------------------------
+                      </p>
+                      <div>
+                        <p className="text-xs font-medium">Contact</p>
+                        <div className="flex justify-between">
+                          <h1>{opportunity.contact.contactName}</h1>
+                          <div className="flex">
+                            <button
+                              className="flex h-6 w-7 items-center justify-center rounded border-y border-l border-gray-200 hover:bg-gray-200"
+                              onClick={() =>
+                                (window.location.href = `tel:${opportunity.contact.contactPhone.countryCode ?? ""}${opportunity.contact.contactPhone.phoneNumber ?? ""}`)
+                              }
+                            >
+                              <PhoneIcon className="h-4 w-4" />
+                            </button>
+                            <button
+                              className="flex h-6 w-7 items-center justify-center rounded border-y border-r border-gray-200 hover:bg-gray-200"
+                              onClick={() =>
+                                (window.location.href = `mailto:${opportunity.contact.contactEmail.email ?? ""}`)
+                              }
+                            >
+                              <MailIcon className="h-4 w-4" />
+                            </button>
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                  </div>
+                    </>
+                  )}
                 </div>
               </Card>
             ),

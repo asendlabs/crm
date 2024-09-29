@@ -5,6 +5,7 @@ import { selectedWorkspaceCookie } from "@/config";
 import { OpportunityTable } from "@/components/opportunities/OpportunitiesTable";
 import { OpportunityColumns } from "@/components/opportunities/OpportunitiesColumns";
 import { getAllWorkspaceOpportunities } from "@/data-access/opportunities";
+import { getAllWorkspaceAccounts } from "@/data-access/accounts";
 
 export const metadata: Metadata = {
   title: "Opportunities",
@@ -14,7 +15,8 @@ export const metadata: Metadata = {
 async function LeadsPage() {
   const workspaceId = cookies().get(selectedWorkspaceCookie)?.value || "";
   const data = await getAllWorkspaceOpportunities(workspaceId);
-  return <OpportunityTable columns={OpportunityColumns} tableData={data} />;
+  const accounts = await getAllWorkspaceAccounts(workspaceId);
+  return <OpportunityTable columns={OpportunityColumns} tableData={data} accounts={accounts} />;
 }
 
 export default LeadsPage;

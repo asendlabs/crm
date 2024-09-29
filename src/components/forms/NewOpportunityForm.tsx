@@ -8,6 +8,13 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
   Form,
   FormControl,
   FormField,
@@ -15,65 +22,74 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Plus, X } from "lucide-react";
+import { CalendarIcon, Plus, X } from "lucide-react";
+import { format } from "date-fns";
+
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 
 import { Button } from "@/components/ui/button";
-import { Close } from "@radix-ui/react-dialog";
 import { Input } from "@/components/ui/input";
 import React from "react";
-import { accountCreateSchema } from "@/schemas/account.schema";
 import { toast } from "sonner";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { createAccountAction } from "@/server/accounts";
+import { createOpportunityAction } from "@/server/opportunity";
 import { useServerAction } from "zsa-react";
+import { opportunityCreateSchema } from "@/schemas/opportunity.schema";
+import { Calendar } from "../ui/calendar";
+import { cn } from "@/utils/tailwind";
+import { Account } from "@database/types";
 
 export function NewOpportunityForm({
   addOpportunity,
+  accountId,
+  accounts,
 }: {
   addOpportunity?: (newOpportunity: any) => void;
+  accountId?: string;
+  accounts?: Account[];
 }) {
   const [loading, setLoading] = React.useState(false);
   const [open, setOpen] = React.useState(false);
   const router = useRouter();
-  const { execute, data } = useServerAction(createAccountAction);
-  const form = useForm<z.infer<typeof accountCreateSchema>>({
-    resolver: zodResolver(accountCreateSchema),
+  const { execute, data } = useServerAction(createOpportunityAction);
+  const opportunityform = useForm<z.infer<typeof opportunityCreateSchema>>({
+    resolver: zodResolver(opportunityCreateSchema),
     defaultValues: {
-      accountName: "",
-      contactName: "",
-      type: "lead",
+      title: "",
+      value: "",
+      accountId: accountId || "", // Default accountId if passed
     },
   });
 
-  const handleSubmit = async (values: z.infer<typeof accountCreateSchema>) => {
-    setLoading(true);
+  // Handle form submission
+  async function onSubmit(values: z.infer<typeof opportunityCreateSchema>) {
     try {
+      setLoading(true);
       const [data, err] = await execute({
-        accountName: values.accountName,
-        type: values.type,
-        contactName: values.contactName,
+        ...values,
       });
-      if (err) {
-        toast.error(err.message);
-        return;
-      }
-      if (!addOpportunity) {
-        router.refresh();
+      if (!err) {
+        toast.success("Opportunity created successfully!");
+        opportunityform.reset();
+        setOpen(false);
+        router.refresh(); // Refresh the page or data
       } else {
-        addOpportunity(data?.data);
-        router.refresh();
+        toast.error("Failed to create opportunity.");
       }
     } catch (error) {
-      toast.error("Internal Error");
+      toast.error("An error occurred while creating the opportunity.");
     } finally {
-      setOpen(false);
       setLoading(false);
-      form.reset();
     }
-  };
+  }
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger className="flex max-h-8 max-w-28 flex-row items-center gap-1 rounded-lg bg-primary px-3 text-sm text-white hover:bg-primary/90">
@@ -82,22 +98,55 @@ export function NewOpportunityForm({
       </DialogTrigger>
       <DialogContent className="flex flex-col py-2">
         <div className="mb-3 px-5">
-          <Form {...form}>
+          <Form {...opportunityform}>
             <form
-              onSubmit={form.handleSubmit(handleSubmit)}
               className="flex flex-col gap-4 pt-2"
+              onSubmit={opportunityform.handleSubmit(onSubmit)}
             >
-              <div className="flex flex-col gap-3 sm:flex-row">
+              <div className="flex flex-col gap-5">
+                {!accountId && accounts && (
+                  <FormField
+                    control={opportunityform.control}
+                    name="accountId"
+                    render={({ field }) => (
+                      <FormItem className="flex-1">
+                        <FormLabel>Account</FormLabel>
+                        <Select
+                          onValueChange={field.onChange}
+                          defaultValue={field.value}
+                          {...field}
+                        >
+                          <FormControl>
+                            <SelectTrigger>
+                              <SelectValue
+                                placeholder="Choose a lead or customer"
+                                className="h-9"
+                              />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            {accounts.map((account) => (
+                              <SelectItem key={account.id} value={account.id}>
+                                {account.accountName}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                )}
                 <FormField
-                  control={form.control}
-                  name="accountName"
+                  control={opportunityform.control}
+                  name="title"
                   render={({ field }) => (
                     <FormItem className="flex-1">
                       <FormLabel>Opportunity Name</FormLabel>
                       <FormControl>
                         <Input
                           {...field}
-                          placeholder="eg. Acme Inc"
+                          placeholder="eg. New Product Line Expansion"
                           className="h-9 w-full"
                         />
                       </FormControl>
@@ -107,15 +156,16 @@ export function NewOpportunityForm({
                 />
 
                 <FormField
-                  control={form.control}
-                  name="contactName"
+                  control={opportunityform.control}
+                  name="value"
                   render={({ field }) => (
                     <FormItem className="flex-1">
-                      <FormLabel>Contact Name</FormLabel>
+                      <FormLabel>Value</FormLabel>
                       <FormControl>
                         <Input
                           {...field}
-                          placeholder="eg. John Doe"
+                          type="number"
+                          placeholder="eg. 10,000"
                           className="h-9 w-full"
                         />
                       </FormControl>
@@ -123,8 +173,49 @@ export function NewOpportunityForm({
                     </FormItem>
                   )}
                 />
+                <FormField
+                  control={opportunityform.control}
+                  name="expectedCloseDate"
+                  render={({ field }) => (
+                    <FormItem className="flex flex-col">
+                      <FormLabel>Expected Close</FormLabel>
+                      <Popover>
+                        <PopoverTrigger asChild>
+                          <FormControl>
+                            <Button
+                              variant={"outline"}
+                              className={cn(
+                                "h-9 w-full pl-3 text-left font-normal",
+                                !field.value && "text-muted-foreground",
+                              )}
+                            >
+                              {field.value ? (
+                                format(field.value, "PPP")
+                              ) : (
+                                <span>Pick a date</span>
+                              )}
+                              <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                            </Button>
+                          </FormControl>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-auto p-0" align="start">
+                          <Calendar
+                            mode="single"
+                            selected={field.value}
+                            onSelect={field.onChange}
+                            className="select-none"
+                            disabled={(date) => date < new Date("1900-01-01")}
+                            initialFocus
+                            {...field}
+                          />
+                        </PopoverContent>
+                      </Popover>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
               </div>
-              <div className="flex flex-row justify-end gap-2">
+              <div className="flex flex-row justify-end gap-2 pt-1">
                 <Button
                   type="button"
                   variant="outline"
@@ -132,7 +223,7 @@ export function NewOpportunityForm({
                   className="w-30 h-8"
                   onClick={() => {
                     setLoading(false);
-                    form.reset();
+                    opportunityform.reset();
                     setOpen(false);
                   }}
                 >
