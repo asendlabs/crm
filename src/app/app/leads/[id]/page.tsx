@@ -5,19 +5,18 @@ import { getAccountById } from "@/data-access/accounts";
 import { Contact, ContactEmail, ContactPhone } from "@database/types";
 import { cookies } from "next/headers";
 import React from "react";
-import type { Metadata, ResolvingMetadata } from 'next'
- 
+import type { Metadata, ResolvingMetadata } from "next";
+
 type Props = {
-  params: { id: string }
-  searchParams: { [key: string]: string | string[] | undefined }
-}
+  params: { id: string };
+  searchParams: { [key: string]: string | string[] | undefined };
+};
 
 export async function generateMetadata(
   { params, searchParams }: Props,
-  parent: ResolvingMetadata
+  parent: ResolvingMetadata,
 ): Promise<Metadata> {
-
-  const {id } = params;
+  const { id } = params;
   if (!id) {
     return {};
   }
@@ -32,8 +31,7 @@ export async function generateMetadata(
   };
 }
 
-export default async function AccountRoute(
-{ params, searchParams }: Props) {
+export default async function AccountRoute({ params, searchParams }: Props) {
   const { id } = params;
   if (!id) {
     return <div>Not Found</div>;

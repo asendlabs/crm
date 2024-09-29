@@ -4,14 +4,15 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "tdev": "next dev --turbo",
+    "dev:turbo": "next dev --turbo",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "dgn": "drizzle-kit generate --config=drizzle.config.ts",
-    "dmr": "drizzle-kit migrate --config=drizzle.config.ts",
-    "dst": "drizzle-kit studio --config=drizzle.config.ts",
-    "dps": "drizzle-kit push --config=drizzle.config.ts"
+    "prettier:check": "prettier --check --ignore-path .gitignore .",
+    "prettier:format": "prettier --write --ignore-path .gitignore .",
+    "drizzle:generate": "drizzle-kit generate --config=drizzle.config.ts",
+    "drizzle:migrate": "drizzle-kit migrate --config=drizzle.config.ts",
+    "drizzle:studio": "drizzle-kit studio --config=drizzle.config.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",

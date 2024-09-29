@@ -20,7 +20,7 @@ export function StatusField({ getValue, row }: StatusFieldProps) {
         {value ? (
           <>
             <Circle className="mr-1 h-3 w-3" />
-            <span className="underline decoration-muted-foreground decoration-2 capitalize">
+            <span className="capitalize underline decoration-muted-foreground decoration-2">
               {value}
             </span>
           </>

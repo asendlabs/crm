@@ -23,7 +23,7 @@ export function PrimaryField({ getValue, row }: PrimaryFieldProps) {
   return (
     <div
       onClick={() => router.push(`/app/leads/${id.toLowerCase()}`)}
-      className="ml-2 w-full select-none hover:underline cursor-pointer h-8 flex items-center" 
+      className="ml-2 flex h-8 w-full cursor-pointer select-none items-center hover:underline"
     >
       {value}
     </div>

@@ -10,7 +10,7 @@ export const metadata: Metadata = {
     template: "%s | Asend",
   },
   icons: {
-    icon: '/assets/favicon.ico',
+    icon: "/assets/favicon.ico",
   },
 };
 

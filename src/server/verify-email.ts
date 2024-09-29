@@ -33,7 +33,9 @@ export const verifyEmailAction = authenticatedAction
     });
 
     if (!verifiedResponse) {
-      throw new Error("Something went wrong. Unable to update user verification status."); // Inline error
+      throw new Error(
+        "Something went wrong. Unable to update user verification status.",
+      ); // Inline error
     }
 
     return redirect(afterVerifyUrl);

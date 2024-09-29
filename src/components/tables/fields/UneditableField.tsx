@@ -15,6 +15,8 @@ export function UneditableField({ getValue }: UneditableFieldProps) {
   }, [initialValue]);
 
   return (
-    <div className="min-w-full max-w-36 select-none px-2 py-1 border-l border-gray-200">{value}</div>
+    <div className="min-w-full max-w-36 select-none border-l border-gray-200 px-2 py-1">
+      {value}
+    </div>
   );
 }

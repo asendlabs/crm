@@ -16,7 +16,13 @@ async function LeadsPage() {
   const workspaceId = cookies().get(selectedWorkspaceCookie)?.value || "";
   const data = await getAllWorkspaceOpportunities(workspaceId);
   const accounts = await getAllWorkspaceAccounts(workspaceId);
-  return <OpportunityTable columns={OpportunityColumns} tableData={data} accounts={accounts} />;
+  return (
+    <OpportunityTable
+      columns={OpportunityColumns}
+      tableData={data}
+      accounts={accounts}
+    />
+  );
 }
 
 export default LeadsPage;

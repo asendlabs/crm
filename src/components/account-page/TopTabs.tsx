@@ -1,5 +1,12 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { AlignLeft  , CircleEllipsis, Clock, FileText, MessageCircle, SquareCheckBig } from "lucide-react";
+import {
+  AlignLeft,
+  CircleEllipsis,
+  Clock,
+  FileText,
+  MessageCircle,
+  SquareCheckBig,
+} from "lucide-react";
 import { Button } from "../ui/button";
 import { BasicInfoTimelineItem } from "./BasicInfoTimelineItem";
 

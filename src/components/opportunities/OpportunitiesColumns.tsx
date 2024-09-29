@@ -45,6 +45,5 @@ export const OpportunityColumns: ColumnDef<Opportunity>[] = [
   {
     id: "ai_probability",
     header: () => <LogoHead title="Probability" Icon={Bot} />,
-    
-  }
+  },
 ];

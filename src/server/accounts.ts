@@ -17,7 +17,10 @@ import {
   getAllAccountContacts,
 } from "@/data-access/contacts";
 import { getAllUserWorkspaces } from "@/data-access/workspaces";
-import { deleteOpportunity, getAllAccountOpportunities } from "@/data-access/opportunities";
+import {
+  deleteOpportunity,
+  getAllAccountOpportunities,
+} from "@/data-access/opportunities";
 
 export const updateAccountAction = authenticatedAction
   .createServerAction()
@@ -50,7 +53,7 @@ export const deleteAccountAction = authenticatedAction
     const { itemIds } = input;
     const { user } = ctx;
     for (const itemId of itemIds) {
-      const opportunities = await getAllAccountOpportunities(itemId)
+      const opportunities = await getAllAccountOpportunities(itemId);
       // delete the opportunities
       for (const opportunity of opportunities) {
         await deleteOpportunity(opportunity.id);
@@ -99,7 +102,7 @@ export const createAccountAction = authenticatedAction
     }
     const account = await getAccountById(accountRes.id);
     if (!account) {
-      throw new Error('Account not found after creation');
+      throw new Error("Account not found after creation");
     }
     return {
       success: true,

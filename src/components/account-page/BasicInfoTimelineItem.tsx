@@ -7,8 +7,11 @@ interface BasicInfoTimelineItemProps {
   time?: string;
 }
 
-
-export function BasicInfoTimelineItem({title, description, time}: BasicInfoTimelineItemProps) {
+export function BasicInfoTimelineItem({
+  title,
+  description,
+  time,
+}: BasicInfoTimelineItemProps) {
   return (
     <section className="flex items-center justify-between text-sm">
       <div className="flex items-center gap-3">

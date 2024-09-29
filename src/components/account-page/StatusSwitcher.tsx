@@ -1,7 +1,12 @@
 "use client";
 
 import * as React from "react";
-import { CheckIcon, PlusCircleIcon, ChevronsUpDown, ChevronDown } from "lucide-react";
+import {
+  CheckIcon,
+  PlusCircleIcon,
+  ChevronsUpDown,
+  ChevronDown,
+} from "lucide-react";
 import { cn } from "@/utils/tailwind";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -52,10 +57,7 @@ export function StatusSwitcher({
     setOpen(false);
   };
 
-  if (loading)
-    return (
-          <Skeleton className="h-8 w-36" />
-    );
+  if (loading) return <Skeleton className="h-8 w-36" />;
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -65,7 +67,10 @@ export function StatusSwitcher({
           role="combobox"
           aria-expanded={open}
           aria-label="Select a status"
-          className={cn("flex h-8 w-fit gap-2 items-center capitalize", className)}
+          className={cn(
+            "flex h-8 w-fit items-center gap-2 capitalize",
+            className,
+          )}
         >
           {selectedStatus}
           <ChevronDown className="ml-auto h-4 w-4 shrink-0 opacity-50" />

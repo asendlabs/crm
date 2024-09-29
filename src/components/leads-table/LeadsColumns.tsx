@@ -4,7 +4,14 @@ import { ColumnDef } from "@tanstack/react-table";
 import { Account } from "@database/types";
 import { CheckboxField } from "@/components/tables/fields/CheckboxField";
 import { PrimaryField } from "@/components/tables/fields/PrimaryField";
-import { CalendarDays, Component, LucideFileText, LucideUsers, Sparkle, Users } from "lucide-react";
+import {
+  CalendarDays,
+  Component,
+  LucideFileText,
+  LucideUsers,
+  Sparkle,
+  Users,
+} from "lucide-react";
 import { LogoHead } from "@/components/tables/headers/LogoHead";
 import { CheckboxHead } from "@/components/tables/headers/CheckboxHead";
 import { PrimaryHead } from "@/components/tables/headers/PrimaryHead";
@@ -31,9 +38,11 @@ export const LeadsColumns: ColumnDef<Account>[] = [
   {
     accessorKey: "contacts",
     header: () => <LogoHead title="Contacts" Icon={LucideUsers} />,
-    cell: ({getValue, row}) => <SecondaryField arrayName="contacts" getValue={getValue} row={row} />,
+    cell: ({ getValue, row }) => (
+      <SecondaryField arrayName="contacts" getValue={getValue} row={row} />
+    ),
   },
-  
+
   {
     accessorKey: "status",
     header: () => <LogoHead title="Status" Icon={Component} />,

@@ -1,8 +1,6 @@
 import "server-only";
 import { db } from "@database";
-import {
-  activityTable,
-} from "@database/tables";
+import { activityTable } from "@database/tables";
 import { eq } from "drizzle-orm";
 import { ulid } from "ulid";
 import { Activity } from "@database/types";

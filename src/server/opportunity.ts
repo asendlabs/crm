@@ -54,12 +54,7 @@ export const createOpportunityAction = authenticatedAction
   .input(opportunityCreateSchema)
   .output(z.object({ success: z.boolean(), data: z.any() }))
   .handler(async ({ input, ctx }) => {
-    const {
-      title,
-      value,
-      expectedCloseDate,
-      accountId,
-    } = input;
+    const { title, value, expectedCloseDate, accountId } = input;
     const { user } = ctx;
     const currentWorkspaceId = cookies().get(selectedWorkspaceCookie)?.value;
     if (!currentWorkspaceId) {

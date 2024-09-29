@@ -19,7 +19,9 @@ export const setSelectedWorkspaceAction = authenticatedAction
 
     const res = cookieStore.set(selectedWorkspaceCookie, workspaceId);
     if (!res) {
-      throw new Error('Something went wrong. Unable to set selected workspace.');
+      throw new Error(
+        "Something went wrong. Unable to set selected workspace.",
+      );
     }
 
     return true;

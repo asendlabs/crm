@@ -48,7 +48,9 @@ export function timeAgo(timestamp: string): string {
   }
 }
 
-export function formatDate(dateString: string | null | undefined | Date): string {
+export function formatDate(
+  dateString: string | null | undefined | Date,
+): string {
   if (!dateString) {
     return "";
   }

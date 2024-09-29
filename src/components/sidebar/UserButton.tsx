@@ -90,7 +90,7 @@ export function UserButton({
                 toast.success("Logged out successfully", {
                   position: "bottom-right",
                   duration: 2000,
-                  richColors: false
+                  richColors: false,
                 });
               } catch (error) {
               } finally {

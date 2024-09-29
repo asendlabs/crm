@@ -28,7 +28,10 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useServerAction } from "zsa-react";
 import { toast } from "sonner";
-import { deleteOpportunityAction, updateOpportunityAction } from "@/server/opportunity";
+import {
+  deleteOpportunityAction,
+  updateOpportunityAction,
+} from "@/server/opportunity";
 import { Account } from "@database/types";
 
 interface OpportunityTableProps<TData, TValue> {
@@ -49,8 +52,12 @@ export function OpportunityTable<TData, TValue>({
   ]);
   const [rowSelectionState, setRowSelectionState] = useState({});
   const router = useRouter();
-  const updateOpportunityServerAction = useServerAction(updateOpportunityAction);
-        const deleteOpportunityServerAction = useServerAction(deleteOpportunityAction);
+  const updateOpportunityServerAction = useServerAction(
+    updateOpportunityAction,
+  );
+  const deleteOpportunityServerAction = useServerAction(
+    deleteOpportunityAction,
+  );
   const addData = (newData: any) => {
     setData((prevOpportunitys) => [...prevOpportunitys, newData]);
     router.refresh();
@@ -103,8 +110,9 @@ export function OpportunityTable<TData, TValue>({
 
   const deleteData = async (itemIds: string[]) => {
     try {
-
-      const [data, err] = await deleteOpportunityServerAction.execute({ itemIds });
+      const [data, err] = await deleteOpportunityServerAction.execute({
+        itemIds,
+      });
       if (err) {
         return {
           success: false,
@@ -171,7 +179,7 @@ export function OpportunityTable<TData, TValue>({
                 primaryFieldPrettyName="Opportunity"
               />
             </div>
-            <NewOpportunityForm addOpportunity={addData} accounts={accounts}/>
+            <NewOpportunityForm addOpportunity={addData} accounts={accounts} />
           </div>
         </div>
         <Table>

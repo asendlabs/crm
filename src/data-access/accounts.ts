@@ -13,14 +13,14 @@ export async function getAccountById(id: string) {
         with: {
           contactPhone: true,
           contactEmail: true,
-        }
+        },
       },
       opportunities: {
         with: {
           primaryContact: true,
-        }
+        },
       },
-    }
+    },
   });
   return account;
 }

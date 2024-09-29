@@ -1,13 +1,11 @@
 "use client ";
 
-import {
-  Card
-} from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import {
   Contact,
   ContactEmail,
   ContactPhone,
-  Opportunity
+  Opportunity,
 } from "@database/types";
 import { NewOpportunityForm } from "../forms/NewOpportunityForm";
 import { ArrowUpRight, MailIcon, PhoneIcon } from "lucide-react";

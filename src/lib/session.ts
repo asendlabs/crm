@@ -7,7 +7,7 @@ export const fetchAuthenticatedUser = cache(async () => {
   if (!session.user) {
     return undefined;
   }
-  return session.user
+  return session.user;
 });
 
 export const verifyAuthentication = async () => {
