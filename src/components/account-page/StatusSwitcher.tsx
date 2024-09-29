@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { CheckIcon, PlusCircleIcon, ChevronsUpDown } from "lucide-react";
+import { CheckIcon, PlusCircleIcon, ChevronsUpDown, ChevronDown } from "lucide-react";
 import { cn } from "@/utils/tailwind";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -54,12 +54,7 @@ export function StatusSwitcher({
 
   if (loading)
     return (
-      <div className="flex w-72 items-center justify-between px-2">
-        <div className="flex items-center">
-          <Skeleton className="h-4 w-20" />
-        </div>
-        <Skeleton className="ml-auto h-4 w-4 rounded" />
-      </div>
+          <Skeleton className="h-8 w-36" />
     );
 
   return (
@@ -70,16 +65,10 @@ export function StatusSwitcher({
           role="combobox"
           aria-expanded={open}
           aria-label="Select a status"
-          className={cn(
-            "flex h-9 w-56 items-center capitalize p-0 m-0 border-gray-300",
-            className,
-          )}
+          className={cn("flex h-8 w-fit gap-2 items-center capitalize", className)}
         >
-          <p className="h-[2.16rem] flex items-center bg-muted px-4 rounded-l-md">Status</p>
-          <span className="flex h-9 items-center border-gray-200 capitalize pl-2 border-l text-center justify-center">
-            {selectedStatus}
-          </span>
-          <ChevronsUpDown className="ml-auto h-4 w-4 shrink-0 opacity-50 mr-2" />
+          {selectedStatus}
+          <ChevronDown className="ml-auto h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-72 p-[2px]">

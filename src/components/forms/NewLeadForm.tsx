@@ -56,8 +56,9 @@ export function NewLeadForm({ addLead }: { addLead: (newLead: any) => void }) {
         toast.error(err.message);
         return;
       }
+      console.log(data?.data);
       addLead(data?.data);
-      router.refresh();
+      // router.push(`/app/leads/${data?.data.id.toLowerCase()}`);
     } catch (error) {
       toast.error("Internal Error");
     } finally {
@@ -79,7 +80,7 @@ export function NewLeadForm({ addLead }: { addLead: (newLead: any) => void }) {
               onSubmit={form.handleSubmit(handleSubmit)}
               className="flex flex-col gap-4 pt-2"
             >
-              <div className="flex flex-col sm:flex-row gap-3">
+              <div className="flex flex-col gap-3 sm:flex-row">
                 <FormField
                   control={form.control}
                   name="accountName"
@@ -90,7 +91,7 @@ export function NewLeadForm({ addLead }: { addLead: (newLead: any) => void }) {
                         <Input
                           {...field}
                           placeholder="eg. Acme Inc"
-                          className="w-full h-9"
+                          className="h-9 w-full"
                         />
                       </FormControl>
                       <FormMessage />
@@ -108,7 +109,7 @@ export function NewLeadForm({ addLead }: { addLead: (newLead: any) => void }) {
                         <Input
                           {...field}
                           placeholder="eg. John Doe"
-                          className="w-full h-9"
+                          className="h-9 w-full"
                         />
                       </FormControl>
                       <FormMessage />

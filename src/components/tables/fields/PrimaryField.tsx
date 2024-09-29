@@ -12,6 +12,7 @@ interface PrimaryFieldProps {
 export function PrimaryField({ getValue, row }: PrimaryFieldProps) {
   const initialValue = getValue();
   const [value, setValue] = useState(initialValue);
+  const router = useRouter();
 
   const id = row.original.id;
 
@@ -20,13 +21,11 @@ export function PrimaryField({ getValue, row }: PrimaryFieldProps) {
   }, [initialValue]);
 
   return (
-    <Link
-      href={`/app/leads/${id.toLowerCase()}`}
-      replace={false}
-      prefetch={true}
-      className="ml-2 min-w-36 select-none underline cursor-pointer"
+    <div
+      onClick={() => router.push(`/app/leads/${id.toLowerCase()}`)}
+      className="ml-2 w-full select-none hover:underline cursor-pointer h-8 flex items-center" 
     >
       {value}
-    </Link>
+    </div>
   );
 }

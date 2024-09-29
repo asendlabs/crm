@@ -23,7 +23,7 @@ export function SecondaryField({
   return (
     <div className="group min-w-36 select-none border-l border-gray-200 px-2 py-1">
       <Link
-        href={`/app/leads/${id.toLowerCase()}`}
+        href={`/app/leads/${id?.toLowerCase() ?? ""}`}
         replace={false}
         prefetch={true}
       >

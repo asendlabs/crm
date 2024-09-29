@@ -31,6 +31,8 @@ export const accountTable = table("accounts", {
   status: varchar("status", { length: 255 }).notNull().default("new"),
   score: varchar("ai_score", { length: 50 }).notNull().default(""),
   description: text("description"),
+  website: text("website"),
+  address: text("address"),
   createdAt: timestamp("created_at").notNull().defaultNow(),
   updatedAt: timestamp("updated_at"),
   interaction: timestamp("last_interaction", { mode: "string" }),

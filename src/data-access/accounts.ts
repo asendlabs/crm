@@ -8,6 +8,19 @@ import { Account } from "@database/types";
 export async function getAccountById(id: string) {
   const account = await db.query.accountTable.findFirst({
     where: eq(accountTable.id, id),
+    with: {
+      contacts: {
+        with: {
+          contactPhone: true,
+          contactEmail: true,
+        }
+      },
+      opportunities: {
+        with: {
+          primaryContact: true,
+        }
+      },
+    }
   });
   return account;
 }

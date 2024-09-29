@@ -29,6 +29,7 @@ import { useState } from "react";
 import { useServerAction } from "zsa-react";
 import { deleteAccountAction, updateAccountAction } from "@/server/accounts";
 import { toast } from "sonner";
+import { Account, Contact } from "@database/types";
 
 interface LeadTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];

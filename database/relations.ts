@@ -1,7 +1,7 @@
 import { relations } from "drizzle-orm";
 import { workspaceTable, workspaceUserTable } from "./schema/workspaces";
 import { profileTable, userTable } from "./schema/users";
-import { accountTable, contactTable, opportunityTable } from "./tables";
+import { accountTable, contactEmailTable, contactPhoneTable, contactTable, opportunityTable } from "./tables";
 
 export const userTableRelations = relations(userTable, ({ one, many }) => ({
   workspaceUserTable: many(workspaceUserTable),
@@ -45,7 +45,7 @@ export const accountTableRelations = relations(accountTable, ({ one, many }) => 
   opportunities: many(opportunityTable)
 }));
 
-export const contactTableRelations = relations(contactTable, ({ one }) => ({
+export const contactTableRelations = relations(contactTable, ({ one, many }) => ({
   workspace: one(workspaceTable, {
     fields: [contactTable.workspaceId],
     references: [workspaceTable.id],
@@ -53,6 +53,23 @@ export const contactTableRelations = relations(contactTable, ({ one }) => ({
   account: one(accountTable, {
     fields: [contactTable.accountId],
     references: [accountTable.id],
+  }),
+  contactPhone: many(contactPhoneTable),
+  contactEmail: many(contactEmailTable),
+  opportunities: many(opportunityTable),
+}));
+
+export const contactPhoneTableRelations = relations(contactPhoneTable, ({ one }) => ({
+  contact: one(contactTable, {
+    fields: [contactPhoneTable.contactId],
+    references: [contactTable.id],
+  }),
+}));
+
+export const contactEmailTableRelations = relations(contactEmailTable, ({ one }) => ({
+  contact: one(contactTable, {
+    fields: [contactEmailTable.contactId],
+    references: [contactTable.id],
   }),
 }));
 
@@ -64,5 +81,9 @@ export const opportunityTableRelations = relations(opportunityTable, ({ one, man
   account: one(accountTable, {
     fields: [opportunityTable.accountId],
     references: [accountTable.id],
+  }),
+  primaryContact: one(contactTable, {
+    fields: [opportunityTable.primaryContactId],
+    references: [contactTable.id],
   }),
 }));

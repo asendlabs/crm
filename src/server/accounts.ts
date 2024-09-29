@@ -33,7 +33,7 @@ export const checkAccountAccessAction = authenticatedAction
     }),
   )
   .handler(async ({ input, ctx }) => {
-    const {user} = ctx;
+    const { user } = ctx;
     const { accountId } = input;
     const res = await getAccountById(accountId);
     if (!res) {
@@ -125,8 +125,12 @@ export const createAccountAction = authenticatedAction
     if (!accountRes || !contactRes) {
       throw new CouldntCreateAccountError();
     }
+    const account = await getAccountById(accountRes.id);
+    if (!account) {
+      throw new CouldntCreateAccountError();
+    }
     return {
       success: true,
-      data: accountRes,
+      data: account,
     };
   });
