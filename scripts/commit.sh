@@ -1,8 +1,7 @@
 #!/bin/zsh
 
 # Ask if prettier format should be run
-echo "Do you want to run 'pnpm prettier:format'? (y/n): "
-read runPrettier
+read "runPrettier?Do you want to run 'pnpm prettier:format'? (y/n): "
 
 # If the answer is 'y', run prettier
 if [[ "$runPrettier" == "y" ]]; then
@@ -13,8 +12,7 @@ fi
 git add .
 
 # Step 3: Ask for commit message
-echo "Enter your commit message: "
-read commitMessage
+read "commitMessage?Enter your commit message: "
 
 # Step 4: Commit with the provided message in quotes
 git commit -m "$commitMessage"
