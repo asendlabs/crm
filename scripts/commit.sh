@@ -1,7 +1,13 @@
 #!/bin/zsh
 
-# Step 1: Run prettier format using pnpm
-pnpm prettier:format
+# Ask if prettier format should be run
+echo "Do you want to run 'pnpm prettier:format'? (y/n): "
+read runPrettier
+
+# If the answer is 'y', run prettier
+if [[ "$runPrettier" == "y" ]]; then
+  pnpm prettier:format
+fi
 
 # Step 2: Stage all changes
 git add .
@@ -11,7 +17,7 @@ echo "Enter your commit message: "
 read commitMessage
 
 # Step 4: Commit with the provided message in quotes
-git commit -m '$commitMessage'
+git commit -m "$commitMessage"
 
 # Step 5: Push the changes
 git push
