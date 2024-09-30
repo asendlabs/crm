@@ -2,16 +2,12 @@
 import { createServerAction } from "zsa";
 import { authenticatedAction } from "@/lib/zsa";
 import { z } from "zod";
-import {
-  createOpportunity,
-  deleteOpportunity,
-  updateOpportunity,
-} from "@/data-access/opportunities";
+import { createDeal, deleteDeal, updateDeal } from "@/data-access/deal";
 import { selectedWorkspaceCookie } from "@/config";
 import { cookies } from "next/headers";
-import { opportunityCreateSchema } from "@/schemas/opportunity.schema";
+import { dealCreateSchema } from "@/schemas/deal.schema";
 
-export const updateOpportunityAction = authenticatedAction
+export const updateDealAction = authenticatedAction
   .createServerAction()
   .input(
     z.object({
@@ -22,16 +18,16 @@ export const updateOpportunityAction = authenticatedAction
   )
   .handler(async ({ input }) => {
     const { columnId, itemId, newValue } = input;
-    const res = await updateOpportunity(itemId, {
+    const res = await updateDeal(itemId, {
       [columnId]: newValue,
     });
     if (!res) {
-      throw new Error("Could not update the opportunity."); // Inline error message
+      throw new Error("Could not update the deal."); // Inline error message
     }
     return true;
   });
 
-export const deleteOpportunityAction = authenticatedAction
+export const deleteDealAction = authenticatedAction
   .createServerAction()
   .input(
     z.object({
@@ -41,17 +37,17 @@ export const deleteOpportunityAction = authenticatedAction
   .handler(async ({ input }) => {
     const { itemIds } = input;
     for (const itemId of itemIds) {
-      const res = await deleteOpportunity(itemId);
+      const res = await deleteDeal(itemId);
       if (!res) {
-        throw new Error("Could not delete the opportunity."); // Inline error message
+        throw new Error("Could not delete the deal."); // Inline error message
       }
     }
     return true;
   });
 
-export const createOpportunityAction = authenticatedAction
+export const createDealAction = authenticatedAction
   .createServerAction()
-  .input(opportunityCreateSchema)
+  .input(dealCreateSchema)
   .output(z.object({ success: z.boolean(), data: z.any() }))
   .handler(async ({ input, ctx }) => {
     const { title, value, expectedCloseDate, accountId } = input;
@@ -60,7 +56,7 @@ export const createOpportunityAction = authenticatedAction
     if (!currentWorkspaceId) {
       throw new Error("Workspace not found."); // Inline error message
     }
-    const opportunityRes = await createOpportunity({
+    const dealRes = await createDeal({
       userId: user.id,
       workspaceId: currentWorkspaceId,
       accountId,
@@ -69,11 +65,11 @@ export const createOpportunityAction = authenticatedAction
       expectedCloseDate,
     });
 
-    if (!opportunityRes) {
-      throw new Error("Could not create the opportunity."); // Inline error message
+    if (!dealRes) {
+      throw new Error("Could not create the deal."); // Inline error message
     }
     return {
       success: true,
-      data: opportunityRes,
+      data: dealRes,
     };
   });

@@ -23,28 +23,25 @@ import {
 import { DataTableDeleteButton } from "@/components/tables/nav/DataTableDeleteButton";
 import { DataTableSearch } from "@/components/tables/nav/DataTableSearch";
 import { DataTableViewOptions } from "@/components/tables/nav/DataTableViewOptions";
-import { NewOpportunityForm } from "@/components/forms/NewOpportunityForm";
+import { NewDealForm } from "@/components/forms/NewDealForm";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useServerAction } from "zsa-react";
 import { toast } from "sonner";
-import {
-  deleteOpportunityAction,
-  updateOpportunityAction,
-} from "@/server/opportunity";
+import { deleteDealAction, updateDealAction } from "@/server/deal";
 import { Account } from "@database/types";
 
-interface OpportunityTableProps<TData, TValue> {
+interface DealTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   tableData: TData[];
   accounts: Account[];
 }
 
-export function OpportunityTable<TData, TValue>({
+export function DealTable<TData, TValue>({
   columns,
   tableData,
   accounts,
-}: OpportunityTableProps<TData, TValue>) {
+}: DealTableProps<TData, TValue>) {
   const [data, setData] = useState<TData[]>(tableData);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [sorting, setSorting] = useState<SortingState>([
@@ -52,14 +49,10 @@ export function OpportunityTable<TData, TValue>({
   ]);
   const [rowSelectionState, setRowSelectionState] = useState({});
   const router = useRouter();
-  const updateOpportunityServerAction = useServerAction(
-    updateOpportunityAction,
-  );
-  const deleteOpportunityServerAction = useServerAction(
-    deleteOpportunityAction,
-  );
+  const updateDealServerAction = useServerAction(updateDealAction);
+  const deleteDealServerAction = useServerAction(deleteDealAction);
   const addData = (newData: any) => {
-    setData((prevOpportunitys) => [...prevOpportunitys, newData]);
+    setData((prevDeals) => [...prevDeals, newData]);
     router.refresh();
   };
 
@@ -87,7 +80,7 @@ export function OpportunityTable<TData, TValue>({
             : row,
         ),
       );
-      const [data, err] = await updateOpportunityServerAction.execute({
+      const [data, err] = await updateDealServerAction.execute({
         columnId,
         itemId,
         newValue,
@@ -110,7 +103,7 @@ export function OpportunityTable<TData, TValue>({
 
   const deleteData = async (itemIds: string[]) => {
     try {
-      const [data, err] = await deleteOpportunityServerAction.execute({
+      const [data, err] = await deleteDealServerAction.execute({
         itemIds,
       });
       if (err) {
@@ -158,7 +151,7 @@ export function OpportunityTable<TData, TValue>({
     <>
       <section className="justify- flex h-screen flex-col gap-3 px-6 py-4">
         <div className="flex select-none flex-row items-center justify-between">
-          <h1 className="text-xl font-semibold">Opportunities</h1>
+          <h1 className="text-xl font-semibold">Deals</h1>
           <div className="flex flex-row gap-2">
             <div>
               <DataTableDeleteButton
@@ -176,10 +169,10 @@ export function OpportunityTable<TData, TValue>({
               <DataTableSearch
                 table={table}
                 primaryField="accountName"
-                primaryFieldPrettyName="Opportunity"
+                primaryFieldPrettyName="Deal"
               />
             </div>
-            <NewOpportunityForm addOpportunity={addData} accounts={accounts} />
+            <NewDealForm addDeal={addData} accounts={accounts} />
           </div>
         </div>
         <Table>

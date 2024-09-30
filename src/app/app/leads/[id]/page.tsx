@@ -53,7 +53,7 @@ export default async function AccountRoute({ params, searchParams }: Props) {
       <AccountPage
         account={lead}
         accountContacts={lead.contacts as any}
-        accountOpportunities={lead.opportunities as any}
+        accountDeals={lead.deals as any}
       />
     </div>
   );

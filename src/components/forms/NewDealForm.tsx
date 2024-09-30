@@ -38,28 +38,28 @@ import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { createOpportunityAction } from "@/server/opportunity";
+import { createDealAction } from "@/server/deal";
 import { useServerAction } from "zsa-react";
-import { opportunityCreateSchema } from "@/schemas/opportunity.schema";
+import { dealCreateSchema } from "@/schemas/deal.schema";
 import { Calendar } from "../ui/calendar";
 import { cn } from "@/utils/tailwind";
 import { Account } from "@database/types";
 
-export function NewOpportunityForm({
-  addOpportunity,
+export function NewDealForm({
+  addDeal,
   accountId,
   accounts,
 }: {
-  addOpportunity?: (newOpportunity: any) => void;
+  addDeal?: (newDeal: any) => void;
   accountId?: string;
   accounts?: Account[];
 }) {
   const [loading, setLoading] = React.useState(false);
   const [open, setOpen] = React.useState(false);
   const router = useRouter();
-  const { execute, data } = useServerAction(createOpportunityAction);
-  const opportunityform = useForm<z.infer<typeof opportunityCreateSchema>>({
-    resolver: zodResolver(opportunityCreateSchema),
+  const { execute, data } = useServerAction(createDealAction);
+  const dealform = useForm<z.infer<typeof dealCreateSchema>>({
+    resolver: zodResolver(dealCreateSchema),
     defaultValues: {
       title: "",
       value: "",
@@ -68,22 +68,22 @@ export function NewOpportunityForm({
   });
 
   // Handle form submission
-  async function onSubmit(values: z.infer<typeof opportunityCreateSchema>) {
+  async function onSubmit(values: z.infer<typeof dealCreateSchema>) {
     try {
       setLoading(true);
       const [data, err] = await execute({
         ...values,
       });
       if (!err) {
-        toast.success("Opportunity created successfully!");
-        opportunityform.reset();
+        toast.success("Deal created successfully!");
+        dealform.reset();
         setOpen(false);
         router.refresh(); // Refresh the page or data
       } else {
-        toast.error("Failed to create opportunity.");
+        toast.error("Failed to create deal.");
       }
     } catch (error) {
-      toast.error("An error occurred while creating the opportunity.");
+      toast.error("An error occurred while creating the deal.");
     } finally {
       setLoading(false);
     }
@@ -97,15 +97,15 @@ export function NewOpportunityForm({
       </DialogTrigger>
       <DialogContent className="flex flex-col py-2">
         <div className="mb-3 px-5">
-          <Form {...opportunityform}>
+          <Form {...dealform}>
             <form
               className="flex flex-col gap-4 pt-2"
-              onSubmit={opportunityform.handleSubmit(onSubmit)}
+              onSubmit={dealform.handleSubmit(onSubmit)}
             >
               <div className="flex flex-col gap-5">
                 {!accountId && accounts && (
                   <FormField
-                    control={opportunityform.control}
+                    control={dealform.control}
                     name="accountId"
                     render={({ field }) => (
                       <FormItem className="flex-1">
@@ -136,11 +136,11 @@ export function NewOpportunityForm({
                   />
                 )}
                 <FormField
-                  control={opportunityform.control}
+                  control={dealform.control}
                   name="title"
                   render={({ field }) => (
                     <FormItem className="flex-1">
-                      <FormLabel>Opportunity Name</FormLabel>
+                      <FormLabel>Deal Name</FormLabel>
                       <FormControl>
                         <Input
                           {...field}
@@ -154,7 +154,7 @@ export function NewOpportunityForm({
                 />
 
                 <FormField
-                  control={opportunityform.control}
+                  control={dealform.control}
                   name="value"
                   render={({ field }) => (
                     <FormItem className="flex-1">
@@ -172,7 +172,7 @@ export function NewOpportunityForm({
                   )}
                 />
                 <FormField
-                  control={opportunityform.control}
+                  control={dealform.control}
                   name="expectedCloseDate"
                   render={({ field }) => (
                     <FormItem className="flex flex-col">
@@ -221,14 +221,14 @@ export function NewOpportunityForm({
                   className="w-30 h-8"
                   onClick={() => {
                     setLoading(false);
-                    opportunityform.reset();
+                    dealform.reset();
                     setOpen(false);
                   }}
                 >
                   Cancel
                 </Button>
                 <Button type="submit" className="h-8" disabled={loading}>
-                  {loading ? "Creating..." : "Create New Opportunity"}
+                  {loading ? "Creating..." : "Create New Deal"}
                 </Button>
               </div>
             </form>

@@ -101,7 +101,7 @@ export const activityTable = table("activities", {
   metadata: jsonb("metadata"),
 });
 
-export const opportunityTable = table("opportunities", {
+export const dealTable = table("deals", {
   id: text("id").primaryKey(),
   workspaceId: text("workspace_id")
     .notNull()

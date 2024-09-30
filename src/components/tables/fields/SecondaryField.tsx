@@ -1,7 +1,7 @@
 "use client";
 
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Contact, Account, Opportunity } from "@database/types"; // Assuming these types exist
+import { Contact, Account, Deal } from "@database/types"; // Assuming these types exist
 import { Row } from "@tanstack/react-table";
 import Link from "next/link";
 import React from "react";
@@ -17,7 +17,7 @@ export function SecondaryField({
   row,
   arrayName,
 }: SecondaryFieldProps) {
-  const array = row.original[arrayName] as (Contact | Account | Opportunity)[];
+  const array = row.original[arrayName] as (Contact | Account | Deal)[];
   const id = row.original.id;
 
   return (

@@ -1,7 +1,7 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
-import { Account, Opportunity } from "@database/types";
+import { Account, Deal } from "@database/types";
 import { CheckboxField } from "@/components/tables/fields/CheckboxField";
 import { PrimaryField } from "@/components/tables/fields/PrimaryField";
 import {
@@ -24,7 +24,7 @@ import { AiScoreField } from "../tables/fields/AiScoreField";
 import { UneditableField } from "../tables/fields/UneditableField";
 import { TimestampField } from "../tables/fields/TimestampField";
 
-export const OpportunityColumns: ColumnDef<Opportunity>[] = [
+export const DealColumns: ColumnDef<Deal>[] = [
   {
     id: "select",
     header: CheckboxHead,
@@ -32,7 +32,7 @@ export const OpportunityColumns: ColumnDef<Opportunity>[] = [
   },
   {
     id: "value",
-    header: () => <PrimaryHead title="Opportunity Value" />,
+    header: () => <PrimaryHead title="Deal Value" />,
     cell: PrimaryField,
   },
   {

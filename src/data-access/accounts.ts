@@ -15,7 +15,7 @@ export async function getAccountById(id: string) {
           contactEmail: true,
         },
       },
-      opportunities: {
+      deals: {
         with: {
           primaryContact: true,
         },

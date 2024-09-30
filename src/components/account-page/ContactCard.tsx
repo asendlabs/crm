@@ -18,7 +18,7 @@ export function ContactCard({
   return (
     <Card>
       <div className="flex justify-between border-b border-gray-200 p-3">
-          <h1>Contacts</h1>
+        <h1>Contacts</h1>
         <NewContactForm accountId={accountId} />
       </div>
       <div className="flex flex-col gap-2 p-2">

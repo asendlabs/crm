@@ -6,7 +6,7 @@ import {
   activityTable,
   contactEmailTable,
   contactPhoneTable,
-  opportunityTable,
+  dealTable,
 } from "./schema/entities";
 // Exporting the tables
 export { userTable, sessionTable, profileTable };
@@ -17,5 +17,5 @@ export {
   activityTable,
   contactEmailTable,
   contactPhoneTable,
-  opportunityTable,
+  dealTable,
 };

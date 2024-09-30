@@ -3,11 +3,11 @@ import {
   Contact,
   ContactEmail,
   ContactPhone,
-  Opportunity,
+  Deal,
 } from "@database/types";
 import React from "react";
 import TopTabs from "./TopTabs";
-import { OpportunityCard } from "./OpportunityCard";
+import { DealCard } from "./DealCard";
 import { StatusSwitcher } from "./StatusSwitcher";
 import { ContactCard } from "./ContactCard";
 import Link from "next/link";
@@ -17,14 +17,14 @@ import { DetailsCard } from "./DetailsCard";
 export function AccountPage({
   account,
   accountContacts,
-  accountOpportunities,
+  accountDeals,
 }: {
   account: Account;
   accountContacts: Array<
     Contact & { contactPhone: ContactPhone; contactEmail: ContactEmail }
   >;
-  accountOpportunities: Array<
-    Opportunity & {
+  accountDeals: Array<
+    Deal & {
       contact: Contact & {
         contactPhone: ContactPhone;
         contactEmail: ContactEmail;
@@ -68,10 +68,7 @@ export function AccountPage({
             <TopTabs />{" "}
             <div className="grid h-full w-[22rem] gap-3 overflow-y-auto py-1 pl-2">
               <ContactCard contacts={accountContacts} accountId={account.id} />
-              <OpportunityCard
-                opportunities={accountOpportunities}
-                account={account}
-              />
+              <DealCard deals={accountDeals} account={account} />
               <DetailsCard account={account} />
             </div>
           </section>

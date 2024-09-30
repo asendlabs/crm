@@ -6,7 +6,7 @@ import {
   contactEmailTable,
   contactPhoneTable,
   contactTable,
-  opportunityTable,
+  dealTable,
 } from "./tables";
 
 export const userTableRelations = relations(userTable, ({ one, many }) => ({
@@ -50,7 +50,7 @@ export const accountTableRelations = relations(
       references: [workspaceTable.id],
     }),
     contacts: many(contactTable),
-    opportunities: many(opportunityTable),
+    deals: many(dealTable),
   }),
 );
 
@@ -67,7 +67,7 @@ export const contactTableRelations = relations(
     }),
     contactPhone: many(contactPhoneTable),
     contactEmail: many(contactEmailTable),
-    opportunities: many(opportunityTable),
+    deals: many(dealTable),
   }),
 );
 
@@ -91,20 +91,17 @@ export const contactEmailTableRelations = relations(
   }),
 );
 
-export const opportunityTableRelations = relations(
-  opportunityTable,
-  ({ one, many }) => ({
-    workspace: one(workspaceTable, {
-      fields: [opportunityTable.workspaceId],
-      references: [workspaceTable.id],
-    }),
-    account: one(accountTable, {
-      fields: [opportunityTable.accountId],
-      references: [accountTable.id],
-    }),
-    primaryContact: one(contactTable, {
-      fields: [opportunityTable.primaryContactId],
-      references: [contactTable.id],
-    }),
+export const dealTableRelations = relations(dealTable, ({ one, many }) => ({
+  workspace: one(workspaceTable, {
+    fields: [dealTable.workspaceId],
+    references: [workspaceTable.id],
   }),
-);
+  account: one(accountTable, {
+    fields: [dealTable.accountId],
+    references: [accountTable.id],
+  }),
+  primaryContact: one(contactTable, {
+    fields: [dealTable.primaryContactId],
+    references: [contactTable.id],
+  }),
+}));

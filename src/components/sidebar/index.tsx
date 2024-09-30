@@ -74,15 +74,15 @@ export const Sidebar = ({
             <span>Leads</span>
           </Link>
           <Link
-            href="/app/opportunities"
+            href="/app/deals"
             className={`${sidebarItemClassName} ${
-              pathname === "/app/opportunities"
+              pathname === "/app/deals"
                 ? "bg-muted-foreground/10 !text-primary"
                 : ""
             }`}
           >
             <Trophy className="h-4 w-4" />
-            <span>Opportunities</span>
+            <span>Deals</span>
           </Link>
           <Link
             href="/app/customers"

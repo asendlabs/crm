@@ -1,7 +1,7 @@
 import { title } from "process";
 import { z } from "zod";
 
-export const opportunityCreateSchema = z.object({
+export const dealCreateSchema = z.object({
   title: z.string().min(1, { message: "Title is required" }),
   value: z.string().min(1, { message: "Value is required" }),
   accountId: z

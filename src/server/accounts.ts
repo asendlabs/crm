@@ -17,10 +17,7 @@ import {
   getAllAccountContacts,
 } from "@/data-access/contacts";
 import { getAllUserWorkspaces } from "@/data-access/workspaces";
-import {
-  deleteOpportunity,
-  getAllAccountOpportunities,
-} from "@/data-access/opportunities";
+import { deleteDeal, getAllAccountDeals } from "@/data-access/deal";
 
 export const updateAccountAction = authenticatedAction
   .createServerAction()
@@ -53,10 +50,10 @@ export const deleteAccountAction = authenticatedAction
     const { itemIds } = input;
     const { user } = ctx;
     for (const itemId of itemIds) {
-      const opportunities = await getAllAccountOpportunities(itemId);
-      // delete the opportunities
-      for (const opportunity of opportunities) {
-        await deleteOpportunity(opportunity.id);
+      const deals = await getAllAccountDeals(itemId);
+      // delete the deals
+      for (const deal of deals) {
+        await deleteDeal(deal.id);
       }
       // fetch the contacts associated with the account
       const contacts = await getAllAccountContacts(itemId);

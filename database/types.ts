@@ -8,7 +8,7 @@ type Profile = typeof tables.profileTable.$inferSelect;
 type Session = typeof tables.sessionTable.$inferSelect;
 type WorkspaceUser = typeof tables.workspaceUserTable.$inferSelect;
 type Activity = typeof tables.activityTable.$inferSelect;
-type Opportunity = typeof tables.opportunityTable.$inferSelect;
+type Deal = typeof tables.dealTable.$inferSelect;
 type ContactEmail = typeof tables.contactEmailTable.$inferSelect;
 type ContactPhone = typeof tables.contactPhoneTable.$inferSelect;
 
@@ -21,7 +21,7 @@ export type {
   Session,
   WorkspaceUser,
   Activity,
-  Opportunity,
+  Deal,
   ContactEmail,
   ContactPhone,
 };
