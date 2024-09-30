@@ -36,14 +36,7 @@ export function OpportunityCard({
   return (
     <Card>
       <div className="flex justify-between border-b border-gray-200 p-3">
-        <div className="flex items-center gap-2">
-          <h1>Opportunities</h1>
-          {opportunities && opportunities.length > 0 && (
-            <p className="flex h-5 w-5 items-center justify-center rounded-full border border-gray-300 text-xs">
-              {opportunities.length > 0 ? opportunities.length : 0}
-            </p>
-          )}
-        </div>
+        <h1>Opportunities</h1>
         <NewOpportunityForm accountId={account.id} />
       </div>
       <div className="flex flex-col gap-2 p-2">

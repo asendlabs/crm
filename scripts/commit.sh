@@ -9,7 +9,7 @@ if [[ "$runPrettier" == "y" ]]; then
 fi
 
 # Step 2: Stage all changes
-git add .
+git add ../.
 
 # Step 3: Ask for commit message
 read "commitMessage?Enter your commit message: "
