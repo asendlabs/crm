@@ -60,7 +60,7 @@ export function AccountPage({
                     "Waste",
                   ]}
                 />
-                <Button className="h-8">Convert to Customer</Button>
+                <Button className="h-8">Convert to Client</Button>
               </div>
             </div>
           </section>

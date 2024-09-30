@@ -1,6 +1,6 @@
 import { pgEnum } from "drizzle-orm/pg-core";
 
-const accountTypeValues = ["lead", "customer"] as const;
+const accountTypeValues = ["lead", "client"] as const;
 export const accountTypeEnum = pgEnum("account_type", accountTypeValues);
 
 const activityTypeValues = [

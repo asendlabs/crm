@@ -117,7 +117,7 @@ export function NewDealForm({
                           <FormControl>
                             <SelectTrigger>
                               <SelectValue
-                                placeholder="Choose a lead or customer"
+                                placeholder="Choose a lead or client"
                                 className="h-9"
                               />
                             </SelectTrigger>

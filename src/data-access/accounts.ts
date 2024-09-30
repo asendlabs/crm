@@ -48,11 +48,11 @@ export async function getAllWorkspaceLeads(workspaceId: string) {
   return workspaceAccounts;
 }
 
-export async function getAllWorkspaceCustomers(workspaceId: string) {
+export async function getAllWorkspaceClients(workspaceId: string) {
   const workspaceAccounts = await db.query.accountTable.findMany({
     where: and(
       eq(accountTable.workspaceId, workspaceId),
-      eq(accountTable.type, "customer"),
+      eq(accountTable.type, "client"),
     ),
   });
   return workspaceAccounts;
@@ -62,7 +62,7 @@ export async function createAccount(
   workspaceId: string,
   userId: string,
   accountName: string,
-  type: "lead" | "customer",
+  type: "lead" | "client",
 ): Promise<Account> {
   const [created] = await db
     .insert(accountTable)

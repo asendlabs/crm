@@ -85,16 +85,16 @@ export const Sidebar = ({
             <span>Deals</span>
           </Link>
           <Link
-            href="/app/customers"
+            href="/app/clients"
             prefetch={false}
             className={`${sidebarItemClassName} ${
-              pathname === "/customers"
+              pathname === "/clients"
                 ? "bg-muted-foreground/10 !text-primary"
                 : ""
             }`}
           >
             <SquareUserRound className="h-4 w-4" />
-            <span>Customers</span>
+            <span>Clients</span>
           </Link>
           <Link
             href="/app/integrations"

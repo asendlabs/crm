@@ -37,7 +37,7 @@ export const DealColumns: ColumnDef<Deal>[] = [
   },
   {
     id: "accountName",
-    header: () => <LogoHead title="Lead or Customer" Icon={Building} />,
+    header: () => <LogoHead title="Lead or Client" Icon={Building} />,
     cell: ({ getValue, row }) => (
       <SecondaryField arrayName="account" getValue={getValue} row={row} />
     ),

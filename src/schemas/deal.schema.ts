@@ -6,6 +6,6 @@ export const dealCreateSchema = z.object({
   value: z.string().min(1, { message: "Value is required" }),
   accountId: z
     .string()
-    .min(1, { message: "Choosing a lead or customer is required" }),
+    .min(1, { message: "Choosing a lead or client is required" }),
   expectedCloseDate: z.date().optional(),
 });
