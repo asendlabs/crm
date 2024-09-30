@@ -99,3 +99,17 @@ export async function deleteContact(contactId: string) {
     .where(eq(contactTable.id, contactId));
   return deleted;
 }
+
+export async function deleteContactEmail(contactId: string) {
+  const deleted = await db
+    .delete(contactEmailTable)
+    .where(eq(contactEmailTable.contactId, contactId));
+  return deleted;
+}
+
+export async function deleteContactPhone(contactId: string) {
+  const deleted = await db
+    .delete(contactPhoneTable)
+    .where(eq(contactPhoneTable.contactId, contactId));
+  return deleted;
+}

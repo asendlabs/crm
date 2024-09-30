@@ -1,25 +1,21 @@
 // sidebar/Sidebar.tsx
 "use client";
 
-import React from "react";
 import {
   Inbox,
   Search,
   Zap,
   Building,
   SquareUserRound,
-  Clock,
   Map,
   Settings,
-  Trophy,
-  Users,
+  Handshake,
 } from "lucide-react";
 import Link from "next/link";
 import { UserButton } from "./UserButton";
 import { WorkspaceSwitcher } from "./WorkspaceSwitcher";
 import { usePathname } from "next/navigation";
-import { User, Workspace } from "@database/types";
-import Image from "next/image";
+import { Workspace } from "@database/types";
 
 export const Sidebar = ({
   user,
@@ -81,7 +77,7 @@ export const Sidebar = ({
                 : ""
             }`}
           >
-            <Trophy className="h-4 w-4" />
+            <Handshake className="h-4 w-4" />
             <span>Deals</span>
           </Link>
           <Link
@@ -111,18 +107,10 @@ export const Sidebar = ({
         </ul>
       </div>
       <div className="flex flex-col px-2 py-2">
-        <ul className="pb-3">
-          <Link href="/updates" className={`${sidebarItemClassName}`}>
-            <Clock className="h-4 w-4" />
-            <span>What's New</span>
-          </Link>
-          <Link href="/roadmap" className={`${sidebarItemClassName}`}>
+        <ul className="pb-2">
+          <Link href="/vision" className={`${sidebarItemClassName}`}>
             <Map className="h-4 w-4" />
-            <span>Roadmap</span>
-          </Link>
-          <Link href="/app/team" className={`${sidebarItemClassName}`}>
-            <Users className="h-4 w-4" />
-            <span>Team</span>
+            <span>Future Vision</span>
           </Link>
           <Link href="/app/settings" className={`${sidebarItemClassName}`}>
             <Settings className="h-4 w-4" />

@@ -33,7 +33,9 @@ export function ContactCard({
               <Card key={contact.id}>
                 <div className="flex w-full justify-between p-2">
                   <div className="flex items-center gap-2">
-                    <h1>{contact.contactName}</h1>
+                    <h1 className="max-w-[11rem] truncate">
+                      {contact.contactName}
+                    </h1>
                     <div className="flex">
                       <button
                         className="rounded-y flex h-6 w-7 items-center justify-center rounded-l border-y border-l border-gray-200 hover:bg-gray-200"

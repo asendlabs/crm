@@ -57,9 +57,15 @@ export function DealCard({
               >
                 <div className="flex items-center justify-between p-2">
                   <div>
-                    <h1 className="flex gap-1 text-lg font-semibold">
-                      {deal.title}
-                      <span className="font-light">(${deal.value})</span>
+                    <h1 className="flex gap-1 text-lg font-light">
+                      <span className="max-w-[7rem] truncate !font-semibold">
+                        {deal.title}
+                      </span>
+                      (
+                      <span className="max-w-[7rem] truncate">
+                        ${deal.value}
+                      </span>
+                      )
                     </h1>
                     <p className="text-xs text-gray-700">
                       {deal.probability && (

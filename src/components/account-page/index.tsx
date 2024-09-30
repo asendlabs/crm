@@ -66,9 +66,9 @@ export function AccountPage({
           </section>
           <section className="flex items-start justify-between gap-2 px-3">
             <TopTabs />{" "}
-            <div className="grid h-full w-[22rem] gap-3 overflow-y-auto py-1 pl-2">
-              <ContactCard contacts={accountContacts} accountId={account.id} />
+            <div className="grid h-full w-[22rem] gap-3 overflow-x-auto py-1 pl-2">
               <DealCard deals={accountDeals} account={account} />
+              <ContactCard contacts={accountContacts} accountId={account.id} />
               <DetailsCard account={account} />
             </div>
           </section>

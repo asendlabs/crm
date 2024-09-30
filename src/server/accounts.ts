@@ -14,6 +14,8 @@ import { accountCreateSchema } from "@/schemas/account.schema";
 import {
   createContact,
   deleteContact,
+  deleteContactEmail,
+  deleteContactPhone,
   getAllAccountContacts,
 } from "@/data-access/contacts";
 import { getAllUserWorkspaces } from "@/data-access/workspaces";
@@ -48,23 +50,25 @@ export const deleteAccountAction = authenticatedAction
   )
   .handler(async ({ input, ctx }) => {
     const { itemIds } = input;
-    const { user } = ctx;
+
     for (const itemId of itemIds) {
       const deals = await getAllAccountDeals(itemId);
-      // delete the deals
+
       for (const deal of deals) {
         await deleteDeal(deal.id);
       }
-      // fetch the contacts associated with the account
+
       const contacts = await getAllAccountContacts(itemId);
-      // delete the contacts
+
       for (const contact of contacts) {
+        await deleteContactEmail(contact.id);
+        await deleteContactPhone(contact.id);
         await deleteContact(contact.id);
       }
-      // delete the account
+
       const res = await deleteAccount(itemId);
       if (!res) {
-        throw new Error("Couldn't delete account"); // Inline error
+        throw new Error("Couldn't delete account");
       }
     }
     return true;

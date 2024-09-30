@@ -20,34 +20,45 @@ export function SecondaryField({
   const array = row.original[arrayName] as (Contact | Account | Deal)[];
   const id = row.original.id;
 
+  // Get first two items to display and the remaining items for truncation
+  const visibleItems = array.slice(0, 1);
+  const hiddenItemsCount = array.length - 1;
+
   return (
-    <div className="group min-w-36 select-none border-l border-gray-200 px-2 py-1">
+    <div className="group select-none border-l border-gray-200 px-2 py-1">
       <Link
         href={`/app/leads/${id?.toLowerCase() ?? ""}`}
         replace={false}
         prefetch={true}
       >
-        <div className="flex items-center gap-1">
+        <div className="flex items-center gap-2">
           {array && array.length > 0 ? (
-            <Avatar className="h-6 w-6 rounded-lg bg-muted-foreground/20">
-              <AvatarFallback className="bg-transparent">
-                {"contactName" in array[0] &&
-                  (array[0] as Contact).contactName.charAt(0).toUpperCase()}
-                {"accountName" in array[0] &&
-                  (array[0] as Account).accountName.charAt(0).toUpperCase()}
-              </AvatarFallback>
-            </Avatar>
-          ) : (
-            "\u3164"
-          )}
-          {array && array.length > 0
-            ? array.map((item, index) => (
-                <p key={index} className="ml-1 group-hover:underline">
-                  {"contactName" in item && (item as Contact).contactName}
-                  {"accountName" in item && (item as Account).accountName}
+            <>
+              {visibleItems.map((item, index) => (
+                <div key={index} className="flex items-center gap-1">
+                  <Avatar className="h-6 w-6 rounded-lg bg-muted-foreground/20">
+                    <AvatarFallback className="bg-transparent">
+                      {"contactName" in item &&
+                        (item as Contact).contactName.charAt(0).toUpperCase()}
+                      {"accountName" in item &&
+                        (item as Account).accountName.charAt(0).toUpperCase()}
+                    </AvatarFallback>
+                  </Avatar>
+                  <p className="ml-1 max-w-[5rem] truncate group-hover:underline">
+                    {"contactName" in item && (item as Contact).contactName}
+                    {"accountName" in item && (item as Account).accountName}
+                  </p>
+                </div>
+              ))}
+              {hiddenItemsCount > 0 && (
+                <p className="ml-1 flex text-gray-500">
+                  +{hiddenItemsCount} more
                 </p>
-              ))
-            : "\u3164"}
+              )}
+            </>
+          ) : (
+            <span>{"\u3164"}</span> // Empty space if no items are present
+          )}
         </div>
       </Link>
     </div>
