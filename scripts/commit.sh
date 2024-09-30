@@ -9,7 +9,9 @@ if [[ "$runPrettier" == "y" ]]; then
 fi
 
 # Step 2: Stage all changes
-git add ../.
+git add .
+cd ..
+git add .
 
 # Step 3: Ask for commit message
 read "commitMessage?Enter your commit message: "
@@ -18,4 +20,5 @@ read "commitMessage?Enter your commit message: "
 git commit -m "$commitMessage"
 
 # Step 5: Push the changes
-git push
+git push origin main
+exit
