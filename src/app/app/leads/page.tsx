@@ -1,5 +1,5 @@
-import { LeadsColumns } from "@/components/leads-table/LeadsColumns";
-import { LeadTable } from "@/components/leads-table/LeadsTable";
+import { LeadsColumns } from "@/components/leads/LeadsColumns";
+import { LeadTable } from "@/components/leads/LeadsTable";
 import { Metadata } from "next";
 import React from "react";
 import { getAllWorkspaceLeads } from "@/data-access/accounts";

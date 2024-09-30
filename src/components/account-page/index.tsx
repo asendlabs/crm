@@ -70,7 +70,7 @@ export function AccountPage({
               <ContactCard contacts={accountContacts} accountId={account.id} />
               <OpportunityCard
                 opportunities={accountOpportunities}
-                accountId={account.id}
+                account={account}
               />
               <DetailsCard account={account} />
             </div>

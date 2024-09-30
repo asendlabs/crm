@@ -15,13 +15,10 @@ import {
 import { LogoHead } from "@/components/tables/headers/LogoHead";
 import { CheckboxHead } from "@/components/tables/headers/CheckboxHead";
 import { PrimaryHead } from "@/components/tables/headers/PrimaryHead";
-import { EditableField } from "../tables/fields/EditableField";
 import { SecondaryField } from "../tables/fields/SecondaryField";
 import { StatusField } from "../tables/fields/StatusField";
 import { AiScoreField } from "../tables/fields/AiScoreField";
-import { UneditableField } from "../tables/fields/UneditableField";
 import { TimestampField } from "../tables/fields/TimestampField";
-import { get } from "http";
 
 export const LeadsColumns: ColumnDef<Account>[] = [
   {

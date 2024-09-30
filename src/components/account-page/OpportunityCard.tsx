@@ -1,7 +1,9 @@
-"use client ";
+"use client";
 
+import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import {
+  Account,
   Contact,
   ContactEmail,
   ContactPhone,
@@ -10,10 +12,11 @@ import {
 import { NewOpportunityForm } from "../forms/NewOpportunityForm";
 import { ArrowUpRight, MailIcon, PhoneIcon } from "lucide-react";
 import { formatDate } from "@/utils";
+import { OpportunityDialog } from "../opportunities/OpportunityDialog";
 
 export function OpportunityCard({
   opportunities,
-  accountId,
+  account,
 }: {
   opportunities: Array<
     Opportunity & {
@@ -23,8 +26,13 @@ export function OpportunityCard({
       };
     }
   >;
-  accountId: string;
+  account: Account;
 }) {
+  // State to manage dialog open and selected opportunity
+  const [selectedOpportunity, setSelectedOpportunity] = useState<
+    (Opportunity & { contact: Contact }) | null
+  >(null);
+
   return (
     <Card>
       <div className="flex justify-between border-b border-gray-200 p-3">
@@ -36,7 +44,7 @@ export function OpportunityCard({
             </p>
           )}
         </div>
-        <NewOpportunityForm accountId={accountId} />
+        <NewOpportunityForm accountId={account.id} />
       </div>
       <div className="flex flex-col gap-2 p-2">
         {opportunities.length > 0 ? (
@@ -49,7 +57,11 @@ export function OpportunityCard({
                 };
               },
             ) => (
-              <Card key={opportunity.id}>
+              <Card
+                key={opportunity.id}
+                onClick={() => setSelectedOpportunity(opportunity)} // Set the selected opportunity on click
+                className="cursor-pointer"
+              >
                 <div className="flex items-center justify-between p-2">
                   <div>
                     <h1 className="flex gap-1 text-lg font-semibold">
@@ -114,6 +126,15 @@ export function OpportunityCard({
           </p>
         )}
       </div>
+
+      {/* OpportunityDialog component */}
+      {selectedOpportunity && (
+        <OpportunityDialog
+          account={account}
+          opportunity={selectedOpportunity}
+          setSelectedOpportunity={setSelectedOpportunity}
+        />
+      )}
     </Card>
   );
 }
