@@ -21,8 +21,8 @@ export function SecondaryField({
   const id = row.original.id;
 
   // Get first two items to display and the remaining items for truncation
-  const visibleItems = array.slice(0, 1);
-  const hiddenItemsCount = array.length - 1;
+  const visibleItems = array &&  array.length > 0 && array.slice(0, 1) || [];
+  const hiddenItemsCount = array && array.length > 1 && array.length - 1 || null;
 
   return (
     <div className="group select-none border-l border-gray-200 px-2 py-1">
@@ -34,7 +34,7 @@ export function SecondaryField({
         <div className="flex items-center gap-2">
           {array && array.length > 0 ? (
             <>
-              {visibleItems.map((item, index) => (
+              {visibleItems && visibleItems.map((item, index) => (
                 <div key={index} className="flex items-center gap-1">
                   <Avatar className="h-6 w-6 rounded-lg bg-muted-foreground/20">
                     <AvatarFallback className="bg-transparent">
@@ -50,7 +50,7 @@ export function SecondaryField({
                   </p>
                 </div>
               ))}
-              {hiddenItemsCount > 0 && (
+              {hiddenItemsCount && hiddenItemsCount > 0 && (
                 <p className="ml-1 flex text-gray-500">
                   +{hiddenItemsCount} more
                 </p>
