@@ -17,20 +17,34 @@ export const updateDealAction = authenticatedAction
   .createServerAction()
   .input(
     z.object({
-      columnId: z.string(),
       itemId: z.string(),
-      newValue: z.string(),
+      columnId: z.string().optional(),
+      newValue: z.union([z.string(), z.date(), z.null()]).optional(), // Allow for date type
+      full: z.any().optional(),
     }),
   )
   .handler(async ({ input }) => {
-    const { columnId, itemId, newValue } = input;
-    const res = await updateDeal(itemId, {
-      [columnId]: newValue,
-    });
-    if (!res) {
-      throw new Error("Could not update the deal."); // Inline error message
+    const { columnId, itemId, newValue, full } = input;
+
+    if (full) {
+      const res = await updateDeal(itemId, full);
+      if (!res) {
+        throw new Error("Could not update the deal."); // Inline error message
+      }
+      return true;
+    } else {
+      // If the newValue is a date, convert it to an ISO string
+      // const valueToUpdate =
+      //   newValue instanceof Date ? new Date(valueToUpdate) : newValue;
+
+      const res = await updateDeal(itemId, {
+        [columnId!]: newValue, // Ensure to use the correct column
+      });
+      if (!res) {
+        throw new Error("Could not update the deal."); // Inline error message
+      }
+      return true;
     }
-    return true;
   });
 
 export const deleteDealAction = authenticatedAction
@@ -60,14 +74,14 @@ export const deleteDealAction = authenticatedAction
         userId: user.id,
         workspaceId: currentWorkspaceId,
         accountId: retrivedDeal.accountId,
-        associatedContactId: itemId,
+        associatedContactId: retrivedDeal.primaryContactId ?? undefined,
         title: "Delete Deal",
         activityType: "entity_deletion",
         isEntityActivity: true,
         entityTitle: retrivedDeal.title,
         entityType: "deal",
       });
-
+      console.log(activityRes);
       if (!activityRes) {
         throw new Error("Could not create the activity."); // Inline error message
       }

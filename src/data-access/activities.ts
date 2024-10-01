@@ -33,10 +33,10 @@ export async function createActivity({
   title,
   activityType,
   description,
-  associatedContactId,
   isEntityActivity,
   entityTitle,
   entityType,
+  associatedContactId,
 }: {
   userId: string;
   workspaceId: string;

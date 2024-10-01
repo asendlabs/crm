@@ -17,20 +17,22 @@ import { DealDialog } from "../deals/DealDialog";
 export function DealCard({
   deals,
   account,
+  accountContacts,
 }: {
   deals: Array<
     Deal & {
-      contact: Contact & {
+      primaryContact: Contact & {
         contactPhone: ContactPhone;
         contactEmail: ContactEmail;
       };
     }
   >;
   account: Account;
+  accountContacts: Contact[];
 }) {
   // State to manage dialog open and selected deal
   const [selectedDeal, setSelectedDeal] = useState<
-    (Deal & { contact: Contact }) | null
+    (Deal & { primaryContact: Contact }) | null
   >(null);
 
   return (
@@ -44,7 +46,7 @@ export function DealCard({
           deals.map(
             (
               deal: Deal & {
-                contact: Contact & {
+                primaryContact: Contact & {
                   contactPhone: ContactPhone;
                   contactEmail: ContactEmail;
                 };
@@ -53,7 +55,7 @@ export function DealCard({
               <Card
                 key={deal.id}
                 onClick={() => setSelectedDeal(deal)} // Set the selected deal on click
-                className="cursor-pointer"
+                className="grid cursor-pointer"
               >
                 <div className="flex items-center justify-between p-2">
                   <div>
@@ -84,38 +86,38 @@ export function DealCard({
                   <div className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full border border-gray-200 hover:bg-gray-200">
                     <ArrowUpRight className="h-5 w-5" />
                   </div>
-                  {deal.contact && (
-                    <>
-                      <p className="text-center text-xs text-gray-200">
-                        ----------------------------------------------
-                      </p>
-                      <div>
-                        <p className="text-xs font-medium">Contact</p>
-                        <div className="flex justify-between">
-                          <h1>{deal.contact.contactName}</h1>
-                          <div className="flex">
-                            <button
-                              className="flex h-6 w-7 items-center justify-center rounded border-y border-l border-gray-200 hover:bg-gray-200"
-                              onClick={() =>
-                                (window.location.href = `tel:${deal.contact.contactPhone.countryCode ?? ""}${deal.contact.contactPhone.phoneNumber ?? ""}`)
-                              }
-                            >
-                              <PhoneIcon className="h-4 w-4" />
-                            </button>
-                            <button
-                              className="flex h-6 w-7 items-center justify-center rounded border-y border-r border-gray-200 hover:bg-gray-200"
-                              onClick={() =>
-                                (window.location.href = `mailto:${deal.contact.contactEmail.email ?? ""}`)
-                              }
-                            >
-                              <MailIcon className="h-4 w-4" />
-                            </button>
-                          </div>
+                </div>
+                {deal.primaryContact && (
+                  <div className="mt-3 px-2 pb-2">
+                    {/* <p className="text-center text-xs text-gray-200">
+                        ------------------------------------------------------------
+                      </p> */}
+                    <div>
+                      <p className="text-xs font-medium">Contact</p>
+                      <div className="flex justify-between">
+                        <h1>{deal.primaryContact.contactName}</h1>
+                        <div className="flex">
+                          <button
+                            className="flex h-6 w-7 items-center justify-center rounded border-y border-l border-gray-200 hover:bg-gray-200"
+                            onClick={() =>
+                              (window.location.href = `tel:${deal.primaryContact.contactPhone.countryCode ?? ""}${deal.primaryContact.contactPhone.phoneNumber ?? ""}`)
+                            }
+                          >
+                            <PhoneIcon className="h-4 w-4" />
+                          </button>
+                          <button
+                            className="flex h-6 w-7 items-center justify-center rounded border-y border-r border-gray-200 hover:bg-gray-200"
+                            onClick={() =>
+                              (window.location.href = `mailto:${deal.primaryContact.contactEmail.email ?? ""}`)
+                            }
+                          >
+                            <MailIcon className="h-4 w-4" />
+                          </button>
                         </div>
                       </div>
-                    </>
-                  )}
-                </div>
+                    </div>
+                  </div>
+                )}
               </Card>
             ),
           )
@@ -132,6 +134,7 @@ export function DealCard({
           account={account}
           deal={selectedDeal}
           setSelectedDeal={setSelectedDeal}
+          contactList={accountContacts}
         />
       )}
     </Card>

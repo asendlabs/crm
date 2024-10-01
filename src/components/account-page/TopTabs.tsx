@@ -59,6 +59,7 @@ export default function TopTabs({
                 .filter((activity) => activity.isEntityActivity)
                 .map((activity) => (
                   <EntityActivityCard
+                    key={activity.id}
                     entitiyType={activity?.entityType ?? "unknown"} // Fallback to "unknown" if null or undefined
                     activityType={
                       activity?.activityType ?? "defaultActivityType"

@@ -1,29 +1,107 @@
 "use client";
+
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { Pencil, Trash, X, CalendarIcon } from "lucide-react";
+import { format } from "date-fns";
+
 import { Account, Contact, Deal } from "@database/types";
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
-import { useState } from "react";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Pencil, Trash, X } from "lucide-react";
-import { formatDate } from "@/utils";
-import { Label } from "../ui/label";
-import { Input } from "../ui/input";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import {
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+} from "@/components/ui/popover";
+import { Calendar } from "../ui/calendar";
+import { useServerAction } from "zsa-react";
+import { updateDealAction, deleteDealAction } from "@/server/deal";
+import { cn } from "@/utils/tailwind";
+import { toast } from "sonner";
+import {
+  Select,
+  SelectItem,
+  SelectTrigger,
+  SelectContent,
+  SelectValue,
+} from "../ui/select";
 
 interface DealDialogProps {
   account: Account;
-  deal: Deal & { contact: Contact };
-  setSelectedDeal: (deal: (Deal & { contact: Contact }) | null) => void;
+  deal: Deal & { primaryContact: Contact };
+  contactList: Contact[];
+  setSelectedDeal: (deal: (Deal & { primaryContact: Contact }) | null) => void;
 }
 
 export function DealDialog({
   account,
   deal,
+  contactList,
   setSelectedDeal,
 }: DealDialogProps) {
   const [open, setOpen] = useState(true);
-  function handleClose() {
+  const [dealState, setDealState] = useState<
+    Deal & { primaryContact: Contact }
+  >({
+    ...deal,
+    expectedCloseDate: deal.expectedCloseDate
+      ? new Date(deal.expectedCloseDate)
+      : null,
+  });
+
+  const updateDealActionHook = useServerAction(updateDealAction);
+  const deleteDealActionHook = useServerAction(deleteDealAction);
+  const router = useRouter();
+
+  // Handle deal update for individual fields
+  async function handleUpdateDeal(field: string, value: string | Date | null) {
+    if (value === null) return; // Skip if value is null
+    await updateDealActionHook.execute({
+      columnId: field,
+      itemId: dealState.id,
+      newValue: value,
+    });
+    router.refresh();
+  }
+
+  // Handle dialog close and update each field
+  async function handleClose() {
+    if (dealState.value !== deal.value) {
+      await handleUpdateDeal("value", dealState.value);
+    }
+
+    if (dealState.stage !== deal.stage) {
+      await handleUpdateDeal("stage", dealState.stage);
+    }
+
+    const formattedCloseDate = dealState.expectedCloseDate
+      ? dealState.expectedCloseDate.toISOString().substring(0, 10)
+      : "";
+    const originalCloseDate = deal.expectedCloseDate
+      ? new Date(deal.expectedCloseDate).toISOString().substring(0, 10)
+      : "";
+    if (formattedCloseDate !== originalCloseDate) {
+      await handleUpdateDeal("expectedCloseDate", dealState.expectedCloseDate);
+    }
+
+    // Update the primary contact only if it changes
+    if (dealState.primaryContactId !== deal.primaryContact?.id) {
+      await handleUpdateDeal("primaryContactId", dealState.primaryContactId);
+    }
+
     setOpen(false);
     setSelectedDeal(null);
+    router.refresh();
   }
+
+  // Handle deal delete
+  async function handleDelete() {
+    await deleteDealActionHook.execute({ itemIds: [dealState.id] });
+    await handleClose();
+  }
+
   return (
     <Dialog open={open} onOpenChange={handleClose}>
       <DialogContent className="p-4">
@@ -33,7 +111,12 @@ export function DealDialog({
             <Button variant="outline" size="icon" className="h-8 w-8">
               <Pencil className="h-4 w-4" />
             </Button>
-            <Button variant="outline" size="icon" className="h-8 w-8">
+            <Button
+              variant="outline"
+              size="icon"
+              className="h-8 w-8"
+              onClick={handleDelete}
+            >
               <Trash className="h-4 w-4" />
             </Button>
             <Button
@@ -46,32 +129,94 @@ export function DealDialog({
             </Button>
           </div>
         </div>
-        <div>
-          <div className="grid gap-2">
-            <div className="flex items-center gap-3">
-              <Label className="w-28">Deal Amount</Label>
-              <Input value={deal.value ?? ""} readOnly className="h-8" />
-            </div>
-            <div className="flex items-center gap-3">
-              <Label className="w-28">Stage</Label>
-              <Input value={deal.stage ?? ""} readOnly className="h-8" />
-            </div>
-            <div className="flex items-center gap-3">
-              <Label className="w-28">Contact</Label>
-              <Input
-                value={deal.contact?.contactName ?? ""}
-                readOnly
-                className="h-8"
-              />
-            </div>
-            <div className="flex items-center gap-3">
-              <Label className="w-28">Close Date</Label>
-              <Input
-                value={formatDate(deal.expectedCloseDate)}
-                readOnly
-                className="h-8"
-              />
-            </div>
+        <div className="grid gap-2">
+          <div className="flex items-center gap-3">
+            <Label className="w-28">Deal Amount</Label>
+            <Input
+              value={dealState.value ?? ""}
+              onChange={(e) =>
+                setDealState((prev) => ({ ...prev, value: e.target.value }))
+              }
+              onBlur={async (e) => {
+                await handleUpdateDeal("value", e.target.value);
+              }}
+              className="h-8"
+            />
+          </div>
+          <div className="flex items-center gap-3">
+            <Label className="w-28">Stage</Label>
+            <Input
+              value={dealState.stage ?? ""}
+              onChange={(e) =>
+                setDealState((prev) => ({ ...prev, stage: e.target.value }))
+              }
+              onBlur={async (e) => {
+                await handleUpdateDeal("stage", e.target.value);
+              }}
+              className="h-8"
+            />
+          </div>
+          <div className="flex items-center gap-3">
+            <Label className="w-28">Contact</Label>
+            <Select
+              value={dealState.primaryContactId ?? ""}
+              onValueChange={(value) => {
+                setDealState((prev) => ({
+                  ...prev,
+                  primaryContactId: value,
+                }));
+                // Update the deal immediately on selection
+                handleUpdateDeal("primaryContactId", value);
+              }}
+            >
+              <SelectTrigger className="h-8">
+                <SelectValue placeholder="Choose a contact" className="h-9" />
+              </SelectTrigger>
+              <SelectContent>
+                {contactList.map((contact) => (
+                  <SelectItem key={contact.id} value={contact.id}>
+                    {contact.contactName}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+          <div className="flex items-center gap-3">
+            <Label className="w-28">Close Date</Label>
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button
+                  variant="outline"
+                  className={cn(
+                    "h-8 w-full pl-3 text-left font-normal",
+                    !dealState.expectedCloseDate && "text-muted-foreground",
+                  )}
+                >
+                  {dealState.expectedCloseDate
+                    ? format(new Date(dealState.expectedCloseDate), "PPP")
+                    : "Pick a date"}
+                  <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-auto p-0" align="start">
+                <Calendar
+                  mode="single"
+                  selected={
+                    dealState.expectedCloseDate
+                      ? new Date(dealState.expectedCloseDate)
+                      : undefined
+                  }
+                  onSelect={async (date) => {
+                    await handleUpdateDeal("expectedCloseDate", date ?? null);
+                    setDealState((prev) => ({
+                      ...prev,
+                      expectedCloseDate: date ?? null,
+                    }));
+                  }}
+                  initialFocus
+                />
+              </PopoverContent>
+            </Popover>
           </div>
         </div>
       </DialogContent>

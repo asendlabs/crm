@@ -28,7 +28,7 @@ export function AccountPage({
   >;
   accountDeals: Array<
     Deal & {
-      contact: Contact & {
+      primaryContact: Contact & {
         contactPhone: ContactPhone;
         contactEmail: ContactEmail;
       };
@@ -75,7 +75,11 @@ export function AccountPage({
               accountActivities={accountActivities}
             />{" "}
             <div className="grid h-full min-w-[22rem] gap-3 overflow-x-auto py-1 pl-2">
-              <DealCard deals={accountDeals} account={account} />
+              <DealCard
+                deals={accountDeals}
+                account={account}
+                accountContacts={accountContacts}
+              />
               <ContactCard contacts={accountContacts} account={account} />
               <DetailsCard account={account} />
             </div>
