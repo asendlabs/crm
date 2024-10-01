@@ -65,8 +65,8 @@ export const contactTableRelations = relations(
       fields: [contactTable.accountId],
       references: [accountTable.id],
     }),
-    contactPhone: many(contactPhoneTable),
-    contactEmail: many(contactEmailTable),
+    contactPhone: one(contactPhoneTable),
+    contactEmail: one(contactEmailTable),
     deals: many(dealTable),
   }),
 );

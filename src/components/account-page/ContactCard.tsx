@@ -1,25 +1,32 @@
 "use client";
 
+import { useState } from "react";
 import { Card } from "@/components/ui/card";
-import { Contact, ContactEmail, ContactPhone } from "@database/types";
-import React from "react";
-import { ArrowUpRight, MailIcon, PhoneIcon } from "lucide-react";
+import { Contact, ContactEmail, ContactPhone, Account } from "@database/types";
 import { NewContactForm } from "../forms/NewContactForm";
+import { ArrowUpRight, MailIcon, PhoneIcon } from "lucide-react";
+import { ContactDialog } from "../contacts/ContactDialog";
 
 export function ContactCard({
   contacts,
-  accountId,
+  account,
 }: {
   contacts: Array<
     Contact & { contactPhone: ContactPhone; contactEmail: ContactEmail }
   >;
-  accountId: string;
+  account: Account;
 }) {
+  // State to manage dialog open and selected contact
+  const [selectedContact, setSelectedContact] = useState<
+    | (Contact & { contactPhone: ContactPhone; contactEmail: ContactEmail })
+    | null
+  >(null);
+
   return (
     <Card>
       <div className="flex justify-between border-b border-gray-200 p-3">
         <h1>Contacts</h1>
-        <NewContactForm accountId={accountId} />
+        <NewContactForm accountId={account.id} />
       </div>
       <div className="flex flex-col gap-2 p-2">
         {contacts && contacts.length > 0 ? (
@@ -30,7 +37,11 @@ export function ContactCard({
                 contactEmail: ContactEmail;
               },
             ) => (
-              <Card key={contact.id}>
+              <Card
+                key={contact.id}
+                onClick={() => setSelectedContact(contact)}
+                className="cursor-pointer"
+              >
                 <div className="flex w-full justify-between p-2">
                   <div className="flex items-center gap-2">
                     <h1 className="max-w-[11rem] truncate">
@@ -39,17 +50,19 @@ export function ContactCard({
                     <div className="flex">
                       <button
                         className="rounded-y flex h-6 w-7 items-center justify-center rounded-l border-y border-l border-gray-200 hover:bg-gray-200"
-                        onClick={() =>
-                          (window.location.href = `tel:${contact.contactPhone.countryCode ?? ""}${contact.contactPhone.phoneNumber ?? ""}`)
-                        }
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          window.location.href = `tel:${contact.contactPhone.countryCode ?? ""}${contact.contactPhone.phoneNumber ?? ""}`;
+                        }}
                       >
                         <PhoneIcon className="h-4 w-4" />
                       </button>
                       <button
                         className="rounded-y flex h-6 w-7 items-center justify-center rounded-r border-y border-r border-gray-200 hover:bg-gray-200"
-                        onClick={() =>
-                          (window.location.href = `mailto:${contact.contactEmail.email ?? ""}`)
-                        }
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          window.location.href = `mailto:${contact.contactEmail.email ?? ""}`;
+                        }}
                       >
                         <MailIcon className="h-4 w-4" />
                       </button>
@@ -68,6 +81,14 @@ export function ContactCard({
           </p>
         )}
       </div>
+
+      {/* ContactDialog component */}
+      {selectedContact && (
+        <ContactDialog
+          contact={selectedContact}
+          setSelectedContact={setSelectedContact}
+        />
+      )}
     </Card>
   );
 }

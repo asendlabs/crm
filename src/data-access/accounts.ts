@@ -11,8 +11,8 @@ export async function getAccountById(id: string) {
     with: {
       contacts: {
         with: {
-          contactPhone: true,
           contactEmail: true,
+          contactPhone: true,
         },
       },
       deals: {

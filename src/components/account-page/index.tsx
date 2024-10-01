@@ -68,7 +68,7 @@ export function AccountPage({
             <TopTabs />{" "}
             <div className="grid h-full w-[22rem] gap-3 overflow-x-auto py-1 pl-2">
               <DealCard deals={accountDeals} account={account} />
-              <ContactCard contacts={accountContacts} accountId={account.id} />
+              <ContactCard contacts={accountContacts} account={account} />
               <DetailsCard account={account} />
             </div>
           </section>

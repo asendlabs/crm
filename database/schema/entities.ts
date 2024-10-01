@@ -1,12 +1,4 @@
-import {
-  boolean,
-  integer,
-  jsonb,
-  pgSchema,
-  text,
-  timestamp,
-  varchar,
-} from "drizzle-orm/pg-core";
+import { integer, jsonb, text, timestamp, varchar } from "drizzle-orm/pg-core";
 
 import { entities } from "./_schemas";
 import {
@@ -52,6 +44,7 @@ export const contactTable = table("contacts", {
     .references(() => accountTable.id)
     .notNull(),
   contactName: varchar("contact_name", { length: 255 }).notNull(),
+  jobTitle: varchar("job_title", { length: 255 }),
   createdAt: timestamp("created_at").notNull().defaultNow(),
   updatedAt: timestamp("updated_at"),
   createdById: text("created_by_id")
