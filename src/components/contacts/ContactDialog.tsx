@@ -8,6 +8,9 @@ import { formatDate } from "@/utils";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import { toast } from "sonner";
+import { useServerAction } from "zsa-react";
+import { deleteContactAction, updateContactAction } from "@/server/contacts";
+import { useRouter } from "next/navigation";
 
 interface ContactDialogProps {
   contact: Contact & { contactEmail: ContactEmail; contactPhone: ContactPhone };
@@ -23,9 +26,41 @@ export function ContactDialog({
   setSelectedContact,
 }: ContactDialogProps) {
   const [open, setOpen] = useState(true);
-  function handleClose() {
+  const updateContactActionHook = useServerAction(updateContactAction);
+  const deleteContactActionHook = useServerAction(deleteContactAction);
+  const router = useRouter();
+  const [localState, setLocalState] = useState<
+    Contact & { contactEmail: ContactEmail; contactPhone: ContactPhone }
+  >({
+    ...contact,
+  });
+
+  async function handleUpdateContact(field: string, value: string) {
+    // Optimistic update to UI: Modify contactState and upperDealState before backend update
+    setLocalState((prev) => ({ ...prev, [field]: value }));
+    const updatedContact = { ...localState, [field]: value };
+
+    const updatedContactState = await updateContactActionHook.execute({
+      columnId: field,
+      itemId: localState.id,
+      newValue: value,
+    });
+    router.refresh();
+  }
+
+  async function handleDelete() {
     setOpen(false);
     setSelectedContact(null);
+    await deleteContactActionHook.execute({ itemIds: [localState.id] });
+    router.refresh();
+  }
+
+  async function handleClose() {
+    setOpen(false);
+    setSelectedContact(null);
+    if (localState.jobTitle) {
+      await handleUpdateContact("jobTitle", localState.jobTitle);
+    }
   }
   return (
     <Dialog open={open} onOpenChange={handleClose}>
@@ -38,7 +73,12 @@ export function ContactDialog({
             <Button variant="outline" size="icon" className="h-8 w-8">
               <Pencil className="h-4 w-4" />
             </Button>
-            <Button variant="outline" size="icon" className="h-8 w-8">
+            <Button
+              variant="outline"
+              size="icon"
+              className="h-8 w-8"
+              onClick={async () => await handleDelete()}
+            >
               <Trash className="h-4 w-4" />
             </Button>
             <Button
@@ -57,7 +97,6 @@ export function ContactDialog({
               <Label className="w-28">Email</Label>
               <Input
                 value={contact.contactEmail?.email ?? ""}
-                readOnly
                 className="h-8"
               />
             </div>
@@ -71,7 +110,19 @@ export function ContactDialog({
             </div>
             <div className="flex items-center gap-3">
               <Label className="w-28">Job Title</Label>
-              <Input value={contact.jobTitle ?? ""} readOnly className="h-8" />
+              <Input
+                value={localState.jobTitle ?? ""}
+                className="h-8"
+                onChange={async (e) => {
+                  setLocalState((prev) => ({
+                    ...prev,
+                    jobTitle: e.target.value,
+                  }));
+                }}
+                onBlur={async (e) => {
+                  await handleUpdateContact("jobTitle", e.target.value);
+                }}
+              />
             </div>
           </div>
         </div>

@@ -58,10 +58,11 @@ export function NewDealForm({
   accounts,
   setUpperDealState,
   upperDealState,
+  addDeal,
 }: {
   accountId?: string;
   accounts?: Account[];
-  setUpperDealState: (
+  setUpperDealState?: (
     deal: (Deal & {
       primaryContact: Contact & {
         contactPhone: ContactPhone;
@@ -69,12 +70,13 @@ export function NewDealForm({
       };
     })[],
   ) => void;
-  upperDealState: (Deal & {
+  upperDealState?: (Deal & {
     primaryContact: Contact & {
       contactPhone: ContactPhone;
       contactEmail: ContactEmail;
     };
   })[];
+  addDeal?: (deal: any) => void;
 }) {
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
@@ -101,9 +103,11 @@ export function NewDealForm({
 
       if (data?.data) {
         const newDeal: DealWithPrimaryContact = data.data;
+        if (setUpperDealState && upperDealState) {
+          setUpperDealState([...upperDealState, newDeal]);
+        }
 
         // Assuming setUpperDealState expects the new state value directly
-        setUpperDealState([...upperDealState, newDeal]);
 
         dealform.reset();
         setOpen(false);

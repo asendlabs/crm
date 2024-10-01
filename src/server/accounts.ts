@@ -20,6 +20,10 @@ import {
 } from "@/data-access/contacts";
 import { getAllUserWorkspaces } from "@/data-access/workspaces";
 import { deleteDeal, getAllAccountDeals } from "@/data-access/deal";
+import {
+  deleteActivity,
+  getAllAccountActivities,
+} from "@/data-access/activities";
 
 export const updateAccountAction = authenticatedAction
   .createServerAction()
@@ -52,6 +56,12 @@ export const deleteAccountAction = authenticatedAction
     const { itemIds } = input;
 
     for (const itemId of itemIds) {
+      const activities = await getAllAccountActivities(itemId);
+
+      for (const activity of activities) {
+        await deleteActivity(activity.id);
+      }
+
       const deals = await getAllAccountDeals(itemId);
 
       for (const deal of deals) {

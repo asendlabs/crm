@@ -42,15 +42,14 @@ export function DealCard({
       })
     | null
   >(null);
-  const [upperDealState, setUpperDealState] =
-    useState<
-      (Deal & {
-        primaryContact: Contact & {
-          contactPhone: ContactPhone;
-          contactEmail: ContactEmail;
-        };
-      })[]
-    >(deals);
+  const [upperDealState, setUpperDealState] = useState<
+    (Deal & {
+      primaryContact: Contact & {
+        contactPhone: ContactPhone;
+        contactEmail: ContactEmail;
+      };
+    })[]
+  >(deals);
 
   return (
     <Card>

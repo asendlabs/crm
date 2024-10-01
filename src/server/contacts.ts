@@ -69,7 +69,6 @@ export const deleteContactAction = authenticatedAction
         userId: user.id,
         workspaceId: currentWorkspaceId,
         accountId: retrivedContact.accountId,
-        associatedContactId: itemId,
         title: "New Contact",
         activityType: "entity_deletion",
         isEntityActivity: true,
