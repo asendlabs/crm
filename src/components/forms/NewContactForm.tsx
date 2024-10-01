@@ -67,7 +67,6 @@ export function NewContactForm({
         ...values,
       });
       if (!err) {
-        toast.success("Contact created successfully!");
         contactform.reset();
         setOpen(false);
         router.refresh(); // Refresh the page or data

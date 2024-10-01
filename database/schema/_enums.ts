@@ -5,10 +5,14 @@ export const accountTypeEnum = pgEnum("account_type", accountTypeValues);
 
 const activityTypeValues = [
   "call",
-  "meeting",
   "email",
-  "note",
   "message",
+  "comment",
+  "task_completion",
+  "addition",
+  "field_removal",
+  "entity_removal",
+  "field_change",
 ] as const;
 export const activityTypeEnum = pgEnum("activity_type", activityTypeValues);
 

@@ -9,8 +9,16 @@ import {
 } from "lucide-react";
 import { Button } from "../ui/button";
 import { BasicInfoTimelineItem } from "./BasicInfoTimelineItem";
+import { NewActivityForm } from "../forms/NewActivityForm";
+import { Account, Contact, ContactEmail, ContactPhone } from "@database/types";
 
-export default function TopTabs() {
+export default function TopTabs({
+  account,
+  accountContacts,
+}: {
+  account: Account;
+  accountContacts: Contact[];
+}) {
   return (
     <Tabs
       defaultValue="timeline"
@@ -48,8 +56,7 @@ export default function TopTabs() {
         </TabsTrigger>
       </TabsList>
       <TabsContent value="timeline" className="grid gap-1 px-1 py-2">
-        <BasicInfoTimelineItem />
-        <BasicInfoTimelineItem />
+        <NewActivityForm account={account} contacts={accountContacts} />
       </TabsContent>
       <TabsContent value="anaylsis" className="grid gap-1 px-1 py-2">
         <div className="">Content for analysis tab</div>

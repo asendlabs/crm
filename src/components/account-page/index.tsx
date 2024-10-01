@@ -1,3 +1,4 @@
+"use client";
 import {
   Account,
   Contact,
@@ -65,7 +66,7 @@ export function AccountPage({
             </div>
           </section>
           <section className="flex items-start justify-between gap-2 px-3">
-            <TopTabs />{" "}
+            <TopTabs account={account} accountContacts={accountContacts} />{" "}
             <div className="grid h-full w-[22rem] gap-3 overflow-x-auto py-1 pl-2">
               <DealCard deals={accountDeals} account={account} />
               <ContactCard contacts={accountContacts} account={account} />

@@ -1,12 +1,11 @@
+import { title } from "process";
 import { z } from "zod";
 
 export const activityCreateSchema = z.object({
-  activityType: z
-    .enum(["call", "meeting", "email", "note", "message"])
-    .default("email"),
+  title: z.string().min(1, { message: "Title is required" }),
+  type: z.enum(["call", "email", "comment", "message"]).default("email"),
   description: z.string(),
-  fromTimeStamp: z.date(),
-  toTimeStamp: z.date(),
-  priority: z.enum(["low", "medium", "high"]).default("medium"),
-  status: z.enum(["due", "done", "cancelled"]).default("due"),
+  date: z.date().default(new Date()),
+  contactId: z.string().optional(),
+  accountId: z.string(),
 });

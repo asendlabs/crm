@@ -19,16 +19,30 @@ export async function getAllWorkspaceActivities(workspaceId: string) {
   return workspaceActivities;
 }
 
+export async function getAllAccountActivities(accountId: string) {
+  const accountActivities = await db.query.activityTable.findMany({
+    where: eq(activityTable.accountId, accountId),
+  });
+  return accountActivities;
+}
+
 export async function createActivity(
   userId: string,
   workspaceId: string,
   accountId: string,
-  activityType: "call" | "meeting" | "email" | "note" | "message",
+  title: string,
+  activityType:
+    | "email"
+    | "call"
+    | "message"
+    | "comment"
+    | "task_completion"
+    | "addition"
+    | "field_removal"
+    | "entity_removal"
+    | "field_change",
   description: string,
-  fromTimeStamp: Date,
-  toTimeStamp: Date,
-  priority: "low" | "medium" | "high",
-  status: "due" | "done" | "cancelled",
+  associatedContactId?: string,
 ) {
   const [created] = await db
     .insert(activityTable)
@@ -36,12 +50,10 @@ export async function createActivity(
       id: ulid(),
       accountId,
       workspaceId,
+      associatedContactId,
+      title,
       activityType,
       description,
-      fromTimeStamp,
-      toTimeStamp,
-      priority,
-      status,
       createdAt: new Date(),
       updatedAt: new Date(),
       createdById: userId,

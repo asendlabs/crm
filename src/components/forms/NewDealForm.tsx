@@ -75,7 +75,6 @@ export function NewDealForm({
         ...values,
       });
       if (!err) {
-        toast.success("Deal created successfully!");
         dealform.reset();
         setOpen(false);
         router.refresh(); // Refresh the page or data

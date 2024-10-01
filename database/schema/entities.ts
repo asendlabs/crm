@@ -9,6 +9,7 @@ import {
 } from "./_enums";
 import { workspaceTable } from "./workspaces";
 import { userTable } from "./users";
+import { title } from "process";
 
 const { table } = entities;
 
@@ -79,12 +80,12 @@ export const activityTable = table("activities", {
   workspaceId: text("workspace_id")
     .notNull()
     .references(() => workspaceTable.id),
+  associatedContactId: text("associated_contact_id").references(
+    () => contactTable.id,
+  ),
+  title: varchar("title", { length: 255 }).notNull(),
   activityType: activityTypeEnum("activity_type").notNull().default("email"),
   description: text("description"),
-  fromTimeStamp: timestamp("from_timestamp").notNull(),
-  toTimeStamp: timestamp("to_timestamp").notNull(),
-  priority: activityPriorityEnum("priority").notNull().default("medium"),
-  status: activityStatusEnum("status").notNull().default("due"),
   createdAt: timestamp("created_at").notNull().defaultNow(),
   updatedAt: timestamp("updated_at"),
   createdById: text("created_by_id")
