@@ -28,22 +28,43 @@ export function DealCard({
     }
   >;
   account: Account;
-  accountContacts: Contact[];
+  accountContacts: Array<
+    Contact & { contactPhone: ContactPhone; contactEmail: ContactEmail }
+  >;
 }) {
   // State to manage dialog open and selected deal
   const [selectedDeal, setSelectedDeal] = useState<
-    (Deal & { primaryContact: Contact }) | null
+    | (Deal & {
+        primaryContact: Contact & {
+          contactPhone: ContactPhone;
+          contactEmail: ContactEmail;
+        };
+      })
+    | null
   >(null);
+  const [upperDealState, setUpperDealState] =
+    useState<
+      (Deal & {
+        primaryContact: Contact & {
+          contactPhone: ContactPhone;
+          contactEmail: ContactEmail;
+        };
+      })[]
+    >(deals);
 
   return (
     <Card>
       <div className="flex justify-between border-b border-gray-200 p-3">
         <h1>Deals</h1>
-        <NewDealForm accountId={account.id} />
+        <NewDealForm
+          accountId={account.id}
+          setUpperDealState={setUpperDealState}
+          upperDealState={upperDealState}
+        />
       </div>
       <div className="flex flex-col gap-2 p-2">
-        {deals.length > 0 ? (
-          deals.map(
+        {upperDealState?.length > 0 ? (
+          upperDealState.map(
             (
               deal: Deal & {
                 primaryContact: Contact & {
@@ -134,6 +155,8 @@ export function DealCard({
           account={account}
           deal={selectedDeal}
           setSelectedDeal={setSelectedDeal}
+          upperDealState={upperDealState}
+          setUpperDealState={setUpperDealState}
           contactList={accountContacts}
         />
       )}

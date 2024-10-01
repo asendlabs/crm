@@ -1,11 +1,14 @@
 "use client";
 
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+import React, { useState } from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { format } from "date-fns";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
+
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import {
   Select,
   SelectContent,
@@ -21,43 +24,63 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { CalendarIcon, Plus } from "lucide-react";
-import { format } from "date-fns";
-
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { CalendarIcon, Plus } from "lucide-react";
 
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import React from "react";
-import { toast } from "sonner";
-import { useForm } from "react-hook-form";
-import { useRouter } from "next/navigation";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { createDealAction } from "@/server/deal";
-import { useServerAction } from "zsa-react";
 import { dealCreateSchema } from "@/schemas/deal.schema";
 import { Calendar } from "../ui/calendar";
 import { cn } from "@/utils/tailwind";
-import { Account } from "@database/types";
+import {
+  Account,
+  Contact,
+  ContactEmail,
+  ContactPhone,
+  Deal,
+} from "@database/types";
+import { useServerAction } from "zsa-react";
+
+type DealWithPrimaryContact = Deal & {
+  primaryContact: Contact & {
+    contactPhone: ContactPhone;
+    contactEmail: ContactEmail;
+  };
+};
 
 export function NewDealForm({
-  addDeal,
   accountId,
   accounts,
+  setUpperDealState,
+  upperDealState,
 }: {
-  addDeal?: (newDeal: any) => void;
   accountId?: string;
   accounts?: Account[];
+  setUpperDealState: (
+    deal: (Deal & {
+      primaryContact: Contact & {
+        contactPhone: ContactPhone;
+        contactEmail: ContactEmail;
+      };
+    })[],
+  ) => void;
+  upperDealState: (Deal & {
+    primaryContact: Contact & {
+      contactPhone: ContactPhone;
+      contactEmail: ContactEmail;
+    };
+  })[];
 }) {
-  const [loading, setLoading] = React.useState(false);
-  const [open, setOpen] = React.useState(false);
+  const [loading, setLoading] = useState(false);
+  const [open, setOpen] = useState(false);
   const router = useRouter();
-  const { execute, data } = useServerAction(createDealAction);
+  const { execute } = useServerAction(createDealAction);
+
   const dealform = useForm<z.infer<typeof dealCreateSchema>>({
     resolver: zodResolver(dealCreateSchema),
     defaultValues: {
@@ -67,19 +90,24 @@ export function NewDealForm({
     },
   });
 
-  // Handle form submission
   async function onSubmit(values: z.infer<typeof dealCreateSchema>) {
+    setLoading(true);
     try {
-      setLoading(true);
-      const [data, err] = await execute({
-        ...values,
-      });
-      if (!err) {
+      const [data, err] = await execute(values);
+      if (err) {
+        toast.error("Failed to create deal.");
+        return;
+      }
+
+      if (data?.data) {
+        const newDeal: DealWithPrimaryContact = data.data;
+
+        // Assuming setUpperDealState expects the new state value directly
+        setUpperDealState([...upperDealState, newDeal]);
+
         dealform.reset();
         setOpen(false);
-        router.refresh(); // Refresh the page or data
-      } else {
-        toast.error("Failed to create deal.");
+        router.refresh();
       }
     } catch (error) {
       toast.error("An error occurred while creating the deal.");
@@ -90,15 +118,16 @@ export function NewDealForm({
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger className="flex max-h-8 max-w-28 flex-row items-center gap-1 rounded-lg bg-primary px-3 text-sm text-white hover:bg-primary/90">
+      <DialogTrigger className="flex max-h-8 max-w-28 items-center gap-1 rounded-lg bg-primary px-3 text-sm text-white hover:bg-primary/90">
         <Plus className="h-4 w-4" />
         <span>New</span>
       </DialogTrigger>
-      <DialogContent className="flex flex-col py-2">
+
+      <DialogContent className="py-2">
         <div className="mb-3 px-5">
           <Form {...dealform}>
             <form
-              className="flex flex-col gap-4 pt-2"
+              className="flex flex-col gap-4"
               onSubmit={dealform.handleSubmit(onSubmit)}
             >
               <div className="flex flex-col gap-5">
@@ -111,14 +140,10 @@ export function NewDealForm({
                         <Select
                           onValueChange={field.onChange}
                           defaultValue={field.value}
-                          {...field}
                         >
                           <FormControl>
                             <SelectTrigger>
-                              <SelectValue
-                                placeholder="Choose a lead or client"
-                                className="h-9"
-                              />
+                              <SelectValue placeholder="Choose a lead or client" />
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
@@ -134,6 +159,7 @@ export function NewDealForm({
                     )}
                   />
                 )}
+
                 <FormField
                   control={dealform.control}
                   name="title"
@@ -144,7 +170,6 @@ export function NewDealForm({
                         <Input
                           {...field}
                           placeholder="eg. New Product Line Expansion"
-                          className="h-9 w-full"
                         />
                       </FormControl>
                       <FormMessage />
@@ -163,26 +188,26 @@ export function NewDealForm({
                           {...field}
                           type="number"
                           placeholder="eg. 10,000"
-                          className="h-9 w-full"
                         />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
+
                 <FormField
                   control={dealform.control}
                   name="expectedCloseDate"
                   render={({ field }) => (
-                    <FormItem className="flex flex-col">
+                    <FormItem>
                       <FormLabel>Expected Close</FormLabel>
                       <Popover>
                         <PopoverTrigger asChild>
                           <FormControl>
                             <Button
-                              variant={"outline"}
+                              variant="outline"
                               className={cn(
-                                "h-9 w-full pl-3 text-left font-normal",
+                                "h-9 w-full pl-3 text-left",
                                 !field.value && "text-muted-foreground",
                               )}
                             >
@@ -195,15 +220,13 @@ export function NewDealForm({
                             </Button>
                           </FormControl>
                         </PopoverTrigger>
-                        <PopoverContent className="w-auto p-0" align="start">
+                        <PopoverContent className="p-0">
                           <Calendar
                             mode="single"
                             selected={field.value}
                             onSelect={field.onChange}
-                            className="select-none"
                             disabled={(date) => date < new Date("1900-01-01")}
                             initialFocus
-                            {...field}
                           />
                         </PopoverContent>
                       </Popover>
@@ -212,12 +235,11 @@ export function NewDealForm({
                   )}
                 />
               </div>
-              <div className="flex flex-row justify-end gap-2 pt-1">
+
+              <div className="flex justify-end gap-2">
                 <Button
                   type="button"
                   variant="outline"
-                  tabIndex={-1}
-                  className="w-30 h-8"
                   onClick={() => {
                     setLoading(false);
                     dealform.reset();
@@ -226,14 +248,13 @@ export function NewDealForm({
                 >
                   Cancel
                 </Button>
-                <Button type="submit" className="h-8" disabled={loading}>
+                <Button type="submit" disabled={loading}>
                   {loading ? "Creating..." : "Create New Deal"}
                 </Button>
               </div>
             </form>
           </Form>
         </div>
-        <DialogDescription className="hidden" />
       </DialogContent>
     </Dialog>
   );

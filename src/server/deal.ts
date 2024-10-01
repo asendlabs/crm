@@ -19,7 +19,7 @@ export const updateDealAction = authenticatedAction
     z.object({
       itemId: z.string(),
       columnId: z.string().optional(),
-      newValue: z.union([z.string(), z.date(), z.null()]).optional(), // Allow for date type
+      newValue: z.any().optional(), // Allow for date type
       full: z.any().optional(),
     }),
   )

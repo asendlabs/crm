@@ -5,7 +5,13 @@ import { useRouter } from "next/navigation";
 import { Pencil, Trash, X, CalendarIcon } from "lucide-react";
 import { format } from "date-fns";
 
-import { Account, Contact, Deal } from "@database/types";
+import {
+  Account,
+  Contact,
+  ContactEmail,
+  ContactPhone,
+  Deal,
+} from "@database/types";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
@@ -30,9 +36,39 @@ import {
 
 interface DealDialogProps {
   account: Account;
-  deal: Deal & { primaryContact: Contact };
-  contactList: Contact[];
-  setSelectedDeal: (deal: (Deal & { primaryContact: Contact }) | null) => void;
+  deal: Deal & {
+    primaryContact: Contact & {
+      contactPhone: ContactPhone;
+      contactEmail: ContactEmail;
+    };
+  };
+  contactList: Array<
+    Contact & { contactPhone: ContactPhone; contactEmail: ContactEmail }
+  >;
+  setSelectedDeal: (
+    deal:
+      | (Deal & {
+          primaryContact: Contact & {
+            contactPhone: ContactPhone;
+            contactEmail: ContactEmail;
+          };
+        })
+      | null,
+  ) => void;
+  setUpperDealState: (
+    deal: (Deal & {
+      primaryContact: Contact & {
+        contactPhone: ContactPhone;
+        contactEmail: ContactEmail;
+      };
+    })[],
+  ) => void;
+  upperDealState: (Deal & {
+    primaryContact: Contact & {
+      contactPhone: ContactPhone;
+      contactEmail: ContactEmail;
+    };
+  })[];
 }
 
 export function DealDialog({
@@ -40,10 +76,17 @@ export function DealDialog({
   deal,
   contactList,
   setSelectedDeal,
+  setUpperDealState,
+  upperDealState,
 }: DealDialogProps) {
   const [open, setOpen] = useState(true);
   const [dealState, setDealState] = useState<
-    Deal & { primaryContact: Contact }
+    Deal & {
+      primaryContact: Contact & {
+        contactPhone: ContactPhone;
+        contactEmail: ContactEmail;
+      };
+    }
   >({
     ...deal,
     expectedCloseDate: deal.expectedCloseDate
@@ -55,9 +98,23 @@ export function DealDialog({
   const deleteDealActionHook = useServerAction(deleteDealAction);
   const router = useRouter();
 
-  // Handle deal update for individual fields
-  async function handleUpdateDeal(field: string, value: string | Date | null) {
+  // Handle deal update for individual fields and update upperDealState
+  async function handleUpdateDeal(
+    field: string,
+    value: string | Date | null | Contact,
+  ) {
     if (value === null) return; // Skip if value is null
+
+    // Optimistic update to UI: Modify dealState and upperDealState before backend update
+    setDealState((prev) => ({ ...prev, [field]: value }));
+    const updatedDeal = { ...dealState, [field]: value };
+
+    const updatedUpperDealState = upperDealState.map((d) =>
+      d.id === updatedDeal.id ? updatedDeal : d,
+    );
+    setUpperDealState(updatedUpperDealState);
+
+    // Update in the backend
     await updateDealActionHook.execute({
       columnId: field,
       itemId: dealState.id,
@@ -66,24 +123,23 @@ export function DealDialog({
     router.refresh();
   }
 
-  // Handle dialog close and update each field
+  // Handle dialog close and update fields
   async function handleClose() {
     setOpen(false);
     setSelectedDeal(null);
 
     const updates: Partial<Deal> = {};
 
-    // Check for value changes
     if (dealState.value !== deal.value) {
       updates.value = dealState.value;
+      deal.value = dealState.value;
     }
 
-    // Check for stage changes
     if (dealState.stage !== deal.stage) {
       updates.stage = dealState.stage;
+      deal.stage = dealState.stage;
     }
 
-    // Check for expectedCloseDate changes
     const formattedCloseDate = dealState.expectedCloseDate
       ? dealState.expectedCloseDate.toISOString().substring(0, 10)
       : "";
@@ -93,33 +149,45 @@ export function DealDialog({
 
     if (formattedCloseDate !== originalCloseDate) {
       updates.expectedCloseDate = dealState.expectedCloseDate;
+      deal.expectedCloseDate = dealState.expectedCloseDate;
     }
 
-    // Check for primaryContactId changes
-    if (dealState.primaryContactId !== deal.primaryContact?.id) {
+    if (dealState.primaryContact?.id !== deal.primaryContact?.id) {
       updates.primaryContactId = dealState.primaryContactId;
+      deal.primaryContactId = dealState.primaryContactId;
+      deal.primaryContact = dealState.primaryContact;
     }
 
-    // If no updates, return early
     if (Object.keys(updates).length === 0) return;
 
-    // Batch update all changes
-    await updateDealActionHook.execute({
-      itemId: dealState.id,
-      full: updates,
-    });
+    try {
+      await updateDealActionHook.execute({
+        itemId: dealState.id,
+        full: updates,
+      });
 
-    router.refresh();
+      const updatedUpperDealState = upperDealState.map((d) =>
+        d.id === dealState.id ? { ...d, ...updates } : d,
+      );
+
+      setUpperDealState(updatedUpperDealState);
+      router.refresh();
+    } catch (error) {
+      console.error("Error updating deal:", error);
+    }
   }
 
   // Handle deal delete
   async function handleDelete() {
     await deleteDealActionHook.execute({ itemIds: [dealState.id] });
+    setUpperDealState(
+      upperDealState.filter((deal) => deal.id !== dealState.id),
+    );
     await handleClose();
   }
 
   return (
-    <Dialog open={open} onOpenChange={handleClose}>
+    <Dialog open={open} onOpenChange={async () => await handleClose()}>
       <DialogContent className="p-4">
         <div className="flex justify-between">
           <span className="mr-1 text-xl font-medium">{deal.title}</span>
@@ -134,14 +202,6 @@ export function DealDialog({
               onClick={handleDelete}
             >
               <Trash className="h-4 w-4" />
-            </Button>
-            <Button
-              variant="outline"
-              size="icon"
-              className="h-8 w-8"
-              onClick={handleClose}
-            >
-              <X className="h-4 w-4" />
             </Button>
           </div>
         </div>
@@ -163,9 +223,9 @@ export function DealDialog({
             <Label className="w-28">Stage</Label>
             <Input
               value={dealState.stage ?? ""}
-              onChange={(e) =>
-                setDealState((prev) => ({ ...prev, stage: e.target.value }))
-              }
+              onChange={(e) => {
+                setDealState((prev) => ({ ...prev, stage: e.target.value }));
+              }}
               onBlur={async (e) => {
                 await handleUpdateDeal("stage", e.target.value);
               }}
@@ -176,13 +236,28 @@ export function DealDialog({
             <Label className="w-28">Contact</Label>
             <Select
               value={dealState.primaryContactId ?? ""}
-              onValueChange={(value) => {
-                setDealState((prev) => ({
-                  ...prev,
-                  primaryContactId: value,
-                }));
-                // Update the deal immediately on selection
-                handleUpdateDeal("primaryContactId", value);
+              onValueChange={async (value) => {
+                const selectedContact = contactList.find(
+                  (contact) => contact.id === value,
+                );
+
+                if (selectedContact) {
+                  setDealState((prev) => ({
+                    ...prev,
+                    primaryContactId: selectedContact.id,
+                    primaryContact: {
+                      ...selectedContact,
+                      contactPhone: selectedContact?.contactPhone,
+                      contactEmail: selectedContact?.contactEmail,
+                    },
+                  }));
+
+                  await handleUpdateDeal(
+                    "primaryContactId",
+                    selectedContact.id,
+                  );
+                  await handleUpdateDeal("primaryContact", selectedContact);
+                }
               }}
             >
               <SelectTrigger className="h-8">
