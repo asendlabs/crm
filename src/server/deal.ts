@@ -81,7 +81,6 @@ export const deleteDealAction = authenticatedAction
         entityTitle: retrivedDeal.title,
         entityType: "deal",
       });
-      console.log(activityRes);
       if (!activityRes) {
         throw new Error("Could not create the activity."); // Inline error message
       }

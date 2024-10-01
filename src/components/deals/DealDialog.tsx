@@ -68,31 +68,47 @@ export function DealDialog({
 
   // Handle dialog close and update each field
   async function handleClose() {
+    setOpen(false);
+    setSelectedDeal(null);
+
+    const updates: Partial<Deal> = {};
+
+    // Check for value changes
     if (dealState.value !== deal.value) {
-      await handleUpdateDeal("value", dealState.value);
+      updates.value = dealState.value;
     }
 
+    // Check for stage changes
     if (dealState.stage !== deal.stage) {
-      await handleUpdateDeal("stage", dealState.stage);
+      updates.stage = dealState.stage;
     }
 
+    // Check for expectedCloseDate changes
     const formattedCloseDate = dealState.expectedCloseDate
       ? dealState.expectedCloseDate.toISOString().substring(0, 10)
       : "";
     const originalCloseDate = deal.expectedCloseDate
       ? new Date(deal.expectedCloseDate).toISOString().substring(0, 10)
       : "";
+
     if (formattedCloseDate !== originalCloseDate) {
-      await handleUpdateDeal("expectedCloseDate", dealState.expectedCloseDate);
+      updates.expectedCloseDate = dealState.expectedCloseDate;
     }
 
-    // Update the primary contact only if it changes
+    // Check for primaryContactId changes
     if (dealState.primaryContactId !== deal.primaryContact?.id) {
-      await handleUpdateDeal("primaryContactId", dealState.primaryContactId);
+      updates.primaryContactId = dealState.primaryContactId;
     }
 
-    setOpen(false);
-    setSelectedDeal(null);
+    // If no updates, return early
+    if (Object.keys(updates).length === 0) return;
+
+    // Batch update all changes
+    await updateDealActionHook.execute({
+      itemId: dealState.id,
+      full: updates,
+    });
+
     router.refresh();
   }
 

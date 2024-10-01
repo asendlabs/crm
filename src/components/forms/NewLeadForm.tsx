@@ -54,7 +54,6 @@ export function NewLeadForm({ addLead }: { addLead: (newLead: any) => void }) {
         toast.error(err.message);
         return;
       }
-      console.log(data?.data);
       addLead(data?.data);
       // router.push(`/app/leads/${data?.data.id.toLowerCase()}`);
     } catch (error) {
