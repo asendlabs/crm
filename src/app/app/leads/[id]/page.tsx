@@ -54,6 +54,7 @@ export default async function AccountRoute({ params, searchParams }: Props) {
         account={lead}
         accountContacts={lead.contacts as any}
         accountDeals={lead.deals as any}
+        accountActivities={lead.activites as any}
       />
     </div>
   );

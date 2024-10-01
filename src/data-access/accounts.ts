@@ -20,6 +20,7 @@ export async function getAccountById(id: string) {
           primaryContact: true,
         },
       },
+      activites: true,
     },
   });
   return account;

@@ -3,6 +3,7 @@ import { workspaceTable, workspaceUserTable } from "./schema/workspaces";
 import { profileTable, userTable } from "./schema/users";
 import {
   accountTable,
+  activityTable,
   contactEmailTable,
   contactPhoneTable,
   contactTable,
@@ -51,6 +52,7 @@ export const accountTableRelations = relations(
     }),
     contacts: many(contactTable),
     deals: many(dealTable),
+    activites: many(activityTable),
   }),
 );
 
@@ -105,3 +107,21 @@ export const dealTableRelations = relations(dealTable, ({ one, many }) => ({
     references: [contactTable.id],
   }),
 }));
+
+export const activityTableRelations = relations(
+  activityTable,
+  ({ one, many }) => ({
+    workspace: one(workspaceTable, {
+      fields: [activityTable.workspaceId],
+      references: [workspaceTable.id],
+    }),
+    account: one(accountTable, {
+      fields: [activityTable.accountId],
+      references: [accountTable.id],
+    }),
+    associatedContact: one(contactTable, {
+      fields: [activityTable.associatedContactId],
+      references: [contactTable.id],
+    }),
+  }),
+);

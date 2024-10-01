@@ -22,15 +22,16 @@ export const createActivityAction = authenticatedAction
     if (!currentWorkspaceId) {
       throw new Error("Workspace not found"); // Inline error
     }
-    const activityRes = await createActivity(
-      user.id,
-      currentWorkspaceId,
+    const activityRes = await createActivity({
+      userId: user.id,
+      workspaceId: currentWorkspaceId,
       accountId,
       title,
-      type,
+      activityType: type,
       description,
-      contactId,
-    );
+      associatedContactId: contactId,
+      isEntityActivity: false,
+    });
 
     if (!activityRes) {
       throw new Error("Couldn't create activity"); // Inline error

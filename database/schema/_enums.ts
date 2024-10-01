@@ -9,10 +9,8 @@ const activityTypeValues = [
   "message",
   "comment",
   "task_completion",
-  "addition",
-  "field_removal",
-  "entity_removal",
-  "field_change",
+  "entity_creation",
+  "entity_deletion",
 ] as const;
 export const activityTypeEnum = pgEnum("activity_type", activityTypeValues);
 
@@ -21,3 +19,6 @@ export const activityPriorityEnum = pgEnum("priority", activityPriorityValues);
 
 const activityStatusValues = ["due", "done", "cancelled"] as const;
 export const activityStatusEnum = pgEnum("status", activityStatusValues);
+
+const entityTypeValues = ["deal", "contact"] as const;
+export const entityTypeEnum = pgEnum("entity_type", entityTypeValues);

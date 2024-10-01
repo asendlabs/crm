@@ -1,4 +1,11 @@
-import { integer, jsonb, text, timestamp, varchar } from "drizzle-orm/pg-core";
+import {
+  integer,
+  jsonb,
+  text,
+  timestamp,
+  varchar,
+  boolean,
+} from "drizzle-orm/pg-core";
 
 import { entities } from "./_schemas";
 import {
@@ -6,10 +13,10 @@ import {
   activityPriorityEnum,
   activityStatusEnum,
   activityTypeEnum,
+  entityTypeEnum,
 } from "./_enums";
 import { workspaceTable } from "./workspaces";
 import { userTable } from "./users";
-import { title } from "process";
 
 const { table } = entities;
 
@@ -85,6 +92,9 @@ export const activityTable = table("activities", {
   ),
   title: varchar("title", { length: 255 }).notNull(),
   activityType: activityTypeEnum("activity_type").notNull().default("email"),
+  isEntityActivity: boolean("is_entity_activity").default(false),
+  entityTitle: varchar("entity_title", { length: 255 }),
+  entityType: entityTypeEnum("entity_type"),
   description: text("description"),
   createdAt: timestamp("created_at").notNull().defaultNow(),
   updatedAt: timestamp("updated_at"),

@@ -1,6 +1,7 @@
 "use client";
 import {
   Account,
+  Activity,
   Contact,
   ContactEmail,
   ContactPhone,
@@ -19,6 +20,7 @@ export function AccountPage({
   account,
   accountContacts,
   accountDeals,
+  accountActivities,
 }: {
   account: Account;
   accountContacts: Array<
@@ -32,6 +34,7 @@ export function AccountPage({
       };
     }
   >;
+  accountActivities: Activity[];
 }) {
   return (
     <section className="max-h-screen">
@@ -65,9 +68,13 @@ export function AccountPage({
               </div>
             </div>
           </section>
-          <section className="flex items-start justify-between gap-2 px-3">
-            <TopTabs account={account} accountContacts={accountContacts} />{" "}
-            <div className="grid h-full w-[22rem] gap-3 overflow-x-auto py-1 pl-2">
+          <section className="flex w-full items-start justify-between gap-2 px-3">
+            <TopTabs
+              account={account}
+              accountContacts={accountContacts}
+              accountActivities={accountActivities}
+            />{" "}
+            <div className="grid h-full min-w-[22rem] gap-3 overflow-x-auto py-1 pl-2">
               <DealCard deals={accountDeals} account={account} />
               <ContactCard contacts={accountContacts} account={account} />
               <DetailsCard account={account} />

@@ -6,12 +6,16 @@ import {
   createContact,
   createContactEmail,
   deleteContact,
+  deleteContactEmail,
+  deleteContactPhone,
   getAllAccountContacts,
+  getContactById,
   updateContact,
 } from "@/data-access/contacts";
 import { selectedWorkspaceCookie } from "@/config";
 import { cookies } from "next/headers";
 import { contactCreateSchema } from "@/schemas/contact.schema";
+import { createActivity } from "@/data-access/activities";
 
 export const updateContactAction = authenticatedAction
   .createServerAction()
@@ -44,9 +48,37 @@ export const deleteContactAction = authenticatedAction
     const { itemIds } = input;
     const { user } = ctx;
     for (const itemId of itemIds) {
+      const currentWorkspaceId = cookies().get(selectedWorkspaceCookie)?.value;
+      if (!currentWorkspaceId) {
+        throw new Error("Workspace not found"); // Inline error
+      }
+      const retrivedContact = await getContactById(itemId);
+      if (!retrivedContact) {
+        throw new Error("Contact not found"); // Inline error
+      }
+      const contactEmailRes = await deleteContactEmail(itemId);
+      const contactPhoneRes = await deleteContactPhone(itemId);
+      if (!contactEmailRes || !contactPhoneRes) {
+        throw new Error("Couldn't delete contact"); // Inline error
+      }
       const res = await deleteContact(itemId);
       if (!res) {
         throw new Error("Couldn't delete contact"); // Inline error
+      }
+      const activityRes = await createActivity({
+        userId: user.id,
+        workspaceId: currentWorkspaceId,
+        accountId: retrivedContact.accountId,
+        associatedContactId: itemId,
+        title: "New Contact",
+        activityType: "entity_deletion",
+        isEntityActivity: true,
+        entityTitle: retrivedContact.contactName,
+        entityType: "contact",
+      });
+
+      if (!activityRes) {
+        throw new Error("Could not create the activity."); // Inline error message
       }
     }
     return true;
@@ -79,6 +111,20 @@ export const createContactAction = authenticatedAction
     );
     if (!contactEmailRes) {
       throw new Error("Couldn't create contact email"); // Inline error
+    }
+    const activityRes = await createActivity({
+      userId: user.id,
+      workspaceId: currentWorkspaceId,
+      accountId,
+      title: "New Contact",
+      activityType: "entity_creation",
+      isEntityActivity: true,
+      entityTitle: contactRes.contactName,
+      entityType: "contact",
+    });
+
+    if (!activityRes) {
+      throw new Error("Could not create the activity."); // Inline error message
     }
     return {
       success: true,

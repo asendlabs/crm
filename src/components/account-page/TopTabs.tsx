@@ -1,28 +1,23 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import {
-  AlignLeft,
-  CircleEllipsis,
-  Clock,
-  FileText,
-  MessageCircle,
-  SquareCheckBig,
-} from "lucide-react";
-import { Button } from "../ui/button";
-import { BasicInfoTimelineItem } from "./BasicInfoTimelineItem";
+import { AlignLeft, Clock, MessageCircle, SquareCheckBig } from "lucide-react";
+import { TaskActivityCard } from "../activities/TaskActivityCard";
 import { NewActivityForm } from "../forms/NewActivityForm";
-import { Account, Contact, ContactEmail, ContactPhone } from "@database/types";
+import { Account, Activity, Contact } from "@database/types";
+import { EntityActivityCard } from "../activities/EntityActivityCard";
 
 export default function TopTabs({
   account,
   accountContacts,
+  accountActivities,
 }: {
   account: Account;
   accountContacts: Contact[];
+  accountActivities: Activity[];
 }) {
   return (
     <Tabs
       defaultValue="timeline"
-      className="w-[70%] px-1"
+      className="w-full px-1"
       orientation="horizontal"
     >
       <TabsList className="w-fit rounded-lg border bg-muted">
@@ -57,6 +52,23 @@ export default function TopTabs({
       </TabsList>
       <TabsContent value="timeline" className="grid gap-1 px-1 py-2">
         <NewActivityForm account={account} contacts={accountContacts} />
+        <div className="grid gap-1 px-1 py-2">
+          <div className="grid grid-cols-1 gap-2 py-2">
+            {accountActivities.length > 0 &&
+              accountActivities
+                .filter((activity) => activity.isEntityActivity)
+                .map((activity) => (
+                  <EntityActivityCard
+                    entitiyType={activity?.entityType ?? "unknown"} // Fallback to "unknown" if null or undefined
+                    activityType={
+                      activity?.activityType ?? "defaultActivityType"
+                    } // Fallback value
+                    entityTitle={activity?.entityTitle ?? "Untitled"} // Fallback to "Untitled" if null or undefined
+                    createdAt={activity?.createdAt ?? "N/A"} // Fallback to "N/A" if null or undefined
+                  />
+                ))}
+          </div>
+        </div>
       </TabsContent>
       <TabsContent value="anaylsis" className="grid gap-1 px-1 py-2">
         <div className="">Content for analysis tab</div>

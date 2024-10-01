@@ -26,24 +26,36 @@ export async function getAllAccountActivities(accountId: string) {
   return accountActivities;
 }
 
-export async function createActivity(
-  userId: string,
-  workspaceId: string,
-  accountId: string,
-  title: string,
+export async function createActivity({
+  userId,
+  workspaceId,
+  accountId,
+  title,
+  activityType,
+  description,
+  associatedContactId,
+  isEntityActivity,
+  entityTitle,
+  entityType,
+}: {
+  userId: string;
+  workspaceId: string;
+  accountId: string;
+  title: string;
   activityType:
     | "email"
     | "call"
     | "message"
     | "comment"
     | "task_completion"
-    | "addition"
-    | "field_removal"
-    | "entity_removal"
-    | "field_change",
-  description: string,
-  associatedContactId?: string,
-) {
+    | "entity_creation"
+    | "entity_deletion";
+  description?: string;
+  associatedContactId?: string;
+  isEntityActivity?: boolean;
+  entityTitle?: string;
+  entityType?: "deal" | "contact";
+}) {
   const [created] = await db
     .insert(activityTable)
     .values({
@@ -54,6 +66,9 @@ export async function createActivity(
       title,
       activityType,
       description,
+      isEntityActivity,
+      entityTitle,
+      entityType,
       createdAt: new Date(),
       updatedAt: new Date(),
       createdById: userId,
