@@ -17,6 +17,7 @@ export async function getAllWorkspaceDeals(workspaceId: string) {
     where: eq(dealTable.workspaceId, workspaceId),
     with: {
       account: true,
+      primaryContact: true,
     },
   });
   return workspaceDeals;
@@ -25,6 +26,9 @@ export async function getAllWorkspaceDeals(workspaceId: string) {
 export async function getAllAccountDeals(accountId: string) {
   const accountDeals = await db.query.dealTable.findMany({
     where: eq(dealTable.accountId, accountId),
+    with: {
+      primaryContact: true,
+    },
   });
   return accountDeals;
 }

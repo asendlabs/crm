@@ -33,24 +33,27 @@ export const LeadsColumns: ColumnDef<Account>[] = [
     cell: PrimaryField,
   },
   {
+    id: "contacts",
     accessorKey: "contacts",
     header: () => <LogoHead title="Contacts" Icon={LucideUsers} />,
     cell: ({ getValue, row }) => (
       <SecondaryField arrayName="contacts" getValue={getValue} row={row} />
     ),
   },
-
   {
+    id: "status",
     accessorKey: "status",
     header: () => <LogoHead title="Status" Icon={Component} />,
     cell: StatusField,
   },
   {
+    id: "score",
     accessorKey: "score",
     header: () => <LogoHead title="AI Score" Icon={CalendarDays} />,
     cell: AiScoreField,
   },
   {
+    id: "interaction",
     accessorKey: "interaction",
     header: () => <LogoHead title="Last Interaction" Icon={Users} />,
     cell: TimestampField,

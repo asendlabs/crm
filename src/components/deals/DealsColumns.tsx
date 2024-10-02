@@ -31,19 +31,26 @@ export const DealColumns: ColumnDef<Deal>[] = [
     cell: CheckboxField,
   },
   {
-    id: "value",
-    header: () => <PrimaryHead title="Deal Value" />,
+    id: "title",
+    header: () => <PrimaryHead title="Title" />,
     cell: PrimaryField,
+    accessorKey: "title",
   },
   {
-    id: "accountName",
+    id: "primaryContact",
     header: () => <LogoHead title="Lead or Client" Icon={Building} />,
     cell: ({ getValue, row }) => (
-      <SecondaryField arrayName="account" getValue={getValue} row={row} />
+      <SecondaryField
+        arrayName="primaryContact"
+        getValue={getValue}
+        row={row}
+      />
     ),
+    accessorKey: "primaryContact",
   },
   {
     id: "ai_probability",
     header: () => <LogoHead title="Probability" Icon={Bot} />,
+    accessorKey: "ai_probability",
   },
 ];

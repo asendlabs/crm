@@ -1,4 +1,3 @@
-import { AccountPage } from "@/components/account-page";
 import { GoBackLink } from "@/components/GoBackLink";
 import { selectedWorkspaceCookie } from "@/config";
 import { getAccountById } from "@/data-access/accounts";
@@ -48,14 +47,5 @@ export default async function AccountRoute({ params, searchParams }: Props) {
       </div>
     );
   }
-  return (
-    <div>
-      <AccountPage
-        account={lead}
-        accountContacts={lead.contacts as any}
-        accountDeals={lead.deals as any}
-        accountActivities={lead.activites as any}
-      />
-    </div>
-  );
+  return <div>abc</div>;
 }

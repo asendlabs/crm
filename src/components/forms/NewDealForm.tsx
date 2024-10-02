@@ -131,7 +131,7 @@ export function NewDealForm({
         <div className="mb-3 px-5">
           <Form {...dealform}>
             <form
-              className="flex flex-col gap-4"
+              className="flex flex-col gap-4 pt-3"
               onSubmit={dealform.handleSubmit(onSubmit)}
             >
               <div className="flex flex-col gap-5">

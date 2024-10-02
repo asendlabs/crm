@@ -42,7 +42,7 @@ export function DataTableDeleteButton<TData>({
     }
   };
 
-  const tableRowslength = table.getFilteredSelectedRowModel().flatRows.length
+  const tableRowslength = table.getFilteredSelectedRowModel().flatRows.length;
 
   useEffect(() => {
     if (tableRowslength > 0) {

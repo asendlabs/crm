@@ -1,6 +1,10 @@
 import "server-only";
 import { db } from "@database";
-import { accountTable, contactEmailTable, contactPhoneTable } from "@database/tables";
+import {
+  accountTable,
+  contactEmailTable,
+  contactPhoneTable,
+} from "@database/tables";
 import { and, eq } from "drizzle-orm";
 import { ulid } from "ulid";
 import { Account } from "@database/types";
@@ -109,7 +113,11 @@ export async function updateContactEmail(contactId: string, email: string) {
   return updated;
 }
 
-export async function updateContactPhone(contactId: string, phoneNumber: string, countryCode?: string) {
+export async function updateContactPhone(
+  contactId: string,
+  phoneNumber: string,
+  countryCode?: string,
+) {
   const [updated] = await db
     .update(contactPhoneTable)
     .set({ phoneNumber, countryCode })
