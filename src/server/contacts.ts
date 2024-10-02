@@ -5,6 +5,7 @@ import { z } from "zod";
 import {
   createContact,
   createContactEmail,
+  createContactPhone,
   deleteContact,
   deleteContactEmail,
   deleteContactPhone,
@@ -16,6 +17,89 @@ import { selectedWorkspaceCookie } from "@/config";
 import { cookies } from "next/headers";
 import { contactCreateSchema } from "@/schemas/contact.schema";
 import { createActivity } from "@/data-access/activities";
+import { updateContactEmail, updateContactPhone } from "@/data-access/accounts";
+
+export const createContactEmailAction = authenticatedAction
+  .createServerAction()
+  .input(
+    z.object({
+      contactId: z.string(),
+      email: z.string(),
+    }),
+  )
+  .handler(async ({ input }) => {
+    const { contactId, email } = input;
+    const res = await createContactEmail(contactId, email);
+    if (!res) {
+      throw new Error("Couldn't create contact email"); // Inline error
+    }
+    return {
+      success: true,
+      data: res,
+    };
+  });
+
+export const createContactPhoneAction = authenticatedAction
+  .createServerAction()
+  .input(
+    z.object({
+      contactId: z.string(),
+      phoneNumber: z.string(),
+      countryCode: z.string().optional(),
+    }),
+  )
+  .handler(async ({ input }) => {
+    const { contactId, phoneNumber, countryCode } = input;
+    const res = await createContactPhone(contactId, phoneNumber, countryCode);
+    if (!res) {
+      throw new Error("Couldn't create contact phone"); // Inline error
+    }
+    return {
+      success: true,
+      data: res,
+    };
+  });
+
+export const updateContactEmailAction = authenticatedAction
+  .createServerAction()
+  .input(
+    z.object({
+      contactId: z.string(),
+      email: z.string(),
+    }),
+  )
+  .handler(async ({ input }) => {
+    const { contactId, email } = input;
+    const res = await updateContactEmail(contactId, email);
+    if (!res) {
+      throw new Error("Couldn't update contact email"); // Inline error
+    }
+    return {
+      success: true,
+      data: res,
+    };
+  });
+
+export const updateContactPhoneAction = authenticatedAction
+  .createServerAction()
+  .input(
+    z.object({
+      contactId: z.string(),
+      phoneNumber: z.string(),
+      countryCode: z.string().optional(),
+    }),
+  )
+  .handler(async ({ input }) => {
+    const { contactId, phoneNumber, countryCode } = input;
+    const res = await updateContactPhone(contactId, phoneNumber, countryCode);
+    if (!res) {
+      throw new Error("Couldn't update contact phone"); // Inline error
+    }
+    return {
+      success: true,
+      data: res,
+    };
+  });
 
 export const updateContactAction = authenticatedAction
   .createServerAction()

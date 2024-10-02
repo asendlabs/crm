@@ -1,6 +1,6 @@
 import "server-only";
 import { db } from "@database";
-import { accountTable } from "@database/tables";
+import { accountTable, contactEmailTable, contactPhoneTable } from "@database/tables";
 import { and, eq } from "drizzle-orm";
 import { ulid } from "ulid";
 import { Account } from "@database/types";
@@ -98,4 +98,22 @@ export async function deleteAccount(accountId: string) {
     .delete(accountTable)
     .where(eq(accountTable.id, accountId));
   return deleted;
+}
+
+export async function updateContactEmail(contactId: string, email: string) {
+  const [updated] = await db
+    .update(contactEmailTable)
+    .set({ email })
+    .where(eq(contactEmailTable.contactId, contactId))
+    .returning();
+  return updated;
+}
+
+export async function updateContactPhone(contactId: string, phoneNumber: string, countryCode?: string) {
+  const [updated] = await db
+    .update(contactPhoneTable)
+    .set({ phoneNumber, countryCode })
+    .where(eq(contactPhoneTable.contactId, contactId))
+    .returning();
+  return updated;
 }

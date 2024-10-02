@@ -4,8 +4,9 @@ import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Contact, ContactEmail, ContactPhone, Account } from "@database/types";
 import { NewContactForm } from "../forms/NewContactForm";
-import { ArrowUpRight, MailIcon, PhoneIcon } from "lucide-react";
+import { ArrowUpRight, MailIcon, PhoneIcon, Router } from "lucide-react";
 import { ContactDialog } from "../contacts/ContactDialog";
+import { useRouter } from "next/navigation";
 
 export function ContactCard({
   contacts,
@@ -21,7 +22,7 @@ export function ContactCard({
     | (Contact & { contactPhone: ContactPhone; contactEmail: ContactEmail })
     | null
   >(null);
-
+const router = useRouter()
   return (
     <Card>
       <div className="flex justify-between border-b border-gray-200 p-3">
@@ -85,6 +86,7 @@ export function ContactCard({
       {/* ContactDialog component */}
       {selectedContact && (
         <ContactDialog
+refresh={() => router.refresh() }
           contact={selectedContact}
           setSelectedContact={setSelectedContact}
         />

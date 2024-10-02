@@ -42,14 +42,16 @@ export function DataTableDeleteButton<TData>({
     }
   };
 
+  const tableRowslength = table.getFilteredSelectedRowModel().flatRows.length
+
   useEffect(() => {
-    if (table.getFilteredSelectedRowModel().flatRows.length > 0) {
+    if (tableRowslength > 0) {
       setActive(true);
     }
-    if (table.getFilteredSelectedRowModel().flatRows.length === 0) {
+    if (tableRowslength === 0) {
       setActive(false);
     }
-  }, [table.getFilteredSelectedRowModel().flatRows.length, table]);
+  }, [tableRowslength, table]);
   return (
     <AlertDialog open={open} onOpenChange={setOpen}>
       <Button

@@ -65,7 +65,7 @@ export function WorkspaceSwitcher({
     };
 
     workspaceLogic();
-  }, [workspaces, cookieSelectedWorkspaceId]); // Add dependencies to useEffect
+  }, [workspaces, cookieSelectedWorkspaceId, execute]); // Add dependencies to useEffect
 
   if (loading)
     return (
