@@ -13,6 +13,7 @@ export async function getAccountById(id: string) {
   const account = await db.query.accountTable.findFirst({
     where: eq(accountTable.id, id),
     with: {
+      workspace: true,
       contacts: {
         with: {
           contactEmail: true,
@@ -24,7 +25,11 @@ export async function getAccountById(id: string) {
           primaryContact: true,
         },
       },
-      activites: true,
+      activites: {
+        with: {
+          associatedContact: true,
+        },
+      },
     },
   });
   return account;

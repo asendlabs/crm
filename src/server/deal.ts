@@ -74,7 +74,6 @@ export const deleteDealAction = authenticatedAction
         userId: user.id,
         workspaceId: currentWorkspaceId,
         accountId: retrivedDeal.accountId,
-        associatedContactId: retrivedDeal.primaryContactId ?? undefined,
         title: "Delete Deal",
         activityType: "entity_deletion",
         isEntityActivity: true,
