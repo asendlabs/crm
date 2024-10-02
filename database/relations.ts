@@ -52,7 +52,7 @@ export const accountTableRelations = relations(
     }),
     contacts: many(contactTable),
     deals: many(dealTable),
-    activites: many(activityTable),
+    activities: many(activityTable),
   }),
 );
 
@@ -70,6 +70,7 @@ export const contactTableRelations = relations(
     contactPhone: one(contactPhoneTable),
     contactEmail: one(contactEmailTable),
     deals: many(dealTable),
+    activities: many(activityTable),
   }),
 );
 

@@ -1,13 +1,11 @@
 import { GoBackLink } from "@/components/GoBackLink";
 import { selectedWorkspaceCookie } from "@/config";
 import { getAccountById } from "@/data-access/accounts";
-import { Contact, ContactEmail, ContactPhone } from "@database/types";
 import { cookies } from "next/headers";
 import React from "react";
 import type { Metadata, ResolvingMetadata } from "next";
-import { AccountContext } from "@/contexts/account-context";
 import { Header } from "@/components/account-page/Header";
-import { AccountProvider } from "@/providers/AccountProvider";
+import { AccountProvider } from "@/contexts/account-context";
 
 type Props = {
   params: { id: string };
@@ -71,8 +69,8 @@ export default async function AccountPage({ params, searchParams }: Props) {
     <AccountProvider
       account={account}
       contacts={account.contacts}
-      activities={account.activites}
       deals={account.deals}
+      activities={account.activities}
     >
       <Header />
     </AccountProvider>

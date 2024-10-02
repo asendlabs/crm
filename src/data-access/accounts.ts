@@ -25,7 +25,7 @@ export async function getAccountById(id: string) {
           primaryContact: true,
         },
       },
-      activites: {
+      activities: {
         with: {
           associatedContact: true,
         },
