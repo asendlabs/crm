@@ -7,7 +7,7 @@ import React from "react";
 export function ActivityPanel() {
   const { activities } = useContext(AccountContext);
   return (
-    <div className="grid max-h-[80vh] gap-1.5 overflow-y-scroll pr-5">
+    <div className="grid max-h-[81vh] gap-1.5 overflow-y-auto pr-3">
       {activities &&
         activities?.length > 0 &&
         activities.reverse().map((activity) => {
@@ -15,6 +15,7 @@ export function ActivityPanel() {
             if (activity.activityType === "entity_creation") {
               return (
                 <EntityActivityCard
+                  activityId={activity.id}
                   activityType="entity_creation"
                   key={activity.id}
                   createdAt={activity.createdAt || ""}
@@ -28,6 +29,7 @@ export function ActivityPanel() {
                 <EntityActivityCard
                   activityType="entity_deletion"
                   key={activity.id}
+                  activityId={activity.id}
                   createdAt={activity.createdAt || ""}
                   entitiyType={activity.entityType || ""}
                   entityTitle={activity.entityTitle || ""}

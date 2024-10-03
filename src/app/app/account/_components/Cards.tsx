@@ -20,7 +20,7 @@ export function Cards({ className }: { className?: string }) {
           <span className="font-medium">Contacts</span>
           <NewContactForm accountId={account?.id} />
         </div>
-        <div className="grid max-h-48 gap-1.5 overflow-y-auto">
+        <div className="grid max-h-40 gap-1.5 overflow-y-auto">
           {contacts?.length ? (
             contacts?.map((contact) => (
               <ContactCard key={contact.id} contact={contact} />
@@ -37,7 +37,7 @@ export function Cards({ className }: { className?: string }) {
           <span className="font-medium">Deals</span>
           <NewDealForm accountId={account?.id} />
         </div>
-        <div className="grid max-h-56 gap-1.5 overflow-y-auto">
+        <div className="grid max-h-40 gap-1.5 overflow-y-auto">
           {deals?.length ? (
             deals?.map((deal) => <DealCard key={deal.id} deal={deal} />)
           ) : (

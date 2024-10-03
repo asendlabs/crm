@@ -168,11 +168,11 @@ export function DealCard({ deal }: { deal: DealWithPrimaryContact }) {
       >
         <div className="flex items-start justify-between p-2">
           <div>
-            <h1 className="flex gap-1 font-light">
+            <h1 className="flex max-w-[11rem] gap-0.5 text-base font-light">
               <span className="max-w-[7rem] truncate !font-medium">
                 {deal.title}
               </span>
-              (<span className="max-w-[7rem] truncate">${deal.value}</span>)
+              (<span className="max-w-[4rem] truncate">${deal.value}</span>)
             </h1>
             <p className="text-xs text-gray-700">
               {deal.probability && (
