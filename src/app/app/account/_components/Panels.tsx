@@ -1,3 +1,4 @@
+import { EntityActivityCard } from "@/components/activities/EntityActivityCard";
 import {
   CustomTabs,
   CustomTabsContent,
@@ -7,6 +8,7 @@ import {
 import { cn } from "@/utils/tailwind";
 import { MessageCircle, Clock, CheckSquare, AlignLeft } from "lucide-react";
 import React from "react";
+import { ActivityPanel } from "./panels/ActivityPanel";
 
 export function Panels({ className }: { className?: string }) {
   return (
@@ -27,7 +29,7 @@ export function Panels({ className }: { className?: string }) {
           </CustomTabsTrigger>
         </CustomTabsList>
         <CustomTabsContent value="activity">
-          <p>View all activity related to this account.</p>
+          <ActivityPanel />
         </CustomTabsContent>
         <CustomTabsContent value="tasks">
           <p>Manage tasks assigned to this account.</p>

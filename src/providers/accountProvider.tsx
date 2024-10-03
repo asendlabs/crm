@@ -15,14 +15,16 @@ import {
 } from "@database/types";
 import { createContext } from "react";
 
-export interface AccountContextProps {
+export interface State {
   account: AccountFull | undefined;
   contacts: ContactWithDetails[] | undefined;
   deals: DealWithPrimaryContact[] | undefined;
   activities: ActivityWithContact[] | undefined;
 }
 
-export const AccountContext = createContext<AccountContextProps>({
+export interface Actions {}
+
+export const AccountContext = createContext<State>({
   account: undefined,
   contacts: undefined,
   activities: undefined,
@@ -38,7 +40,7 @@ export function AccountProvider({
 }: {
   children: React.ReactNode;
   className?: string;
-} & AccountContextProps) {
+} & State) {
   return (
     <AccountContext.Provider value={{ account, contacts, activities, deals }}>
       {children}
