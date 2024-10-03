@@ -69,7 +69,7 @@ export function NewContactForm({
       if (!err) {
         contactform.reset();
         setOpen(false);
-        router.refresh(); // Refresh the page or data
+        // router.refresh(); // Refresh the page or data
       } else {
         toast.error("Failed to create contact.");
       }
@@ -82,10 +82,14 @@ export function NewContactForm({
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger className="flex max-h-8 max-w-28 flex-row items-center gap-1 rounded-lg bg-primary px-3 text-sm text-white hover:bg-primary/90">
+      <Button
+        onClick={() => setOpen(true)}
+        variant={"outline"}
+        className="flex h-6 max-w-28 flex-row items-center gap-1 rounded-lg px-3"
+      >
         <Plus className="h-4 w-4" />
         <span>New</span>
-      </DialogTrigger>
+      </Button>
       <DialogContent className="flex flex-col py-2">
         <div className="mb-3 px-5">
           <Form {...contactform}>

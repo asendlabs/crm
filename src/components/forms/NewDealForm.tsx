@@ -46,36 +46,13 @@ import {
 } from "@database/types";
 import { useServerAction } from "zsa-react";
 
-type DealWithPrimaryContact = Deal & {
-  primaryContact: Contact & {
-    contactPhone: ContactPhone;
-    contactEmail: ContactEmail;
-  };
-};
-
 export function NewDealForm({
   accountId,
   accounts,
-  setUpperDealState,
-  upperDealState,
   addDeal,
 }: {
   accountId?: string;
   accounts?: Account[];
-  setUpperDealState?: (
-    deal: (Deal & {
-      primaryContact: Contact & {
-        contactPhone: ContactPhone;
-        contactEmail: ContactEmail;
-      };
-    })[],
-  ) => void;
-  upperDealState?: (Deal & {
-    primaryContact: Contact & {
-      contactPhone: ContactPhone;
-      contactEmail: ContactEmail;
-    };
-  })[];
   addDeal?: (deal: any) => void;
 }) {
   const [loading, setLoading] = useState(false);
@@ -101,18 +78,9 @@ export function NewDealForm({
         return;
       }
 
-      if (data?.data) {
-        const newDeal: DealWithPrimaryContact = data.data;
-        if (setUpperDealState && upperDealState) {
-          setUpperDealState([...upperDealState, newDeal]);
-        }
-
-        // Assuming setUpperDealState expects the new state value directly
-
-        dealform.reset();
-        setOpen(false);
-        router.refresh();
-      }
+      dealform.reset();
+      setOpen(false);
+      // router.refresh();
     } catch (error) {
       toast.error("An error occurred while creating the deal.");
     } finally {
@@ -122,10 +90,14 @@ export function NewDealForm({
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger className="flex max-h-8 max-w-28 items-center gap-1 rounded-lg bg-primary px-3 text-sm text-white hover:bg-primary/90">
+      <Button
+        onClick={() => setOpen(true)}
+        variant={"outline"}
+        className="flex h-6 max-w-28 flex-row items-center gap-1 rounded-lg px-3"
+      >
         <Plus className="h-4 w-4" />
         <span>New</span>
-      </DialogTrigger>
+      </Button>
 
       <DialogContent className="py-2">
         <div className="mb-3 px-5">

@@ -4,8 +4,10 @@ import { getAccountById } from "@/data-access/accounts";
 import { cookies } from "next/headers";
 import React from "react";
 import type { Metadata, ResolvingMetadata } from "next";
-import { Header } from "@/components/account-page/Header";
-import { AccountProvider } from "@/contexts/account-context";
+import { Header } from "@/app/app/account/_components/Header";
+import { AccountProvider } from "@/providers/accountProvider";
+import { Panels } from "../_components/Panels";
+import { Cards } from "../_components/Cards";
 
 type Props = {
   params: { id: string };
@@ -26,7 +28,7 @@ export async function generateMetadata(
     return {};
   }
   return {
-    title: `${account.accountName} | accounts`,
+    title: `${account.accountName} | ${account.type.charAt(0).toUpperCase() + account.type.slice(1)}s`,
     description: account.description,
   };
 }
@@ -72,7 +74,13 @@ export default async function AccountPage({ params, searchParams }: Props) {
       deals={account.deals}
       activities={account.activities}
     >
-      <Header />
+      <main className="flex h-screen max-h-screen min-h-screen flex-col">
+        <Header className="w-full px-4 pb-3 pt-4" />
+        <section className="grid h-full w-full grid-cols-[25%_75%]">
+          <Cards className="grid w-full gap-1 px-4 py-3" />
+          <Panels />
+        </section>
+      </main>
     </AccountProvider>
   );
 }

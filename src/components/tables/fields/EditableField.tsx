@@ -44,7 +44,7 @@ export function EditableField({
   return (
     <div
       onClick={() => setActive(true)}
-      className="min-w-full max-w-36 select-none border-l border-gray-200"
+      className="min-w-full max-w-36 select-none border-l border-border"
     >
       <input
         ref={inputRef}

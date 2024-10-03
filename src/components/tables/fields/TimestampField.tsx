@@ -16,7 +16,7 @@ export function TimestampField({ getValue }: TimestampFieldProps) {
   }, [initialValue]);
 
   return (
-    <div className="min-w-full max-w-36 select-none border-l border-gray-200 px-2 py-1.5 font-medium text-muted-foreground">
+    <div className="min-w-full max-w-36 select-none border-l border-border px-2 py-1.5 font-medium text-muted-foreground">
       {(value && timeAgo(value)) || "\u3164"}
     </div>
   );

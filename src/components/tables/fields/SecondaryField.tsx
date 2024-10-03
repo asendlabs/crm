@@ -26,7 +26,7 @@ export function SecondaryField({
     (array && array.length > 1 && array.length - 1) || null;
 
   return (
-    <div className="group select-none border-l border-gray-200 px-2 py-1">
+    <div className="group select-none border-l border-border px-2 py-1">
       <Link
         href={`/app/leads/${id?.toLowerCase() ?? ""}`}
         replace={false}

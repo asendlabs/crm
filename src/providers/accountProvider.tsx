@@ -37,6 +37,7 @@ export function AccountProvider({
   deals,
 }: {
   children: React.ReactNode;
+  className?: string;
 } & AccountContextProps) {
   return (
     <AccountContext.Provider value={{ account, contacts, activities, deals }}>

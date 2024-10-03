@@ -18,7 +18,7 @@ export function AiScoreField({ getValue, row }: AiScoreFieldProps) {
   const id = row.original.id;
   return (
     <div
-      className="select-none border-l border-gray-200 px-2 py-1"
+      className="select-none border-l border-border px-2 py-1"
       onClick={() => router.push(`/app/account/${id.toLowerCase()}`)}
     >
       <div className="flex items-center gap-1 py-0.5">

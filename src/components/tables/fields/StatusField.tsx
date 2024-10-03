@@ -15,7 +15,7 @@ export function StatusField({ getValue, row }: StatusFieldProps) {
   const router = useRouter();
   const id = row.original.id;
   return (
-    <div className="select-none border-l border-gray-200 px-2 py-1">
+    <div className="select-none border-l border-border px-2 py-1">
       <div className="flex items-center gap-1 py-0.5">
         {value ? (
           <>
