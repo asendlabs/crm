@@ -8,6 +8,8 @@ import { Header } from "@/app/app/account/_components/Header";
 import { AccountProvider } from "@/providers/accountProvider";
 import { Panels } from "../_components/Panels";
 import { Cards } from "../_components/Cards";
+import { ContactWithDetails } from "@/types/entities";
+import { deleteContact } from "@/data-access/contacts";
 
 type Props = {
   params: { id: string };
@@ -78,7 +80,9 @@ export default async function AccountPage({ params, searchParams }: Props) {
         <Header className="w-full px-4 pb-3 pt-4" />
         <section className="grid h-full w-full grid-cols-[25%_75%]">
           <Cards className="grid w-full gap-1 px-4 py-3" />
-          <Panels />
+          <div className="w-full">
+            <Panels />
+          </div>
         </section>
       </main>
     </AccountProvider>

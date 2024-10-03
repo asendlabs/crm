@@ -18,33 +18,21 @@ export const updateDealAction = authenticatedAction
   .input(
     z.object({
       itemId: z.string(),
-      columnId: z.string().optional(),
+      columnId: z.string(),
       newValue: z.any().optional(), // Allow for date type
-      full: z.any().optional(),
+      full: z.any(),
     }),
   )
   .handler(async ({ input }) => {
-    const { columnId, itemId, newValue, full } = input;
+    const { columnId, itemId, newValue } = input;
 
-    if (full) {
-      const res = await updateDeal(itemId, full);
-      if (!res) {
-        throw new Error("Could not update the deal."); // Inline error message
-      }
-      return true;
-    } else {
-      // If the newValue is a date, convert it to an ISO string
-      // const valueToUpdate =
-      //   newValue instanceof Date ? new Date(valueToUpdate) : newValue;
-
-      const res = await updateDeal(itemId, {
-        [columnId!]: newValue, // Ensure to use the correct column
-      });
-      if (!res) {
-        throw new Error("Could not update the deal."); // Inline error message
-      }
-      return true;
+    const res = await updateDeal(itemId, {
+      [columnId!]: newValue, // Ensure to use the correct column
+    });
+    if (!res) {
+      throw new Error("Could not update the deal."); // Inline error message
     }
+    return true;
   });
 
 export const deleteDealAction = authenticatedAction

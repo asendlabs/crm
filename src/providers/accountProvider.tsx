@@ -1,4 +1,5 @@
 "use client";
+import { deleteContact } from "@/data-access/contacts";
 import {
   AccountFull,
   ActivityWithContact,
@@ -24,7 +25,7 @@ export interface State {
 
 export interface Actions {}
 
-export const AccountContext = createContext<State>({
+export const AccountContext = createContext<State & Actions>({
   account: undefined,
   contacts: undefined,
   activities: undefined,
@@ -39,10 +40,17 @@ export function AccountProvider({
   deals,
 }: {
   children: React.ReactNode;
-  className?: string;
-} & State) {
+} & State &
+  Actions) {
   return (
-    <AccountContext.Provider value={{ account, contacts, activities, deals }}>
+    <AccountContext.Provider
+      value={{
+        account,
+        contacts,
+        activities,
+        deals,
+      }}
+    >
       {children}
     </AccountContext.Provider>
   );

@@ -80,7 +80,7 @@ export function NewDealForm({
 
       dealform.reset();
       setOpen(false);
-      // router.refresh();
+      router.refresh();
     } catch (error) {
       toast.error("An error occurred while creating the deal.");
     } finally {
@@ -99,7 +99,7 @@ export function NewDealForm({
         <span>New</span>
       </Button>
 
-      <DialogContent className="py-2">
+      <DialogContent className="py-0.5">
         <div className="mb-3 px-5">
           <Form {...dealform}>
             <form

@@ -69,7 +69,7 @@ export function NewContactForm({
       if (!err) {
         contactform.reset();
         setOpen(false);
-        // router.refresh(); // Refresh the page or data
+        router.refresh(); // Refresh the page or data
       } else {
         toast.error("Failed to create contact.");
       }

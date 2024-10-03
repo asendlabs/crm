@@ -28,7 +28,7 @@ export function SecondaryField({
   return (
     <div className="group select-none border-l border-border px-2 py-1">
       <Link
-        href={`/app/leads/${id?.toLowerCase() ?? ""}`}
+        href={`/app/account/${id?.toLowerCase() ?? ""}`}
         replace={false}
         prefetch={true}
       >
@@ -46,7 +46,7 @@ export function SecondaryField({
                           (item as Account).accountName.charAt(0).toUpperCase()}
                       </AvatarFallback>
                     </Avatar>
-                    <p className="ml-1 max-w-[5rem] truncate group-hover:underline">
+                    <p className="ml-1 max-w-[6rem] truncate group-hover:underline">
                       {"contactName" in item && (item as Contact).contactName}
                       {"accountName" in item && (item as Account).accountName}
                     </p>

@@ -13,6 +13,8 @@ import { cookies } from "next/headers";
 import { accountCreateSchema } from "@/schemas/account.schema";
 import {
   createContact,
+  createContactEmail,
+  createContactPhone,
   deleteContact,
   deleteContactEmail,
   deleteContactPhone,
@@ -107,10 +109,12 @@ export const createAccountAction = authenticatedAction
       accountRes.id,
       contactName,
     );
-
     if (!accountRes || !contactRes) {
       throw new Error("Couldn't create account"); // Inline error
     }
+    const contactEmailRes = await createContactEmail(contactRes.id, " ");
+    const contactPhoneRes = await createContactPhone(contactRes.id, " ");
+
     const account = await getAccountById(accountRes.id);
     if (!account) {
       throw new Error("Account not found after creation");

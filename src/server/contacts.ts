@@ -19,47 +19,6 @@ import { contactCreateSchema } from "@/schemas/contact.schema";
 import { createActivity } from "@/data-access/activities";
 import { updateContactEmail, updateContactPhone } from "@/data-access/accounts";
 
-export const createContactEmailAction = authenticatedAction
-  .createServerAction()
-  .input(
-    z.object({
-      contactId: z.string(),
-      email: z.string(),
-    }),
-  )
-  .handler(async ({ input }) => {
-    const { contactId, email } = input;
-    const res = await createContactEmail(contactId, email);
-    if (!res) {
-      throw new Error("Couldn't create contact email"); // Inline error
-    }
-    return {
-      success: true,
-      data: res,
-    };
-  });
-
-export const createContactPhoneAction = authenticatedAction
-  .createServerAction()
-  .input(
-    z.object({
-      contactId: z.string(),
-      phoneNumber: z.string(),
-      countryCode: z.string().optional(),
-    }),
-  )
-  .handler(async ({ input }) => {
-    const { contactId, phoneNumber, countryCode } = input;
-    const res = await createContactPhone(contactId, phoneNumber, countryCode);
-    if (!res) {
-      throw new Error("Couldn't create contact phone"); // Inline error
-    }
-    return {
-      success: true,
-      data: res,
-    };
-  });
-
 export const updateContactEmailAction = authenticatedAction
   .createServerAction()
   .input(
@@ -191,6 +150,10 @@ export const createContactAction = authenticatedAction
     const contactEmailRes = await createContactEmail(
       contactRes.id,
       contactEmail,
+    );
+    const contactPhoneRes = await createContactPhone(
+      contactRes.id,
+      contactPhone,
     );
     if (!contactEmailRes) {
       throw new Error("Couldn't create contact email"); // Inline error

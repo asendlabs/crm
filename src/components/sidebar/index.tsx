@@ -63,7 +63,7 @@ export const Sidebar = ({
             className={`${sidebarItemClassName} ${
               pathname.startsWith("/app/leads")
                 ? "bg-muted-foreground/10 !text-black"
-                : ""
+                : pathname.startsWith("/app/accounts")
             }`}
           >
             <Building className="h-4 w-4" />

@@ -7,10 +7,10 @@ import React from "react";
 export function ActivityPanel() {
   const { activities } = useContext(AccountContext);
   return (
-    <div className="grid gap-1.5">
+    <div className="grid max-h-[80vh] gap-1.5 overflow-y-scroll pr-5">
       {activities &&
         activities?.length > 0 &&
-        activities.map((activity) => {
+        activities.reverse().map((activity) => {
           if (activity.isEntityActivity) {
             if (activity.activityType === "entity_creation") {
               return (
