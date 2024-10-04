@@ -26,3 +26,5 @@ export interface AccountFull extends Account {
   deals: DealWithPrimaryContact[];
   activities: ActivityWithContact[];
 }
+
+export type ActivityType = "call" | "message" | "comment" | "email";

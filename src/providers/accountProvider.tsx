@@ -2,6 +2,7 @@
 import { deleteContact } from "@/data-access/contacts";
 import {
   AccountFull,
+  ActivityType,
   ActivityWithContact,
   ContactWithDetails,
   DealWithPrimaryContact,
