@@ -16,7 +16,7 @@ export const createActivityAction = authenticatedAction
   .input(activityCreateSchema)
   .output(z.object({ success: z.boolean(), data: z.any() }))
   .handler(async ({ input, ctx }) => {
-    const { type, description, contactId, title, accountId } = input;
+    const { type, content, contactId, title, accountId } = input;
     const { user } = ctx;
     const currentWorkspaceId = cookies().get(selectedWorkspaceCookie)?.value;
     if (!currentWorkspaceId) {
@@ -28,7 +28,7 @@ export const createActivityAction = authenticatedAction
       accountId,
       title,
       activityType: type,
-      description,
+      content,
       associatedContactId: contactId,
       isEntityActivity: false,
     });

@@ -91,11 +91,11 @@ export const activityTable = table("activities", {
     () => contactTable.id,
   ),
   title: varchar("title", { length: 255 }).notNull(),
-  activityType: activityTypeEnum("activity_type").notNull().default("email"),
+  activityType: activityTypeEnum("activity_type").notNull(),
   isEntityActivity: boolean("is_entity_activity").default(false),
   entityTitle: varchar("entity_title", { length: 255 }),
   entityType: entityTypeEnum("entity_type"),
-  description: text("description"),
+  content: text("content"),
   createdAt: timestamp("created_at").notNull().defaultNow(),
   updatedAt: timestamp("updated_at"),
   createdById: text("created_by_id")

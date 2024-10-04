@@ -1,26 +1,14 @@
-import React from "react";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-import { toast } from "sonner";
-import { useRouter } from "next/navigation";
-import { Mail, Phone, MessageSquare, MessageCircle, Plus } from "lucide-react";
-import { useServerAction } from "zsa-react";
+"use client";
+import { AccountContext } from "@/providers/accountProvider";
 import { activityCreateSchema } from "@/schemas/activity.schema";
-
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { createActivityAction } from "@/server/activity";
+import { zodResolver } from "@hookform/resolvers/zod";
+import React, { useContext, useState } from "react";
+import { toast } from "sonner";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { useServerAction } from "zsa-react";
+import { useRouter } from "next/navigation";
 import {
   Form,
   FormControl,
@@ -28,68 +16,58 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Account, Contact } from "@database/types";
-import { ActivitySelector } from "./related/ActivitySelector";
-import { createActivityAction } from "@/server/activity";
+} from "../ui/form";
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from "../ui/select";
+import { Input } from "../ui/input";
+import { Button } from "../ui/button";
+import { Textarea } from "../ui/textarea";
+import { Calendar } from "../ui/calendar";
+import { PopoverContent, Popover, PopoverTrigger } from "../ui/popover";
+import { CalendarIcon } from "lucide-react";
+import { format } from "date-fns";
+import { cn } from "@/utils/tailwind";
 
 export function NewActivityForm({
-  account,
-  contacts,
+  activityType,
 }: {
-  account: Account;
-  contacts: Contact[];
+  activityType: "call" | "message" | "comment";
 }) {
-  const [loading, setLoading] = React.useState(false);
-  const [open, setOpen] = React.useState(false);
-  const [activityType, setActivityType] = React.useState<
-    "email" | "call" | "message" | "comment"
-  >("email");
-  const router = useRouter();
+  const { account, contacts } = useContext(AccountContext);
+  const [loading, setLoading] = useState(false);
+  const { refresh } = useRouter();
   const { execute } = useServerAction(createActivityAction);
   const form = useForm<z.infer<typeof activityCreateSchema>>({
     resolver: zodResolver(activityCreateSchema),
     defaultValues: {
-      type: "email",
+      type: activityType,
       title: "",
-      description: "",
-      contactId: "",
-      accountId: account.id,
+      content: "",
+      contactId: contacts?.[Math.floor(Math.random() * contacts.length)]?.id,
+      accountId: account?.id,
+      date: new Date(),
     },
   });
 
-  React.useEffect(() => {
-    form.setValue("type", activityType);
-  }, [activityType, form]);
-
+  const { control, watch, handleSubmit, reset } = form;
   async function onSubmit(values: z.infer<typeof activityCreateSchema>) {
+    setLoading(true);
     try {
-      setLoading(true);
       const [data, err] = await execute({
         ...values,
       });
       if (!err) {
-        form.reset();
-        setOpen(false);
-        router.refresh(); // Refresh the page or data
+        reset();
+        refresh();
       } else {
         toast.error(
-          `Failed to ${
-            activityType === "comment"
-              ? "add comment"
-              : activityType === "email"
-                ? "log email"
-                : activityType === "message"
-                  ? "log message"
-                  : activityType === "call"
-                    ? "log call"
-                    : "create activity"
-          }}`,
+          `Failed to ${activityType === "comment" ? "add comment" : activityType === "message" ? "log message" : "log call"}`,
         );
-        toast.error(err.message);
       }
     } catch (error) {
       toast.error("An error occurred while creating the activity.");
@@ -97,139 +75,155 @@ export function NewActivityForm({
       setLoading(false);
     }
   }
-
-  const activityTypes = [
-    { type: "email", icon: Mail, label: "Email" },
-    { type: "call", icon: Phone, label: "Call" },
-    { type: "message", icon: MessageSquare, label: "Message" },
-    { type: "comment", icon: MessageCircle, label: "Comment" },
-  ];
-
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger className="flex max-h-8 max-w-28 flex-row items-center gap-1 rounded-lg bg-primary px-3 text-sm text-white hover:bg-primary/90">
-        <Plus className="h-4 w-4" />
-        <span>New</span>
-      </DialogTrigger>
-      <DialogContent className="flex flex-col py-4 pb-2">
-        <div className="mb-3 px-5">
-          <Form {...form}>
-            <form
-              className="flex flex-col gap-4 pt-2"
-              onSubmit={form.handleSubmit(onSubmit)}
-            >
-              <FormLabel>
-                {activityType === "comment" ? "Comment" : "Title"}
-              </FormLabel>
-              <div className="flex items-center">
-                <FormField
-                  control={form.control}
-                  name="title"
-                  render={({ field }) => (
-                    <FormItem>
-                      <div className="flex items-center gap-2">
-                        <FormControl>
-                          <Input
-                            {...field}
-                            className="w-[17.20rem]"
-                            placeholder={`Enter title`}
-                          />
-                        </FormControl>
-                        {activityTypes.map(({ type, icon: Icon, label }) => (
-                          <ActivitySelector
-                            key={type}
-                            type={type}
-                            ActivityIcon={Icon}
-                            activityType={activityType}
-                            setActivityType={setActivityType}
-                          />
-                        ))}
-                      </div>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-              {activityType !== "comment" && (
-                <FormField
-                  control={form.control}
-                  name="contactId"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Contact</FormLabel>
-                      <Select
-                        onValueChange={field.onChange}
-                        value={field.value}
-                      >
-                        <FormControl>
-                          <SelectTrigger>
-                            <SelectValue placeholder="Select a contact" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          {contacts.map((contact) => (
-                            <SelectItem key={contact.id} value={contact.id}>
-                              {contact.contactName}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              )}
-              <FormField
-                control={form.control}
-                name="description"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>
-                      {activityType === "comment" ? "Comment" : "Description"}
-                    </FormLabel>
+    <Form {...form}>
+      <form
+        className="flex w-full flex-col gap-2 rounded-md border px-4 py-2"
+        onSubmit={handleSubmit(onSubmit)}
+      >
+        <div className="flex w-full gap-2">
+          {activityType !== "comment" && (
+            <FormField
+              control={control}
+              name="contactId"
+              render={({ field }) => (
+                <FormItem className="w-full !space-y-0.5">
+                  <FormLabel className="text-xs">Contact</FormLabel>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
                     <FormControl>
-                      <Textarea
-                        {...field}
-                        placeholder={`Enter ${activityType === "comment" ? "comment" : "description"}`}
-                      />
+                      <SelectTrigger className="h-8">
+                        <SelectValue placeholder="Choose Contact" />
+                      </SelectTrigger>
                     </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <div className="flex flex-row justify-end gap-2 pt-1">
-                <Button
-                  type="button"
-                  variant="outline"
-                  className="w-30 h-8"
-                  onClick={() => {
-                    setLoading(false);
-                    form.reset();
-                    setOpen(false);
-                  }}
-                >
-                  Cancel
-                </Button>
-                <Button type="submit" className="h-8" disabled={loading}>
-                  {loading
-                    ? "Creating..."
-                    : activityType === "comment"
-                      ? "Add Comment"
-                      : activityType === "email"
-                        ? "Log Email"
-                        : activityType === "message"
-                          ? "Log Message"
-                          : activityType === "call"
-                            ? "Log Call"
-                            : "Create Activity"}
-                </Button>
-              </div>
-            </form>
-          </Form>
+                    <SelectContent>
+                      {contacts?.map((contact) => (
+                        <SelectItem key={contact.id} value={contact.id}>
+                          {contact.contactName}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          )}
+          <FormField
+            control={control}
+            name="title"
+            render={({ field }) => (
+              <FormItem className="w-full !space-y-0.5">
+                <FormLabel className="text-xs">
+                  {activityType === "comment"
+                    ? "Comment Title"
+                    : activityType === "message"
+                      ? "Message Title"
+                      : activityType === "call"
+                        ? "Call Title"
+                        : "Activity Title"}
+                </FormLabel>
+                <FormControl>
+                  <Input
+                    {...field}
+                    placeholder={`Enter title`}
+                    className="h-8"
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          {activityType !== "comment" && (
+            <FormField
+              control={control}
+              name="date"
+              render={({ field }) => (
+                <FormItem className="w-full !space-y-0.5">
+                  <FormLabel className="text-xs">Date</FormLabel>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <FormControl>
+                        <Button
+                          variant="outline"
+                          className={cn(
+                            "h-8 w-full pl-3 text-left",
+                            !field.value && "text-muted-foreground",
+                          )}
+                        >
+                          {field.value ? (
+                            format(field.value, "PPP")
+                          ) : (
+                            <span>Pick a date</span>
+                          )}
+                          <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                        </Button>
+                      </FormControl>
+                    </PopoverTrigger>
+                    <PopoverContent className="p-0">
+                      <Calendar
+                        mode="single"
+                        selected={field.value}
+                        onSelect={field.onChange}
+                        disabled={(date) => date < new Date("1900-01-01")}
+                        initialFocus
+                      />
+                    </PopoverContent>
+                  </Popover>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          )}
         </div>
-        <DialogDescription className="hidden" />
-      </DialogContent>
-    </Dialog>
+        <FormField
+          control={control}
+          name="content"
+          render={({ field }) => (
+            <FormItem className="w-full !space-y-0.5">
+              <FormLabel className="text-xs">
+                {activityType === "comment"
+                  ? "Comment"
+                  : activityType === "message"
+                    ? "Message Description"
+                    : activityType === "call"
+                      ? "Call Description"
+                      : "Activity Description"}
+              </FormLabel>
+              <FormControl>
+                <Textarea {...field} placeholder="Enter description" />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <div className="flex flex-row justify-end gap-2 pt-1">
+          <Button
+            type="button"
+            variant="outline"
+            className="w-30 h-7"
+            onClick={() => {
+              setLoading(false);
+              reset();
+            }}
+          >
+            Cancel
+          </Button>
+          <Button type="submit" className="h-7" disabled={loading}>
+            {loading
+              ? "Creating..."
+              : activityType === "comment"
+                ? "Add Comment"
+                : activityType === "message"
+                  ? "Log Message"
+                  : activityType === "call"
+                    ? "Log Call"
+                    : "Create Activity"}
+          </Button>
+        </div>
+      </form>
+    </Form>
   );
 }

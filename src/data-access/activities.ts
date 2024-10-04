@@ -32,7 +32,7 @@ export async function createActivity({
   accountId,
   title,
   activityType,
-  description,
+  content,
   isEntityActivity,
   entityTitle,
   entityType,
@@ -50,7 +50,7 @@ export async function createActivity({
     | "task_completion"
     | "entity_creation"
     | "entity_deletion";
-  description?: string;
+  content?: string;
   associatedContactId?: string;
   isEntityActivity?: boolean;
   entityTitle?: string;
@@ -65,7 +65,7 @@ export async function createActivity({
       associatedContactId,
       title,
       activityType,
-      description,
+      content,
       isEntityActivity,
       entityTitle,
       entityType,
