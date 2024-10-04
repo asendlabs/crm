@@ -7,7 +7,7 @@ export async function sendVerificationEmail(email: string, code: string) {
       email,
       "Verify your Email Address",
       <>
-        Your verification code is <b>{code}</b>
+        <VerificationEmailBody email={email} code={code} />
       </>,
     );
     return res;

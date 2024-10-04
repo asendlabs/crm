@@ -13,105 +13,146 @@ import {
 
 interface VerificationEmailBodyProps {
   email: string;
-  token: string;
-  baseurl: string;
+  code: string;
 }
 
 export const VerificationEmailBody = ({
   email,
-  token,
-  baseurl,
-}: VerificationEmailBodyProps) => (
-  <Html>
-    <Head />
-    <Preview>Your Asend Verification Code</Preview>
-    <Body style={main}>
-      <Container style={container}>
-        <Heading style={h1}>Verify Your Email</Heading>
-        <Text style={{ ...text, marginBottom: "16px" }}>
-          Click the button below to verify your email address and complete your
-          registration:
-        </Text>
-        <Button
-          style={button}
-          href={`${baseurl}/api/auth/verify-email?token=${token}&email=${email}`}
-          target="_blank"
-        >
-          Verify Email
-        </Button>
-        <Text
+  code,
+}: VerificationEmailBodyProps) => {
+  return (
+    <Html>
+      <Head>
+        <link
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap"
+          rel="stylesheet"
+        />
+        <style>
+          {`
+            * {
+              font-family: 'Inter', sans-serif;
+            }
+
+            blockquote,h1,h2,h3,img,li,ol,p,ul {
+              margin-top: 0;
+              margin-bottom: 0;
+            }
+
+            @media only screen and (max-width: 600px) {
+              h2 {
+                font-size: 24px !important;
+                line-height: 32px !important;
+              }
+              p, a {
+                font-size: 14px !important;
+                line-height: 22px !important;
+              }
+              button {
+                font-size: 18px !important;
+                padding: 10px 20px !important;
+                letter-spacing: 4px !important;
+              }
+              .container {
+                padding: 0.5rem 1rem !important;
+              }
+            }
+          `}
+        </style>
+      </Head>
+      <Body
+        style={{
+          margin: 0,
+          padding: "30px 0",
+          backgroundColor: "#ffffff",
+          fontFamily: "'Inter', sans-serif",
+        }}
+      >
+        <Container
+          className="container"
           style={{
-            ...text,
-            color: "#ababab",
-            marginTop: "24px",
-            marginBottom: "16px",
+            maxWidth: "600px",
+            width: "100%",
+            padding: "0.5rem",
+            fontFamily: "'Inter', sans-serif",
           }}
         >
-          If you didn&apos;t request this email, please ignore it.
-        </Text>
-        <Text style={footer}>
-          <Link href="" target="_blank" style={{ ...link, color: "#898989" }}>
-            Asend
-          </Link>
-          , the revolutionary CRM.
-        </Text>
-      </Container>
-    </Body>
-  </Html>
-);
-
-const main = {
-  backgroundColor: "#ffffff",
-};
-
-const container = {
-  paddingLeft: "12px",
-  paddingRight: "12px",
-  margin: "0 auto",
-};
-
-const h1 = {
-  color: "#333",
-  fontFamily:
-    "-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif",
-  fontSize: "24px",
-  fontWeight: "bold",
-  margin: "30px 0",
-  padding: "0",
-};
-
-const link = {
-  color: "#2754C5",
-  fontFamily:
-    "-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif",
-  fontSize: "14px",
-  textDecoration: "underline",
-};
-
-const text = {
-  color: "#333",
-  fontFamily:
-    "-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif",
-  fontSize: "14px",
-  margin: "24px 0",
-};
-
-const footer = {
-  color: "#898989",
-  fontFamily:
-    "-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif",
-  fontSize: "12px",
-  lineHeight: "22px",
-  marginTop: "12px",
-  marginBottom: "24px",
-};
-
-const button = {
-  padding: "18px",
-  backgroundColor: "#2754C5",
-  color: "#ffffff",
-  borderRadius: "5px",
-  textDecoration: "none",
-  fontSize: "16px",
-  fontWeight: "bold",
+          <Heading
+            as="h2"
+            style={{
+              textAlign: "left",
+              color: "#111827",
+              marginBottom: "12px",
+              fontSize: "30px",
+              lineHeight: "36px",
+              fontWeight: 700,
+              fontFamily: "'Inter', sans-serif",
+            }}
+          >
+            <strong>Verify your Account</strong>
+          </Heading>
+          <Text
+            style={{
+              fontSize: "15px",
+              lineHeight: "24px",
+              margin: "16px 0",
+              textAlign: "left",
+              color: "#374151",
+              WebkitFontSmoothing: "antialiased",
+              MozOsxFontSmoothing: "grayscale",
+              fontFamily: "'Inter', sans-serif",
+            }}
+          >
+            Enter this 5-digit code at the verification page and you are all
+            set.
+          </Text>
+          <Button
+            style={{
+              lineHeight: "100%",
+              textDecoration: "none",
+              color: "#ffffff",
+              backgroundColor: "#141313",
+              borderColor: "#141313",
+              padding: "12px 34px",
+              borderWidth: "2px",
+              borderStyle: "solid",
+              fontSize: "20px",
+              letterSpacing: "6px",
+              fontWeight: 550,
+              borderRadius: "6px",
+              fontFamily: "'Inter', sans-serif",
+            }}
+          >
+            {code}
+          </Button>
+          <Text
+            style={{
+              fontSize: "14px",
+              lineHeight: "24px",
+              margin: "16px 0",
+              color: "#64748B",
+              textAlign: "left",
+              WebkitFontSmoothing: "antialiased",
+              MozOsxFontSmoothing: "grayscale",
+              fontFamily: "'Inter', sans-serif",
+            }}
+          >
+            This message was sent to{" "}
+            <Link
+              href={`mailto:${email}`}
+              style={{
+                color: "#111827",
+                textDecoration: "underline",
+                fontWeight: 500,
+                fontFamily: "'Inter', sans-serif",
+              }}
+            >
+              {email}
+            </Link>{" "}
+            because a signup attempt was made using this email. If this wasn't
+            you, you can safely ignore this email.
+          </Text>
+        </Container>
+      </Body>
+    </Html>
+  );
 };

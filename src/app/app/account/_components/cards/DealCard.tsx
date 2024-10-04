@@ -168,7 +168,7 @@ export function DealCard({ deal }: { deal: DealWithPrimaryContact }) {
       >
         <div className="flex items-start justify-between p-2">
           <div>
-            <h1 className="flex max-w-[11rem] gap-0.5 text-base font-light">
+            <h1 className="flex max-w-[11rem] gap-0.5 text-sm font-light">
               <span className="max-w-[7rem] truncate !font-medium">
                 {deal.title}
               </span>
