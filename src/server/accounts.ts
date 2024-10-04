@@ -110,6 +110,9 @@ export const createAccountAction = authenticatedAction
       accountRes.id,
       contactName,
     );
+    if (!accountRes || !contactRes) {
+      throw new Error("Couldn't create account"); // Inline error
+    }
     const accountActivityRes = await createActivity({
       userId: user.id,
       workspaceId: currentWorkspaceId,
@@ -118,7 +121,7 @@ export const createAccountAction = authenticatedAction
       activityType: "entity_creation",
       content: accountName,
       isEntityActivity: true,
-      entityTitle: "Account",
+      entityTitle: accountRes.accountName,
       entityType: "account",
     });
     const contactActivityRes = await createActivity({
@@ -129,17 +132,9 @@ export const createAccountAction = authenticatedAction
       activityType: "entity_creation",
       content: contactName,
       isEntityActivity: true,
-      entityTitle: "Contact",
+      entityTitle: contactRes.contactName,
       entityType: "contact",
     });
-    if (
-      !accountRes ||
-      !contactRes ||
-      !contactActivityRes ||
-      !accountActivityRes
-    ) {
-      throw new Error("Couldn't create account"); // Inline error
-    }
     const contactEmailRes = await createContactEmail(contactRes.id, " ");
     const contactPhoneRes = await createContactPhone(contactRes.id, " ");
 
