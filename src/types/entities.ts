@@ -27,4 +27,4 @@ export interface AccountFull extends Account {
   activities: ActivityWithContact[];
 }
 
-export type ActivityType = "call" | "message" | "comment" | "email";
+export type ActivityType = "call" | "message" | "comment" | "email" | undefined;

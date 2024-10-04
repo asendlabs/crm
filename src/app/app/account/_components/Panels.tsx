@@ -14,7 +14,7 @@ export function Panels({ className }: { className?: string }) {
   return (
     <section className={cn(className)}>
       <CustomTabs defaultValue="activity" className="w-full">
-        <CustomTabsList className="select-none">
+        <CustomTabsList className="w-full select-none">
           <CustomTabsTrigger value="activity">
             <Clock size={14} /> Activity
           </CustomTabsTrigger>
@@ -28,7 +28,7 @@ export function Panels({ className }: { className?: string }) {
             <MessageCircle size={14} /> AI
           </CustomTabsTrigger>
         </CustomTabsList>
-        <CustomTabsContent value="activity">
+        <CustomTabsContent value="activity" className="w-full">
           <ActivityPanel />
         </CustomTabsContent>
         <CustomTabsContent value="tasks">

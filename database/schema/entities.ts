@@ -90,7 +90,7 @@ export const activityTable = table("activities", {
   associatedContactId: text("associated_contact_id").references(
     () => contactTable.id,
   ),
-  title: varchar("title", { length: 255 }).notNull(),
+  title: varchar("title", { length: 255 }),
   activityType: activityTypeEnum("activity_type").notNull(),
   isEntityActivity: boolean("is_entity_activity").default(false),
   entityTitle: varchar("entity_title", { length: 255 }),

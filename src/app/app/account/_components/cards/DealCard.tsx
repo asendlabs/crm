@@ -1,7 +1,12 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Dialog, DialogContent, DialogFooter } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogOverlay,
+} from "@/components/ui/dialog";
 import {
   Form,
   FormField,
@@ -19,6 +24,8 @@ import {
   CalendarIcon,
   Ellipsis,
   EllipsisVertical,
+  MoreHorizontal,
+  MoreVertical,
   Plus,
   Trash,
 } from "lucide-react";
@@ -187,9 +194,11 @@ export function DealCard({ deal }: { deal: DealWithPrimaryContact }) {
             </p>
           </div>
           <div
-            className={`flex h-6 w-7 cursor-pointer items-center justify-center rounded-md border border-gray-200 hover:bg-gray-200 ${deal.primaryContact ? "mt-1" : ""}`}
+            className={`flex-col items-center ${deal.primaryContact ? "mt-1" : ""}`}
           >
-            <Ellipsis className="h-4 w-4" />
+            <Button size="icon" variant="outline" className="h-6 w-7">
+              <MoreVertical className="h-4 w-4 p-[0.05rem]" />
+            </Button>
           </div>
         </div>{" "}
         {deal.primaryContact && (

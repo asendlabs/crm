@@ -41,7 +41,6 @@ export async function createActivity({
   userId: string;
   workspaceId: string;
   accountId: string;
-  title: string;
   activityType:
     | "email"
     | "call"
@@ -50,6 +49,7 @@ export async function createActivity({
     | "task_completion"
     | "entity_creation"
     | "entity_deletion";
+  title?: string;
   content?: string;
   associatedContactId?: string;
   isEntityActivity?: boolean;

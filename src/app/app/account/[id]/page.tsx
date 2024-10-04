@@ -76,13 +76,11 @@ export default async function AccountPage({ params, searchParams }: Props) {
       deals={account.deals}
       activities={account.activities}
     >
-      <main className="flex h-screen max-h-screen min-h-screen flex-col">
+      <main className="!m-0 !mr-[-8px] flex h-screen max-h-screen min-h-screen min-w-full flex-col !p-0">
         <Header className="w-full px-4 pb-3 pt-4" />
-        <section className="grid h-full w-full grid-cols-[25%_75%]">
+        <section className="grid h-full w-full grid-cols-[27%_1fr]">
           <Cards className="grid w-full gap-1 px-4 py-3" />
-          <div className="w-full">
-            <Panels />
-          </div>
+          <Panels className="w-full" />
         </section>
       </main>
     </AccountProvider>

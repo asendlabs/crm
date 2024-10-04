@@ -27,7 +27,7 @@ export const createActivityAction = authenticatedAction
       workspaceId: currentWorkspaceId,
       accountId,
       title,
-      activityType: type,
+      activityType: type!,
       content,
       associatedContactId: contactId,
       isEntityActivity: false,

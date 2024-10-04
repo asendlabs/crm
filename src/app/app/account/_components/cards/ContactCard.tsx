@@ -27,6 +27,8 @@ import {
   EllipsisVertical,
   Loader2,
   MailIcon,
+  MoreHorizontal,
+  MoreVertical,
   PhoneIcon,
   Trash,
 } from "lucide-react";
@@ -161,9 +163,9 @@ export function ContactCard({
               </button>
             </div>
             {clickable && (
-              <div className="flex h-6 w-7 cursor-pointer items-center justify-center rounded-md border border-gray-200 hover:bg-gray-200">
-                <Ellipsis className="h-4 w-4" />
-              </div>
+              <Button size="icon" variant="outline" className="h-6 w-7">
+                <MoreVertical className="h-4 w-4 p-[0.05rem]" />
+              </Button>
             )}
           </div>
         </div>

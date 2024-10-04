@@ -1,8 +1,8 @@
 import { z } from "zod";
 
 export const activityCreateSchema = z.object({
-  title: z.string().min(1, { message: "Title is required" }),
-  type: z.enum(["call", "comment", "message", "email"]),
+  title: z.string().optional(),
+  type: z.enum(["call", "comment", "message", "email"]).optional(),
   content: z.string().optional(),
   date: z.date().default(new Date()).optional(),
   contactId: z.string().optional(),

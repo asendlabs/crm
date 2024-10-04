@@ -3,7 +3,7 @@ import { GeistSans } from "geist/font/sans";
 import type { Metadata } from "next";
 import { Toaster } from "sonner";
 import { Analytics } from "@vercel/analytics/react";
-import { SpeedInsights } from '@vercel/speed-insights/next';
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 import { ViewTransitions } from "next-view-transitions";
 
@@ -29,7 +29,6 @@ export default async function RootLayout({
           {children}
           <Toaster position="bottom-right" richColors />
           <Analytics />
-
           <SpeedInsights />
         </body>
       </html>
