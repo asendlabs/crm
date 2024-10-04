@@ -144,7 +144,7 @@ export function LeadTable<TData, TValue>({
   });
   return (
     <>
-      <section className="justify- flex h-screen flex-col gap-3 px-6 py-4">
+      <section className="flex h-screen flex-col gap-3 px-6 py-4">
         <div className="flex select-none flex-row items-center justify-between">
           <h1 className="text-xl font-semibold">Leads</h1>
           <div className="flex flex-row gap-2">

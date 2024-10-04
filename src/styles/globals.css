@@ -75,24 +75,3 @@
     margin: 0;
   }
 }
-
-/* For Webkit browsers (Chrome, Safari, Edge) */
-::-webkit-scrollbar {
-  width: 8px;
-}
-
-::-webkit-scrollbar-thumb {
-  background-color: gray;
-  border-radius: 10px;
-}
-
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-/* For Firefox */
-* {
-  scrollbar-width: thin;
-  scrollbar-color: gray transparent;
-  padding-right: 2px; /* Adds space on the right side for Firefox */
-}
