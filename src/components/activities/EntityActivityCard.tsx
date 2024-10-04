@@ -1,6 +1,7 @@
 "use client";
 import { formatDate, timeAgo } from "@/utils";
 import {
+  Building,
   EllipsisIcon,
   Handshake,
   Loader2,
@@ -45,7 +46,9 @@ export function EntityActivityCard({
           <Handshake className="h-4 w-4 text-gray-500" />
         ) : entitiyType === "contact" ? (
           <User className="h-4 w-4 text-gray-500" />
-        ) : (
+        ) : entitiyType === "account" ? (
+          <Building className="h-4 w-4 text-gray-500" />
+        ) : ( 
           "\u3164"
         )}
         <div className="flex items-center gap-1.5 py-1">

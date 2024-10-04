@@ -23,6 +23,7 @@ import {
 import { getAllUserWorkspaces } from "@/data-access/workspaces";
 import { deleteDeal, getAllAccountDeals } from "@/data-access/deal";
 import {
+  createActivity,
   deleteActivity,
   getAllAccountActivities,
 } from "@/data-access/activities";
@@ -109,7 +110,34 @@ export const createAccountAction = authenticatedAction
       accountRes.id,
       contactName,
     );
-    if (!accountRes || !contactRes) {
+    const accountActivityRes = await createActivity({
+      userId: user.id,
+      workspaceId: currentWorkspaceId,
+      accountId: accountRes.id,
+      title: "New Account",
+      activityType: "entity_creation",
+      content: accountName,
+      isEntityActivity: true,
+      entityTitle: "Account",
+      entityType: "account",
+    });
+    const contactActivityRes = await createActivity({
+      userId: user.id,
+      workspaceId: currentWorkspaceId,
+      accountId: accountRes.id,
+      title: "New Contact",
+      activityType: "entity_creation",
+      content: contactName,
+      isEntityActivity: true,
+      entityTitle: "Contact",
+      entityType: "contact",
+    });
+    if (
+      !accountRes ||
+      !contactRes ||
+      !contactActivityRes ||
+      !accountActivityRes
+    ) {
       throw new Error("Couldn't create account"); // Inline error
     }
     const contactEmailRes = await createContactEmail(contactRes.id, " ");

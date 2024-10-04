@@ -54,7 +54,7 @@ export async function createActivity({
   associatedContactId?: string;
   isEntityActivity?: boolean;
   entityTitle?: string;
-  entityType?: "deal" | "contact";
+  entityType?: "deal" | "contact" | "account";
 }) {
   const [created] = await db
     .insert(activityTable)
