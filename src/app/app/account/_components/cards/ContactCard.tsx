@@ -91,7 +91,7 @@ export function ContactCard({
       if (values.contactEmail !== contact.contactEmail?.email) {
         const [data, err] = await updateContactEmailActionCaller.execute({
           contactId: contact.id,
-          email: values.contactEmail,
+          email: values.contactEmail || "",
         });
         if (err) {
           toast.error(err?.message);
@@ -100,7 +100,7 @@ export function ContactCard({
       if (values.contactPhone !== contact.contactPhone?.phoneNumber) {
         const [data, err] = await updateContactPhoneActionCaller.execute({
           contactId: contact.id,
-          phoneNumber: values.contactPhone,
+          phoneNumber: values.contactPhone || "",
         });
         if (err) {
           toast.error(err?.message);

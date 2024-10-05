@@ -59,7 +59,7 @@ export function SecondaryField({
               )}
             </>
           ) : (
-            <span>{"\u3164"}</span> // Empty space if no items are present
+            <span className="text-gray-400">{"-"}</span> // Empty space if no items are present
           )}
         </div>
       </Link>
