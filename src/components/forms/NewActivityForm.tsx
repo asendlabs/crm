@@ -69,7 +69,7 @@ export function NewActivityForm({
         reset();
         refresh();
         toast.success(
-          `${activityType === "call" ? "Call logged" : "Activity created"} successfully!`,
+          `${activityType === "call" ? "Call logged!" : activityType === "comment" ? "Comment added!" : "Activity created"}`,
         );
       } else {
         toast.error(

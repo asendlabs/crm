@@ -41,15 +41,17 @@ export function ActivityPanel() {
 
   const buttonOnClickHandler = (button: ActivityButton) => {
     return () => {
-      if (activityFormOpen && activityType === button.type) {
-        // Close the form
-        setActivityFormOpen(false);
-        setActivityType(undefined);
-      } else {
-        // Open the form with selected activity type
-        setActivityType(button.type);
-        setActivityFormOpen(true);
-      }
+      if (button.type !== "email") {
+        if (activityFormOpen && activityType === button.type) {
+          // Close the form
+          setActivityFormOpen(false);
+          setActivityType(undefined);
+        } else {
+          // Open the form with selected activity type
+          setActivityType(button.type);
+          setActivityFormOpen(true);
+        }
+      } else return;
     };
   };
 
