@@ -50,7 +50,6 @@ export function NewActivityForm({
     resolver: zodResolver(activityCreateSchema),
     defaultValues: {
       content: "",
-      contactId: contacts?.[0]?.id || undefined,
       accountId: account?.id,
       date: new Date(),
     },

@@ -9,6 +9,7 @@ import { cn } from "@/utils/tailwind";
 import { MessageCircle, Clock, CheckSquare, AlignLeft } from "lucide-react";
 import React from "react";
 import { ActivityPanel } from "./ActivityPanel";
+import { TaskPanel } from "./TaskPanel";
 
 export function Panels({ className }: { className?: string }) {
   return (
@@ -24,21 +25,15 @@ export function Panels({ className }: { className?: string }) {
           <CustomTabsTrigger value="analysis">
             <AlignLeft size={14} /> Analysis
           </CustomTabsTrigger>
-          <CustomTabsTrigger value="ai">
-            <MessageCircle size={14} /> AI
-          </CustomTabsTrigger>
         </CustomTabsList>
         <CustomTabsContent value="activity" className="w-full">
           <ActivityPanel />
         </CustomTabsContent>
         <CustomTabsContent value="tasks">
-          <p>Manage tasks assigned to this account.</p>
+          <TaskPanel />
         </CustomTabsContent>
         <CustomTabsContent value="analysis">
           <p>Analyze account performance and trends.</p>
-        </CustomTabsContent>
-        <CustomTabsContent value="ai">
-          <p>Explore AI-driven insights for this account.</p>
         </CustomTabsContent>
       </CustomTabs>
     </section>

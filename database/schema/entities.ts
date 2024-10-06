@@ -144,8 +144,8 @@ export const taskTable = table("tasks", {
     .notNull()
     .references(() => accountTable.id),
   title: varchar("title", { length: 255 }).notNull(),
-  dueDate: timestamp("due_date"),
   stage: taskStageEnum("stage").default("todo").notNull(),
+  dueDate: timestamp("due_date"),
   priority: taskPriorityEnum("priority").default("medium"),
   description: text("description"),
   assignedToId: text("assigned_to_id").references(() => userTable.id),

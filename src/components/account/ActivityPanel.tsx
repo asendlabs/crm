@@ -57,7 +57,7 @@ export function ActivityPanel() {
 
   return (
     <section className="grid w-full gap-3">
-      <section className="absolute right-[0.75rem] top-[4.12rem]">
+      <section className="absolute right-[1rem] top-[4.12rem]">
         <div className="flex gap-2">
           {activityButtons.map((button) => (
             <Button

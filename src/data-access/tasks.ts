@@ -46,7 +46,7 @@ export async function createTask({
   accountId: string;
   title: string;
   stage: "todo" | "in_progress" | "done";
-  dueDate: Date;
+  dueDate?: Date;
   priority?: "high" | "low" | "medium";
   description?: string;
   assignedToId?: string;
