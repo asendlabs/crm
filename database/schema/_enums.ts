@@ -22,3 +22,9 @@ export const activityStatusEnum = pgEnum("status", activityStatusValues);
 
 const entityTypeValues = ["deal", "contact", "account"] as const;
 export const entityTypeEnum = pgEnum("entity_type", entityTypeValues);
+
+const taskStageValues = ["todo", "in_progress", "done"] as const;
+export const taskStageEnum = pgEnum("task_stage", taskStageValues);
+
+const taskPriorityValues = ["low", "medium", "high"] as const;
+export const taskPriorityEnum = pgEnum("task_prioirty", taskPriorityValues);

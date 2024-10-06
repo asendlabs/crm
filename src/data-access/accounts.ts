@@ -35,6 +35,7 @@ export async function getAccountById(id: string) {
           associatedContact: true,
         },
       },
+      tasks: true,
     },
   });
   return account;

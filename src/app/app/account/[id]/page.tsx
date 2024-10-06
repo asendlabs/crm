@@ -73,6 +73,7 @@ export default async function AccountPage({ params, searchParams }: Props) {
       contacts={account.contacts}
       deals={account.deals}
       activities={account.activities}
+      tasks={account.tasks}
     >
       <main className="flex h-screen max-h-screen min-h-screen min-w-full flex-col">
         <Header className="w-full px-4 pb-3 pt-4" />

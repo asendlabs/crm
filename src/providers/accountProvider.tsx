@@ -6,6 +6,7 @@ import {
   ActivityWithContact,
   ContactWithDetails,
   DealWithPrimaryContact,
+  TaskWithAssigned,
 } from "@/types/entities";
 import {
   Account,
@@ -14,6 +15,7 @@ import {
   ContactEmail,
   ContactPhone,
   Deal,
+  Task,
 } from "@database/types";
 import { createContext } from "react";
 
@@ -22,6 +24,7 @@ export interface State {
   contacts: ContactWithDetails[] | undefined;
   deals: DealWithPrimaryContact[] | undefined;
   activities: ActivityWithContact[] | undefined;
+  tasks: Task[] | undefined;
 }
 
 export interface Actions {}
@@ -31,6 +34,7 @@ export const AccountContext = createContext<State & Actions>({
   contacts: undefined,
   activities: undefined,
   deals: undefined,
+  tasks: undefined,
 });
 
 export function AccountProvider({
@@ -39,6 +43,7 @@ export function AccountProvider({
   contacts,
   activities,
   deals,
+  tasks,
 }: {
   children: React.ReactNode;
 } & State &
@@ -50,6 +55,7 @@ export function AccountProvider({
         contacts,
         activities,
         deals,
+        tasks,
       }}
     >
       {children}

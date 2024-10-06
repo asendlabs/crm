@@ -5,7 +5,7 @@ import {
   ContactEmail,
   ContactPhone,
   Deal,
-  Workspace,
+  Task,
 } from "@database/types";
 
 export interface ContactWithDetails extends Contact {
@@ -25,6 +25,7 @@ export interface AccountFull extends Account {
   contacts: ContactWithDetails[];
   deals: DealWithPrimaryContact[];
   activities: ActivityWithContact[];
+  tasks: Task[];
 }
 
 export type ActivityType = "call" | "message" | "comment" | "email" | undefined;

@@ -14,6 +14,8 @@ import {
   activityStatusEnum,
   activityTypeEnum,
   entityTypeEnum,
+  taskPriorityEnum,
+  taskStageEnum,
 } from "./_enums";
 import { workspaceTable } from "./workspaces";
 import { userTable } from "./users";
@@ -124,6 +126,29 @@ export const dealTable = table("deals", {
     () => contactTable.id,
   ),
   description: text("description"),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+  updatedAt: timestamp("updated_at"),
+  createdById: text("created_by_id")
+    .notNull()
+    .references(() => userTable.id),
+  updatedById: text("updated_by_id").references(() => userTable.id),
+  metadata: jsonb("metadata"),
+});
+
+export const taskTable = table("tasks", {
+  id: text("id").primaryKey(),
+  workspaceId: text("workspace_id")
+    .notNull()
+    .references(() => workspaceTable.id),
+  accountId: text("account_id")
+    .notNull()
+    .references(() => accountTable.id),
+  title: varchar("title", { length: 255 }).notNull(),
+  dueDate: timestamp("due_date"),
+  stage: taskStageEnum("stage").default("todo").notNull(),
+  priority: taskPriorityEnum("priority").default("medium"),
+  description: text("description"),
+  assignedToId: text("assigned_to_id").references(() => userTable.id),
   createdAt: timestamp("created_at").notNull().defaultNow(),
   updatedAt: timestamp("updated_at"),
   createdById: text("created_by_id")
