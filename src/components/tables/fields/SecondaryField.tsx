@@ -59,7 +59,7 @@ export function SecondaryField({
               )}
             </>
           ) : (
-            <span className="text-gray-400">{"-"}</span> // Empty space if no items are present
+            <span className="py-0.5 text-gray-400">{"-"}</span>
           )}
         </div>
       </Link>

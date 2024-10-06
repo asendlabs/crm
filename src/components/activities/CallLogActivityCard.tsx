@@ -41,6 +41,7 @@ import {
   DropdownMenuTrigger,
   DropdownMenuSeparator,
 } from "../ui/dropdown-menu";
+import { Arrow } from "@radix-ui/react-dropdown-menu";
 
 const activityUpdateSchema = z.object({
   content: z.string().optional(),
@@ -118,7 +119,7 @@ export function CallLogActivityCard({
   return (
     <section className="flex items-center justify-between text-sm">
       <div className="flex items-center gap-2">
-        <PhoneCall className="h-4 w-4" />
+        <PhoneCall className="h-4 w-4 text-gray-500" />
         <div className="flex max-w-[35.5rem] items-center gap-1 truncate py-1">
           Call{" "}
           {activity.associatedContact?.contactName && (
@@ -137,6 +138,13 @@ export function CallLogActivityCard({
               </div>
             </>
           )}
+          <div
+            className="inline-flex items-center gap-1 rounded-md border px-2 py-0.5 font-medium hover:cursor-pointer"
+            onClick={() => setOpen(true)}
+          >
+            Open Notes
+            <ArrowUpRight className="h-4 w-4" />
+          </div>
           <Dialog open={open} onOpenChange={setOpen}>
             <DialogContent className="p-4">
               <h1 className="text-base font-medium">Call Notes</h1>

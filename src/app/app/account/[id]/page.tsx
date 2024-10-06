@@ -4,12 +4,10 @@ import { getAccountById } from "@/data-access/accounts";
 import { cookies } from "next/headers";
 import React from "react";
 import type { Metadata, ResolvingMetadata } from "next";
-import { Header } from "@/app/app/account/_components/Header";
 import { AccountProvider } from "@/providers/accountProvider";
-import { Panels } from "../_components/Panels";
-import { Cards } from "../_components/Cards";
-import { ContactWithDetails } from "@/types/entities";
-import { deleteContact } from "@/data-access/contacts";
+import { Header } from "@/components/account/Header";
+import { Cards } from "@/components/account/Cards";
+import { Panels } from "@/components/account/Panels";
 
 type Props = {
   params: { id: string };
@@ -78,7 +76,7 @@ export default async function AccountPage({ params, searchParams }: Props) {
     >
       <main className="flex h-screen max-h-screen min-h-screen min-w-full flex-col">
         <Header className="w-full px-4 pb-3 pt-4" />
-        <section className="grid h-full w-full grid-cols-[27%_1fr]">
+        <section className="grid h-full w-full grid-cols-[27%_1fr] overflow-hidden">
           <Cards className="grid w-full gap-1 px-4 py-3" />
           <Panels className="w-full" />
         </section>

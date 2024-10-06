@@ -8,7 +8,7 @@ import {
 import { cn } from "@/utils/tailwind";
 import { MessageCircle, Clock, CheckSquare, AlignLeft } from "lucide-react";
 import React from "react";
-import { ActivityPanel } from "./panels/ActivityPanel";
+import { ActivityPanel } from "./ActivityPanel";
 
 export function Panels({ className }: { className?: string }) {
   return (

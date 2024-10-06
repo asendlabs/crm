@@ -59,7 +59,7 @@ export function EntityActivityCard({
         )}
         <div className="flex items-center gap-1 py-1">
           <span className="capitalize">{activity.entityType}</span>
-          <span className="rounded-md bg-muted-foreground/10 px-2 py-0.5">
+          <span className="rounded-md border px-2 py-0.5">
             {activity.entityTitle}
           </span>
           <span className="py-0.5">

@@ -191,7 +191,9 @@ export function NewActivityForm({
               <FormLabel className="text-xs">
                 {activityType === "comment"
                   ? "Comment"
-                  : "Activity Description"}
+                  : activityType === "call"
+                    ? "Call Notes"
+                    : "Activity Description"}
               </FormLabel>
               <FormControl>
                 <Textarea

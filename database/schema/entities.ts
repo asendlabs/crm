@@ -33,6 +33,7 @@ export const accountTable = table("accounts", {
   description: text("description"),
   website: text("website"),
   address: text("address"),
+  industry: text("industry"),
   createdAt: timestamp("created_at").notNull().defaultNow(),
   updatedAt: timestamp("updated_at"),
   interaction: timestamp("last_interaction", { mode: "string" }),

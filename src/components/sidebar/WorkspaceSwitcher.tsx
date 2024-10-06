@@ -135,7 +135,7 @@ export function WorkspaceSwitcher({
                 </CommandItem>
               ))}
             </CommandList>
-            <CommandSeparator />
+            {/* <CommandSeparator />
             <CommandList>
               <CommandGroup>
                 <DialogTrigger asChild>
@@ -150,7 +150,7 @@ export function WorkspaceSwitcher({
                   </CommandItem>
                 </DialogTrigger>
               </CommandGroup>
-            </CommandList>
+            </CommandList> */}
           </Command>
         </PopoverContent>
       </Popover>
