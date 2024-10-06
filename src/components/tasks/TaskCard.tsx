@@ -19,6 +19,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Popover, PopoverTrigger, PopoverContent } from "../ui/popover";
+import { Calendar } from "../ui/calendar";
+import { Input } from "../ui/input";
+import { format } from "date-fns"; // Import date formatting library
 import { useServerAction } from "zsa-react";
 import { deleteTaskAction, updateTaskAction } from "@/server/tasks";
 import {
@@ -27,7 +31,6 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
-import { Input } from "../ui/input";
 
 export default function TaskCard({ task }: { task: Task }) {
   const [title, setTitle] = useState(task.title);
@@ -58,15 +61,19 @@ export default function TaskCard({ task }: { task: Task }) {
     setIsOverdue(dueDate ? dueDate < new Date() : false);
   }, [dueDate]);
 
-  const handleUpdateTask = async (newValue: string, columnId: string) => {
+  const handleUpdateTask = async (
+    newValue: string | Date | null,
+    columnId: string,
+  ) => {
     setUpdating(true);
     try {
       // Optimistically update the local state
       if (columnId === "stage")
-        setTaskStage(newValue as "todo" | "in_progress" | "done"); // Update local task stage state
-      if (columnId === "title") setTitle(newValue);
+        setTaskStage(newValue as "todo" | "in_progress" | "done");
+      if (columnId === "title") setTitle(newValue as string);
       if (columnId === "priority")
         setPriority(newValue as "low" | "medium" | "high" | null);
+      if (columnId === "dueDate") setDueDate(newValue as Date | null);
 
       const [data, err] = await updateTask({
         itemId: task.id,
@@ -111,10 +118,10 @@ export default function TaskCard({ task }: { task: Task }) {
   };
 
   return (
-    <div className="w-full space-y-1.5 rounded-lg border p-3 shadow-sm">
+    <div className="w-full space-y-1.5 rounded-lg border px-3 py-1.5 shadow-sm">
       <div className="flex items-center justify-between">
         <div
-          className={`flex items-center space-x-2.5 ${taskStage === "done" ? "opacity-50" : ""}`}
+          className={`flex items-center space-x-2.5 ${taskStage === "done" ? "" : ""}`}
         >
           <Checkbox
             id="task"
@@ -122,59 +129,107 @@ export default function TaskCard({ task }: { task: Task }) {
             onClick={handleCheckboxClick} // Call the checkbox handler
           />
           {renameMode ? (
-            <div className="flex items-center gap-1">
+            <div className="flex select-text items-center gap-1">
               <Input
                 type="text"
                 value={title}
-                className="h-8 px-1.5 text-base"
+                className="h-8 w-96 px-1.5"
                 onChange={(e) => setTitle(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    setRenameMode(false);
+                    handleUpdateTask(title, "title");
+                  }
+                }}
                 onBlur={async () => {
                   setRenameMode(false);
                   await handleUpdateTask(title, "title");
                 }}
               />
-              {updating && <Loader2 className="ml-2 h-5 w-5 animate-spin" />}
+              {updating && (
+                <Loader2 className="ml-2 h-5 w-5 animate-spin select-text" />
+              )}
             </div>
           ) : (
             <label
-              htmlFor="task"
-              className={`text-sm font-medium ${taskStage === "done" ? "text-gray-400 line-through" : "text-gray-900"}`}
+              onClick={() => {}}
+              onDoubleClick={() => {}}
+              className={`text-sm font-medium ${taskStage === "done" ? "line-through" : "text-gray-900"}`}
             >
               {title}
             </label>
           )}
         </div>
-        <div className="flex items-center space-x-1">
-          <div className="flex space-x-1">
-            <Select
-              open={false} // Due date selector functionality can be added here
-              onOpenChange={() => {}}
-            >
-              <SelectTrigger
-                className={`inline-flex h-7 w-fit cursor-pointer select-none items-center gap-[0.25rem] rounded-md px-2 py-0.5 text-sm font-medium capitalize ${isOverdue ? "text-red-900" : "text-gray-900"}`}
+        <div className="flex items-center space-x-0">
+          {/* Due Date Picker */}
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button
+                variant="link"
+                className={`w-54 flex h-7 items-center justify-end border-none text-right text-sm font-medium ${
+                  isOverdue
+                    ? "text-red-800 hover:!text-red-800"
+                    : dueDate
+                      ? "text-green-800 hover:!text-green-800"
+                      : ""
+                }`}
               >
-                <CalendarIcon className="h-2.5 w-2.5" />
-                {dueDate ? dueDate.toLocaleDateString() : "No due date"}
-              </SelectTrigger>
-            </Select>
+                <CalendarIcon className="mr-2 h-4 w-4" />
+                {dueDate ? format(dueDate, "PPP") : "No due date"}
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="p-0">
+              <Calendar
+                mode="single"
+                selected={dueDate ? dueDate : undefined}
+                onSelect={(date) => handleUpdateTask(date || null, "dueDate")}
+              />
+            </PopoverContent>
+          </Popover>
 
-            <Select
-              value={priority || undefined}
-              onValueChange={(value) => handleUpdateTask(value, "priority")}
+          {/* Priority Dropdown */}
+          <Select
+            value={priority || undefined}
+            onValueChange={(value) => handleUpdateTask(value, "priority")}
+          >
+            <SelectTrigger
+              className={`inline-flex h-7 w-fit cursor-pointer select-none items-center gap-[0.25rem] !rounded-none !border-none !bg-none px-0 py-0.5 pr-3 text-sm font-medium capitalize !shadow-none !outline-none !ring-0 ${
+                priority === "high"
+                  ? "!text-red-800"
+                  : priority === "medium"
+                    ? "!text-orange-800"
+                    : priority === "low"
+                      ? "!text-blue-800"
+                      : ""
+              }`}
             >
-              <SelectTrigger
-                className={`inline-flex h-7 w-fit cursor-pointer select-none items-center gap-[0.25rem] rounded-md px-2 py-0.5 text-sm font-medium capitalize ${priority === "high" ? "text-red-900" : priority === "medium" ? "text-orange-900" : "text-blue-900"}`}
+              <Flag className="h-2.5 w-2.5" />
+              {priority || "Choose Priority"}
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem
+                value="low"
+                showIndicator={false}
+                className="font-medium !text-blue-800 hover:!text-blue-800"
               >
-                <Flag className="h-2.5 w-2.5" />
-                {priority}
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="low">Low</SelectItem>
-                <SelectItem value="medium">Medium</SelectItem>
-                <SelectItem value="high">High</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
+                Low
+              </SelectItem>
+              <SelectItem
+                value="medium"
+                showIndicator={false}
+                className="font-medium !text-orange-800 hover:!text-orange-800"
+              >
+                Medium
+              </SelectItem>
+              <SelectItem
+                value="high"
+                showIndicator={false}
+                className="font-medium !text-red-800 hover:!text-red-800"
+              >
+                High
+              </SelectItem>
+            </SelectContent>
+          </Select>
 
           <DropdownMenu modal={false}>
             <DropdownMenuTrigger asChild>

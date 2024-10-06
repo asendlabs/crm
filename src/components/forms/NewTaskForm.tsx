@@ -68,7 +68,7 @@ export function NewTaskForm({
       if (!err) {
         reset();
         refresh();
-        toast.success("Task created!");
+        toast.success("Task added.");
       } else {
         toast.error("Failed to create task.");
       }
@@ -86,18 +86,18 @@ export function NewTaskForm({
         className="grid !max-w-full gap-2 rounded-md border px-4 py-2"
         onSubmit={handleSubmit(onSubmit)}
       >
-        <div className="flex max-w-full gap-2">
+        <div className="flex max-w-full gap-2 overflow-hidden p-1">
           {/* Task Title */}
           <FormField
             control={control}
             name="title"
             render={({ field }) => (
-              <FormItem className="w-full space-y-0.5">
+              <FormItem className="w-full min-w-36 space-y-0.5">
                 <FormLabel className="text-xs">Task Title</FormLabel>
                 <FormControl>
                   <Input
                     {...field}
-                    placeholder="Enter task title"
+                    placeholder="eg. Send Follow up Email"
                     className="h-8"
                   />
                 </FormControl>
@@ -105,20 +105,21 @@ export function NewTaskForm({
               </FormItem>
             )}
           />
-          {/* Due Date
           <FormField
             control={control}
             name="dueDate"
             render={({ field }) => (
-              <FormItem className="grid w-fit mt-2.5">
-                <FormLabel className="text-xs mb-[-0.5rem]">Due Date</FormLabel>
+              <FormItem className="mt-[0.38rem] grid w-fit">
+                <FormLabel className="mb-[-0.25rem] text-xs">
+                  Due Date
+                </FormLabel>
                 <Popover>
                   <PopoverTrigger asChild>
                     <FormControl>
                       <Button
                         variant="outline"
                         className={cn(
-                          "h-8 w-56 pl-3 text-left flex items-center",
+                          "flex h-8 w-56 items-center pl-3 text-left",
                           !field.value && "text-muted-foreground",
                         )}
                       >
@@ -145,14 +146,14 @@ export function NewTaskForm({
                 <FormMessage />
               </FormItem>
             )}
-          /> */}
+          />
 
           {/* Stage */}
           <FormField
             control={control}
             name="stage"
             render={({ field }) => (
-              <FormItem className="!w-72 space-y-0.5">
+              <FormItem className="!w-96 space-y-0.5">
                 <FormLabel className="text-xs">Stage</FormLabel>
                 <Select
                   onValueChange={field.onChange}

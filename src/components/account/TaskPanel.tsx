@@ -30,7 +30,7 @@ export function TaskPanel() {
       {taskFormOpen && <NewTaskForm setTaskFormOpen={setTaskFormOpen} />}
 
       <div
-        className={`grid ${taskFormOpen ? "max-h-[70vh]" : "max-h-[81vh]"} min-w-full gap-1 overflow-hidden overflow-y-auto`}
+        className={`grid ${taskFormOpen ? "max-h-[70vh]" : "max-h-[81vh]"} min-w-full gap-2 overflow-hidden overflow-y-auto`}
       >
         {tasks && tasks.length > 0
           ? tasks

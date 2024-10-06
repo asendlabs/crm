@@ -1,4 +1,3 @@
-import { EntityActivityCard } from "@/components/activities/EntityActivityCard";
 import {
   CustomTabs,
   CustomTabsContent,
