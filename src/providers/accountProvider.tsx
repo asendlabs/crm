@@ -6,7 +6,6 @@ import {
   ActivityWithContact,
   ContactWithDetails,
   DealWithPrimaryContact,
-  TaskWithAssigned,
 } from "@/types/entities";
 import {
   Account,
