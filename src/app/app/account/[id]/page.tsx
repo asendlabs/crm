@@ -35,6 +35,7 @@ export async function generateMetadata(
 
 export default async function AccountPage({ params, searchParams }: Props) {
   const { id } = params;
+  const { tab } = searchParams;
   if (!id) {
     return (
       <div className="flex h-screen flex-col items-center justify-center">
@@ -79,7 +80,7 @@ export default async function AccountPage({ params, searchParams }: Props) {
         <Header className="w-full px-4 pb-3 pt-4" />
         <section className="grid h-full w-full grid-cols-[27%_1fr] overflow-hidden">
           <Cards className="grid w-full gap-1 px-4 py-3" />
-          <Panels className="w-full" />
+          <Panels className="w-full" tab={tab as string | undefined} />
         </section>
       </main>
     </AccountProvider>

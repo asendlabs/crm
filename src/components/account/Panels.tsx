@@ -1,3 +1,4 @@
+"use client";
 import {
   CustomTabs,
   CustomTabsContent,
@@ -9,21 +10,35 @@ import { MessageCircle, Clock, CheckSquare, AlignLeft } from "lucide-react";
 import React from "react";
 import { ActivityPanel } from "./ActivityPanel";
 import { TaskPanel } from "./TaskPanel";
+import { useRouter } from "next/navigation";
 
-export function Panels({ className }: { className?: string }) {
+export function Panels({
+  className,
+  tab,
+}: {
+  className?: string;
+  tab: string | undefined;
+}) {
+  const router = useRouter();
   return (
     <section className={cn(className)}>
-      <CustomTabs defaultValue="activity" className="w-full">
+      <CustomTabs defaultValue={tab || "activity"} className="w-full">
         <CustomTabsList className="w-full select-none">
-          <CustomTabsTrigger value="activity">
-            <Clock size={14} /> Activity
-          </CustomTabsTrigger>
-          <CustomTabsTrigger value="tasks">
-            <CheckSquare size={14} /> Tasks
-          </CustomTabsTrigger>
-          <CustomTabsTrigger value="analysis">
-            <AlignLeft size={14} /> Analysis
-          </CustomTabsTrigger>
+          <div onClick={() => router.push("?tab=activity")}>
+            <CustomTabsTrigger value="activity">
+              <Clock size={14} /> Activity
+            </CustomTabsTrigger>
+          </div>
+          <div onClick={() => router.push("?tab=tasks")}>
+            <CustomTabsTrigger value="tasks">
+              <CheckSquare size={14} /> Tasks
+            </CustomTabsTrigger>
+          </div>
+          <div onClick={() => router.push("?tab=analysis")}>
+            <CustomTabsTrigger value="analysis">
+              <AlignLeft size={14} /> Analysis
+            </CustomTabsTrigger>
+          </div>
         </CustomTabsList>
         <CustomTabsContent value="activity" className="w-full">
           <ActivityPanel />

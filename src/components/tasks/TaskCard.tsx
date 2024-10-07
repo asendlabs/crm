@@ -172,7 +172,7 @@ export default function TaskCard({ task }: { task: Task }) {
                     : dueDate
                       ? "text-green-800 hover:!text-green-800"
                       : ""
-                }`}
+                } ${taskStage === "done" ? "line-through" : ""}`}
               >
                 <CalendarIcon className="mr-2 h-4 w-4" />
                 {dueDate ? format(dueDate, "PPP") : "No due date"}
@@ -201,7 +201,7 @@ export default function TaskCard({ task }: { task: Task }) {
                     : priority === "low"
                       ? "!text-blue-800"
                       : ""
-              }`}
+              } ${taskStage === "done" ? "line-through" : ""}`}
             >
               <Flag className="h-2.5 w-2.5" />
               {priority || "Choose Priority"}
