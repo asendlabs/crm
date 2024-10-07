@@ -21,13 +21,9 @@ import {
 import { ContactWithDetails } from "@/types/entities";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
-  ArrowUpRight,
   Check,
-  Ellipsis,
-  EllipsisVertical,
   Loader2,
   MailIcon,
-  MoreHorizontal,
   MoreVertical,
   PhoneIcon,
   Trash,
@@ -38,6 +34,9 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 import { useServerAction } from "zsa-react";
+
+const emailSchema = z.string().email();
+const phoneSchema = z.string().min(7);
 
 export function ContactCard({
   contact,
@@ -74,6 +73,13 @@ export function ContactCard({
   const phoneValue = watch("contactPhone");
 
   const router = useRouter();
+
+  const isValidEmail = emailSchema.safeParse(
+    contact.contactEmail?.email,
+  ).success;
+  const isValidPhone = phoneSchema.safeParse(
+    contact.contactPhone?.phoneNumber,
+  ).success;
 
   const handleSubmit = async (values: z.infer<typeof contactUpdateSchema>) => {
     setIsSubmitting(true);
@@ -141,30 +147,38 @@ export function ContactCard({
       >
         <div className="flex w-full items-center justify-between px-2 py-2 text-sm">
           <h1 className="max-w-[6rem] truncate">{contact.contactName}</h1>
-          <div className="flex gap-1">
-            <div className="flex">
-              <button
-                className="rounded-y flex h-6 w-7 items-center justify-center rounded-l border-y border-l border-gray-200 hover:bg-gray-200"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  window.location.href = `tel:${contact.contactPhone?.countryCode ?? ""}${contact.contactPhone?.phoneNumber ?? ""}`;
-                }}
-              >
-                <PhoneIcon className="h-4 w-4" />
-              </button>
-              <button
-                className="rounded-y flex h-6 w-7 items-center justify-center rounded-r border-y border-r border-gray-200 hover:bg-gray-200"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  window.location.href = `mailto:${contact.contactEmail?.email ?? ""}`;
-                }}
-              >
-                <MailIcon className="h-4 w-4" />
-              </button>
+          <div className="flex items-center gap-1">
+            <div className="flex space-x-1">
+              {isValidPhone && (
+                <Button
+                  size="icon"
+                  variant="outline"
+                  className="h-6 w-7 rounded-l"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    window.location.href = `tel:${contact.contactPhone?.countryCode ?? ""}${contact.contactPhone?.phoneNumber ?? ""}`;
+                  }}
+                >
+                  <PhoneIcon className="h-4 w-4" />
+                </Button>
+              )}
+              {isValidEmail && (
+                <Button
+                  size="icon"
+                  variant="outline"
+                  className={`h-6 w-7  ${isValidPhone ? "rounded-r" : "rounded"}`}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    window.location.href = `mailto:${contact.contactEmail?.email ?? ""}`;
+                  }}
+                >
+                  <MailIcon className="h-4 w-4" />
+                </Button>
+              )}
             </div>
             {clickable && (
               <Button size="icon" variant="outline" className="h-6 w-7">
-                <MoreVertical className="h-4 w-4 p-[0.05rem]" />
+                <MoreVertical className="h-4 w-4" />
               </Button>
             )}
           </div>

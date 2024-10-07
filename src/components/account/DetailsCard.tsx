@@ -58,21 +58,22 @@ export function DetailsCard() {
     handleUpdate("status", newStatus);
   };
 
-  const handleIndustryChange = (newIndustry: string) => {
+  const handleIndustryBlur = (newIndustry: string) => {
+    setIsEditingWebsite(false);
     setIndustry(newIndustry);
     handleUpdate("industry", newIndustry);
   };
 
   const handleAccountNameBlur = (newAccountName: string) => {
+    setIsEditingName(false);
     setAccountName(newAccountName);
     handleUpdate("accountName", newAccountName);
-    setIsEditingName(false);
   };
 
   const handleWebsiteBlur = (newWebsite: string) => {
+    setIsEditingWebsite(false);
     setWebsite(newWebsite);
     handleUpdate("website", newWebsite);
-    setIsEditingWebsite(false);
   };
 
   return (
@@ -247,7 +248,7 @@ export function DetailsCard() {
           <div className="relative w-full">
             <Input
               value={industry}
-              onBlur={(e) => handleIndustryChange(e.target.value)}
+              onBlur={(e) => handleIndustryBlur(e.target.value)}
               onChange={(e) => setIndustry(e.target.value)}
               onDoubleClick={() => setIsEditingIndustry(!isEditingIndustry)}
               readOnly={!isEditingIndustry}

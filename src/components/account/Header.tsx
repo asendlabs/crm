@@ -12,7 +12,7 @@ import {
 } from "../ui/dropdown-menu";
 import { Loader2, MoreVertical, Share, Trash } from "lucide-react";
 import { useServerAction } from "zsa-react";
-import { deleteAccountAction } from "@/server/accounts";
+import { deleteAccountAction, updateAccountAction } from "@/server/accounts";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { Dialog, DialogContent } from "../ui/dialog";
@@ -21,8 +21,10 @@ import AccountShareDialog from "./AccountShareDialog";
 export function Header({ className }: { className?: string }) {
   const { account } = useContext(AccountContext);
   const [deleting, setDeleting] = useState<boolean>(false);
+  const [converting, setConverting] = useState<boolean>(false);
   const [shareDialogOpen, setShareDialogOpen] = useState<boolean>(false);
   const deleteActivityActionCaller = useServerAction(deleteAccountAction);
+  const updateAccountActionCaller = useServerAction(updateAccountAction);
   const router = useRouter();
 
   const handleDelete = async () => {
@@ -39,6 +41,36 @@ export function Header({ className }: { className?: string }) {
       toast.error(
         "Something Went Wrong, Please contact support if issue persists.",
       );
+    } finally {
+      setDeleting(false);
+    }
+  };
+
+  const handleConvertToClient = async () => {
+    if (account?.type === "client") {
+      toast.error("This account is already a client.");
+      return;
+    }
+
+    setConverting(true);
+    try {
+      const [, err] = await updateAccountActionCaller.execute({
+        itemId: account?.id!,
+        columnId: "type",
+        newValue: "client",
+      });
+      if (!err) {
+        toast.success("Converted to client successfully");
+        router.refresh();
+      } else {
+        toast.error("Failed to convert account to client.");
+      }
+    } catch (error) {
+      toast.error(
+        "Something Went Wrong, Please contact support if issue persists.",
+      );
+    } finally {
+      setConverting(false);
     }
   };
 
@@ -93,7 +125,22 @@ export function Header({ className }: { className?: string }) {
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
-        <Button className="h-7">Convert to Client</Button>
+        {account?.type === "lead" && (
+          <Button
+            className="h-7"
+            onClick={handleConvertToClient}
+            disabled={converting}
+          >
+            {converting ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Converting...
+              </>
+            ) : (
+              "Convert to Client"
+            )}
+          </Button>
+        )}
       </div>
       <Dialog open={shareDialogOpen} onOpenChange={setShareDialogOpen}>
         <DialogContent className="p-4">
