@@ -8,7 +8,7 @@ import {
 
 import { Button } from "@/components/ui/button";
 import { DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu";
-import { Settings2 } from "lucide-react";
+import { Layers, Settings2, View } from "lucide-react";
 import { Table } from "@tanstack/react-table";
 
 interface DataTableViewOptionsProps<TData> {
@@ -27,7 +27,7 @@ export function DataTableViewOptions<TData>({
           variant="outline"
           className="flex h-8 items-center gap-1 rounded-lg px-2 text-sm"
         >
-          <Settings2 className="h-4 w-4" />
+          <Layers className="h-4 w-4" />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-[150px]">

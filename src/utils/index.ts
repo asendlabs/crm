@@ -91,3 +91,53 @@ export function formatDate(
 
   return `${day}${daySuffix(day)} ${month} ${year}`;
 }
+export function formatDateAndTime(
+  dateString: string | null | undefined | Date,
+): string {
+  if (!dateString) {
+    return "";
+  }
+  const date = new Date(dateString);
+
+  const day = date.getDate();
+  const monthNames = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+  const month = monthNames[date.getMonth()];
+  const year = date.getFullYear();
+
+  // Add the ordinal suffix (e.g., "1st", "2nd", "3rd", "4th")
+  const daySuffix = (day: number): string => {
+    if (day > 3 && day < 21) return "th";
+    switch (day % 10) {
+      case 1:
+        return "st";
+      case 2:
+        return "nd";
+      case 3:
+        return "rd";
+      default:
+        return "th";
+    }
+  };
+
+  // Add time in 12-hour format without seconds
+  const hours = date.getHours();
+  const minutes = date.getMinutes();
+  const period = hours >= 12 ? "PM" : "AM";
+  const formattedHours = hours % 12 || 12;
+  const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
+
+  return `${day}${daySuffix(day)} ${month} ${year} at ${formattedHours}:${formattedMinutes} ${period}`;
+}

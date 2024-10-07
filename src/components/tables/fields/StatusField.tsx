@@ -1,31 +1,47 @@
-"use client";
-
-import { Circle, Sparkle } from "lucide-react";
-import { useRouter } from "next/navigation";
-import React, { useEffect, useRef, useState } from "react";
+import React from "react";
+import { Circle } from "lucide-react";
 
 interface StatusFieldProps {
-  getValue: () => any;
-  row: any;
+  getValue: any;
 }
 
-export function StatusField({ getValue, row }: StatusFieldProps) {
-  const initialValue = getValue();
-  const [value, setValue] = useState(initialValue);
-  const router = useRouter();
-  const id = row.original.id;
+export function StatusField({ getValue }: StatusFieldProps) {
+  const value = getValue();
+
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case "new":
+        return "text-purple-800";
+      case "contacted":
+        return "text-orange-800";
+      case "qualified":
+        return "text-blue-800";
+      case "unqualified":
+        return "text-red-800";
+      case "waste":
+        return "text-gray-500";
+      case "won":
+        return "text-green-800";
+      default:
+        return "";
+    }
+  };
+
   return (
     <div className="select-none border-l border-border px-2 py-1">
       <div className="flex items-center gap-1 py-0.5">
-        {value ? (
+        {value && (
           <>
-            <Circle className="mr-1 h-3 w-3" />
-            <span className="capitalize underline decoration-muted-foreground decoration-2">
+            <Circle
+              className={`mr-1 h-3 w-3 ${getStatusColor(value)}`}
+              strokeWidth={4}
+            />
+            <span
+              className={`capitalize underline decoration-2 ${getStatusColor(value)}`}
+            >
               {value}
             </span>
           </>
-        ) : (
-          <div />
         )}
       </div>
     </div>

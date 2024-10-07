@@ -19,8 +19,9 @@ import { SecondaryField } from "../tables/fields/SecondaryField";
 import { StatusField } from "../tables/fields/StatusField";
 import { AiScoreField } from "../tables/fields/AiScoreField";
 import { TimestampField } from "../tables/fields/TimestampField";
+import { AccountFull } from "@/types/entities";
 
-export const LeadsColumns: ColumnDef<Account>[] = [
+export const LeadsColumns: ColumnDef<AccountFull>[] = [
   {
     id: "select",
     header: CheckboxHead,
@@ -44,7 +45,7 @@ export const LeadsColumns: ColumnDef<Account>[] = [
     id: "status",
     accessorKey: "status",
     header: () => <LogoHead title="Status" Icon={Component} />,
-    cell: StatusField,
+    cell: ({ getValue, row }) => <StatusField getValue={getValue} />,
   },
   {
     id: "score",
@@ -53,9 +54,9 @@ export const LeadsColumns: ColumnDef<Account>[] = [
     cell: AiScoreField,
   },
   {
-    id: "interaction",
-    accessorKey: "interaction",
-    header: () => <LogoHead title="Last Interaction" Icon={Users} />,
-    cell: TimestampField,
+    id: "activities",
+    accessorKey: "activities",
+    header: () => <LogoHead title="Last Activity" Icon={Users} />,
+    cell: ({ getValue, row }) => <TimestampField getValue={getValue} />,
   },
 ];

@@ -115,7 +115,7 @@ export function DetailsCard() {
             <SelectTrigger
               className={`h-7 w-full text-sm capitalize ring-0 ${
                 status === "new"
-                  ? "!text-green-800"
+                  ? "!text-purple-800"
                   : status === "contacted"
                     ? "!text-orange-800"
                     : status === "qualified"
@@ -125,7 +125,7 @@ export function DetailsCard() {
                         : status === "waste"
                           ? "!text-gray-500"
                           : status === "won"
-                            ? "!text-purple-800"
+                            ? "!text-green-800"
                             : ""
               }`}
             >

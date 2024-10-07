@@ -59,7 +59,7 @@ export function SecondaryField({
               )}
             </>
           ) : (
-            <span className="py-0.5 text-gray-400">{"-"}</span>
+            <span className="py-0.5 text-muted-foreground">{"-"}</span>
           )}
         </div>
       </Link>

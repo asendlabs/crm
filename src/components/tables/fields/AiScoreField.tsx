@@ -30,7 +30,7 @@ export function AiScoreField({ getValue, row }: AiScoreFieldProps) {
             </span>
           </>
         ) : (
-          "\u3164"
+          <span className="text-muted-foreground">No AI Score</span>
         )}
       </div>
     </div>

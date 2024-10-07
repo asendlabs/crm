@@ -58,7 +58,28 @@ export async function getAllWorkspaceLeads(workspaceId: string) {
       eq(accountTable.type, "lead"),
     ),
     with: {
-      contacts: true,
+      contacts: {
+        with: {
+          contactEmail: true,
+          contactPhone: true,
+        },
+      },
+      activities: {
+        with: {
+          associatedContact: true,
+        },
+      },
+      tasks: true,
+      deals: {
+        with: {
+          primaryContact: {
+            with: {
+              contactEmail: true,
+              contactPhone: true,
+            },
+          },
+        },
+      },
     },
   });
   return workspaceAccounts;

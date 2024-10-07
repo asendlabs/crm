@@ -166,7 +166,7 @@ export function ContactCard({
                 <Button
                   size="icon"
                   variant="outline"
-                  className={`h-6 w-7  ${isValidPhone ? "rounded-r" : "rounded"}`}
+                  className={`h-6 w-7 ${isValidPhone ? "rounded-r" : "rounded"}`}
                   onClick={(e) => {
                     e.stopPropagation();
                     window.location.href = `mailto:${contact.contactEmail?.email ?? ""}`;
