@@ -135,7 +135,7 @@ export function DetailsCard() {
               <SelectItem
                 value="new"
                 showIndicator={false}
-                className="font-medium !text-green-800 hover:!text-green-700"
+                className="font-medium !text-purple-800 hover:!text-purple-700"
               >
                 <div className="flex items-center gap-1.5">
                   <Circle
@@ -205,7 +205,7 @@ export function DetailsCard() {
               <SelectItem
                 value="won"
                 showIndicator={false}
-                className="font-medium !text-purple-800 hover:!text-purple-700"
+                className="font-medium !text-green-800 hover:!text-green-700"
               >
                 <div className="flex items-center gap-1.5">
                   <Circle
