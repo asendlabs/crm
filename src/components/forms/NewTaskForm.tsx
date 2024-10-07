@@ -68,7 +68,6 @@ export function NewTaskForm({
       if (!err) {
         reset();
         refresh();
-        toast.success("Task added.");
       } else {
         toast.error("Failed to create task.");
       }

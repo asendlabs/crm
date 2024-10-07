@@ -67,9 +67,6 @@ export function NewActivityForm({
       if (!err) {
         reset();
         refresh();
-        toast.success(
-          `${activityType === "call" ? "Call logged!" : activityType === "comment" ? "Comment added!" : "Activity created"}`,
-        );
       } else {
         toast.error(
           `Failed to ${activityType === "call" ? "log call" : "create activity"}`,

@@ -72,7 +72,7 @@ export function DataTableDeleteButton<TData>({
           </span>
         )}
       </Button>
-      <AlertDialogContent>
+      <AlertDialogContent className="!p-4">
         <AlertDialogHeader>
           <AlertDialogTitle>Are you sure?</AlertDialogTitle>
           <AlertDialogDescription>{description}</AlertDialogDescription>

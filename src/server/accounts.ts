@@ -27,6 +27,7 @@ import {
   deleteActivity,
   getAllAccountActivities,
 } from "@/data-access/activities";
+import { deleteTask, getAllAccountTasks } from "@/data-access/tasks";
 
 export const updateAccountAction = authenticatedAction
   .createServerAction()
@@ -60,6 +61,7 @@ export const deleteAccountAction = authenticatedAction
 
     for (const itemId of itemIds) {
       const activities = await getAllAccountActivities(itemId);
+      const tasks = await getAllAccountTasks(itemId);
 
       for (const activity of activities) {
         await deleteActivity(activity.id);
@@ -77,6 +79,10 @@ export const deleteAccountAction = authenticatedAction
         await deleteContactEmail(contact.id);
         await deleteContactPhone(contact.id);
         await deleteContact(contact.id);
+      }
+
+      for (const task of tasks) {
+        await deleteTask(task.id);
       }
 
       const res = await deleteAccount(itemId);

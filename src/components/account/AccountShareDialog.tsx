@@ -13,7 +13,7 @@ export default function AccountShareDialog({
   entityType: string;
 }) {
   const [copied, setCopied] = useState(false);
-  const shareUrl = `${env.NEXT_PUBLIC_URL}/app/${entityId.toLowerCase()}`;
+  const shareUrl = `${env.NEXT_PUBLIC_URL}/app/account/${entityId.toLowerCase()}`;
 
   const copyToClipboard = () => {
     navigator.clipboard.writeText(shareUrl);
