@@ -59,7 +59,7 @@ export const Sidebar = ({
         <ul className="">
           <Link
             href="/app/leads"
-            prefetch={false}
+            prefetch={true}
             className={`${sidebarItemClassName} ${
               pathname.startsWith("/app/leads")
                 ? "bg-muted-foreground/10 !text-primary"
@@ -71,6 +71,7 @@ export const Sidebar = ({
           </Link>
           <Link
             href="/app/deals"
+            prefetch={true}
             className={`${sidebarItemClassName} ${
               pathname === "/app/deals"
                 ? "bg-muted-foreground/10 !text-primary"
@@ -82,7 +83,7 @@ export const Sidebar = ({
           </Link>
           <Link
             href="/app/clients"
-            prefetch={false}
+            prefetch={true}
             className={`${sidebarItemClassName} ${
               pathname.startsWith("/app/clients")
                 ? "bg-muted-foreground/10 !text-primary"
@@ -94,7 +95,7 @@ export const Sidebar = ({
           </Link>
           <Link
             href="/app/integrations"
-            prefetch={false}
+            prefetch={true}
             className={`${sidebarItemClassName} ${
               pathname === "/integrations"
                 ? "bg-muted-foreground/10 !text-black"
