@@ -86,7 +86,7 @@ export const Sidebar = ({
             href="/app/clients"
             prefetch={false}
             className={`${sidebarItemClassName} ${
-              pathname === "/clients"
+              pathname.startsWith("/app/clients")
                 ? "bg-muted-foreground/10 !text-primary"
                 : ""
             }`}

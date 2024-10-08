@@ -5,6 +5,7 @@ import React from "react";
 import { getAllWorkspaceLeads } from "@/data-access/accounts";
 import { cookies } from "next/headers";
 import { selectedWorkspaceCookie } from "@/config";
+import { AccountFull } from "@/types/entities";
 
 export const metadata: Metadata = {
   title: "Leads",
@@ -14,7 +15,7 @@ export const metadata: Metadata = {
 async function LeadsPage() {
   const workspaceId = cookies().get(selectedWorkspaceCookie)?.value || "";
   const data = await getAllWorkspaceLeads(workspaceId);
-  return <LeadTable columns={LeadsColumns} tableData={data} />;
+  return <LeadTable columns={LeadsColumns} tableData={data as AccountFull[]} />;
 }
 
 export default LeadsPage;

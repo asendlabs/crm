@@ -92,6 +92,30 @@ export async function getAllWorkspaceClients(workspaceId: string) {
       eq(accountTable.workspaceId, workspaceId),
       eq(accountTable.type, "client"),
     ),
+    with: {
+      contacts: {
+        with: {
+          contactEmail: true,
+          contactPhone: true,
+        },
+      },
+      activities: {
+        with: {
+          associatedContact: true,
+        },
+      },
+      tasks: true,
+      deals: {
+        with: {
+          primaryContact: {
+            with: {
+              contactEmail: true,
+              contactPhone: true,
+            },
+          },
+        },
+      },
+    },
   });
   return workspaceAccounts;
 }
