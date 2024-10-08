@@ -1,6 +1,6 @@
 import { GoBackLink } from "@/components/GoBackLink";
 import { selectedWorkspaceCookie } from "@/config";
-import { getAccountById } from "@/data-access/accounts";
+import { getAccountById, getClientById } from "@/data-access/accounts";
 import { cookies } from "next/headers";
 import React from "react";
 import type { Metadata, ResolvingMetadata } from "next";
@@ -33,7 +33,10 @@ export async function generateMetadata(
   };
 }
 
-export default async function AccountPage({ params, searchParams }: Props) {
+export default async function ClientAccountPage({
+  params,
+  searchParams,
+}: Props) {
   const { id } = params;
   const { tab } = searchParams;
   if (!id) {
@@ -46,7 +49,7 @@ export default async function AccountPage({ params, searchParams }: Props) {
       </div>
     );
   }
-  const account = await getAccountById(id.toUpperCase());
+  const account = await getClientById(id.toUpperCase());
   if (!account) {
     return (
       <div className="flex h-screen flex-col items-center justify-center">
@@ -61,7 +64,7 @@ export default async function AccountPage({ params, searchParams }: Props) {
   if (!account.workspaceId || account.workspaceId !== workspaceId) {
     return (
       <div className="flex h-screen flex-col items-center justify-center">
-        <GoBackLink pagePath="leads" permanent={true} />
+        <GoBackLink pagePath="clients" permanent={true} />
         <span className="text-center text-2xl font-semibold">
           We couldn't find what you were looking for.
         </span>

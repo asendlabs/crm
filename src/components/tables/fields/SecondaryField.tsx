@@ -55,7 +55,11 @@ export function SecondaryField({ row }: SecondaryFieldProps) {
   return (
     <div className="group select-none border-l border-border px-2 py-1">
       <Link
-        href={`/app/account/${id?.toLowerCase() ?? ""}`}
+        href={`/app/${
+          contacts?.length > 0
+            ? contacts[0]?.account?.type?.toLowerCase()
+            : (account?.type?.toLowerCase() ?? "unknown")
+        }s/${id?.toLowerCase() ?? ""}`}
         replace={false}
         prefetch={true}
       >

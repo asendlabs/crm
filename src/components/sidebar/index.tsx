@@ -62,10 +62,8 @@ export const Sidebar = ({
             prefetch={false}
             className={`${sidebarItemClassName} ${
               pathname.startsWith("/app/leads")
-                ? "bg-muted-foreground/10 !text-black"
-                : pathname.startsWith("/app/account")
-                  ? "bg-muted-foreground/10 !text-black"
-                  : ""
+                ? "bg-muted-foreground/10 !text-primary"
+                : ""
             }`}
           >
             <Building className="h-4 w-4" />

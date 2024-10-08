@@ -61,7 +61,7 @@ export function Header({ className }: { className?: string }) {
       });
       if (!err) {
         toast.success("Converted to client successfully");
-        router.refresh();
+        router.push(`/app/clients/${account?.id}`);
       } else {
         toast.error("Failed to convert account to client.");
       }

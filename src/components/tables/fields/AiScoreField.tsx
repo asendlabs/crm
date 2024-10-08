@@ -16,10 +16,11 @@ export function AiScoreField({ getValue, row }: AiScoreFieldProps) {
   const [value, setValue] = useState(initialValue);
   const router = useRouter();
   const id = row.original.id;
+  const type = row.original.type;
   return (
     <div
       className="select-none border-l border-border px-2 py-1"
-      onClick={() => router.push(`/app/account/${id.toLowerCase()}`)}
+      onClick={() => router.push(`/app/${type}s/${id.toLowerCase()}`)}
     >
       <div className="flex items-center gap-1 py-0.5">
         {value ? (

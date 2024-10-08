@@ -42,6 +42,71 @@ export async function getAccountById(id: string) {
   return account;
 }
 
+export async function getLeadById(id: string) {
+  const account = await db.query.accountTable.findFirst({
+    where: and(eq(accountTable.id, id), eq(accountTable.type, "lead")),
+    with: {
+      workspace: true,
+      contacts: {
+        with: {
+          contactEmail: true,
+          contactPhone: true,
+        },
+      },
+      deals: {
+        with: {
+          account: true,
+          primaryContact: {
+            with: {
+              contactEmail: true,
+              contactPhone: true,
+            },
+          },
+        },
+      },
+      activities: {
+        with: {
+          associatedContact: true,
+        },
+      },
+      tasks: true,
+    },
+  });
+  return account;
+}
+export async function getClientById(id: string) {
+  const account = await db.query.accountTable.findFirst({
+    where: and(eq(accountTable.id, id), eq(accountTable.type, "client")),
+    with: {
+      workspace: true,
+      contacts: {
+        with: {
+          contactEmail: true,
+          contactPhone: true,
+        },
+      },
+      deals: {
+        with: {
+          account: true,
+          primaryContact: {
+            with: {
+              contactEmail: true,
+              contactPhone: true,
+            },
+          },
+        },
+      },
+      activities: {
+        with: {
+          associatedContact: true,
+        },
+      },
+      tasks: true,
+    },
+  });
+  return account;
+}
+
 export async function getAllWorkspaceAccounts(workspaceId: string) {
   const workspaceAccounts = await db.query.accountTable.findMany({
     where: eq(accountTable.workspaceId, workspaceId),

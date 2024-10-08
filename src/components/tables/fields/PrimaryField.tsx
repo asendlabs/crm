@@ -19,10 +19,12 @@ export function PrimaryField({ getValue, row, isAccount }: PrimaryFieldProps) {
   useEffect(() => {
     setValue(initialValue);
     if (isAccount) {
-      setRouterPath(`/app/account/${row.original.id.toLowerCase()}`);
+      setRouterPath(
+        `/app/${row.original.type}s/${row.original.id.toLowerCase()}`,
+      );
     } else {
       setRouterPath(
-        `/app/account/${row.original.account?.id?.toLowerCase() ?? ""}`,
+        `/app/${row.original.account?.type ?? ""}s/${row.original.account?.id?.toLowerCase() ?? ""}`,
       );
     }
   }, [initialValue]);
