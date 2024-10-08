@@ -9,6 +9,7 @@ import {
 } from "@database/types";
 
 export interface ContactWithDetails extends Contact {
+  account: Account | null;
   contactEmail: ContactEmail | null;
   contactPhone: ContactPhone | null;
 }

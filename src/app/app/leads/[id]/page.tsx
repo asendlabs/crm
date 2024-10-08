@@ -1,6 +1,6 @@
 import { GoBackLink } from "@/components/GoBackLink";
 import { selectedWorkspaceCookie } from "@/config";
-import { getAccountById, getLeadById } from "@/data-access/accounts";
+import { getAccountById, getAccountTypeById } from "@/data-access/accounts";
 import { cookies } from "next/headers";
 import React from "react";
 import type { Metadata, ResolvingMetadata } from "next";
@@ -46,7 +46,7 @@ export default async function LeadAccountPage({ params, searchParams }: Props) {
       </div>
     );
   }
-  const account = await getLeadById(id.toUpperCase());
+  const account = await getAccountTypeById(id.toUpperCase(), "lead");
   if (!account) {
     return (
       <div className="flex h-screen flex-col items-center justify-center">

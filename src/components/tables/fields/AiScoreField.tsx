@@ -17,6 +17,11 @@ export function AiScoreField({ getValue, row }: AiScoreFieldProps) {
   const router = useRouter();
   const id = row.original.id;
   const type = row.original.type;
+  useEffect(() => {
+    setValue(initialValue);
+    router.prefetch(`/app/${type}s/${id.toLowerCase()}`);
+  }, [initialValue]);
+
   return (
     <div
       className="select-none border-l border-border px-2 py-1"

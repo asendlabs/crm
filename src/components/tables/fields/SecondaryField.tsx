@@ -8,11 +8,17 @@ import React from "react";
 
 interface SecondaryFieldProps {
   row: Row<any>;
+  urlType: string;
+  accountId: string;
 }
 
-export function SecondaryField({ row }: SecondaryFieldProps) {
+export function SecondaryField({
+  row,
+  urlType,
+  accountId,
+}: SecondaryFieldProps) {
   const derivedRow = row.original;
-  const { id, account, contacts } = derivedRow;
+  const { account, contacts } = derivedRow;
 
   const renderAccount = () => (
     <div className="flex items-center gap-1">
@@ -55,11 +61,7 @@ export function SecondaryField({ row }: SecondaryFieldProps) {
   return (
     <div className="group select-none border-l border-border px-2 py-1">
       <Link
-        href={`/app/${
-          contacts?.length > 0
-            ? contacts[0]?.account?.type?.toLowerCase()
-            : (account?.type?.toLowerCase() ?? "unknown")
-        }s/${id?.toLowerCase() ?? ""}`}
+        href={`/app/${urlType}s/${accountId?.toLowerCase() ?? ""}`}
         replace={false}
         prefetch={true}
       >

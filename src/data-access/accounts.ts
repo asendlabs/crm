@@ -8,6 +8,8 @@ import {
 import { and, eq } from "drizzle-orm";
 import { ulid } from "ulid";
 import { Account } from "@database/types";
+import { State } from "@/providers/accountProvider";
+import { AccountFull } from "@/types/entities";
 
 export async function getAccountById(id: string) {
   const account = await db.query.accountTable.findFirst({
@@ -42,13 +44,17 @@ export async function getAccountById(id: string) {
   return account;
 }
 
-export async function getLeadById(id: string) {
+export async function getAccountTypeById(
+  id: string,
+  type: string,
+): Promise<AccountFull | undefined> {
   const account = await db.query.accountTable.findFirst({
-    where: and(eq(accountTable.id, id), eq(accountTable.type, "lead")),
+    where: and(eq(accountTable.id, id), eq(accountTable.type, type)),
     with: {
       workspace: true,
       contacts: {
         with: {
+          account: true,
           contactEmail: true,
           contactPhone: true,
         },
@@ -58,38 +64,7 @@ export async function getLeadById(id: string) {
           account: true,
           primaryContact: {
             with: {
-              contactEmail: true,
-              contactPhone: true,
-            },
-          },
-        },
-      },
-      activities: {
-        with: {
-          associatedContact: true,
-        },
-      },
-      tasks: true,
-    },
-  });
-  return account;
-}
-export async function getClientById(id: string) {
-  const account = await db.query.accountTable.findFirst({
-    where: and(eq(accountTable.id, id), eq(accountTable.type, "client")),
-    with: {
-      workspace: true,
-      contacts: {
-        with: {
-          contactEmail: true,
-          contactPhone: true,
-        },
-      },
-      deals: {
-        with: {
-          account: true,
-          primaryContact: {
-            with: {
+              account: true,
               contactEmail: true,
               contactPhone: true,
             },

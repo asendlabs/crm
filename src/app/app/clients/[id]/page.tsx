@@ -1,6 +1,6 @@
 import { GoBackLink } from "@/components/GoBackLink";
 import { selectedWorkspaceCookie } from "@/config";
-import { getAccountById, getClientById } from "@/data-access/accounts";
+import { getAccountById, getAccountTypeById } from "@/data-access/accounts";
 import { cookies } from "next/headers";
 import React from "react";
 import type { Metadata, ResolvingMetadata } from "next";
@@ -49,7 +49,7 @@ export default async function ClientAccountPage({
       </div>
     );
   }
-  const account = await getClientById(id.toUpperCase());
+  const account = await getAccountTypeById(id.toUpperCase(), "client");
   if (!account) {
     return (
       <div className="flex h-screen flex-col items-center justify-center">

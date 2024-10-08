@@ -41,9 +41,15 @@ export const DealColumns: ColumnDef<DealWithPrimaryContact>[] = [
     accessorKey: "title",
   },
   {
-    id: "accountName",
+    id: "account",
     header: () => <LogoHead title="Lead or Client" Icon={Building} />,
-    cell: ({ getValue, row }) => <SecondaryField row={row} />,
+    cell: ({ getValue, row }) => (
+      <SecondaryField
+        row={row}
+        urlType={row.original.account?.type ?? ""}
+        accountId={row.original.accountId}
+      />
+    ),
     accessorKey: "account",
   },
   {

@@ -27,6 +27,7 @@ export function PrimaryField({ getValue, row, isAccount }: PrimaryFieldProps) {
         `/app/${row.original.account?.type ?? ""}s/${row.original.account?.id?.toLowerCase() ?? ""}`,
       );
     }
+    router.prefetch(routerPath);
   }, [initialValue]);
 
   return (

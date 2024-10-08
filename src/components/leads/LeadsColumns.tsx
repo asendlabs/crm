@@ -39,7 +39,9 @@ export const LeadsColumns: ColumnDef<AccountFull>[] = [
     id: "contacts",
     accessorKey: "contacts",
     header: () => <LogoHead title="Contacts" Icon={LucideUsers} />,
-    cell: ({ getValue, row }) => <SecondaryField row={row} />,
+    cell: ({ getValue, row }) => (
+      <SecondaryField row={row} urlType="lead" accountId={row.original.id} />
+    ),
   },
   {
     id: "status",
