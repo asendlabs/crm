@@ -181,7 +181,7 @@ export function DealCard({ deal }: { deal: DealWithPrimaryContact }) {
               </span>
               (<span className="max-w-[4rem] truncate">${deal.value}</span>)
             </h1>
-            <p className="text-xs text-gray-700">
+            <p className="text-xs text-gray-800">
               {deal.probability && (
                 <>
                   <span className="font-medium">{deal.probability}%</span>{" "}

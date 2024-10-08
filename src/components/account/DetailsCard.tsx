@@ -117,7 +117,7 @@ export function DetailsCard() {
                 status === "new"
                   ? "!text-purple-800"
                   : status === "contacted"
-                    ? "!text-orange-800"
+                    ? "!text-yellow-800"
                     : status === "qualified"
                       ? "!text-blue-800"
                       : status === "unqualified"
@@ -135,7 +135,7 @@ export function DetailsCard() {
               <SelectItem
                 value="new"
                 showIndicator={false}
-                className="font-medium !text-purple-800 hover:!text-purple-700"
+                className="font-medium !text-purple-800 hover:!text-purple-800"
               >
                 <div className="flex items-center gap-1.5">
                   <Circle
@@ -149,7 +149,7 @@ export function DetailsCard() {
               <SelectItem
                 value="contacted"
                 showIndicator={false}
-                className="font-medium !text-orange-800 hover:!text-orange-700"
+                className="font-medium !text-yellow-800 hover:!text-yellow-800"
               >
                 <div className="flex items-center gap-1.5">
                   <Circle
@@ -163,7 +163,7 @@ export function DetailsCard() {
               <SelectItem
                 value="qualified"
                 showIndicator={false}
-                className="font-medium !text-blue-800 hover:!text-blue-700"
+                className="font-medium !text-blue-800 hover:!text-blue-800"
               >
                 <div className="flex items-center gap-1.5">
                   <Circle
@@ -177,7 +177,7 @@ export function DetailsCard() {
               <SelectItem
                 value="unqualified"
                 showIndicator={false}
-                className="font-medium !text-red-800 hover:!text-red-700"
+                className="font-medium !text-red-800 hover:!text-red-800"
               >
                 <div className="flex items-center gap-1.5">
                   <Circle
@@ -205,7 +205,7 @@ export function DetailsCard() {
               <SelectItem
                 value="won"
                 showIndicator={false}
-                className="font-medium !text-green-800 hover:!text-green-700"
+                className="font-medium !text-green-800 hover:!text-green-800"
               >
                 <div className="flex items-center gap-1.5">
                   <Circle

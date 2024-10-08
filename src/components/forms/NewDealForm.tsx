@@ -45,14 +45,17 @@ import {
   Deal,
 } from "@database/types";
 import { useServerAction } from "zsa-react";
+import { DealWithPrimaryContact } from "@/types/entities";
 
 export function NewDealForm({
   accountId,
   accounts,
+  fullButton,
   addDeal,
 }: {
   accountId?: string;
   accounts?: Account[];
+  fullButton?: boolean;
   addDeal?: (deal: any) => void;
 }) {
   const [loading, setLoading] = useState(false);
@@ -77,9 +80,11 @@ export function NewDealForm({
         toast.error("Failed to create deal.");
         return;
       }
-
-      dealform.reset();
+      if (addDeal) {
+        addDeal(data?.data);
+      }
       setOpen(false);
+      dealform.reset();
       router.refresh();
     } catch (error) {
       toast.error("An error occurred while creating the deal.");
@@ -90,14 +95,21 @@ export function NewDealForm({
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <Button
-        onClick={() => setOpen(true)}
-        variant={"outline"}
-        className="flex h-6 max-w-28 flex-row items-center gap-1 rounded-lg px-3"
-      >
-        <Plus className="h-4 w-4" />
-        <span>New</span>
-      </Button>
+      {fullButton ? (
+        <DialogTrigger className="flex max-h-8 max-w-28 flex-row items-center gap-1 rounded-lg bg-primary px-3 text-sm text-white hover:bg-primary/90">
+          <Plus className="h-4 w-4" />
+          <span>New</span>
+        </DialogTrigger>
+      ) : (
+        <Button
+          onClick={() => setOpen(true)}
+          variant={"outline"}
+          className="flex h-6 max-w-28 flex-row items-center gap-1 rounded-lg px-3"
+        >
+          <Plus className="h-4 w-4" />
+          <span>New</span>
+        </Button>
+      )}
 
       <DialogContent className="py-0.5">
         <div className="mb-3 px-5">
@@ -112,7 +124,8 @@ export function NewDealForm({
                     control={dealform.control}
                     name="accountId"
                     render={({ field }) => (
-                      <FormItem className="flex-1">
+                      <FormItem className="flex-1 pt-1">
+                        <FormLabel>Lead or Client</FormLabel>
                         <Select
                           onValueChange={field.onChange}
                           defaultValue={field.value}

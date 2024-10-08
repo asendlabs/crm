@@ -13,7 +13,7 @@ export function StatusField({ getValue }: StatusFieldProps) {
       case "new":
         return "text-purple-800";
       case "contacted":
-        return "text-orange-800";
+        return "text-yellow-800";
       case "qualified":
         return "text-blue-800";
       case "unqualified":
@@ -36,9 +36,7 @@ export function StatusField({ getValue }: StatusFieldProps) {
               className={`mr-1 h-3 w-3 ${getStatusColor(value)}`}
               strokeWidth={4}
             />
-            <span
-              className={`capitalize underline decoration-2 ${getStatusColor(value)}`}
-            >
+            <span className={`font-medium capitalize ${getStatusColor(value)}`}>
               {value}
             </span>
           </>

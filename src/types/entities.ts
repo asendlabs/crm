@@ -15,6 +15,7 @@ export interface ContactWithDetails extends Contact {
 
 export interface DealWithPrimaryContact extends Deal {
   primaryContact: ContactWithDetails | null;
+  account: Account | null;
 }
 
 export interface ActivityWithContact extends Activity {

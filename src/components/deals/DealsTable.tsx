@@ -56,7 +56,7 @@ export function DealTable<TData, TValue>({
     router.refresh();
   };
 
-  const primaryFields = ["", ""];
+  const primaryFields = ["deal title", "accountName", "stage"];
 
   const updateData = async ({
     rowIndex,
@@ -172,7 +172,7 @@ export function DealTable<TData, TValue>({
                 primaryFieldPrettyName="Deal"
               />
             </div>
-            <NewDealForm addDeal={addData} accounts={accounts} />
+            <NewDealForm addDeal={addData} accounts={accounts} fullButton />
           </div>
         </div>
         <Table>

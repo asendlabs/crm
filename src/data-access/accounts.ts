@@ -22,6 +22,7 @@ export async function getAccountById(id: string) {
       },
       deals: {
         with: {
+          account: true,
           primaryContact: {
             with: {
               contactEmail: true,

@@ -30,7 +30,7 @@ export function DataTableViewOptions<TData>({
           <Layers className="h-4 w-4" />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-[150px]">
+      <DropdownMenuContent align="end" className="w-[170px]">
         {table
           .getAllColumns()
           .filter(

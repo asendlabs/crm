@@ -18,7 +18,7 @@ import { PrimaryHead } from "@/components/tables/headers/PrimaryHead";
 import { SecondaryField } from "../tables/fields/SecondaryField";
 import { StatusField } from "../tables/fields/StatusField";
 import { AiScoreField } from "../tables/fields/AiScoreField";
-import { TimestampField } from "../tables/fields/TimestampField";
+import { LastInteractionField } from "../tables/fields/LastInteractionField";
 import { AccountFull } from "@/types/entities";
 
 export const LeadsColumns: ColumnDef<AccountFull>[] = [
@@ -31,15 +31,15 @@ export const LeadsColumns: ColumnDef<AccountFull>[] = [
     id: "accountName",
     accessorKey: "accountName",
     header: () => <PrimaryHead title="Lead Name" />,
-    cell: PrimaryField,
+    cell: ({ getValue, row }) => (
+      <PrimaryField getValue={getValue} row={row} isAccount={true} />
+    ),
   },
   {
     id: "contacts",
     accessorKey: "contacts",
     header: () => <LogoHead title="Contacts" Icon={LucideUsers} />,
-    cell: ({ getValue, row }) => (
-      <SecondaryField arrayName="contacts" getValue={getValue} row={row} />
-    ),
+    cell: ({ getValue, row }) => <SecondaryField row={row} />,
   },
   {
     id: "status",
@@ -48,15 +48,15 @@ export const LeadsColumns: ColumnDef<AccountFull>[] = [
     cell: ({ getValue, row }) => <StatusField getValue={getValue} />,
   },
   {
-    id: "score",
+    id: "AI score",
     accessorKey: "score",
     header: () => <LogoHead title="AI Score" Icon={CalendarDays} />,
     cell: AiScoreField,
   },
   {
-    id: "activities",
+    id: "last activity",
     accessorKey: "activities",
     header: () => <LogoHead title="Last Activity" Icon={Users} />,
-    cell: ({ getValue, row }) => <TimestampField getValue={getValue} />,
+    cell: ({ getValue, row }) => <LastInteractionField getValue={getValue} />,
   },
 ];

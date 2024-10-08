@@ -9,48 +9,59 @@ import {
   Building,
   CalendarDays,
   Component,
+  DollarSign,
   LucideFileText,
   LucideUsers,
+  Route,
   Sparkle,
   Users,
 } from "lucide-react";
 import { LogoHead } from "@/components/tables/headers/LogoHead";
 import { CheckboxHead } from "@/components/tables/headers/CheckboxHead";
 import { PrimaryHead } from "@/components/tables/headers/PrimaryHead";
-import { EditableField } from "../tables/fields/EditableField";
 import { SecondaryField } from "../tables/fields/SecondaryField";
-import { StatusField } from "../tables/fields/StatusField";
-import { AiScoreField } from "../tables/fields/AiScoreField";
+import { DealWithPrimaryContact } from "@/types/entities";
+import { ExpectedCloseField } from "../tables/fields/ExpectedCloseField";
 import { UneditableField } from "../tables/fields/UneditableField";
-import { TimestampField } from "../tables/fields/TimestampField";
+import { ValueField } from "../tables/fields/ValueField";
+import { DealStageField } from "../tables/fields/DealStageField";
 
-export const DealColumns: ColumnDef<Deal>[] = [
+export const DealColumns: ColumnDef<DealWithPrimaryContact>[] = [
   {
     id: "select",
     header: CheckboxHead,
     cell: CheckboxField,
   },
   {
-    id: "title",
-    header: () => <PrimaryHead title="Title" />,
-    cell: PrimaryField,
+    id: "deal title",
+    header: () => <PrimaryHead title="Deal Title" />,
+    cell: ({ getValue, row }) => (
+      <PrimaryField getValue={getValue} row={row} isAccount={false} />
+    ),
     accessorKey: "title",
   },
   {
-    id: "primaryContact",
+    id: "accountName",
     header: () => <LogoHead title="Lead or Client" Icon={Building} />,
-    cell: ({ getValue, row }) => (
-      <SecondaryField
-        arrayName="primaryContact"
-        getValue={getValue}
-        row={row}
-      />
-    ),
-    accessorKey: "primaryContact",
+    cell: ({ getValue, row }) => <SecondaryField row={row} />,
+    accessorKey: "account",
   },
   {
-    id: "ai_probability",
-    header: () => <LogoHead title="Probability" Icon={Bot} />,
-    accessorKey: "ai_probability",
+    id: "stage",
+    header: () => <LogoHead title="Deal Stage" Icon={Route} />,
+    cell: DealStageField,
+    accessorKey: "stage",
+  },
+  {
+    id: "value",
+    header: () => <LogoHead title="Deal Value" Icon={DollarSign} />,
+    cell: ValueField,
+    accessorKey: "value",
+  },
+  {
+    id: "expected close",
+    header: () => <LogoHead title="Expected Close" Icon={CalendarDays} />,
+    cell: ExpectedCloseField,
+    accessorKey: "expectedCloseDate",
   },
 ];

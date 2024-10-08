@@ -5,11 +5,11 @@ import { formatDate, formatDateAndTime, timeAgo } from "@/utils"; // Assuming ti
 import { Activity } from "@database/types"; // Adjust according to your project structure
 import React, { useEffect, useState } from "react";
 
-interface TimestampFieldProps {
+interface LastInteractionFieldProps {
   getValue: () => any; // Function that returns an array of activities
 }
 
-export function TimestampField({ getValue }: TimestampFieldProps) {
+export function LastInteractionField({ getValue }: LastInteractionFieldProps) {
   const initialValue: ActivityWithContact[] = getValue(); // Fetch initial activity data
   const [value, setValue] = useState<string | undefined>(); // State to hold the time ago string
 

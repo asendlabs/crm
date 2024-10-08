@@ -12,6 +12,7 @@ import { selectedWorkspaceCookie } from "@/config";
 import { cookies } from "next/headers";
 import { dealCreateSchema } from "@/schemas/deal.schema";
 import { createActivity } from "@/data-access/activities";
+import { dealTableRelations } from "@database/relations";
 
 export const updateDealAction = authenticatedAction
   .createServerAction()
@@ -112,8 +113,12 @@ export const createDealAction = authenticatedAction
     if (!activityRes) {
       throw new Error("Could not create the activity."); // Inline error message
     }
+    const deal = await getDealById(dealRes.id);
+    if (!deal) {
+      throw new Error("Deal not found after creation."); // Inline error message
+    }
     return {
       success: true,
-      data: dealRes,
+      data: deal,
     };
   });

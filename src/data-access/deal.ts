@@ -8,6 +8,15 @@ import { Deal } from "@database/types";
 export async function getDealById(id: string) {
   const deal = await db.query.dealTable.findFirst({
     where: eq(dealTable.id, id),
+    with: {
+      account: true,
+      primaryContact: {
+        with: {
+          contactEmail: true,
+          contactPhone: true,
+        },
+      },
+    },
   });
   return deal;
 }
@@ -17,7 +26,12 @@ export async function getAllWorkspaceDeals(workspaceId: string) {
     where: eq(dealTable.workspaceId, workspaceId),
     with: {
       account: true,
-      primaryContact: true,
+      primaryContact: {
+        with: {
+          contactEmail: true,
+          contactPhone: true,
+        },
+      },
     },
   });
   return workspaceDeals;

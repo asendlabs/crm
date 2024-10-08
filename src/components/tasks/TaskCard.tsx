@@ -154,7 +154,7 @@ export default function TaskCard({ task }: { task: Task }) {
             <label
               onClick={() => {}}
               onDoubleClick={() => {}}
-              className={`text-sm font-medium ${taskStage === "done" ? "line-through" : "text-gray-900"}`}
+              className={`text-sm font-medium ${taskStage === "done" ? "line-through" : "text-gray-800"}`}
             >
               {title}
             </label>
@@ -197,7 +197,7 @@ export default function TaskCard({ task }: { task: Task }) {
                 priority === "high"
                   ? "!text-red-800"
                   : priority === "medium"
-                    ? "!text-orange-800"
+                    ? "!text-yellow-800"
                     : priority === "low"
                       ? "!text-blue-800"
                       : ""
@@ -217,7 +217,7 @@ export default function TaskCard({ task }: { task: Task }) {
               <SelectItem
                 value="medium"
                 showIndicator={false}
-                className="font-medium !text-orange-800 hover:!text-orange-800"
+                className="font-medium !text-yellow-800 hover:!text-yellow-800"
               >
                 Medium
               </SelectItem>

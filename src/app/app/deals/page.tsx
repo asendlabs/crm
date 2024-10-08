@@ -6,6 +6,7 @@ import { DealTable } from "@/components/deals/DealsTable";
 import { DealColumns } from "@/components/deals/DealsColumns";
 import { getAllWorkspaceDeals } from "@/data-access/deal";
 import { getAllWorkspaceAccounts } from "@/data-access/accounts";
+import { DealWithPrimaryContact } from "@/types/entities";
 
 export const metadata: Metadata = {
   title: "Deals",
@@ -17,7 +18,11 @@ async function LeadsPage() {
   const data = await getAllWorkspaceDeals(workspaceId);
   const accounts = await getAllWorkspaceAccounts(workspaceId);
   return (
-    <DealTable columns={DealColumns} tableData={data} accounts={accounts} />
+    <DealTable
+      columns={DealColumns}
+      tableData={data as DealWithPrimaryContact[]}
+      accounts={accounts}
+    />
   );
 }
 

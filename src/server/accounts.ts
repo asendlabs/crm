@@ -141,8 +141,8 @@ export const createAccountAction = authenticatedAction
       entityTitle: contactRes.contactName,
       entityType: "contact",
     });
-    const contactEmailRes = await createContactEmail(contactRes.id, " ");
-    const contactPhoneRes = await createContactPhone(contactRes.id, " ");
+    const contactEmailRes = await createContactEmail(contactRes.id, "");
+    const contactPhoneRes = await createContactPhone(contactRes.id, "");
 
     const account = await getAccountById(accountRes.id);
     if (!account) {

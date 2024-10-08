@@ -160,7 +160,7 @@ export function NewTaskForm({
                 >
                   <FormControl>
                     <SelectTrigger
-                      className={`h-8 font-medium ${field.value === "todo" ? "!text-green-800" : field.value === "in_progress" ? "!text-orange-800" : field.value === "done" ? "!text-blue-800" : ""}`}
+                      className={`h-8 font-medium ${field.value === "todo" ? "!text-green-800" : field.value === "in_progress" ? "!text-yellow-800" : field.value === "done" ? "!text-blue-800" : ""}`}
                     >
                       <SelectValue placeholder="Choose Stage" />
                     </SelectTrigger>
@@ -169,7 +169,7 @@ export function NewTaskForm({
                     <SelectItem
                       value="todo"
                       showIndicator={false}
-                      className="font-medium !text-green-800 hover:!text-green-700"
+                      className="font-medium !text-green-800 hover:!text-green-800"
                     >
                       <div className="flex flex-row items-center gap-1.5">
                         <CheckCircleIcon className="h-4 w-4" />
@@ -179,7 +179,7 @@ export function NewTaskForm({
                     <SelectItem
                       value="in_progress"
                       showIndicator={false}
-                      className="font-medium !text-orange-800 hover:!text-orange-700"
+                      className="font-medium !text-yellow-800 hover:!text-yellow-800"
                     >
                       <div className="flex flex-row items-center gap-1.5">
                         <HourglassIcon className="h-4 w-4" />
@@ -189,7 +189,7 @@ export function NewTaskForm({
                     <SelectItem
                       value="done"
                       showIndicator={false}
-                      className="font-medium !text-blue-800 hover:!text-blue-700"
+                      className="font-medium !text-blue-800 hover:!text-blue-800"
                     >
                       <div className="flex flex-row items-center gap-1.5">
                         <CheckIcon className="h-4 w-4" />
@@ -216,7 +216,7 @@ export function NewTaskForm({
                 >
                   <FormControl>
                     <SelectTrigger
-                      className={`h-8 ${field.value === "low" ? "!text-blue-800" : field.value === "medium" ? "!text-orange-800" : field.value === "high" ? "!text-red-800" : ""} font-medium`}
+                      className={`h-8 ${field.value === "low" ? "!text-blue-800" : field.value === "medium" ? "!text-yellow-800" : field.value === "high" ? "!text-red-800" : ""} font-medium`}
                     >
                       <SelectValue placeholder="Choose Priority" />
                     </SelectTrigger>
@@ -225,21 +225,21 @@ export function NewTaskForm({
                     <SelectItem
                       value="low"
                       showIndicator={false}
-                      className="font-medium !text-blue-800 hover:!text-blue-700"
+                      className="font-medium !text-blue-800 hover:!text-blue-800"
                     >
                       Low
                     </SelectItem>
                     <SelectItem
                       value="medium"
                       showIndicator={false}
-                      className="font-medium !text-orange-800 hover:!text-orange-700"
+                      className="font-medium !text-yellow-800 hover:!text-yellow-800"
                     >
                       Medium
                     </SelectItem>
                     <SelectItem
                       value="high"
                       showIndicator={false}
-                      className="font-medium !text-red-800 hover:!text-red-700"
+                      className="font-medium !text-red-800 hover:!text-red-800"
                     >
                       High
                     </SelectItem>

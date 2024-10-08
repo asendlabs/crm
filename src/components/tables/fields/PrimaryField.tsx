@@ -7,22 +7,29 @@ import React, { useEffect, useRef, useState } from "react";
 interface PrimaryFieldProps {
   getValue: () => any;
   row: any;
+  isAccount?: boolean;
 }
 
-export function PrimaryField({ getValue, row }: PrimaryFieldProps) {
+export function PrimaryField({ getValue, row, isAccount }: PrimaryFieldProps) {
   const initialValue = getValue();
   const [value, setValue] = useState(initialValue);
+  const [routerPath, setRouterPath] = useState("");
   const router = useRouter();
-
-  const id = row.original.id;
 
   useEffect(() => {
     setValue(initialValue);
+    if (isAccount) {
+      setRouterPath(`/app/account/${row.original.id.toLowerCase()}`);
+    } else {
+      setRouterPath(
+        `/app/account/${row.original.account?.id?.toLowerCase() ?? ""}`,
+      );
+    }
   }, [initialValue]);
 
   return (
     <div
-      onClick={() => router.push(`/app/account/${id.toLowerCase()}`)}
+      onClick={() => router.push(routerPath)}
       className="ml-2 flex h-8 w-full cursor-pointer select-none items-center hover:underline"
     >
       {value}

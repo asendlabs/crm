@@ -1,29 +1,56 @@
 "use client";
 
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Contact, Account, Deal } from "@database/types"; // Assuming these types exist
+import { Contact, Account } from "@database/types";
 import { Row } from "@tanstack/react-table";
 import Link from "next/link";
 import React from "react";
 
 interface SecondaryFieldProps {
-  getValue: () => any;
   row: Row<any>;
-  arrayName: string;
 }
 
-export function SecondaryField({
-  getValue,
-  row,
-  arrayName,
-}: SecondaryFieldProps) {
-  const array = row.original[arrayName] as (Contact | Account | Deal)[];
-  const id = row.original.id;
+export function SecondaryField({ row }: SecondaryFieldProps) {
+  const derivedRow = row.original;
+  const { id, account, contacts } = derivedRow;
 
-  // Get first two items to display and the remaining items for truncation
-  const visibleItems = (array && array.length > 0 && array.slice(0, 1)) || [];
-  const hiddenItemsCount =
-    (array && array.length > 1 && array.length - 1) || null;
+  const renderAccount = () => (
+    <div className="flex items-center gap-1">
+      <Avatar className="h-6 w-6 rounded-lg bg-muted-foreground/20">
+        <AvatarFallback className="bg-transparent">
+          {account?.accountName.charAt(0).toUpperCase()}
+        </AvatarFallback>
+      </Avatar>
+      <p className="ml-1 max-w-[6rem] truncate group-hover:underline">
+        {account?.accountName}
+      </p>
+    </div>
+  );
+
+  const renderContacts = () => {
+    const visibleContact = contacts[0];
+    const hiddenContactsCount = contacts.length - 1;
+
+    return (
+      <>
+        {visibleContact && (
+          <div className="flex items-center gap-1">
+            <Avatar className="h-6 w-6 rounded-lg bg-muted-foreground/20">
+              <AvatarFallback className="bg-transparent">
+                {visibleContact.contactName.charAt(0).toUpperCase()}
+              </AvatarFallback>
+            </Avatar>
+            <p className="ml-1 max-w-[6rem] truncate group-hover:underline">
+              {visibleContact.contactName}
+            </p>
+          </div>
+        )}
+        {hiddenContactsCount > 0 && (
+          <p className="ml-1 flex text-gray-500">+{hiddenContactsCount} more</p>
+        )}
+      </>
+    );
+  };
 
   return (
     <div className="group select-none border-l border-border px-2 py-1">
@@ -33,34 +60,7 @@ export function SecondaryField({
         prefetch={true}
       >
         <div className="flex items-center gap-2">
-          {array && array.length > 0 ? (
-            <>
-              {visibleItems &&
-                visibleItems.map((item, index) => (
-                  <div key={index} className="flex items-center gap-1">
-                    <Avatar className="h-6 w-6 rounded-lg bg-muted-foreground/20">
-                      <AvatarFallback className="bg-transparent">
-                        {"contactName" in item &&
-                          (item as Contact).contactName.charAt(0).toUpperCase()}
-                        {"accountName" in item &&
-                          (item as Account).accountName.charAt(0).toUpperCase()}
-                      </AvatarFallback>
-                    </Avatar>
-                    <p className="ml-1 max-w-[6rem] truncate group-hover:underline">
-                      {"contactName" in item && (item as Contact).contactName}
-                      {"accountName" in item && (item as Account).accountName}
-                    </p>
-                  </div>
-                ))}
-              {hiddenItemsCount && hiddenItemsCount > 0 && (
-                <p className="ml-1 flex text-gray-500">
-                  +{hiddenItemsCount} more
-                </p>
-              )}
-            </>
-          ) : (
-            <span className="py-0.5 text-muted-foreground">{"-"}</span>
-          )}
+          {contacts && contacts.length > 0 ? renderContacts() : renderAccount()}
         </div>
       </Link>
     </div>
