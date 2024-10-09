@@ -39,7 +39,7 @@ export const ClientsColumns: ColumnDef<AccountFull>[] = [
     id: "contacts",
     accessorKey: "contacts",
     header: () => <LogoHead title="Contacts" Icon={LucideUsers} />,
-    cell: ({ getValue, row }) => <SecondaryField row={row} />,
+    cell: ({ getValue, row }) => <SecondaryField row={row} accountId={row.original.id} urlType="clients" />,
   },
   {
     id: "last activity",
