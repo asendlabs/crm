@@ -1,7 +1,7 @@
 "use client";
 
 import {
-  Loader2,
+  Loader,
   PhoneCall,
   Check,
   ArrowUpRight,
@@ -175,7 +175,7 @@ export function CallLogActivityCard({
                     >
                       {isSubmitting ? (
                         <span className="inline-flex items-center gap-1">
-                          <Loader2 className="h-4 w-4 animate-spin" />
+                          <Loader className="h-4 w-4 animate-spin" />
                           Saving...
                         </span>
                       ) : (
@@ -213,7 +213,7 @@ export function CallLogActivityCard({
             </DropdownMenuItem>
             <DropdownMenuItem onClick={handleDelete}>
               {deleting ? (
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                <Loader className="mr-2 h-4 w-4 animate-spin" />
               ) : (
                 <Trash className="mr-2 h-4 w-4" />
               )}

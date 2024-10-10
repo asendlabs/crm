@@ -5,7 +5,7 @@ import {
   Edit,
   EllipsisIcon,
   Handshake,
-  Loader2,
+  Loader,
   MoreVertical,
   Trash,
   TrashIcon,
@@ -87,7 +87,7 @@ export function EntityActivityCard({
           <DropdownMenuContent className="w-20">
             <DropdownMenuItem onClick={handleDelete}>
               {deleting ? (
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                <Loader className="mr-2 h-4 w-4 animate-spin" />
               ) : (
                 <Trash className="mr-2 h-4 w-4" />
               )}

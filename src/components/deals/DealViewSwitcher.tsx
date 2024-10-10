@@ -1,0 +1,50 @@
+import { Views } from "@/providers/dealsViewProvider";
+import { Button } from "../ui/button";
+import { cn } from "@/utils/tailwind";
+import { Kanban as Board, Table as Grid } from "lucide-react";
+import { useRouter } from "next/navigation";
+
+interface DealViewSwitcherProps {
+  view: Views;
+  setView: (view: Views) => void;
+}
+
+export function DealViewSwitcher({ view, setView }: DealViewSwitcherProps) {
+  const gridActive = view === "grid";
+  const boardActive = view === "board";
+  const router = useRouter();
+  return (
+    <div>
+      <div className="flex h-8 items-center rounded-lg ring-1 ring-border">
+        <Button
+          variant="ghost"
+          className={cn(
+            "flex h-8 w-fit min-w-8 items-center gap-1 rounded-lg !border-none !bg-transparent p-0 text-sm",
+            gridActive && "!bg-muted-foreground/10 !px-2.5",
+          )}
+          onClick={() => {
+            setView("grid");
+            router.push("?view=grid");
+          }}
+        >
+          <Grid className="h-4 w-4" />
+          {gridActive && <>Grid</>}
+        </Button>
+        <Button
+          variant="ghost"
+          className={cn(
+            "flex h-8 w-fit min-w-8 items-center gap-1 rounded-lg !border-none !bg-transparent p-0 text-sm",
+            boardActive && "!bg-muted-foreground/10 !px-2.5",
+          )}
+          onClick={() => {
+            setView("board");
+            router.push("?view=board");
+          }}
+        >
+          <Board className="h-4 w-4" />
+          {boardActive && <>Board</>}
+        </Button>
+      </div>
+    </div>
+  );
+}

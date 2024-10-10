@@ -12,7 +12,7 @@ import { Input } from "@/components/ui/input";
 import { loginSchema } from "@/schemas/auth.schema";
 import { cn } from "@/utils/tailwind";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Loader2 } from "lucide-react";
+import { Loader } from "lucide-react";
 import { useServerAction } from "zsa-react";
 
 import Image from "next/image";
@@ -85,7 +85,7 @@ export const LoginForm = ({
           <div className="flex flex-col gap-4">
             <Button variant="outline" type="button" disabled={isSubmitting}>
               {isSubmitting ? (
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                <Loader className="mr-2 h-4 w-4 animate-spin" />
               ) : (
                 <Image
                   src="/logos/google.png"
@@ -131,7 +131,7 @@ export const LoginForm = ({
                 <PasswordField placeholder="Enter your password" />
                 <Button disabled={isSubmitting} type="submit" className="mt-1">
                   {isSubmitting && (
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    <Loader className="mr-2 h-4 w-4 animate-spin" />
                   )}
                   Login
                 </Button>

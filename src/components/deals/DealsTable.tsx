@@ -30,18 +30,23 @@ import { useServerAction } from "zsa-react";
 import { toast } from "sonner";
 import { deleteDealAction, updateDealAction } from "@/server/deal";
 import { Account } from "@database/types";
+import { DealViewProvider, Views } from "@/providers/dealsViewProvider";
+import { DealViewSwitcher } from "./DealViewSwitcher";
 
 interface DealTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   tableData: TData[];
   accounts: Account[];
+  initialView: Views;
 }
 
 export function DealTable<TData, TValue>({
   columns,
   tableData,
   accounts,
+  initialView,
 }: DealTableProps<TData, TValue>) {
+  const [dealView, setDealView] = useState<Views>(initialView);
   const [data, setData] = useState<TData[]>(tableData);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [sorting, setSorting] = useState<SortingState>([
@@ -148,10 +153,10 @@ export function DealTable<TData, TValue>({
     },
   });
   return (
-    <>
+    <DealViewProvider view={dealView}>
       <section className="justify- flex h-screen flex-col gap-3 px-6 py-4">
         <div className="flex select-none flex-row items-center justify-between">
-          <h1 className="text-xl font-semibold">Deals</h1>
+          <h1 className="text-xl font-semibold capitalize">Deals</h1>
           <div className="flex flex-row gap-2">
             <div>
               <DataTableDeleteButton
@@ -165,6 +170,9 @@ export function DealTable<TData, TValue>({
                 primaryFields={primaryFields}
               />
             </div>
+            <div>
+              <DealViewSwitcher view={dealView} setView={setDealView} />
+            </div>
             <div className="select-text">
               <DataTableSearch
                 table={table}
@@ -175,53 +183,55 @@ export function DealTable<TData, TValue>({
             <NewDealForm addDeal={addData} accounts={accounts} fullButton />
           </div>
         </div>
-        <Table>
-          <TableHeader className=" ">
-            {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map((header) => (
-                  <TableHead key={header.id}>
-                    {header.isPlaceholder
-                      ? null
-                      : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext(),
-                        )}
-                  </TableHead>
-                ))}
-              </TableRow>
-            ))}
-          </TableHeader>
-          <TableBody className="mt-10 cursor-pointer">
-            {table.getRowModel().rows.length ? (
-              table.getRowModel().rows.map((row) => (
-                <TableRow
-                  key={row.id}
-                  data-state={row.getIsSelected() && "selected"}
-                >
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext(),
-                      )}
-                    </TableCell>
+        {dealView === "grid" && (
+          <Table>
+            <TableHeader className=" ">
+              {table.getHeaderGroups().map((headerGroup) => (
+                <TableRow key={headerGroup.id}>
+                  {headerGroup.headers.map((header) => (
+                    <TableHead key={header.id}>
+                      {header.isPlaceholder
+                        ? null
+                        : flexRender(
+                            header.column.columnDef.header,
+                            header.getContext(),
+                          )}
+                    </TableHead>
                   ))}
                 </TableRow>
-              ))
-            ) : (
-              <TableRow>
-                <TableCell
-                  colSpan={columns.length}
-                  className="h-24 select-none text-center"
-                >
-                  No results.
-                </TableCell>
-              </TableRow>
-            )}
-          </TableBody>
-        </Table>
+              ))}
+            </TableHeader>
+            <TableBody className="mt-10 cursor-pointer">
+              {table.getRowModel().rows.length ? (
+                table.getRowModel().rows.map((row) => (
+                  <TableRow
+                    key={row.id}
+                    data-state={row.getIsSelected() && "selected"}
+                  >
+                    {row.getVisibleCells().map((cell) => (
+                      <TableCell key={cell.id}>
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext(),
+                        )}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                ))
+              ) : (
+                <TableRow>
+                  <TableCell
+                    colSpan={columns.length}
+                    className="h-24 select-none text-center"
+                  >
+                    No results.
+                  </TableCell>
+                </TableRow>
+              )}
+            </TableBody>
+          </Table>
+        )}
       </section>
-    </>
+    </DealViewProvider>
   );
 }

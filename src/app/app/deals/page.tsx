@@ -7,23 +7,28 @@ import { DealColumns } from "@/components/deals/DealsColumns";
 import { getAllWorkspaceDeals } from "@/data-access/deal";
 import { getAllWorkspaceAccounts } from "@/data-access/accounts";
 import { DealWithPrimaryContact } from "@/types/entities";
+import { Views } from "@/providers/dealsViewProvider";
 
 export const metadata: Metadata = {
   title: "Deals",
   description: "List of Opportunties",
 };
 
-async function LeadsPage() {
+export default async function page({
+  searchParams,
+}: {
+  searchParams?: { [key: string]: string | string[] | undefined };
+}) {
+  const initialView = (searchParams?.view as Views) || "grid";
   const workspaceId = cookies().get(selectedWorkspaceCookie)?.value || "";
   const data = await getAllWorkspaceDeals(workspaceId);
   const accounts = await getAllWorkspaceAccounts(workspaceId);
   return (
     <DealTable
       columns={DealColumns}
+      initialView={initialView}
       tableData={data as DealWithPrimaryContact[]}
       accounts={accounts}
     />
   );
 }
-
-export default LeadsPage;

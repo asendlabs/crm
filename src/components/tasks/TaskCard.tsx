@@ -6,7 +6,7 @@ import { Task } from "@database/types";
 import {
   CalendarIcon,
   Flag,
-  Loader2,
+  Loader,
   MoreVertical,
   Pencil,
   Trash,
@@ -147,7 +147,7 @@ export default function TaskCard({ task }: { task: Task }) {
                 }}
               />
               {updating && (
-                <Loader2 className="ml-2 h-5 w-5 animate-spin select-text" />
+                <Loader className="ml-2 h-5 w-5 animate-spin select-text" />
               )}
             </div>
           ) : (
@@ -244,7 +244,7 @@ export default function TaskCard({ task }: { task: Task }) {
               </DropdownMenuItem>
               <DropdownMenuItem onClick={handleDeleteTask}>
                 {deleting ? (
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  <Loader className="mr-2 h-4 w-4 animate-spin" />
                 ) : (
                   <Trash className="mr-2 h-4 w-4" />
                 )}

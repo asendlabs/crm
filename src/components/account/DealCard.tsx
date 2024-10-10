@@ -32,7 +32,7 @@ import {
 import { Calendar } from "@/components/ui/calendar";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ArrowUpRight, Check, Loader2 } from "lucide-react";
+import { ArrowUpRight, Check, Loader } from "lucide-react";
 import { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -341,7 +341,7 @@ export function DealCard({ deal }: { deal: DealWithPrimaryContact }) {
                 >
                   {isDeleting ? (
                     <span className="inline-flex items-center gap-1">
-                      <Loader2 className="h-4 w-4 animate-spin" />
+                      <Loader className="h-4 w-4 animate-spin" />
                       Deleting...
                     </span>
                   ) : (
@@ -367,7 +367,7 @@ export function DealCard({ deal }: { deal: DealWithPrimaryContact }) {
                   <Button className="h-8" type="submit" disabled={isSubmitting}>
                     {isSubmitting ? (
                       <span className="inline-flex items-center gap-1">
-                        <Loader2 className="h-4 w-4 animate-spin" />
+                        <Loader className="h-4 w-4 animate-spin" />
                         Saving...
                       </span>
                     ) : (

@@ -105,7 +105,7 @@ export function DetailsCard() {
         </div>
 
         {/* Status (Always Editable) */}
-        <div className="flex items-center text-sm">
+        <div className="flex items-center overflow-x-hidden text-sm">
           <span className="!w-32 text-sm">Status</span>
           <Select
             value={status}
@@ -113,7 +113,7 @@ export function DetailsCard() {
             defaultValue={status}
           >
             <SelectTrigger
-              className={`h-7 w-full text-sm capitalize ring-0 ${
+              className={`!ring-none h-7 w-full text-sm capitalize !outline-none ring-0 focus:ring-offset-[-1] ${
                 status === "new"
                   ? "!text-purple-800"
                   : status === "contacted"

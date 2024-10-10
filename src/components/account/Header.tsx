@@ -10,7 +10,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
-import { Loader2, MoreVertical, Share, Trash } from "lucide-react";
+import { Loader, MoreVertical, Share, Trash } from "lucide-react";
 import { useServerAction } from "zsa-react";
 import { deleteAccountAction, updateAccountAction } from "@/server/accounts";
 import { toast } from "sonner";
@@ -106,7 +106,7 @@ export function Header({ className }: { className?: string }) {
             <DropdownMenuItem onClick={handleDelete} className="h-7">
               {deleting ? (
                 <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  <Loader className="mr-2 h-4 w-4 animate-spin" />
                   Deleting...
                 </>
               ) : (
@@ -133,7 +133,7 @@ export function Header({ className }: { className?: string }) {
           >
             {converting ? (
               <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                <Loader className="mr-2 h-4 w-4 animate-spin" />
                 Converting...
               </>
             ) : (

@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Loader2 } from "lucide-react";
+import { Loader } from "lucide-react";
 import { useServerAction } from "zsa-react";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -124,7 +124,7 @@ export const OnboardingForm = ({
                       }}
                     >
                       {isSubmitting && (
-                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                        <Loader className="mr-2 h-4 w-4 animate-spin" />
                       )}
                       Continue
                     </Button>
@@ -158,7 +158,7 @@ export const OnboardingForm = ({
                       tabIndex={5}
                     >
                       {isSubmitting && (
-                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                        <Loader className="mr-2 h-4 w-4 animate-spin" />
                       )}
                       Submit
                     </Button>

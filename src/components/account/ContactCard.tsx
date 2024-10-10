@@ -22,7 +22,7 @@ import { ContactWithDetails } from "@/types/entities";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Check,
-  Loader2,
+  Loader,
   MailIcon,
   MoreVertical,
   PhoneIcon,
@@ -272,7 +272,7 @@ export function ContactCard({
                 >
                   {isDeleting ? (
                     <span className="inline-flex items-center gap-1">
-                      <Loader2 className="h-4 w-4 animate-spin" />
+                      <Loader className="h-4 w-4 animate-spin" />
                       Deleting...
                     </span>
                   ) : (
@@ -298,7 +298,7 @@ export function ContactCard({
                   <Button className="h-8" type="submit" disabled={isSubmitting}>
                     {isSubmitting ? (
                       <span className="inline-flex items-center gap-1">
-                        <Loader2 className="h-4 w-4 animate-spin" />
+                        <Loader className="h-4 w-4 animate-spin" />
                         Saving...
                       </span>
                     ) : (

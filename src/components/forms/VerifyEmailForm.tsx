@@ -12,7 +12,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
-import { Loader2, RefreshCw } from "lucide-react";
+import { Loader, RefreshCw } from "lucide-react";
 import { verificationCodeSchema } from "@/schemas/auth.schema";
 import { useServerAction } from "zsa-react";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "../ui/input-otp";
@@ -129,9 +129,7 @@ export const VerifyEmailForm = ({
               type="submit"
               className="mt-1 w-96 select-none"
             >
-              {isSubmitting && (
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              )}
+              {isSubmitting && <Loader className="mr-2 h-4 w-4 animate-spin" />}
               Verify
             </Button>
           </form>

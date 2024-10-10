@@ -46,7 +46,7 @@ export async function getAccountById(id: string) {
 
 export async function getAccountTypeById(
   id: string,
-  type: string,
+  type: "lead" | "client",
 ): Promise<AccountFull | undefined> {
   const account = await db.query.accountTable.findFirst({
     where: and(eq(accountTable.id, id), eq(accountTable.type, type)),

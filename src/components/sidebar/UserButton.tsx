@@ -1,7 +1,7 @@
 "use client";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { ChevronUp, LibraryBig, Loader2, LogOut, Send, X } from "lucide-react";
+import { ChevronUp, LibraryBig, Loader, LogOut, Send, X } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -99,7 +99,7 @@ export function UserButton({
             }}
           >
             {loading ? (
-              <Loader2 className="h-4 w-4 animate-spin" />
+              <Loader className="h-4 w-4 animate-spin" />
             ) : (
               <LogOut className="h-4 w-4" />
             )}
