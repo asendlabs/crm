@@ -30,7 +30,14 @@ export const accountTable = table("accounts", {
   assignedToId: text("assigned_to_id").references(() => userTable.id),
   accountName: varchar("account_name", { length: 255 }).notNull(),
   type: accountTypeEnum("type").notNull().default("lead"),
-  status: varchar("status", { length: 255 }).notNull().default("new"),
+  status: jsonb("status")
+    .notNull()
+    .default(
+      JSON.stringify({
+        status: "New",
+        color: "gray-400",
+      }),
+    ),
   score: varchar("ai_score", { length: 50 }).notNull().default(""),
   description: text("description"),
   website: text("website"),
@@ -118,7 +125,12 @@ export const dealTable = table("deals", {
     .references(() => accountTable.id),
   title: varchar("title", { length: 255 }).notNull(),
   value: varchar("deal_value", { length: 255 }),
-  stage: varchar("stage", { length: 255 }).default("proposal"),
+  stage: jsonb("stage").default(
+    JSON.stringify({
+      stage: "Proposal",
+      color: "blue-500",
+    }),
+  ),
   probability: integer("ai_probability"),
   expectedCloseDate: timestamp("expected_close_date"),
   assignedToId: text("assigned_to_id").references(() => userTable.id),

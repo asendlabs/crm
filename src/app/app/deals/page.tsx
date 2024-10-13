@@ -19,7 +19,7 @@ export default async function page({
 }: {
   searchParams?: { [key: string]: string | string[] | undefined };
 }) {
-  const initialView = (searchParams?.view as Views) || "grid";
+  const initialView = (searchParams?.view as Views) || "board";
   const workspaceId = cookies().get(selectedWorkspaceCookie)?.value || "";
   const data = await getAllWorkspaceDeals(workspaceId);
   const accounts = await getAllWorkspaceAccounts(workspaceId);

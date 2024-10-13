@@ -35,7 +35,7 @@ export const updateAccountAction = authenticatedAction
     z.object({
       columnId: z.string(),
       itemId: z.string(),
-      newValue: z.string(),
+      newValue: z.any(),
     }),
   )
   .handler(async ({ input }) => {

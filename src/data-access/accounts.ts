@@ -79,7 +79,8 @@ export async function getAccountTypeById(
       tasks: true,
     },
   });
-  return account;
+
+  return account as AccountFull | undefined; // Cast to AccountFull
 }
 
 export async function getAllWorkspaceAccounts(workspaceId: string) {

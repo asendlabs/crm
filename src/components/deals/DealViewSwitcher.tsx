@@ -1,7 +1,7 @@
 import { Views } from "@/providers/dealsViewProvider";
 import { Button } from "../ui/button";
 import { cn } from "@/utils/tailwind";
-import { Kanban as Board, Table as Grid } from "lucide-react";
+import { SquareKanban as Board, Table as Grid } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 interface DealViewSwitcherProps {
@@ -20,20 +20,6 @@ export function DealViewSwitcher({ view, setView }: DealViewSwitcherProps) {
           variant="ghost"
           className={cn(
             "flex h-8 w-fit min-w-8 items-center gap-1 rounded-lg !border-none !bg-transparent p-0 text-sm",
-            gridActive && "!bg-muted-foreground/10 !px-2.5",
-          )}
-          onClick={() => {
-            setView("grid");
-            router.push("?view=grid");
-          }}
-        >
-          <Grid className="h-4 w-4" />
-          {gridActive && <>Grid</>}
-        </Button>
-        <Button
-          variant="ghost"
-          className={cn(
-            "flex h-8 w-fit min-w-8 items-center gap-1 rounded-lg !border-none !bg-transparent p-0 text-sm",
             boardActive && "!bg-muted-foreground/10 !px-2.5",
           )}
           onClick={() => {
@@ -43,6 +29,20 @@ export function DealViewSwitcher({ view, setView }: DealViewSwitcherProps) {
         >
           <Board className="h-4 w-4" />
           {boardActive && <>Board</>}
+        </Button>
+        <Button
+          variant="ghost"
+          className={cn(
+            "flex h-8 w-fit min-w-8 items-center gap-1 rounded-lg !border-none !bg-transparent p-0 text-sm",
+            gridActive && "!bg-muted-foreground/10 !px-2.5",
+          )}
+          onClick={() => {
+            setView("grid");
+            router.push("?view=grid");
+          }}
+        >
+          <Grid className="h-4 w-4" />
+          {gridActive && <>Grid</>}
         </Button>
       </div>
     </div>

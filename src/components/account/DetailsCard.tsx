@@ -16,10 +16,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { AccountStatus } from "@/types/entities";
 
 export function DetailsCard() {
   const { account } = useContext(AccountContext);
-  const [status, setStatus] = useState(account?.status || "");
+  const [status, setStatus] = useState<AccountStatus | undefined>(
+    account?.status ?? undefined,
+  );
   const [accountName, setAccountName] = useState(account?.accountName || "");
   const [website, setWebsite] = useState(account?.website || "");
   const [industry, setIndustry] = useState(account?.industry || "");
@@ -29,14 +32,22 @@ export function DetailsCard() {
   const updateAccountActionCaller = useServerAction(updateAccountAction);
   const { refresh } = useRouter();
 
+  // Fetch lead statuses from workspace (JSON object)
+  const leadStatuses: AccountStatus[] =
+    (account?.workspace?.leadStatuses as AccountStatus[]) || [];
+
   useEffect(() => {
-    setStatus(account?.status || "");
+    setStatus(account?.status || undefined);
     setAccountName(account?.accountName || "");
     setWebsite(account?.website || "");
     setIndustry(account?.industry || "");
   }, [account]);
 
-  const handleUpdate = async (columnId: string, newValue: string) => {
+  // Handle updates to the status and color
+  const handleUpdate = async (
+    columnId: string,
+    newValue: string | AccountStatus,
+  ) => {
     try {
       const [data, err] = await updateAccountActionCaller.execute({
         itemId: account?.id ?? "",
@@ -53,9 +64,15 @@ export function DetailsCard() {
     }
   };
 
+  // Handle status change
   const handleStatusChange = (newStatus: string) => {
-    setStatus(newStatus);
-    handleUpdate("status", newStatus);
+    const selectedStatus = leadStatuses.find(
+      (statusObj: AccountStatus) => statusObj.status === newStatus,
+    );
+    if (selectedStatus) {
+      setStatus(selectedStatus);
+      handleUpdate("status", JSON.stringify(selectedStatus));
+    }
   };
 
   const handleIndustryBlur = (newIndustry: string) => {
@@ -108,114 +125,49 @@ export function DetailsCard() {
         <div className="flex items-center overflow-x-hidden text-sm">
           <span className="!w-32 text-sm">Status</span>
           <Select
-            value={status}
+            value={status?.status || ""} // Use string status, default to empty string if undefined
             onValueChange={handleStatusChange}
-            defaultValue={status}
           >
-            <SelectTrigger
-              className={`!ring-none h-7 w-full text-sm capitalize !outline-none ring-0 focus:ring-offset-[-1] ${
-                status === "new"
-                  ? "!text-purple-800"
-                  : status === "contacted"
-                    ? "!text-yellow-800"
-                    : status === "qualified"
-                      ? "!text-blue-800"
-                      : status === "unqualified"
-                        ? "!text-red-800"
-                        : status === "waste"
-                          ? "!text-gray-500"
-                          : status === "won"
-                            ? "!text-green-800"
-                            : ""
-              }`}
-            >
-              <SelectValue placeholder="Select Status" />
+            <SelectTrigger className="!ring-none h-7 w-full text-sm font-medium capitalize !outline-none ring-0 focus:ring-offset-[-1]">
+              <SelectValue>
+                {status ? (
+                  <div
+                    className="flex items-center gap-1.5"
+                    style={{ color: `#${status.color}` }}
+                  >
+                    <Circle
+                      strokeWidth={4}
+                      absoluteStrokeWidth
+                      className={`h-3 w-3`}
+                    />
+                    {status.status}
+                  </div>
+                ) : (
+                  "Select Status"
+                )}
+              </SelectValue>
             </SelectTrigger>
             <SelectContent>
-              <SelectItem
-                value="new"
-                showIndicator={false}
-                className="font-medium !text-purple-800 hover:!text-purple-800"
-              >
-                <div className="flex items-center gap-1.5">
-                  <Circle
-                    strokeWidth={4}
-                    absoluteStrokeWidth
-                    className="h-3 w-3"
-                  />
-                  New
-                </div>
-              </SelectItem>
-              <SelectItem
-                value="contacted"
-                showIndicator={false}
-                className="font-medium !text-yellow-800 hover:!text-yellow-800"
-              >
-                <div className="flex items-center gap-1.5">
-                  <Circle
-                    strokeWidth={4}
-                    absoluteStrokeWidth
-                    className="h-3 w-3"
-                  />
-                  Contacted
-                </div>
-              </SelectItem>
-              <SelectItem
-                value="qualified"
-                showIndicator={false}
-                className="font-medium !text-blue-800 hover:!text-blue-800"
-              >
-                <div className="flex items-center gap-1.5">
-                  <Circle
-                    strokeWidth={4}
-                    absoluteStrokeWidth
-                    className="h-3 w-3"
-                  />
-                  Qualified
-                </div>
-              </SelectItem>
-              <SelectItem
-                value="unqualified"
-                showIndicator={false}
-                className="font-medium !text-red-800 hover:!text-red-800"
-              >
-                <div className="flex items-center gap-1.5">
-                  <Circle
-                    strokeWidth={4}
-                    absoluteStrokeWidth
-                    className="h-3 w-3"
-                  />
-                  Unqualified
-                </div>
-              </SelectItem>
-              <SelectItem
-                value="waste"
-                showIndicator={false}
-                className="font-medium !text-gray-500 hover:!text-gray-400"
-              >
-                <div className="flex items-center gap-1.5">
-                  <Circle
-                    strokeWidth={4}
-                    absoluteStrokeWidth
-                    className="h-3 w-3"
-                  />
-                  Waste
-                </div>
-              </SelectItem>
-              <SelectItem
-                value="won"
-                showIndicator={false}
-                className="font-medium !text-green-800 hover:!text-green-800"
-              >
-                <div className="flex items-center gap-1.5">
-                  <Circle
-                    strokeWidth={4}
-                    absoluteStrokeWidth
-                    className="h-3 w-3"
-                  />
-                  Won
-                </div>
-              </SelectItem>
+              {leadStatuses.map((statusObj: AccountStatus) => (
+                <SelectItem
+                  key={statusObj.status}
+                  value={statusObj.status}
+                  showIndicator={false}
+                  className="font-medium"
+                  style={{
+                    color: `#${statusObj.color}`,
+                  }}
+                >
+                  <div className="flex items-center gap-1.5">
+                    <Circle
+                      strokeWidth={4}
+                      absoluteStrokeWidth
+                      className={`h-3 w-3`}
+                    />
+                    {statusObj.status}
+                  </div>
+                </SelectItem>
+              ))}
             </SelectContent>
           </Select>
         </div>

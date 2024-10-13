@@ -89,7 +89,7 @@ export function Header({ className }: { className?: string }) {
           {account?.type}
         </Link>
         {" / "}
-        <span className="font-medium">{account?.accountName}</span>
+        <span className="font-medium">{account?.accountName || ""}</span>
       </div>
       <div className="flex gap-2">
         <DropdownMenu modal={false}>

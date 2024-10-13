@@ -32,6 +32,7 @@ import { deleteDealAction, updateDealAction } from "@/server/deal";
 import { Account } from "@database/types";
 import { DealViewProvider, Views } from "@/providers/dealsViewProvider";
 import { DealViewSwitcher } from "./DealViewSwitcher";
+import { KanbanColumn } from "./KanbanColumn";
 
 interface DealTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -154,36 +155,42 @@ export function DealTable<TData, TValue>({
   });
   return (
     <DealViewProvider view={dealView}>
-      <section className="justify- flex h-screen flex-col gap-3 px-6 py-4">
+      <section className="justify- flex h-screen flex-col gap-3 overflow-x-hidden px-6 py-4">
         <div className="flex select-none flex-row items-center justify-between">
           <h1 className="text-xl font-semibold capitalize">Deals</h1>
           <div className="flex flex-row gap-2">
-            <div>
-              <DataTableDeleteButton
-                table={table}
-                description="Deleting a lead will delete all associated contacts. It can't be undone."
-              />
-            </div>
-            <div>
-              <DataTableViewOptions
-                table={table}
-                primaryFields={primaryFields}
-              />
-            </div>
+            {dealView !== "board" && (
+              <>
+                <div>
+                  <DataTableDeleteButton
+                    table={table}
+                    description="Deleting a lead will delete all associated contacts. It can't be undone."
+                  />
+                </div>
+                <div>
+                  <DataTableViewOptions
+                    table={table}
+                    primaryFields={primaryFields}
+                  />
+                </div>
+              </>
+            )}
+            {dealView !== "board" && (
+              <div className="select-text">
+                <DataTableSearch
+                  table={table}
+                  primaryField="accountName"
+                  primaryFieldPrettyName="Deal"
+                />
+              </div>
+            )}
             <div>
               <DealViewSwitcher view={dealView} setView={setDealView} />
-            </div>
-            <div className="select-text">
-              <DataTableSearch
-                table={table}
-                primaryField="accountName"
-                primaryFieldPrettyName="Deal"
-              />
             </div>
             <NewDealForm addDeal={addData} accounts={accounts} fullButton />
           </div>
         </div>
-        {dealView === "grid" && (
+        {dealView === "grid" ? (
           <Table>
             <TableHeader className=" ">
               {table.getHeaderGroups().map((headerGroup) => (
@@ -222,14 +229,25 @@ export function DealTable<TData, TValue>({
                 <TableRow>
                   <TableCell
                     colSpan={columns.length}
-                    className="h-24 select-none text-center"
+                    className="h-40 select-none text-center"
                   >
-                    No results.
+                    <div className="flex flex-col items-center justify-center gap-1">
+                      <h1 className="text-xl font-semibold">No deals found</h1>
+                      <p className="text-sm">
+                        You can create a new deal by clicking the "New" button.
+                      </p>
+                    </div>
                   </TableCell>
                 </TableRow>
               )}
             </TableBody>
           </Table>
+        ) : (
+          <section className="flex h-full max-w-[78.7vw] !overflow-x-auto !overflow-y-hidden">
+            {Array.from({ length: 10 }, (_, i) => (
+              <KanbanColumn key={i} />
+            ))}
+          </section>
         )}
       </section>
     </DealViewProvider>
