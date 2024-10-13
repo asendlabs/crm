@@ -25,12 +25,16 @@ import { DataTableSearch } from "@/components/tables/nav/DataTableSearch";
 import { DataTableViewOptions } from "@/components/tables/nav/DataTableViewOptions";
 import { NewDealForm } from "@/components/forms/NewDealForm";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useServerAction } from "zsa-react";
 import { toast } from "sonner";
 import { deleteDealAction, updateDealAction } from "@/server/deal";
 import { Account } from "@database/types";
-import { DealViewProvider, Views } from "@/providers/dealsViewProvider";
+import {
+  DealViewContext,
+  DealViewProvider,
+  Views,
+} from "@/providers/dealsViewProvider";
 import { DealViewSwitcher } from "./DealViewSwitcher";
 import { KanbanColumn } from "./KanbanColumn";
 
@@ -38,20 +42,19 @@ interface DealTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   tableData: TData[];
   accounts: Account[];
-  initialView: Views;
 }
 
 export function DealTable<TData, TValue>({
   columns,
   tableData,
   accounts,
-  initialView,
 }: DealTableProps<TData, TValue>) {
-  const [dealView, setDealView] = useState<Views>(initialView);
+  const { view } = useContext(DealViewContext);
+  const [dealView, setDealView] = useState<Views>(view);
   const [data, setData] = useState<TData[]>(tableData);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [sorting, setSorting] = useState<SortingState>([
-    { id: "account", desc: false },
+    { id: "title", desc: false },
   ]);
   const [rowSelectionState, setRowSelectionState] = useState({});
   const router = useRouter();
@@ -62,7 +65,7 @@ export function DealTable<TData, TValue>({
     router.refresh();
   };
 
-  const primaryFields = ["deal title", "account", "stage"];
+  const primaryFields = ["title", "stage"];
 
   const updateData = async ({
     rowIndex,
@@ -154,43 +157,43 @@ export function DealTable<TData, TValue>({
     },
   });
   return (
-    <DealViewProvider view={dealView}>
-      <section className="justify- flex h-screen flex-col gap-3 px-6 py-4 overflow-x-hidden">
-        <div className="flex select-none flex-row items-center justify-between">
-          <h1 className="text-xl font-semibold capitalize">Deals</h1>
-          <div className="flex flex-row gap-2">
-            {dealView !== "board" && (
-              <>
-                <div>
-                  <DataTableDeleteButton
-                    table={table}
-                    description="Deleting a lead will delete all associated contacts. It can't be undone."
-                  />
-                </div>
-                <div>
-                  <DataTableViewOptions
-                    table={table}
-                    primaryFields={primaryFields}
-                  />
-                </div>
-              </>
-            )}
-            {dealView !== "board" && (
-              <div className="select-text">
-                <DataTableSearch
+    <section className="justify- flex h-screen flex-col gap-3 overflow-x-hidden px-6 py-4">
+      <div className="flex select-none flex-row items-center justify-between">
+        <h1 className="text-xl font-semibold capitalize">Deals</h1>
+        <div className="flex flex-row gap-2">
+          {dealView !== "board" && (
+            <>
+              <div>
+                <DataTableDeleteButton
                   table={table}
-                  primaryField="deal title"
-                  primaryFieldPrettyName="Deal"
+                  description="Deleting a lead will delete all associated contacts. It can't be undone."
                 />
               </div>
-            )}
-            <div>
-              <DealViewSwitcher view={dealView} setView={setDealView} />
+              <div>
+                <DataTableViewOptions
+                  table={table}
+                  primaryFields={primaryFields}
+                />
+              </div>
+            </>
+          )}
+          {dealView !== "board" && (
+            <div className="select-text">
+              <DataTableSearch
+                table={table}
+                primaryField="title"
+                primaryFieldPrettyName="Deal"
+              />
             </div>
-            <NewDealForm addDeal={addData} accounts={accounts} fullButton />
+          )}
+          <div>
+            <DealViewSwitcher view={dealView} setView={setDealView} />
           </div>
+          <NewDealForm addDeal={addData} accounts={accounts} fullButton />
         </div>
-        {dealView === "grid" ? (
+      </div>
+      {dealView === "grid" ? (
+        <>
           <Table>
             <TableHeader className=" ">
               {table.getHeaderGroups().map((headerGroup) => (
@@ -242,12 +245,12 @@ export function DealTable<TData, TValue>({
               )}
             </TableBody>
           </Table>
-        ) : (
-          <section className="flex !overflow-x-auto !overflow-y-hidden max-w-[78.7vw] h-full">
-            {Array.from({ length: 10 }, (_, i) => <KanbanColumn key={i} />)}
-          </section>
-        )}
-      </section>
-    </DealViewProvider>
+        </>
+      ) : (
+        <section className="flex h-full max-w-[78.7vw] !overflow-x-auto !overflow-y-hidden">
+          sdfsdf
+        </section>
+      )}
+    </section>
   );
 }

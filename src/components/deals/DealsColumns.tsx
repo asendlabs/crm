@@ -33,7 +33,7 @@ export const DealColumns: ColumnDef<DealWithPrimaryContact>[] = [
     cell: CheckboxField,
   },
   {
-    id: "deal title",
+    id: "title",
     header: () => <PrimaryHead title="Deal Title" />,
     cell: ({ getValue, row }) => (
       <PrimaryField getValue={getValue} row={row} isAccount={false} />

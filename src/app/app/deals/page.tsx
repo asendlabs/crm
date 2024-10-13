@@ -7,7 +7,7 @@ import { DealColumns } from "@/components/deals/DealsColumns";
 import { getAllWorkspaceDeals } from "@/data-access/deal";
 import { getAllWorkspaceAccounts } from "@/data-access/accounts";
 import { DealWithPrimaryContact } from "@/types/entities";
-import { Views } from "@/providers/dealsViewProvider";
+import { DealViewProvider, Views } from "@/providers/dealsViewProvider";
 
 export const metadata: Metadata = {
   title: "Deals",
@@ -24,11 +24,12 @@ export default async function page({
   const data = await getAllWorkspaceDeals(workspaceId);
   const accounts = await getAllWorkspaceAccounts(workspaceId);
   return (
-    <DealTable
-      columns={DealColumns}
-      initialView={initialView}
-      tableData={data as DealWithPrimaryContact[]}
-      accounts={accounts}
-    />
+    <DealViewProvider view={initialView}>
+      <DealTable
+        columns={DealColumns}
+        tableData={data as DealWithPrimaryContact[]}
+        accounts={accounts}
+      />
+    </DealViewProvider>
   );
 }

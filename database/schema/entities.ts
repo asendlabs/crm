@@ -35,7 +35,7 @@ export const accountTable = table("accounts", {
     .default(
       JSON.stringify({
         status: "New",
-        color: "gray-400",
+        color: "7e22ce",
       }),
     ),
   score: varchar("ai_score", { length: 50 }).notNull().default(""),
@@ -125,10 +125,10 @@ export const dealTable = table("deals", {
     .references(() => accountTable.id),
   title: varchar("title", { length: 255 }).notNull(),
   value: varchar("deal_value", { length: 255 }),
-  stage: jsonb("stage").default(
+  stage: jsonb("stage").notNull().default(
     JSON.stringify({
       stage: "Proposal",
-      color: "blue-500",
+      color: "1e40af",
     }),
   ),
   probability: integer("ai_probability"),
