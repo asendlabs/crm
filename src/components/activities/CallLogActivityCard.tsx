@@ -125,7 +125,7 @@ export function CallLogActivityCard({
           {activity.associatedContact?.contactName && (
             <>
               with
-              <span className="rounded-md border px-2 py-0.5">
+              <span className="rounded-lg border px-2 py-0.5">
                 {activity.associatedContact?.contactName}
               </span>
             </>
@@ -133,13 +133,13 @@ export function CallLogActivityCard({
           {activity.title && (
             <>
               for
-              <div className="rounded-md border px-2 py-0.5">
+              <div className="rounded-lg border px-2 py-0.5">
                 {activity.title}
               </div>
             </>
           )}
           <div
-            className="inline-flex items-center gap-1 rounded-md border px-2 py-0.5 font-medium hover:cursor-pointer"
+            className="inline-flex items-center gap-1 rounded-lg border px-2 py-0.5 font-medium hover:cursor-pointer"
             onClick={() => setOpen(true)}
           >
             Open Notes

@@ -6,8 +6,9 @@ import { DealTable } from "@/components/deals/DealsTable";
 import { DealColumns } from "@/components/deals/DealsColumns";
 import { getAllWorkspaceDeals } from "@/data-access/deal";
 import { getAllWorkspaceAccounts } from "@/data-access/accounts";
-import { DealWithPrimaryContact } from "@/types/entities";
+import { DealStage, DealWithPrimaryContact } from "@/types/entities";
 import { DealViewProvider, Views } from "@/providers/dealsViewProvider";
+import { getWorkspaceById } from "@/data-access/workspaces";
 
 export const metadata: Metadata = {
   title: "Deals",
@@ -21,6 +22,7 @@ export default async function page({
 }) {
   const initialView = (searchParams?.view as Views) || "board";
   const workspaceId = cookies().get(selectedWorkspaceCookie)?.value || "";
+  const workspace = await getWorkspaceById(workspaceId)
   const data = await getAllWorkspaceDeals(workspaceId);
   const accounts = await getAllWorkspaceAccounts(workspaceId);
   return (
@@ -28,7 +30,9 @@ export default async function page({
       <DealTable
         columns={DealColumns}
         tableData={data as DealWithPrimaryContact[]}
+        deals={data as DealWithPrimaryContact[]}
         accounts={accounts}
+        dealStages={(workspace?.dealStages as DealStage[]) || undefined}
       />
     </DealViewProvider>
   );

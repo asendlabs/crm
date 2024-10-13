@@ -118,7 +118,7 @@ export function CommentActivityCard({
       <div className="flex items-center gap-2">
         <MessageSquare className="h-4 w-4" />
         <div className="flex items-center gap-1 py-1">
-          <span className="max-w-[35.5rem] truncate rounded-md border px-2 py-0.5">
+          <span className="max-w-[35.5rem] truncate rounded-lg border px-2 py-0.5">
             {" "}
             {activity?.content}
           </span>

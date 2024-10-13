@@ -94,7 +94,7 @@ export function DetailsCard() {
   };
 
   return (
-    <section className="grid h-full gap-1 rounded-md border p-2.5">
+    <section className="grid h-full gap-1 rounded-lg border p-2.5">
       <div className="flex select-none items-center justify-between">
         <span className="font-medium">Details</span>
       </div>

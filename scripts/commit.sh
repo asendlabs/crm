@@ -1,9 +1,4 @@
 #!/bin/zsh
-read "runPrettier?Do you want to run 'pnpm prettier:format'? (y/n): "
-if [[ "$runPrettier" == "y" ]]; then
-  pnpm prettier:format
-fi
-
 git add .
 cd ..
 git add .

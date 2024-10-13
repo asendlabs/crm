@@ -82,7 +82,7 @@ export function NewTaskForm({
   return (
     <Form {...form}>
       <form
-        className="grid !max-w-full gap-2 rounded-md border px-4 py-2"
+        className="grid !max-w-full gap-2 rounded-lg border px-4 py-2"
         onSubmit={handleSubmit(onSubmit)}
       >
         <div className="flex max-w-full gap-2 overflow-hidden p-1">

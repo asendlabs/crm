@@ -16,10 +16,10 @@ export function Cards({ className }: { className?: string }) {
         "flex !max-h-full flex-col justify-start gap-2 overflow-y-auto border-r",
       )}
     >
-      <section className="rounded-md">
+      <section className="rounded-lg">
         <DetailsCard />
       </section>
-      <section className="grid gap-2 rounded-md border p-2.5">
+      <section className="grid gap-2 rounded-lg border p-2.5">
         <div className="flex select-none items-center justify-between">
           <span className="font-medium">Contacts</span>
           <NewContactForm accountId={account?.id} />
@@ -36,7 +36,7 @@ export function Cards({ className }: { className?: string }) {
           )}
         </div>
       </section>
-      <section className="grid gap-2 rounded-md border p-2.5">
+      <section className="grid gap-2 rounded-lg border p-2.5">
         <div className="flex select-none items-center justify-between">
           <span className="font-medium">Deals</span>
           <NewDealForm accountId={account?.id} />

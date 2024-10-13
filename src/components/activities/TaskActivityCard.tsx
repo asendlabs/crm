@@ -20,7 +20,7 @@ export function TaskActivityCard({
         <CheckIcon className="h-4 w-4 text-gray-500" />
         <div className="flex items-center gap-2 py-1">
           Completed the task
-          <span className="rounded-md bg-muted-foreground/20 px-2 py-0.5">
+          <span className="rounded-lg bg-muted-foreground/20 px-2 py-0.5">
             {taskName}
           </span>
         </div>

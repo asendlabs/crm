@@ -70,7 +70,7 @@ export const Sidebar = ({
             <span>Leads</span>
           </Link>
           <Link
-            href="/app/deals"
+            href="/app/deals?view=board"
             prefetch={true}
             className={`${sidebarItemClassName} ${
               pathname === "/app/deals"

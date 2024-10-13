@@ -52,11 +52,13 @@ export function NewDealForm({
   accounts,
   fullButton,
   addDeal,
+  addDealKanban,
 }: {
   accountId?: string;
   accounts?: Account[];
   fullButton?: boolean;
   addDeal?: (deal: any) => void;
+  addDealKanban?: (deal: any) => void;
 }) {
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
@@ -83,9 +85,10 @@ export function NewDealForm({
       if (addDeal) {
         addDeal(data?.data);
       }
+      if (addDealKanban) {
+      }
       setOpen(false);
       dealform.reset();
-      router.refresh();
     } catch (error) {
       toast.error("An error occurred while creating the deal.");
     } finally {

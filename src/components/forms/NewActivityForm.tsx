@@ -87,7 +87,7 @@ export function NewActivityForm({
   return (
     <Form {...form}>
       <form
-        className="flex w-full flex-col gap-2 rounded-md border px-4 py-2"
+        className="flex w-full flex-col gap-2 rounded-lg border px-4 py-2"
         onSubmit={handleSubmit(onSubmit)}
       >
         {activityType !== "comment" && (
