@@ -51,7 +51,7 @@ export function DealTable<TData, TValue>({
   const [data, setData] = useState<TData[]>(tableData);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [sorting, setSorting] = useState<SortingState>([
-    { id: "accountName", desc: false },
+    { id: "account", desc: false },
   ]);
   const [rowSelectionState, setRowSelectionState] = useState({});
   const router = useRouter();
@@ -62,7 +62,7 @@ export function DealTable<TData, TValue>({
     router.refresh();
   };
 
-  const primaryFields = ["deal title", "accountName", "stage"];
+  const primaryFields = ["deal title", "account", "stage"];
 
   const updateData = async ({
     rowIndex,
@@ -155,7 +155,7 @@ export function DealTable<TData, TValue>({
   });
   return (
     <DealViewProvider view={dealView}>
-      <section className="justify- flex h-screen flex-col gap-3 overflow-x-hidden px-6 py-4">
+      <section className="justify- flex h-screen flex-col gap-3 px-6 py-4 overflow-x-hidden">
         <div className="flex select-none flex-row items-center justify-between">
           <h1 className="text-xl font-semibold capitalize">Deals</h1>
           <div className="flex flex-row gap-2">
@@ -179,7 +179,7 @@ export function DealTable<TData, TValue>({
               <div className="select-text">
                 <DataTableSearch
                   table={table}
-                  primaryField="accountName"
+                  primaryField="deal title"
                   primaryFieldPrettyName="Deal"
                 />
               </div>
@@ -243,10 +243,8 @@ export function DealTable<TData, TValue>({
             </TableBody>
           </Table>
         ) : (
-          <section className="flex h-full max-w-[78.7vw] !overflow-x-auto !overflow-y-hidden">
-            {Array.from({ length: 10 }, (_, i) => (
-              <KanbanColumn key={i} />
-            ))}
+          <section className="flex !overflow-x-auto !overflow-y-hidden max-w-[78.7vw] h-full">
+            {Array.from({ length: 10 }, (_, i) => <KanbanColumn key={i} />)}
           </section>
         )}
       </section>
