@@ -10,9 +10,11 @@
     "lint": "next lint",
     "prettier:check": "prettier --check --ignore-path .gitignore .",
     "prettier:format": "prettier --write --ignore-path .gitignore .",
-    "drizzle:generate": "drizzle-kit generate --config=drizzle.config.ts",
-    "drizzle:migrate": "drizzle-kit migrate --config=drizzle.config.ts",
-    "drizzle:studio": "drizzle-kit studio --config=drizzle.config.ts"
+    "drizzle:generate": "drizzle-kit generate --config=drizzle.config-dev.ts",
+    "drizzle:migrate": "drizzle-kit migrate --config=drizzle.config-dev.ts",
+    "drizzle:migrate:prod": "drizzle-kit migrate --config=drizzle.config-prod.ts",
+    "drizzle:studio": "drizzle-kit studio --config=drizzle.config.ts",
+    "drizzle:studio:prod": "drizzle-kit studio --config=drizzle.config-prod.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",
