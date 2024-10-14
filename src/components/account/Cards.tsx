@@ -7,22 +7,26 @@ import { NewContactForm } from "@/components/forms/NewContactForm";
 import { NewDealForm } from "@/components/forms/NewDealForm";
 import { DealCard } from "./DealCard";
 import { DetailsCard } from "./DetailsCard";
+import { ScrollArea } from "../ui/scroll-area";
 export function Cards({ className }: { className?: string }) {
   const { contacts, deals, account } = useContext(AccountContext);
   return (
-    <section
+    <ScrollArea
       className={cn(
         className,
-        "flex !max-h-full flex-col justify-start overflow-y-auto border-r",
+        "flex !max-h-full flex-col justify-start border-r",
       )}
-    >      <section className="rounded-lg">
+    >
+      {" "}
+      <section className="rounded-lg">
         <DetailsCard />
-      </section>      <section className="grid gap-2 px-4 py-3 border-b">
+      </section>{" "}
+      <section className="flex flex-col gap-2 border-b px-4 py-3">
         <div className="flex select-none items-center justify-between">
           <span className="font-medium">Deals</span>
           <NewDealForm accountId={account?.id} />
         </div>
-        <div className="grid max-h-40 h-40 gap-1.5 overflow-hidden hover:overflow-y-auto">
+        <div className="grid gap-2">
           {deals?.length ? (
             deals?.map((deal) => <DealCard key={deal.id} deal={deal} />)
           ) : (
@@ -32,12 +36,12 @@ export function Cards({ className }: { className?: string }) {
           )}
         </div>
       </section>
-      <section className="grid gap-2 border-b px-4   py-3">
+      <section className="flex flex-col gap-2 px-4 py-3">
         <div className="flex select-none items-center justify-between">
           <span className="font-medium">Contacts</span>
           <NewContactForm accountId={account?.id} />
         </div>
-        <div className="grid max-h-40 h-40 items-start gap-1.5 overflow-hidden overflow-y-auto">
+        <div className="gap-2 grid">
           {contacts?.length ? (
             contacts?.map((contact) => (
               <ContactCard key={contact.id} contact={contact} />
@@ -49,8 +53,6 @@ export function Cards({ className }: { className?: string }) {
           )}
         </div>
       </section>
-
-
-    </section>
+    </ScrollArea>
   );
 }

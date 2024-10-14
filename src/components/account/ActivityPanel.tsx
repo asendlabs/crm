@@ -9,6 +9,7 @@ import { ActivityType } from "@/types/entities";
 import { PhoneCall, MailPlus, MessageSquareMore } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useContext, useState } from "react";
+import { ScrollArea } from "../ui/scroll-area";
 
 type ActivityButton = {
   type: ActivityType;
@@ -81,8 +82,8 @@ export function ActivityPanel() {
         />
       )}
 
-      <div
-        className={`grid ${activityFormOpen ? "max-h-[70vh]" : "max-h-[81vh]"} min-w-full gap-1 overflow-hidden overflow-y-auto`}
+      <ScrollArea
+        className={`grid ${activityFormOpen ? "max-h-[70vh]" : "max-h-[81vh]"} min-w-full gap-1 overflow-hidden overflow-y-auto pr-3`}
       >
         {activities && activities.length > 0
           ? activities
@@ -115,7 +116,7 @@ export function ActivityPanel() {
                 }
               })
           : null}
-      </div>
+      </ScrollArea>
     </section>
   );
 }

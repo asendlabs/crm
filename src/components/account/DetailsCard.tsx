@@ -124,6 +124,7 @@ export function DetailsCard() {
         </div>
 
         {/* Status (Always Editable) */}
+        {account?.type !== "client" &&
         <div className="flex items-center overflow-x-hidden text-sm">
           <span className="!w-[9.5rem] text-sm">Status</span>
           <Select
@@ -173,6 +174,7 @@ export function DetailsCard() {
             </SelectContent>
           </Select>
         </div>
+        }
 
         {/* Website */}
         <div className="group flex items-center">

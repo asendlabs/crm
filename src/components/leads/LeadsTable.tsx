@@ -29,6 +29,7 @@ import { useServerAction } from "zsa-react";
 import { deleteAccountAction, updateAccountAction } from "@/server/accounts";
 import { toast } from "sonner";
 import { Account, Contact } from "@database/types";
+import { ScrollArea } from "../ui/scroll-area";
 
 interface LeadTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -170,8 +171,8 @@ export function LeadTable<TData, TValue>({
             <NewLeadForm addLead={addData} />
           </div>
         </div>
-        <Table>
-          <TableHeader className=" ">
+        <Table className="first:sticky">
+          <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => (
@@ -187,34 +188,34 @@ export function LeadTable<TData, TValue>({
               </TableRow>
             ))}
           </TableHeader>
-          <TableBody className="mt-10 cursor-pointer">
-            {table.getRowModel().rows.length ? (
-              table.getRowModel().rows.map((row) => (
-                <TableRow
-                  key={row.id}
-                  data-state={row.getIsSelected() && "selected"}
-                >
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext(),
-                      )}
-                    </TableCell>
-                  ))}
+            <TableBody className="mt-10 cursor-pointer">
+              {table.getRowModel().rows.length ? (
+                table.getRowModel().rows.map((row) => (
+                  <TableRow
+                    key={row.id}
+                    data-state={row.getIsSelected() && "selected"}
+                  >
+                    {row.getVisibleCells().map((cell) => (
+                      <TableCell key={cell.id}>
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext(),
+                        )}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                ))
+              ) : (
+                <TableRow>
+                  <TableCell
+                    colSpan={columns.length}
+                    className="h-24 select-none text-center"
+                  >
+                    No results.
+                  </TableCell>
                 </TableRow>
-              ))
-            ) : (
-              <TableRow>
-                <TableCell
-                  colSpan={columns.length}
-                  className="h-24 select-none text-center"
-                >
-                  No results.
-                </TableCell>
-              </TableRow>
-            )}
-          </TableBody>
+              )}
+            </TableBody>
         </Table>
       </section>
     </>

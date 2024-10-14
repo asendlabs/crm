@@ -85,10 +85,9 @@ export function NewDealForm({
       if (addDeal) {
         addDeal(data?.data);
       }
-      if (addDealKanban) {
-      }
       setOpen(false);
       dealform.reset();
+      router.refresh();
     } catch (error) {
       toast.error("An error occurred while creating the deal.");
     } finally {
