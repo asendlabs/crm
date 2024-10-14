@@ -33,8 +33,8 @@ export function DetailsCard() {
   const { refresh } = useRouter();
 
   // Fetch lead statuses from workspace (JSON object)
-  const leadStatuses: AccountStatus[] =
-    (account?.workspace?.leadStatuses as AccountStatus[]) || [];
+  const accountStatuses: AccountStatus[] =
+    (account?.workspace?.accountStatuses as AccountStatus[]) || [];
 
   useEffect(() => {
     setStatus(account?.status || undefined);
@@ -66,7 +66,7 @@ export function DetailsCard() {
 
   // Handle status change
   const handleStatusChange = (newStatus: string) => {
-    const selectedStatus = leadStatuses.find(
+    const selectedStatus = accountStatuses.find(
       (statusObj: AccountStatus) => statusObj.status === newStatus,
     );
     if (selectedStatus) {
@@ -94,14 +94,16 @@ export function DetailsCard() {
   };
 
   return (
-    <section className="grid h-full gap-1 rounded-lg border p-2.5">
+    <section className="grid h-full gap-1 border-b px-4 py-3">
       <div className="flex select-none items-center justify-between">
         <span className="font-medium">Details</span>
       </div>
       <section className="grid max-h-40 items-start justify-start gap-2 overflow-clip overflow-y-auto py-1 pl-0.5 pr-1">
         {/* Lead Name */}
         <div className="group flex items-center">
-          <span className="!w-[7.55rem] text-sm">Lead Name</span>
+          <span className="!w-[9rem] text-sm capitalize">
+            {account?.type} Name
+          </span>
           <div className="relative w-full">
             <Input
               value={accountName}
@@ -123,7 +125,7 @@ export function DetailsCard() {
 
         {/* Status (Always Editable) */}
         <div className="flex items-center overflow-x-hidden text-sm">
-          <span className="!w-32 text-sm">Status</span>
+          <span className="!w-[9.5rem] text-sm">Status</span>
           <Select
             value={status?.status || ""} // Use string status, default to empty string if undefined
             onValueChange={handleStatusChange}
@@ -148,7 +150,7 @@ export function DetailsCard() {
               </SelectValue>
             </SelectTrigger>
             <SelectContent>
-              {leadStatuses.map((statusObj: AccountStatus) => (
+              {accountStatuses.map((statusObj: AccountStatus) => (
                 <SelectItem
                   key={statusObj.status}
                   value={statusObj.status}
@@ -174,7 +176,7 @@ export function DetailsCard() {
 
         {/* Website */}
         <div className="group flex items-center">
-          <span className="!w-[7.55rem] text-sm">Website</span>
+          <span className="!w-[9rem] text-sm">Website</span>
           <div className="relative w-full">
             <Input
               value={website}
@@ -196,7 +198,7 @@ export function DetailsCard() {
 
         {/* Industry */}
         <div className="group flex items-center">
-          <span className="!w-[7.55rem] text-sm">Industry</span>
+          <span className="!w-[9rem] text-sm">Industry</span>
           <div className="relative w-full">
             <Input
               value={industry}

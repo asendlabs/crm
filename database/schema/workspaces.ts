@@ -50,7 +50,7 @@ export const workspaceTable = table("workspaces", {
       },
     ]),
   ),
-  leadStatuses: jsonb("lead_statuses").default(
+  accountStatuses: jsonb("account_statuses").default(
     JSON.stringify([
       {
         color: "7e22ce", // !text-purple-800 for "New"

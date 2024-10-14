@@ -14,7 +14,7 @@
     "drizzle:generate:prod": "drizzle-kit generate --config=drizzle.config-prod.ts",
     "drizzle:migrate:dev": "drizzle-kit migrate --config=drizzle.config-dev.ts",
     "drizzle:migrate:prod": "drizzle-kit migrate --config=drizzle.config-prod.ts",
-    "drizzle:studio:dev": "drizzle-kit studio --config=drizzle.config.ts",
+    "drizzle:studio:dev": "drizzle-kit studio --config=drizzle.config-dev.ts",
     "drizzle:studio:prod": "drizzle-kit studio --config=drizzle.config-prod.ts",
     "drizzle:pull:dev": "drizzle-kit pull --config=drizzle.config-dev.ts",
     "drizzle:pull:prod": "drizzle-kit pull --config=drizzle.config-prod.ts"
