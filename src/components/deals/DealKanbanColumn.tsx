@@ -1,40 +1,125 @@
-import { ContactWithDetails, DealStage } from "@/types/entities";
-import { DealWithPrimaryContact } from "@/types/entities";
-import { Circle, GripHorizontal, Plus } from "lucide-react";
-import React from "react";
-import { DealKanbanItem } from "./DealKanbanItem";
+import { SortableContext, useSortable } from "@dnd-kit/sortable";
+import { useDndContext, type UniqueIdentifier } from "@dnd-kit/core";
+import { CSS } from "@dnd-kit/utilities";
+import { useMemo } from "react";
+import { DealKanbanCard } from "./DealKanbanCard";
+import { cva } from "class-variance-authority";
+import { Circle, MoreHorizontal } from "lucide-react";
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
+import { DealStage, DealWithPrimaryContact } from "@/types/entities";
 
-interface Props {
-  dealStage: DealStage;
-  deals: DealWithPrimaryContact[];
-  setProvidedDeals: (deals: DealWithPrimaryContact[]) => void;
+export type ColumnType = "Column";
+
+export interface ColumnDragData {
+  type: ColumnType;
+  column: DealStage;
 }
 
-export function DealKanbanColumn({ dealStage, deals}: Props) {
+interface DealKanbanColumnProps {
+  column: DealStage;
+  deals: DealWithPrimaryContact[];
+  isOverlay?: boolean;
+}
+
+export function DealKanbanColumn({ column, deals, isOverlay }: DealKanbanColumnProps) {
+  const dealsIds = useMemo(() => {
+    return deals.map((deal) => deal.id);
+  }, [deals]);
+
+  const {
+    setNodeRef,
+    attributes,
+    listeners,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({
+    id: column.stage,
+    data: {
+      type: "Column",
+      column,
+    } satisfies ColumnDragData,
+    attributes: {
+      roleDescription: `Column: ${column.stage}`,
+    },
+  });
+
+  const style = {
+    transition,
+    transform: CSS.Translate.toString(transform),
+  };
+
+  const variants = cva(
+    "min-h-[85vh] justify-start min-w-60 max-w-60 flex flex-col flex-shrink-0 snap-center rounded-lg cursor-pointer my-1",
+    {
+      variants: {
+        dragging: {
+          default: "border-2 border-transparent",
+          over: "ring-1 opacity-30 ring-muted-foreground/60",
+          overlay: "ring-1 ring-primary",
+        },
+      },
+    },
+  );
+
   return (
-    <section className="flex w-full min-w-64 max-w-64 flex-col gap-2">
-        <section className="flex items-center justify-between border-b pr-8">
-          <div
-            className="flex items-center gap-1.5 py-1.5 text-sm font-medium"
-            style={{ color: `#${dealStage.color}` }}
-          >
-            <Circle className="h-3 w-3" strokeWidth={3} />
-            {dealStage.stage}
-          </div>
-          <div>
-            <GripHorizontal className="h-4 w-4 text-gray-500" />
-          </div>
-        </section>
-        <section className="first flex flex-col gap-2 mr-8">
-          {deals
-            .filter(
-              (deal: DealWithPrimaryContact) =>
-                deal.stage.stage === dealStage.stage,
-            )
-            .map((deal: DealWithPrimaryContact) => (
-              <DealKanbanItem key={deal.id} deal={deal}/>
+    <div
+      ref={setNodeRef}
+      style={style}
+      // Uncomment these lines to enable column drag and drop
+      // {...attributes}
+      // {...listeners}
+      className={variants({
+        dragging: isOverlay ? "overlay" : isDragging ? "over" : undefined,
+      })}
+    >
+      <section className="flex items-center justify-between p-2 pb-0">
+        <div
+          className="flex items-center gap-1.5 rounded-lg border px-2 py-0.5 text-sm font-medium"
+          style={{ color: `#${column.color}` }}
+        >
+          <Circle className="h-3 w-3" strokeWidth={3} />
+          {column.stage}
+        </div>
+        <div>
+          <MoreHorizontal className="h-4 w-4 text-gray-500" />
+        </div>
+      </section>
+      <ScrollArea>
+        <div className="flex flex-grow flex-col gap-2 p-2">
+          <SortableContext items={dealsIds}>
+            {deals.map((deal) => (
+              <DealKanbanCard key={deal.id} deal={deal} />
             ))}
-        </section>
-    </section>
+          </SortableContext>
+        </div>
+      </ScrollArea>
+    </div>
+  );
+}
+
+export function DealKanbanColumnContainer({ children }: { children: React.ReactNode }) {
+  const dndContext = useDndContext();
+
+  const variations = cva("flex -ml-2 -mt-3", {
+    variants: {
+      dragging: {
+        default: "snap-x snap-mandatory",
+        active: "snap-none",
+      },
+    },
+  });
+
+  return (
+    <ScrollArea
+      className={variations({
+        dragging: dndContext.active ? "active" : "default",
+      })}
+    >
+      <div className="flex flex-row items-center gap-2">
+        {children}
+      </div>
+      <ScrollBar orientation="horizontal" />
+    </ScrollArea>
   );
 }

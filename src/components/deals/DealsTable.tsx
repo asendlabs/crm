@@ -36,8 +36,9 @@ import {
   Views,
 } from "@/providers/dealsViewProvider";
 import { DealViewSwitcher } from "./DealViewSwitcher";
-import { DealKanbanColumn } from "./DealKanbanColumn";
 import { ContactWithDetails, DealStage, DealWithPrimaryContact } from "@/types/entities";
+import { DealKanbanBoard } from "./DealKanbanBoard";
+import { dealTableRelations } from "@database/relations";
 
 interface DealTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -55,8 +56,6 @@ export function DealTable<TData, TValue>({
   dealStages,
 }: DealTableProps<TData, TValue>) {
   const { view } = useContext(DealViewContext);
-  const [providedDeals, setProvidedDeals] =
-    useState<DealWithPrimaryContact[]>(deals);
   const [dealView, setDealView] = useState<Views>(view);
   const [data, setData] = useState<TData[]>(tableData);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -69,10 +68,6 @@ export function DealTable<TData, TValue>({
   const deleteDealServerAction = useServerAction(deleteDealAction);
   const addData = (newData: any) => {
     setData((prevDeals) => [...prevDeals, newData]);
-    router.refresh();
-  };
-  const addDealKanban = (newData: any) => {
-    setProvidedDeals((prevDeals) => [...prevDeals, newData]);
     router.refresh();
   };
 
@@ -168,7 +163,7 @@ export function DealTable<TData, TValue>({
     },
   });
   return (
-    <section className="flex h-screen flex-col gap-3 overflow-x-hidden px-6 pt-4 pb-2">
+    <section className="flex h-screen flex-col gap-3 overflow-x-hidden px-6 pt-4 pb-0">
       <div className="flex select-none flex-row items-center justify-between">
         <h1 className="text-xl font-semibold capitalize">Deals</h1>
         <div className="flex flex-row gap-2">
@@ -200,7 +195,8 @@ export function DealTable<TData, TValue>({
           <div>
             <DealViewSwitcher view={dealView} setView={setDealView} />
           </div>
-          <NewDealForm addDeal={addData}  addDealKanban={dealView === "grid" ? undefined : addDealKanban} accounts={accounts} fullButton />
+          
+          <NewDealForm addDeal={addData}  addDealKanban={dealView === "grid" ? undefined : undefined} accounts={accounts} fullButton />
         </div>
       </div>
       {dealView === "grid" ? (
@@ -259,7 +255,8 @@ export function DealTable<TData, TValue>({
         </>
       ) : (
         <section className="flex h-full max-w-[78.7vw] overflow-x-auto overflow-y-hidden mt-2">
-          {dealStages?.map((dealStage: DealStage) => <DealKanbanColumn dealStage={dealStage} deals={providedDeals} setProvidedDeals={setProvidedDeals} />)}
+          {/* {dealStages?.map((dealStage: DealStage) => <DealKanbanColumn dealStage={dealStage} deals={providedDeals} setProvidedDeals={setProvidedDeals} />)} */}
+          <DealKanbanBoard defaultCols={dealStages ?? []} initialDeals={deals}/>
         </section>
       )}
     </section>

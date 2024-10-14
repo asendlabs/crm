@@ -1,19 +1,61 @@
-"use client";
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
-import {
-  GripHorizontal,
-  MailIcon,
-  MoreVertical,
-  PhoneIcon,
-} from "lucide-react";
-import { formatDate } from "@/utils";
+import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
+import { Card, CardContent } from "@/components/ui/card";
+import { cva } from "class-variance-authority";
 import { DealWithPrimaryContact } from "@/types/entities";
+import { useEffect, useState } from "react";
+import { MailIcon, MoreVertical, PhoneIcon } from "lucide-react";
+import { Button } from "../ui/button";
+import { formatDate } from "@/utils";
 import { z } from "zod";
+import { cn } from "@/utils/tailwind";
+
+interface DealCardProps {
+  deal: DealWithPrimaryContact;
+  isOverlay?: boolean;
+}
+
+export type DealType = "Deal";
+
+export interface DealDragData {
+  type: DealType;
+  deal: DealWithPrimaryContact;
+}
 const emailSchema = z.string().email();
 const phoneSchema = z.string().min(7);
 
-export function DealKanbanItem({ deal }: { deal: DealWithPrimaryContact }) {
+export function DealKanbanCard({ deal, isOverlay }: DealCardProps) {
+  const [cardHover, setCardHover] = useState(false);
+  const [describedById, setDescribedById] = useState<string | null>(null);
+
+  useEffect(() => {
+    // Generate the ID only on the client
+    setDescribedById(`DndDescribedBy-${deal.id}`);
+  }, [deal.id]);
+
+  const {
+    setNodeRef,
+    attributes,
+    listeners,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({
+    id: deal.id,
+    data: {
+      type: "Deal",
+      deal,
+    } satisfies DealDragData,
+    attributes: {
+      roleDescription: "Deal",
+    },
+  });
+
+  const style = {
+    transition,
+    transform: CSS.Translate.toString(transform),
+  };
+
   const contact = deal.primaryContact;
   const isValidEmail = emailSchema.safeParse(
     contact?.contactEmail?.email,
@@ -21,16 +63,32 @@ export function DealKanbanItem({ deal }: { deal: DealWithPrimaryContact }) {
   const isValidPhone = phoneSchema.safeParse(
     contact?.contactPhone?.phoneNumber,
   ).success;
-  contact?.contactEmail?.email && contact?.contactEmail?.email.length > 0;
+
+  const variants = cva("cursor-grab grid", {
+    variants: {
+      dragging: {
+        over: "ring-1 opacity-30 ring-muted-foreground/60",
+        overlay: "ring-2 ring-primary",
+      },
+    },
+  });
+
   return (
     <Card
-      key={deal.id}
-      className="grid"
-      style={{
-        backgroundColor: `rgba(${parseInt(deal.stage.color.slice(0, 2), 16)}, ${parseInt(deal.stage.color.slice(2, 4), 16)}, ${parseInt(deal.stage.color.slice(4, 6), 16)}, 0.025)`,
-      }}
+      ref={setNodeRef}
+      style={style}
+      className={variants({
+        dragging: isOverlay ? "overlay" : isDragging ? "over" : undefined,
+      })}
+      {...attributes}
+      {...listeners}
+      onMouseEnter={() => setCardHover(true)}
+      onMouseLeave={() => setCardHover(false)}
+      // style={{
+      //   backgroundColor: `rgba(${parseInt(deal.stage.color.slice(0, 2), 16)}, ${parseInt(deal.stage.color.slice(2, 4), 16)}, ${parseInt(deal.stage.color.slice(4, 6), 16)}, 0.025)`,
+      // }}
     >
-      <div className="flex items-start justify-between p-2">
+      <div className="flex items-start justify-between px-2 pb-4 pt-2">
         <div>
           <h1 className="flex max-w-[11rem] gap-0.5 text-sm font-light">
             <span className="max-w-[7rem] truncate !font-medium">
@@ -53,7 +111,11 @@ export function DealKanbanItem({ deal }: { deal: DealWithPrimaryContact }) {
         <div
           className={`flex-col items-center ${deal.primaryContact ? "mt-1" : ""}`}
         >
-          <Button size="icon" variant="outline" className="mr-1 h-6 w-6">
+          <Button
+            size="icon"
+            variant="outline"
+            className={cn("mr-1 hidden h-6 w-6", cardHover && "flex")}
+          >
             <MoreVertical className="h-4 w-4 p-[0.05rem]" />
           </Button>
         </div>
