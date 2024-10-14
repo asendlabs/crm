@@ -25,7 +25,7 @@ import { DataTableSearch } from "@/components/tables/nav/DataTableSearch";
 import { DataTableViewOptions } from "@/components/tables/nav/DataTableViewOptions";
 import { NewDealForm } from "@/components/forms/NewDealForm";
 import { useRouter } from "next/navigation";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useServerAction } from "zsa-react";
 import { toast } from "sonner";
 import { deleteDealAction, updateDealAction } from "@/server/deal";
@@ -70,6 +70,10 @@ export function DealTable<TData, TValue>({
     setData((prevDeals) => [...prevDeals, newData]);
     router.refresh();
   };
+
+  useEffect(() => {
+    router.refresh();
+  }, [dealView]);
 
   const primaryFields = ["title", "stage"];
 

@@ -18,12 +18,16 @@ import {
   UniqueIdentifier,
   TouchSensor,
   MouseSensor,
+  PointerSensor,
 } from "@dnd-kit/core";
 import { SortableContext, arrayMove } from "@dnd-kit/sortable";
 import { DealKanbanCard } from "./DealKanbanCard";
 import { hasDraggableData } from "./utils";
 import { coordinateGetter } from "./multipleContainersKeyboardPreset";
 import { DealStage, DealWithPrimaryContact } from "@/types/entities";
+import { changeDealStageAction } from "@/server/deal";
+import { useServerAction } from "zsa-react";
+import { useRouter } from "next/navigation";
 
 export type ColumnId = string;
 
@@ -46,6 +50,10 @@ export function DealKanbanBoard({
     null,
   );
 
+  const { execute } = useServerAction(changeDealStageAction);
+
+  const router = useRouter();
+
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
@@ -56,6 +64,11 @@ export function DealKanbanBoard({
   const sensors = useSensors(
     useSensor(MouseSensor),
     useSensor(TouchSensor),
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 2,
+      },
+    }),
     useSensor(KeyboardSensor, {
       coordinateGetter: coordinateGetter,
     }),
@@ -285,7 +298,15 @@ export function DealKanbanBoard({
           overDeal &&
           activeDeal.stage.stage !== overDeal.stage.stage
         ) {
-          activeDeal.stage.stage = overDeal.stage.stage;
+          const newStage = overDeal.stage;
+          execute({ dealId: activeDeal.id, newStage }).then(([data, err]) => {
+            if (err) {
+              console.error("Failed to update deal stage:", err);
+              // You might want to show an error message to the user here
+            }
+            router.refresh();
+          });
+          activeDeal.stage = newStage;
           return arrayMove(deals, activeIndex, overIndex - 1);
         }
 
@@ -301,7 +322,16 @@ export function DealKanbanBoard({
         const activeIndex = deals.findIndex((t) => t.id === activeId);
         const activeDeal = deals[activeIndex];
         if (activeDeal) {
-          activeDeal.stage.stage = overId as ColumnId;
+          const newStage = columns.find((col) => col.stage === overId);
+          if (newStage) {
+            execute({ dealId: activeDeal.id, newStage }).then(([data, err]) => {
+              if (err) {
+                console.error("Failed to update deal stage:", err);
+                // You might want to show an error message to the user here
+              }
+            });
+            activeDeal.stage = newStage;
+          }
           return arrayMove(deals, activeIndex, activeIndex);
         }
         return deals;
