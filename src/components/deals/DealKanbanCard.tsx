@@ -98,7 +98,9 @@ export function DealKanbanCard({ deal, isOverlay }: DealCardProps) {
       {...listeners}
       onMouseEnter={() => {
         setCardHover(true);
-        router.prefetch(`/app/${deal.account?.type + "s"}/${deal.accountId}?deal=${deal.id}`);
+        router.prefetch(
+          `/app/${deal.account?.type + "s"}/${deal.accountId}?deal=${deal.id}`,
+        );
       }}
       onMouseLeave={() => setCardHover(false)}
       style={{
@@ -113,19 +115,27 @@ export function DealKanbanCard({ deal, isOverlay }: DealCardProps) {
           })}
           onClick={() => {
             setLoading(true);
-            router.push(`/app/${deal.account?.type + "s"}/${deal.accountId}?deal=${deal.id}`);
+            router.push(
+              `/app/${deal.account?.type + "s"}/${deal.accountId}?deal=${deal.id}`,
+            );
           }}
         >
           <h1 className="break-words text-base font-medium hover:underline">
             {deal.title}
           </h1>
-          <p className="flex max-w-[13rem] items-center gap-1 truncate text-xs">
+          <p className="flex max-w-[13rem] items-center gap-1.5 truncate text-xs">
+            <span className="font-medium opacity-80 capitalize">{deal.account?.type}:</span>
+            <span className="truncate rounded-md border px-2 font-medium">
+              { deal.account?.accountName}
+            </span>
+          </p>
+          <p className="flex max-w-[13rem] items-center gap-1.5 truncate text-xs">
             <span className="font-medium opacity-80">Value:</span>
             <span className="truncate rounded-md border px-2 font-medium">
               {"$" + deal.value}
             </span>
           </p>
-          <p className="flex gap-1 text-xs">
+          <p className="flex gap-1.5 text-xs">
             <span className="font-medium opacity-80">Close Date:</span>
             <span className="font-medium">
               {formatDate(deal?.expectedCloseDate) ?? "\u3164"}
@@ -142,7 +152,9 @@ export function DealKanbanCard({ deal, isOverlay }: DealCardProps) {
             disabled={loading}
             onClick={() => {
               setLoading(true);
-              router.push(`/app/${deal.account?.type + "s"}/${deal.accountId}?deal=${deal.id}`);
+              router.push(
+                `/app/${deal.account?.type + "s"}/${deal.accountId}?deal=${deal.id}`,
+              );
             }}
           >
             {loading ? (
