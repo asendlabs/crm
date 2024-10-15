@@ -1,12 +1,19 @@
-"use client";
+import React, {
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+  useCallback,
+} from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
+import { format } from "date-fns";
+import { toast } from "sonner";
+import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import {
-  Dialog,
-  DialogContent,
-  DialogFooter,
-  DialogOverlay,
-} from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogFooter } from "@/components/ui/dialog";
 import {
   Form,
   FormField,
@@ -20,33 +27,8 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import {
-  CalendarIcon,
-  Ellipsis,
-  EllipsisVertical,
-  MoreHorizontal,
-  MoreVertical,
-  Plus,
-  Trash,
-} from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
 import { Input } from "@/components/ui/input";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { ArrowUpRight, Check, Loader } from "lucide-react";
-import { useContext, useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
-import { toast } from "sonner";
-import { z } from "zod";
-import { DealWithPrimaryContact } from "@/types/entities";
-import { formatDate } from "@/utils";
-import { deleteDealAction, updateDealAction } from "@/server/deal"; // Assuming these exist
-import { ContactCard } from "./ContactCard";
-import { useServerAction } from "zsa-react";
-import { dealUpdateSchema } from "@/schemas/deal.schema";
-import { useRouter } from "next/navigation";
-import { format } from "date-fns";
-import { cn } from "@/utils/tailwind";
-import { AccountContext } from "@/providers/accountProvider";
 import {
   Select,
   SelectContent,
@@ -54,16 +36,46 @@ import {
   SelectValue,
   SelectItem,
 } from "@/components/ui/select";
+import {
+  CalendarIcon,
+  Circle,
+  MoreVertical,
+  Trash,
+  Check,
+  Loader,
+} from "lucide-react";
+import { DealStage, DealWithPrimaryContact } from "@/types/entities";
+import { formatDate } from "@/utils";
+import { cn } from "@/utils/tailwind";
+import { deleteDealAction, updateDealAction } from "@/server/deal";
+import { ContactCard } from "./ContactCard";
+import { useServerAction } from "zsa-react";
+import { dealUpdateSchema } from "@/schemas/deal.schema";
+import { AccountContext } from "@/providers/accountProvider";
+import { Deal } from "@database/types";
+import { Skeleton } from "../ui/skeleton";
 
-export function DealCard({ deal }: { deal: DealWithPrimaryContact }) {
-  const [open, setOpen] = useState(false);
+export function DealCard({
+  deal,
+  isOpen,
+}: {
+  deal: DealWithPrimaryContact;
+  isOpen: boolean;
+}) {
+  const [open, setOpen] = useState(isOpen);
   const [saveButtonEnabled, setSaveButtonEnabled] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [stage, setStage] = useState<DealStage | undefined>(deal.stage);
 
   const { contacts } = useContext(AccountContext);
 
   const router = useRouter();
+
+  const dealStages = useMemo(() => {
+    return (deal.workspace?.dealStages as DealStage[]) || [];
+  }, [deal.workspace]);
 
   const updateDealActionCaller = useServerAction(updateDealAction);
   const deleteDealActionCaller = useServerAction(deleteDealAction);
@@ -75,6 +87,7 @@ export function DealCard({ deal }: { deal: DealWithPrimaryContact }) {
       value: deal.value ?? "",
       expectedCloseDate: deal.expectedCloseDate ?? undefined,
       contactId: deal.primaryContactId ?? undefined,
+      stage: deal.stage ?? undefined,
     },
   });
 
@@ -83,6 +96,7 @@ export function DealCard({ deal }: { deal: DealWithPrimaryContact }) {
   const dealValue = watch("value");
   const expectedCloseDateValue = watch("expectedCloseDate");
   const contactIdValue = watch("contactId");
+  const stageValue = watch("stage");
 
   useEffect(() => {
     const hasChanges = [
@@ -95,62 +109,47 @@ export function DealCard({ deal }: { deal: DealWithPrimaryContact }) {
           ? new Date(expectedCloseDateValue).getTime()
           : null),
       (deal.primaryContactId ?? null) !== (contactIdValue ?? null),
+      deal.stage.stage !== stageValue.stage,
     ].some(Boolean);
     setSaveButtonEnabled(hasChanges);
-  }, [deal, titleValue, dealValue, contactIdValue, expectedCloseDateValue]);
+  }, [
+    deal,
+    titleValue,
+    dealValue,
+    contactIdValue,
+    expectedCloseDateValue,
+    stageValue,
+  ]);
+
+  useEffect(() => {
+    if (deal) {
+      setIsLoading(false);
+    }
+  }, [deal]);
 
   const handleSubmit = async (values: z.infer<typeof dealUpdateSchema>) => {
     setIsSubmitting(true);
     try {
-      if (values.title !== deal.title) {
-        const [data, err] = await updateDealActionCaller.execute({
-          itemId: deal.id,
-          columnId: "title",
-          newValue: values.title,
-        });
-        if (err) {
-          toast.error(err?.message);
-        }
-      }
-      if (values.value !== deal.value) {
-        const [data, err] = await updateDealActionCaller.execute({
-          itemId: deal.id,
-          columnId: "value",
-          newValue: values.value,
-        });
-        if (err) {
-          toast.error(err?.message);
-        }
-      }
+      const updates = [
+        { field: "title", value: values.title },
+        { field: "value", value: values.value },
+        { field: "expectedCloseDate", value: values.expectedCloseDate },
+        { field: "primaryContactId", value: values.contactId },
+        { field: "stage", value: stage },
+      ];
 
-      if (
-        (deal.expectedCloseDate
-          ? new Date(deal.expectedCloseDate).getTime()
-          : null) !==
-        (expectedCloseDateValue
-          ? new Date(expectedCloseDateValue).getTime()
-          : null)
-      ) {
-        const [data, err] = await updateDealActionCaller.execute({
-          itemId: deal.id,
-          columnId: "expectedCloseDate",
-          newValue: values.expectedCloseDate,
-        });
-        if (err) {
-          toast.error(err?.message);
+      for (const update of updates) {
+        if (update.value !== deal[update.field as keyof Deal]) {
+          const [data, err] = await updateDealActionCaller.execute({
+            itemId: deal.id,
+            columnId: update.field,
+            newValue: update.value,
+          });
+          if (err) {
+            // toast.error(err?.message + err.code); TODO: FIX NO VALUES TO SET ERROR
+          }
         }
       }
-      if ((deal.primaryContactId ?? null) !== (contactIdValue ?? null)) {
-        const [data, err] = await updateDealActionCaller.execute({
-          itemId: deal.id,
-          columnId: "primaryContactId",
-          newValue: values.contactId,
-        });
-        if (err) {
-          toast.error(err?.message);
-        }
-      }
-
       setOpen(false);
       router.refresh();
     } catch (error) {
@@ -160,12 +159,31 @@ export function DealCard({ deal }: { deal: DealWithPrimaryContact }) {
     }
   };
 
+  const handleStageChange = (newStage: string) => {
+    const selectedStage = dealStages.find(
+      (stageObj: DealStage) => stageObj.stage === newStage,
+    );
+    if (selectedStage) {
+      setStage(selectedStage);
+      form.setValue("stage", selectedStage);
+    }
+  };
+
+  if (isLoading) {
+    return (
+      <div className="w-full">
+        <Skeleton className="h-20 w-full flex-col"></Skeleton>
+      </div>
+    );
+  }
+
   return (
     <Dialog
       open={open}
       onOpenChange={() => {
         form.reset();
         setOpen(!open);
+        router.push("?deal=");
       }}
     >
       <Card
@@ -173,15 +191,45 @@ export function DealCard({ deal }: { deal: DealWithPrimaryContact }) {
         className="grid cursor-pointer"
         onClick={() => setOpen(true)}
       >
-        <div className="flex items-start justify-between p-2">
-          <div>
+        <div className="flex items-start justify-between p-3">
+          <div className="grid gap-2">
+            <h1 className="break-words text-base font-medium">{deal.title}</h1>
+            <p className="flex max-w-[13rem] items-center gap-1 truncate text-xs">
+              <span className="font-medium opacity-80">Value:</span>
+              <span className="truncate rounded-md border px-2 font-medium">
+                {"$" + deal.value}
+              </span>
+            </p>
+            <p className="flex max-w-[13rem] items-center gap-1 truncate text-xs">
+              <span className="font-medium opacity-80">Stage:</span>
+              <span
+                style={{ color: `#${deal.stage.color}` }}
+                className="rounded-md border px-2 font-medium"
+              >
+                {deal.stage.stage}
+              </span>
+            </p>
+            <p className="flex max-w-[30rem] items-center gap-1 text-xs">
+              <span className="font-medium opacity-80">Close Date:</span>
+              <span className="truncate rounded-md border px-2 font-medium">
+                {formatDate(deal?.expectedCloseDate) ?? "\u3164"}
+              </span>
+            </p>
+          </div>
+          {/* <div>
             <h1 className="flex max-w-[11rem] gap-0.5 text-sm font-light">
-              <span className="max-w-[7rem] truncate !font-medium">
+              <span className="max-w-[9rem] truncate !font-medium">
                 {deal.title}
               </span>
-              (<span className="max-w-[4rem] truncate">${deal.value}</span>)
+              (<span className="max-w-[5rem] truncate">${deal.value}</span>)
             </h1>
-            <p className="text-xs text-gray-800">
+            <p className="flex items-center gap-1 text-xs text-gray-800">
+              <span
+                style={{ color: `#${deal.stage.color}` }}
+                className="rounded-lg border px-2 font-medium"
+              >
+                {deal.stage.stage}
+              </span>
               {deal.probability && (
                 <>
                   <span className="font-medium">{deal.probability}%</span>{" "}
@@ -192,18 +240,22 @@ export function DealCard({ deal }: { deal: DealWithPrimaryContact }) {
                 {formatDate(deal?.expectedCloseDate) ?? "\u3164"}
               </span>
             </p>
-          </div>
+          </div> */}
           <div
-            className={`flex-col items-center ${deal.primaryContact ? "mt-1" : ""}`}
+            className={`flex-col items-center ${deal.primaryContact ? "" : " "}`}
           >
             <Button size="icon" variant="outline" className="h-6 w-7">
               <MoreVertical className="h-4 w-4 p-[0.05rem]" />
             </Button>
           </div>
-        </div>{" "}
+        </div>
         {deal.primaryContact && (
           <div className="p-2 pt-0">
-            <ContactCard contact={deal.primaryContact} clickable={false} />
+            <ContactCard
+              contact={deal.primaryContact}
+              clickable={false}
+              isOpen={false}
+            />
           </div>
         )}
       </Card>
@@ -218,6 +270,66 @@ export function DealCard({ deal }: { deal: DealWithPrimaryContact }) {
             className="grid gap-2"
             onSubmit={form.handleSubmit(handleSubmit)}
           >
+            <FormField
+              control={control}
+              name="stage"
+              render={({ field }) => (
+                <FormItem className="flex-1">
+                  <FormLabel>Stage</FormLabel>
+                  {dealStages.length > 0 ? (
+                    <Select
+                      value={(field.value as any) || ""}
+                      onValueChange={handleStageChange}
+                    >
+                      <SelectTrigger className="!ring-none h-7 w-full text-sm font-medium capitalize !outline-none ring-0 focus:ring-offset-[-1]">
+                        <SelectValue>
+                          {stage ? (
+                            <div
+                              className="flex items-center gap-1.5"
+                              style={{ color: `#${stage.color}` }}
+                            >
+                              <Circle
+                                strokeWidth={4}
+                                absoluteStrokeWidth
+                                className={`h-3 w-3`}
+                              />
+                              {stage.stage}
+                            </div>
+                          ) : (
+                            "Select Stage"
+                          )}
+                        </SelectValue>
+                      </SelectTrigger>
+                      <SelectContent>
+                        {dealStages.map((stageObj: DealStage) => (
+                          <SelectItem
+                            key={stageObj.stage}
+                            value={stageObj.stage}
+                            showIndicator={false}
+                            className="font-medium"
+                            style={{
+                              color: `#${stageObj.color}`,
+                            }}
+                          >
+                            <div className="flex items-center gap-1.5">
+                              <Circle
+                                strokeWidth={4}
+                                absoluteStrokeWidth
+                                className={`h-3 w-3`}
+                              />
+                              {stageObj.stage}
+                            </div>
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  ) : (
+                    <p>No deal stages available</p>
+                  )}
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
             <FormField
               control={control}
               name="contactId"
@@ -297,7 +409,7 @@ export function DealCard({ deal }: { deal: DealWithPrimaryContact }) {
                           )}
                         >
                           {field.value ? (
-                            format(field.value, "PPP")
+                            format(new Date(field.value), "PPP")
                           ) : (
                             <span>Pick a date</span>
                           )}
@@ -308,7 +420,9 @@ export function DealCard({ deal }: { deal: DealWithPrimaryContact }) {
                     <PopoverContent className="p-0">
                       <Calendar
                         mode="single"
-                        selected={field.value}
+                        selected={
+                          field.value ? new Date(field.value) : undefined
+                        }
                         onSelect={field.onChange}
                         disabled={(date) => date < new Date("1900-01-01")}
                         initialFocus
@@ -331,11 +445,16 @@ export function DealCard({ deal }: { deal: DealWithPrimaryContact }) {
                       const [data, err] = await deleteDealActionCaller.execute({
                         itemIds: [deal.id],
                       });
+                      if (err) {
+                        toast.error(err?.message);
+                      } else {
+                        setOpen(false);
+                        router.refresh();
+                      }
                     } catch (error) {
+                      toast.error("An error occurred while deleting the deal.");
                     } finally {
                       setIsDeleting(false);
-                      setOpen(false);
-                      router.refresh();
                     }
                   }}
                 >
@@ -359,6 +478,8 @@ export function DealCard({ deal }: { deal: DealWithPrimaryContact }) {
                   type="button"
                   onClick={() => {
                     setOpen(false);
+                    form.reset();
+                    router.push("?deal=");
                   }}
                 >
                   Cancel

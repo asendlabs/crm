@@ -36,7 +36,11 @@ import {
   Views,
 } from "@/providers/dealsViewProvider";
 import { DealViewSwitcher } from "./DealViewSwitcher";
-import { ContactWithDetails, DealStage, DealWithPrimaryContact } from "@/types/entities";
+import {
+  ContactWithDetails,
+  DealStage,
+  DealWithPrimaryContact,
+} from "@/types/entities";
 import { DealKanbanBoard } from "./DealKanbanBoard";
 import { dealTableRelations } from "@database/relations";
 
@@ -62,6 +66,7 @@ export function DealTable<TData, TValue>({
   const [sorting, setSorting] = useState<SortingState>([
     { id: "title", desc: false },
   ]);
+  const [providedDeals, setProvidedDeals] = useState(deals);
   const [rowSelectionState, setRowSelectionState] = useState({});
   const router = useRouter();
   const updateDealServerAction = useServerAction(updateDealAction);
@@ -71,9 +76,9 @@ export function DealTable<TData, TValue>({
     router.refresh();
   };
 
-  useEffect(() => {
-    router.refresh();
-  }, [dealView]);
+  const addDealKanban = (newDeal: any) => {
+    setProvidedDeals((prevDeals) => [...prevDeals, newDeal]);
+  };
 
   const primaryFields = ["title", "stage"];
 
@@ -167,7 +172,7 @@ export function DealTable<TData, TValue>({
     },
   });
   return (
-    <section className="flex h-screen flex-col gap-3 overflow-x-hidden px-6 pt-4 pb-0">
+    <section className="flex h-screen flex-col gap-3 overflow-x-hidden px-6 pb-0 pt-4">
       <div className="flex select-none flex-row items-center justify-between">
         <h1 className="text-xl font-semibold capitalize">Deals</h1>
         <div className="flex flex-row gap-2">
@@ -199,8 +204,13 @@ export function DealTable<TData, TValue>({
           <div>
             <DealViewSwitcher view={dealView} setView={setDealView} />
           </div>
-          
-          <NewDealForm addDeal={addData}  addDealKanban={dealView === "grid" ? undefined : undefined} accounts={accounts} fullButton />
+
+          <NewDealForm
+            addDeal={addData}
+            addDealKanban={addDealKanban}
+            accounts={accounts}
+            fullButton
+          />
         </div>
       </div>
       {dealView === "grid" ? (
@@ -258,9 +268,12 @@ export function DealTable<TData, TValue>({
           </Table>
         </>
       ) : (
-        <section className="flex h-full max-w-[78.7vw] overflow-x-auto overflow-y-hidden mt-2">
+        <section className="mt-2 flex h-full max-w-[78.7vw] overflow-x-auto overflow-y-hidden">
           {/* {dealStages?.map((dealStage: DealStage) => <DealKanbanColumn dealStage={dealStage} deals={providedDeals} setProvidedDeals={setProvidedDeals} />)} */}
-          <DealKanbanBoard defaultCols={dealStages ?? []} initialDeals={deals}/>
+          <DealKanbanBoard
+            defaultCols={dealStages ?? []}
+            initialDeals={providedDeals}
+          />
         </section>
       )}
     </section>

@@ -16,9 +16,10 @@ export interface ContactWithDetails extends Contact {
 }
 
 export interface DealWithPrimaryContact extends Deal {
+  account: Account | null;
+  workspace: Workspace | null;
   stage: DealStage;
   primaryContact: ContactWithDetails | null;
-  account: Account | null;
 }
 
 export interface ActivityWithContact extends Activity {

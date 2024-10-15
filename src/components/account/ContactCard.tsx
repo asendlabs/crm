@@ -40,9 +40,11 @@ const phoneSchema = z.string().min(7);
 
 export function ContactCard({
   contact,
+  isOpen, 
   clickable = true,
 }: {
   contact: ContactWithDetails;
+  isOpen: boolean;
   clickable?: boolean;
 }) {
   const [open, setOpen] = useState(false);
@@ -145,7 +147,7 @@ export function ContactCard({
         className="cursor-pointer"
         onClick={() => setOpen(true)}
       >
-        <div className="flex w-full items-center justify-between px-2 py-2 text-sm">
+        <div className="flex w-full items-center justify-between px-2 py-2.5 text-sm">
           <h1 className="max-w-[6rem] truncate">{contact.contactName}</h1>
           <div className="flex items-center gap-1">
             <div className="flex space-x-1">

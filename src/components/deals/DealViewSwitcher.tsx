@@ -3,6 +3,7 @@ import { Button } from "../ui/button";
 import { cn } from "@/utils/tailwind";
 import { SquareKanban as Board, Table as Grid } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { revalidatePath } from "next/cache";
 
 interface DealViewSwitcherProps {
   view: Views;
@@ -25,7 +26,6 @@ export function DealViewSwitcher({ view, setView }: DealViewSwitcherProps) {
           onClick={() => {
             setView("board");
             router.push("?view=board");
-            router.refresh();
           }}
         >
           <Board className="h-4 w-4" />
@@ -40,7 +40,6 @@ export function DealViewSwitcher({ view, setView }: DealViewSwitcherProps) {
           onClick={() => {
             setView("grid");
             router.push("?view=grid");
-            router.refresh();
           }}
         >
           <Grid className="h-4 w-4" />

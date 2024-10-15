@@ -85,10 +85,10 @@ export function NewContactForm({
       <Button
         onClick={() => setOpen(true)}
         variant={"outline"}
-        className="flex h-6 max-w-28 flex-row items-center gap-1 rounded-lg px-3"
+        className="flex h-6 w-32 flex-row items-center gap-1 rounded-lg px-3"
       >
         <Plus className="h-4 w-4" />
-        <span>New</span>
+        <span>Add Contact</span>
       </Button>
       <DialogContent className="flex flex-col py-2">
         <div className="mb-3 px-5">

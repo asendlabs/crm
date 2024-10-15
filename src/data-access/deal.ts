@@ -4,21 +4,26 @@ import { dealTable } from "@database/tables";
 import { eq } from "drizzle-orm";
 import { ulid } from "ulid";
 import { Deal } from "@database/types";
+import { DealWithPrimaryContact } from "@/types/entities";
 
-export async function getDealById(id: string) {
+export async function getDealById(
+  id: string,
+): Promise<DealWithPrimaryContact | undefined> {
   const deal = await db.query.dealTable.findFirst({
     where: eq(dealTable.id, id),
     with: {
       account: true,
+      workspace: true,
       primaryContact: {
         with: {
+          account: true,
           contactEmail: true,
           contactPhone: true,
         },
       },
     },
   });
-  return deal;
+  return deal as DealWithPrimaryContact;
 }
 
 export async function getAllWorkspaceDeals(workspaceId: string) {
@@ -26,6 +31,7 @@ export async function getAllWorkspaceDeals(workspaceId: string) {
     where: eq(dealTable.workspaceId, workspaceId),
     with: {
       account: true,
+      workspace: true,
       primaryContact: {
         with: {
           contactEmail: true,

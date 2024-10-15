@@ -10,15 +10,25 @@ interface SecondaryFieldProps {
   row: Row<any>;
   urlType: string;
   accountId: string;
+  entityId?: string;
+  entityType?: string;
 }
 
 export function SecondaryField({
   row,
   urlType,
   accountId,
+  entityId,
+  entityType,
 }: SecondaryFieldProps) {
   const derivedRow = row.original;
   const { account, contacts } = derivedRow;
+
+  const renderEmpty = () => {
+    return (
+      <div className="flex items-center gap-1 py-0.5 text-slate-400">-</div>
+    );
+  };
 
   const renderAccount = () => (
     <div className="flex items-center gap-1">
@@ -61,12 +71,12 @@ export function SecondaryField({
   return (
     <div className="group select-none border-l border-border px-2 py-1">
       <Link
-        href={`/app/${urlType}s/${accountId?.toLowerCase() ?? ""}`}
+        href={`/app/${urlType}s/${accountId?.toLowerCase() ?? ""}?${entityType}=${contacts ? accountId : account ? entityId : ""}`}
         replace={false}
         prefetch={true}
       >
         <div className="flex items-center gap-2">
-          {contacts && contacts.length > 0 ? renderContacts() : renderAccount()}
+          {contacts && contacts.length > 0 ? renderContacts() : account ? renderAccount() : renderEmpty()}
         </div>
       </Link>
     </div>

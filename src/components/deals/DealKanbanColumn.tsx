@@ -21,7 +21,11 @@ interface DealKanbanColumnProps {
   isOverlay?: boolean;
 }
 
-export function DealKanbanColumn({ column, deals, isOverlay }: DealKanbanColumnProps) {
+export function DealKanbanColumn({
+  column,
+  deals,
+  isOverlay,
+}: DealKanbanColumnProps) {
   const dealsIds = useMemo(() => {
     return deals.map((deal) => deal.id);
   }, [deals]);
@@ -50,7 +54,7 @@ export function DealKanbanColumn({ column, deals, isOverlay }: DealKanbanColumnP
   };
 
   const variants = cva(
-    "min-h-[85vh] justify-start min-w-60 max-w-60 flex flex-col flex-shrink-0 snap-center rounded-lg cursor-pointer my-1",
+    "min-h-[86vh] max-h-[86vh] min-w-60 max-w-60 flex flex-col flex-shrink-0 snap-center cursor-pointer my-1 ",
     {
       variants: {
         dragging: {
@@ -73,35 +77,37 @@ export function DealKanbanColumn({ column, deals, isOverlay }: DealKanbanColumnP
         dragging: isOverlay ? "overlay" : isDragging ? "over" : undefined,
       })}
     >
-      <section className="flex items-center justify-between p-2 pb-0">
+      <section className="flex items-center justify-start rounded-lg border px-2 py-[0.3rem]">
         <div
-          className="flex items-center gap-1.5 rounded-lg border px-2 py-0.5 text-sm font-medium"
+          className="flex items-center gap-1.5 text-sm font-medium"
           style={{ color: `#${column.color}` }}
         >
           <Circle className="h-3 w-3" strokeWidth={3} />
           {column.stage}
         </div>
-        <div>
+        {/* <div>
           <MoreHorizontal className="h-4 w-4 text-gray-500" />
-        </div>
+        </div> */}
       </section>
-      <ScrollArea>
-        <div className="flex flex-grow flex-col gap-2 p-2">
-          <SortableContext items={dealsIds}>
-            {deals.map((deal) => (
-              <DealKanbanCard key={deal.id} deal={deal} />
-            ))}
-          </SortableContext>
-        </div>
-      </ScrollArea>
+      <div className="flex max-h-full flex-col gap-2 overflow-y-auto pt-2">
+        <SortableContext items={dealsIds}>
+          {deals.map((deal) => (
+            <DealKanbanCard key={deal.id} deal={deal} />
+          ))}
+        </SortableContext>
+      </div>
     </div>
   );
 }
 
-export function DealKanbanColumnContainer({ children }: { children: React.ReactNode }) {
+export function DealKanbanColumnContainer({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const dndContext = useDndContext();
 
-  const variations = cva("flex -ml-2 -mt-3", {
+  const variations = cva("flex -pl-2", {
     variants: {
       dragging: {
         default: "snap-x snap-mandatory",
@@ -116,9 +122,7 @@ export function DealKanbanColumnContainer({ children }: { children: React.ReactN
         dragging: dndContext.active ? "active" : "default",
       })}
     >
-      <div className="flex flex-row items-center gap-2">
-        {children}
-      </div>
+      <div className="flex flex-row items-center gap-3">{children}</div>
       <ScrollBar orientation="horizontal" />
     </ScrollArea>
   );

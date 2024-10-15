@@ -4,11 +4,22 @@ import { Card, CardContent } from "@/components/ui/card";
 import { cva } from "class-variance-authority";
 import { DealWithPrimaryContact } from "@/types/entities";
 import { useEffect, useState } from "react";
-import { MailIcon, MoreVertical, PhoneIcon } from "lucide-react";
+import {
+  ArrowUpRight,
+  Loader,
+  MailIcon,
+  MoreVertical,
+  MoreVerticalIcon,
+  PhoneIcon,
+} from "lucide-react";
 import { Button } from "../ui/button";
 import { formatDate } from "@/utils";
 import { z } from "zod";
 import { cn } from "@/utils/tailwind";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
+import { DialogTrigger } from "@radix-ui/react-dialog";
+import { Dialog, DialogContent } from "../ui/dialog";
 
 interface DealCardProps {
   deal: DealWithPrimaryContact;
@@ -64,59 +75,81 @@ export function DealKanbanCard({ deal, isOverlay }: DealCardProps) {
     contact?.contactPhone?.phoneNumber,
   ).success;
 
-  const variants = cva("cursor-grab grid", {
+  const variants = cva("cursor-grab grid ", {
     variants: {
       dragging: {
-        over: "ring-1 opacity-30 ring-muted-foreground/60",
-        overlay: "ring-2 ring-primary",
+        over: "!p-0 !m-0 opacity-30 bg-muted",
+        overlay: "ring-2 ring-primary opacity-100",
       },
     },
   });
 
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
+  const [open, setOpen] = useState(false);
+
   return (
     <Card
       ref={setNodeRef}
-      style={style}
       className={variants({
         dragging: isOverlay ? "overlay" : isDragging ? "over" : undefined,
       })}
       {...attributes}
       {...listeners}
-      onMouseEnter={() => setCardHover(true)}
+      onMouseEnter={() => {
+        setCardHover(true);
+        router.prefetch(`/app/${deal.account?.type + "s"}/${deal.accountId}?deal=${deal.id}`);
+      }}
       onMouseLeave={() => setCardHover(false)}
-      // style={{
-      //   backgroundColor: `rgba(${parseInt(deal.stage.color.slice(0, 2), 16)}, ${parseInt(deal.stage.color.slice(2, 4), 16)}, ${parseInt(deal.stage.color.slice(4, 6), 16)}, 0.025)`,
-      // }}
+      style={{
+        ...style,
+        backgroundColor: `rgba(${parseInt(deal.stage.color.slice(0, 2), 16)}, ${parseInt(deal.stage.color.slice(2, 4), 16)}, ${parseInt(deal.stage.color.slice(4, 6), 16)}, 0.025)`,
+      }}
     >
-      <div className="flex items-start justify-between px-2 pb-4 pt-2">
-        <div>
-          <h1 className="flex max-w-[11rem] gap-0.5 text-sm font-light">
-            <span className="max-w-[7rem] truncate !font-medium">
-              {deal.title}
-            </span>
-            (<span className="max-w-[4rem] truncate">${deal.value}</span>)
+      <div className="flex items-start justify-between p-3">
+        <div
+          className={cn("grid !cursor-pointer gap-2", {
+            "!cursor-grab": isOverlay || isDragging,
+          })}
+          onClick={() => {
+            setLoading(true);
+            router.push(`/app/${deal.account?.type + "s"}/${deal.accountId}?deal=${deal.id}`);
+          }}
+        >
+          <h1 className="break-words text-base font-medium hover:underline">
+            {deal.title}
           </h1>
-          <p className="text-xs text-gray-800">
-            {deal.probability && (
-              <>
-                <span className="font-medium">{deal.probability}%</span>{" "}
-                probability on{" "}
-              </>
-            )}
+          <p className="flex max-w-[13rem] items-center gap-1 truncate text-xs">
+            <span className="font-medium opacity-80">Value:</span>
+            <span className="truncate rounded-md border px-2 font-medium">
+              {"$" + deal.value}
+            </span>
+          </p>
+          <p className="flex gap-1 text-xs">
+            <span className="font-medium opacity-80">Close Date:</span>
             <span className="font-medium">
               {formatDate(deal?.expectedCloseDate) ?? "\u3164"}
             </span>
           </p>
         </div>
         <div
-          className={`flex-col items-center ${deal.primaryContact ? "mt-1" : ""}`}
+          className={`flex-col items-center ${deal.primaryContact ? "" : " "}`}
         >
           <Button
             size="icon"
             variant="outline"
-            className={cn("mr-1 hidden h-6 w-6", cardHover && "flex")}
+            className="h-6 w-7"
+            disabled={loading}
+            onClick={() => {
+              setLoading(true);
+              router.push(`/app/${deal.account?.type + "s"}/${deal.accountId}?deal=${deal.id}`);
+            }}
           >
-            <MoreVertical className="h-4 w-4 p-[0.05rem]" />
+            {loading ? (
+              <Loader className="h-4 w-4 animate-spin p-[0.05rem]" />
+            ) : (
+              <ArrowUpRight className="h-4 w-4 p-[0.05rem]" />
+            )}
           </Button>
         </div>
       </div>

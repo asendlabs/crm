@@ -61,6 +61,7 @@ export async function getAccountTypeById(
       },
       deals: {
         with: {
+          workspace: true,
           account: true,
           primaryContact: {
             with: {

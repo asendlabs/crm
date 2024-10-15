@@ -82,8 +82,9 @@ export function NewDealForm({
         toast.error("Failed to create deal.");
         return;
       }
-      if (addDeal) {
+      if (addDeal && addDealKanban) {
         addDeal(data?.data);
+        addDealKanban(data?.data);
       }
       setOpen(false);
       dealform.reset();
@@ -109,7 +110,7 @@ export function NewDealForm({
           className="flex h-6 max-w-28 flex-row items-center gap-1 rounded-lg px-3"
         >
           <Plus className="h-4 w-4" />
-          <span>New</span>
+          <span>Add Deal</span>
         </Button>
       )}
 

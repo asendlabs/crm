@@ -48,6 +48,8 @@ export const DealColumns: ColumnDef<DealWithPrimaryContact>[] = [
         row={row}
         urlType={row.original.account?.type ?? ""}
         accountId={row.original.accountId}
+        entityId={row.original.id}
+        entityType={"deal"}
       />
     ),
     accessorKey: "account",
