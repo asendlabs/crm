@@ -211,7 +211,7 @@ export function LeadTable<TData, TValue>({
                     colSpan={columns.length}
                     className="h-24 select-none text-center"
                   >
-                    No results.
+                    No leads found.
                   </TableCell>
                 </TableRow>
               )}

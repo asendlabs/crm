@@ -216,31 +216,6 @@ export function DealCard({
               </span>
             </p>
           </div>
-          {/* <div>
-            <h1 className="flex max-w-[11rem] gap-0.5 text-sm font-light">
-              <span className="max-w-[9rem] truncate !font-medium">
-                {deal.title}
-              </span>
-              (<span className="max-w-[5rem] truncate">${deal.value}</span>)
-            </h1>
-            <p className="flex items-center gap-1 text-xs text-gray-800">
-              <span
-                style={{ color: `#${deal.stage.color}` }}
-                className="rounded-lg border px-2 font-medium"
-              >
-                {deal.stage.stage}
-              </span>
-              {deal.probability && (
-                <>
-                  <span className="font-medium">{deal.probability}%</span>{" "}
-                  probability on{" "}
-                </>
-              )}
-              <span className="font-medium">
-                {formatDate(deal?.expectedCloseDate) ?? "\u3164"}
-              </span>
-            </p>
-          </div> */}
           <div
             className={`flex-col items-center ${deal.primaryContact ? "" : " "}`}
           >
@@ -263,7 +238,7 @@ export function DealCard({
       {/* Edit Dialog */}
       <DialogContent className="p-4">
         <div>
-          <h1 className="text-xl font-medium">Edit Deal</h1>
+          <h1 className="text-xl font-medium">{titleValue}</h1>
         </div>
         <Form {...form}>
           <form

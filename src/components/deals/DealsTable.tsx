@@ -43,6 +43,8 @@ import {
 } from "@/types/entities";
 import { DealKanbanBoard } from "./DealKanbanBoard";
 import { dealTableRelations } from "@database/relations";
+import { Button } from "../ui/button";
+import { Cog, Settings, Settings2 } from "lucide-react";
 
 interface DealTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -79,6 +81,10 @@ export function DealTable<TData, TValue>({
   const addDealKanban = (newDeal: any) => {
     setProvidedDeals((prevDeals) => [...prevDeals, newDeal]);
   };
+
+  useEffect(() => {
+    setDealView(view);
+  }, [view]);
 
   const primaryFields = ["title", "stage"];
 
@@ -137,6 +143,7 @@ export function DealTable<TData, TValue>({
         };
       }
       setData((prev) => prev.filter((row: any) => !itemIds.includes(row.id)));
+      setProvidedDeals((prev) => prev.filter((row: any) => !itemIds.includes(row.id)));
       table.resetRowSelection();
       router.refresh();
       return {
@@ -201,6 +208,13 @@ export function DealTable<TData, TValue>({
               />
             </div>
           )}
+          {dealView !== "grid" && (
+            <div>
+              <Button  variant={"outline"} size={"icon"} className="h-8 w-8">
+                <Settings2 className="h-4 w-4" />
+              </Button>
+            </div>
+          )}
           <div>
             <DealViewSwitcher view={dealView} setView={setDealView} />
           </div>
@@ -209,6 +223,7 @@ export function DealTable<TData, TValue>({
             addDeal={addData}
             addDealKanban={addDealKanban}
             accounts={accounts}
+            accessPoint={dealView}
             fullButton
           />
         </div>
@@ -253,14 +268,9 @@ export function DealTable<TData, TValue>({
                 <TableRow>
                   <TableCell
                     colSpan={columns.length}
-                    className="h-40 select-none text-center"
+                    className="h-24 select-none text-center"
                   >
-                    <div className="flex flex-col items-center justify-center gap-1">
-                      <h1 className="text-xl font-semibold">No deals found</h1>
-                      <p className="text-sm">
-                        You can create a new deal by clicking the "New" button.
-                      </p>
-                    </div>
+                    No deals found.
                   </TableCell>
                 </TableRow>
               )}

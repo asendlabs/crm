@@ -27,12 +27,12 @@ export function Cards({ className }: { className?: string }) {
       <section className="rounded-lg">
         <DetailsCard />
       </section>{" "}
-      <section className="flex flex-col gap-2 px-4 pb-6 pt-4 border-b">
+      <section className="flex flex-col gap-2 border-b px-4 pb-6 pt-4">
         <div className="flex select-none items-center justify-between">
           <span className="font-medium">Deals</span>
           <NewDealForm accountId={account?.id} />
         </div>
-        <div className="grid gap-2 ">
+        <div className="grid gap-2">
           {deals?.length ? (
             deals?.map((deal) => (
               <DealCard
@@ -42,9 +42,7 @@ export function Cards({ className }: { className?: string }) {
               />
             ))
           ) : (
-            <span className="pb-5 pt-4 text-center text-sm">
-              No deals found.
-            </span>
+            <span />
           )}
         </div>
       </section>
@@ -63,9 +61,7 @@ export function Cards({ className }: { className?: string }) {
               />
             ))
           ) : (
-            <span className="pb-5 pt-4 text-center text-sm">
-              No contacts found.
-            </span>
+            <span />
           )}
         </div>
       </section>

@@ -83,7 +83,7 @@ export function ActivityPanel() {
       )}
 
       <ScrollArea
-        className={`grid ${activityFormOpen ? "max-h-[70vh]" : "max-h-[81vh]"} min-w-full gap-1 overflow-hidden overflow-y-auto pr-3`}
+        className={`flex flex-col ${activityFormOpen ? "max-h-[70vh]" : "max-h-[81vh]"} min-w-full !gap-1 overflow-hidden overflow-y-auto pr-3`}
       >
         {activities && activities.length > 0
           ? activities
