@@ -31,6 +31,7 @@ import { useServerAction } from "zsa-react";
 import { toast } from "sonner";
 import { Router } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { int } from "drizzle-orm/mysql-core";
 
 export type ColumnId = string;
 
@@ -62,6 +63,8 @@ export function DealKanbanBoard({
   useEffect(() => {
     setIsMounted(true);
   }, []);
+
+
 
   useEffect(() => {
     if (dragEnd) {

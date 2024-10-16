@@ -75,11 +75,11 @@ export function DealKanbanCard({ deal, isOverlay }: DealCardProps) {
     contact?.contactPhone?.phoneNumber,
   ).success;
 
-  const variants = cva("cursor-grab grid ", {
+  const variants = cva("z-30 cursor-grab grid ", {
     variants: {
       dragging: {
         over: "!p-0 !m-0 opacity-30 bg-muted",
-        overlay: "ring-2 ring-primary opacity-100",
+        overlay: "",
       },
     },
   });
@@ -88,7 +88,26 @@ export function DealKanbanCard({ deal, isOverlay }: DealCardProps) {
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
 
-  return (
+  return isDragging ? (
+    <div
+      className="m-0 h-32 w-full rounded-lg flex flex-col items-start ring-inset ring-1 ring-primary opacity-50 z-50"
+      ref={setNodeRef}
+      {...attributes}
+      {...listeners}
+      onMouseEnter={() => {
+        setCardHover(true);
+        router.prefetch(
+          `/app/${deal.account?.type + "s"}/${deal.accountId}?deal=${deal.id}`,
+        );
+      }}
+      onMouseLeave={() => setCardHover(false)}
+      style={{
+        ...style,
+        backgroundColor: `rgba(${parseInt(deal.stage.color.slice(0, 2), 16)}, ${parseInt(deal.stage.color.slice(2, 4), 16)}, ${parseInt(deal.stage.color.slice(4, 6), 16)}, 0.025)`,
+      }}
+    >
+    </div>
+  ) : (
     <Card
       ref={setNodeRef}
       className={variants({
@@ -124,9 +143,11 @@ export function DealKanbanCard({ deal, isOverlay }: DealCardProps) {
             {deal.title}
           </h1>
           <p className="flex max-w-[13rem] items-center gap-1.5 truncate text-xs">
-            <span className="font-medium opacity-80 capitalize">{deal.account?.type}:</span>
+            <span className="font-medium capitalize opacity-80">
+              {deal.account?.type}:
+            </span>
             <span className="truncate rounded-md border px-2 font-medium">
-              { deal.account?.accountName}
+              {deal.account?.accountName}
             </span>
           </p>
           <p className="flex max-w-[13rem] items-center gap-1.5 truncate text-xs">
