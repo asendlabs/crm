@@ -16,12 +16,12 @@ export const onboardingAction = authenticatedAction
     if (!user) {
       throw new Error("You need to be logged in to access this content");
     }
-    const profileCreated = await createProfile(
-      user.id,
+    const profileCreated = await createProfile({
+      userId: user.id,
       firstName,
-      marketingConsent,
       lastName,
-    );
+      marketingConsent,
+    });
     if (!profileCreated) {
       throw new Error("Failed to create profile");
     }

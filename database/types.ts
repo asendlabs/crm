@@ -12,6 +12,7 @@ type Deal = typeof tables.dealTable.$inferSelect;
 type ContactEmail = typeof tables.contactEmailTable.$inferSelect;
 type ContactPhone = typeof tables.contactPhoneTable.$inferSelect;
 type Task = typeof tables.taskTable.$inferSelect;
+type Identity = typeof tables.identityTable.$inferSelect;
 
 export type {
   User,
@@ -26,4 +27,5 @@ export type {
   ContactEmail,
   ContactPhone,
   Task,
+  Identity
 };

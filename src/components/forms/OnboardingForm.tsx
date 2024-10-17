@@ -17,13 +17,10 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { toast } from "sonner";
 import { onboardingSchema } from "@/schemas/onboarding.schema";
+import { onboardingAction } from "@/server/onboarding";
 
-export const OnboardingForm = ({
-  action,
-}: {
-  action: (formData: z.infer<typeof onboardingSchema>) => Promise<any>;
-}) => {
-  const { execute, isPending, error } = useServerAction(action);
+export const OnboardingForm = ({}: {}) => {
+  const { execute, isPending, error } = useServerAction(onboardingAction);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formState, setFormState] = useState<number>(0);
 

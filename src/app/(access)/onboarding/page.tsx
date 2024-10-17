@@ -3,7 +3,6 @@ import React from "react";
 import { VerifyEmailForm } from "@/components/forms/VerifyEmailForm";
 import { getUserById } from "@/data-access/users";
 import { fetchAuthenticatedUser } from "@/lib/session";
-import { onboardingAction } from "@/server/onboarding";
 import { redirect } from "next/navigation";
 import { authenticatedUrl, unauthenticatedUrl } from "@/urls";
 import { OnboardingForm } from "@/components/forms/OnboardingForm";
@@ -21,7 +20,7 @@ const OnboardingPage = async () => {
   if (dbUser?.verifiedAt && dbUser?.onboardedAt) {
     return redirect(authenticatedUrl);
   }
-  return <OnboardingForm action={onboardingAction} />;
+  return <OnboardingForm />;
 };
 
 export default OnboardingPage;

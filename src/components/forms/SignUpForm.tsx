@@ -22,6 +22,8 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { toast } from "sonner";
 import { PasswordField } from "../ui/password-input";
+import { useRouter } from "next/navigation";
+import { getGoogleOauthConsentUrlAction } from "@/server/oauth";
 
 export const SignUpForm = ({
   signUp,
@@ -30,6 +32,10 @@ export const SignUpForm = ({
 }) => {
   const { execute, isPending, error } = useServerAction(signUp);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const router = useRouter();
+  const getGoogleOauthConsentUrlActionCaller = useServerAction(
+    getGoogleOauthConsentUrlAction,
+  );
 
   const form = useForm<z.infer<typeof signUpSchema>>({
     resolver: zodResolver(signUpSchema),
@@ -39,6 +45,30 @@ export const SignUpForm = ({
     },
   });
   const { handleSubmit, control, reset } = form;
+
+  const handleOAuthButtonClick = async (
+    type: "google" | "microsoft" | "apple",
+  ) => {
+    setIsSubmitting(true);
+    try {
+      switch (type) {
+        case "google": {
+          const [data, err] =
+            await getGoogleOauthConsentUrlActionCaller.execute();
+          if (!data?.success || err) {
+            toast.error("Failed to continue with Google");
+            return;
+          } else {
+            router.push(data?.url);
+          }
+        }
+      }
+    } catch (error) {
+      toast.error("Something Went Wrong. Failed to continue with Google");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   const onSubmit = async (formData: z.infer<typeof signUpSchema>) => {
     setIsSubmitting(true);
@@ -126,7 +156,12 @@ export const SignUpForm = ({
                 </span>
               </div>
             </div>
-            <Button variant="outline" type="button" disabled={isSubmitting}>
+            <Button
+              variant="outline"
+              type="button"
+              disabled={isSubmitting}
+              onClick={async () => await handleOAuthButtonClick("google")}
+            >
               {isSubmitting ? (
                 <Loader className="mr-2 h-4 w-4 animate-spin" />
               ) : (
@@ -138,7 +173,7 @@ export const SignUpForm = ({
                   className="mr-2"
                 />
               )}{" "}
-              Continue with Google {/* TODO: Add funcionality */}
+              Continue with Google
             </Button>
           </div>
         </div>

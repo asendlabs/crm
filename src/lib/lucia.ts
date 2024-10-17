@@ -1,5 +1,5 @@
 import { sessionTable, userTable } from "@database/tables";
-
+import { Google } from "arctic";
 import { DrizzlePostgreSQLAdapter } from "@lucia-auth/adapter-drizzle";
 import { Lucia, Session, User } from "lucia";
 import { db } from "@database";
@@ -22,6 +22,12 @@ export const lucia = new Lucia(adapter, {
     },
   },
 });
+
+export const googleOAuthClient = new Google(
+  env.GOOGLE_CLIENT_ID!,
+  env.GOOGLE_CLIENT_SECRET!,
+  env.NEXT_PUBLIC_URL + "/api/auth/google/callback",
+);
 
 export const validateRequest = async (): Promise<
   { user: User; session: Session } | { user: null; session: null }

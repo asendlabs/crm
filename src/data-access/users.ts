@@ -6,7 +6,7 @@ import { User } from "@database/types";
 import { eq } from "drizzle-orm";
 import { ulid } from "ulid";
 import { generateEmailVerifyCode } from "@/utils";
-import { profileTable } from "@database/schema/users";
+import { identityTable, profileTable } from "@database/schema/users";
 
 export async function getUserByEmail(email: string) {
   const user = await db.query.userTable.findFirst({
@@ -32,8 +32,24 @@ export async function createUser(email: string, plainPassword: string) {
       id: ulid(),
       email,
       encryptedPassword,
+      createdAt: new Date(),
+      updatedAt: new Date(),
       verificationCode: generateEmailVerifyCode(),
       verificationCodeSentAt: new Date(),
+    })
+    .returning();
+  return user;
+}
+
+export async function createUserWithoutPassword(email: string) {
+  const [user] = await db
+    .insert(userTable)
+    .values({
+      id: ulid(),
+      email,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      verifiedAt: new Date(),
     })
     .returning();
   return user;
@@ -99,20 +115,55 @@ export async function deleteUser(userId: string) {
   return deleted;
 }
 
-export async function createProfile(
-  userId: string,
-  firstName: string,
-  marketingConsent: boolean,
-  lastName?: string,
-) {
+export async function createProfile({
+  userId,
+  marketingConsent,
+  firstName,
+  lastName,
+}: {
+  userId: string;
+  marketingConsent: boolean;
+  firstName?: string;
+  lastName?: string;
+}) {
   const [created] = await db
     .insert(profileTable)
     .values({
       id: ulid(),
       userId,
       firstName,
-      lastName: lastName || "",
+      lastName,
       marketingConsent,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    })
+    .returning();
+  return created;
+}
+
+export async function getIdentityByUserId(userId: string) {
+  const identity = await db.query.identityTable.findFirst({
+    where: eq(identityTable.userId, userId),
+  });
+  return identity;
+}
+
+export async function createIdentity({
+  userId,
+  provider,
+  providerUserId,
+}: {
+  userId: string;
+  provider: "google" | "microsoft" | "apple";
+  providerUserId: string;
+}) {
+  const [created] = await db
+    .insert(identityTable)
+    .values({
+      id: ulid(),
+      userId,
+      provider,
+      providerUserId,
       createdAt: new Date(),
       updatedAt: new Date(),
     })

@@ -8,17 +8,18 @@ import { fetchAuthenticatedUser } from "@/lib/session";
 import { afterSignUpUrl, afterVerifyUrl, unauthenticatedUrl } from "@/urls";
 import { getAllUserWorkspaces } from "@/data-access/workspaces";
 import { selectedWorkspaceCookie } from "@/config";
+import { validateRequest } from "@/lib/lucia";
 
 export default async function ApplicationLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const user = await fetchAuthenticatedUser();
-  if (!user) {
+  const validator = await validateRequest();
+  if (!validator.user) {
     return redirect(unauthenticatedUrl);
   }
-  const dbUser = await getUserById(user.id);
+  const dbUser = await getUserById(validator.user.id);
   if (!dbUser) {
     return redirect(unauthenticatedUrl);
   }
@@ -29,7 +30,7 @@ export default async function ApplicationLayout({
     return redirect(afterVerifyUrl);
   }
 
-  const workspaces = await getAllUserWorkspaces(user.id);
+  const workspaces = await getAllUserWorkspaces(dbUser.id);
 
   const cookieSelectedWorkspaceId =
     cookies().get(selectedWorkspaceCookie)?.value || "";
