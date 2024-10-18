@@ -5,7 +5,7 @@ import { Lucia, Session, User } from "lucia";
 import { db } from "@database";
 import { env } from "@/env";
 import { cookies } from "next/headers";
-import { authCookie } from "@/config";
+import { authCookie } from "@/constants";
 
 const adapter = new DrizzlePostgreSQLAdapter(
   db,

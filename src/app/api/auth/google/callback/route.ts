@@ -1,4 +1,4 @@
-import { googleCodeVerifierCookie, googleStateCookie } from "@/config";
+import { googleCodeVerifierCookie, googleStateCookie } from "@/constants";
 import {
   createIdentity,
   createProfile,
@@ -9,7 +9,7 @@ import {
 } from "@/data-access/users";
 import { googleOAuthClient, lucia, validateRequest } from "@/lib/lucia";
 import { createSessionForUser } from "@/lib/session";
-import { afterSignUpUrl } from "@/urls";
+import { afterSignUpUrl } from "@/constants";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { NextRequest } from "next/server";

@@ -13,7 +13,7 @@ import {
 import { createSessionForUser } from "@/lib/session";
 import { redirect } from "next/navigation";
 import { unauthenticatedAction } from "@/lib/zsa";
-import { afterSignUpUrl } from "@/urls";
+import { afterSignUpUrl } from "@/constants";
 import { sendVerificationEmail } from "@/lib/mailers";
 
 export const signUpAction = unauthenticatedAction

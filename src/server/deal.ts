@@ -8,7 +8,7 @@ import {
   getDealById,
   updateDeal,
 } from "@/data-access/deal";
-import { selectedWorkspaceCookie } from "@/config";
+import { selectedWorkspaceCookie } from "@/constants";
 import { cookies } from "next/headers";
 import { dealCreateSchema } from "@/schemas/deal.schema";
 import { createActivity } from "@/data-access/activities";
@@ -21,19 +21,20 @@ export const changeDealStageAction = authenticatedAction
       dealId: z.string(),
       newStage: z.object({
         stage: z.string(),
-        color: z.string()
-      })
+        color: z.string(),
+      }),
     }),
-  ).handler(async ({input}) => {
-    const {dealId, newStage} = input;
+  )
+  .handler(async ({ input }) => {
+    const { dealId, newStage } = input;
     const res = await updateDeal(dealId, {
-      stage: newStage
+      stage: newStage,
     });
     if (!res) {
       throw new Error("Could not update the deal."); // Inline error message
     }
     return true;
-  })
+  });
 
 export const updateDealAction = authenticatedAction
   .createServerAction()

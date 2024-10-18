@@ -13,7 +13,7 @@ import {
   getContactById,
   updateContact,
 } from "@/data-access/contacts";
-import { selectedWorkspaceCookie } from "@/config";
+import { selectedWorkspaceCookie } from "@/constants";
 import { cookies } from "next/headers";
 import { contactCreateSchema } from "@/schemas/contact.schema";
 import { createActivity } from "@/data-access/activities";

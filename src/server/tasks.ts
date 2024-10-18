@@ -8,7 +8,7 @@ import {
   getTaskById,
   updateTask,
 } from "@/data-access/tasks";
-import { selectedWorkspaceCookie } from "@/config";
+import { selectedWorkspaceCookie } from "@/constants";
 import { cookies } from "next/headers";
 import { taskCreateSchema } from "@/schemas/task.schema";
 

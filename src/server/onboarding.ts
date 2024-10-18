@@ -5,7 +5,7 @@ import { authenticatedAction } from "@/lib/zsa";
 import { createProfile, getUserById, updateUser } from "@/data-access/users";
 import { onboardingSchema } from "@/schemas/onboarding.schema";
 import { createWorkspace, createWorkspaceUser } from "@/data-access/workspaces";
-import { authenticatedUrl } from "@/urls";
+import { authenticatedUrl } from "@/constants";
 
 export const onboardingAction = authenticatedAction
   .createServerAction()

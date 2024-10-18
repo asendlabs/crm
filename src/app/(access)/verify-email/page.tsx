@@ -8,7 +8,7 @@ import {
   verifyEmailAction,
 } from "@/server/verify-email";
 import { redirect } from "next/navigation";
-import { afterVerifyUrl, unauthenticatedUrl } from "@/urls";
+import { afterVerifyUrl, unauthenticatedUrl } from "@/constants";
 
 export const metadata: Metadata = {
   title: "Verify your Email",

@@ -1,5 +1,5 @@
 import { GoBackLink } from "@/components/GoBackLink";
-import { selectedWorkspaceCookie } from "@/config";
+import { selectedWorkspaceCookie } from "@/constants";
 import { getAccountById, getAccountTypeById } from "@/data-access/accounts";
 import { cookies } from "next/headers";
 import React from "react";

@@ -5,7 +5,7 @@ import { checkUserPassword } from "@/data-access/users";
 import { createSessionForUser } from "@/lib/session";
 import { redirect } from "next/navigation";
 import { unauthenticatedAction } from "@/lib/zsa";
-import { authenticatedUrl } from "@/urls";
+import { authenticatedUrl } from "@/constants";
 
 export const loginAction = unauthenticatedAction
   .createServerAction()

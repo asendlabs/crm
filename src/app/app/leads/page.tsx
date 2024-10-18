@@ -4,7 +4,7 @@ import { Metadata } from "next";
 import React from "react";
 import { getAllWorkspaceLeads } from "@/data-access/accounts";
 import { cookies } from "next/headers";
-import { selectedWorkspaceCookie } from "@/config";
+import { selectedWorkspaceCookie } from "@/constants";
 import { AccountFull } from "@/types/entities";
 
 export const metadata: Metadata = {

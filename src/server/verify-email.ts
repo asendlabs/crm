@@ -3,7 +3,7 @@ import { createServerAction } from "zsa";
 import { verificationCodeSchema } from "@/schemas/auth.schema";
 import { redirect } from "next/navigation";
 import { authenticatedAction } from "@/lib/zsa";
-import { afterVerifyUrl } from "@/urls";
+import { afterVerifyUrl } from "@/constants";
 import { getUserById, updateUser } from "@/data-access/users";
 import { sendVerificationEmail } from "@/lib/mailers";
 import { generateEmailVerifyCode } from "@/utils";

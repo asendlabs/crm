@@ -5,9 +5,13 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { getUserById } from "@/data-access/users";
 import { fetchAuthenticatedUser } from "@/lib/session";
-import { afterSignUpUrl, afterVerifyUrl, unauthenticatedUrl } from "@/urls";
+import {
+  afterSignUpUrl,
+  afterVerifyUrl,
+  unauthenticatedUrl,
+} from "@/constants";
 import { getAllUserWorkspaces } from "@/data-access/workspaces";
-import { selectedWorkspaceCookie } from "@/config";
+import { selectedWorkspaceCookie } from "@/constants";
 import { validateRequest } from "@/lib/lucia";
 
 export default async function ApplicationLayout({

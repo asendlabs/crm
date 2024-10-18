@@ -4,7 +4,7 @@ import { VerifyEmailForm } from "@/components/forms/VerifyEmailForm";
 import { getUserById } from "@/data-access/users";
 import { fetchAuthenticatedUser } from "@/lib/session";
 import { redirect } from "next/navigation";
-import { authenticatedUrl, unauthenticatedUrl } from "@/urls";
+import { authenticatedUrl, unauthenticatedUrl } from "@/constants";
 import { OnboardingForm } from "@/components/forms/OnboardingForm";
 
 export const metadata: Metadata = {

@@ -3,7 +3,7 @@ import { createServerAction } from "zsa";
 import { authenticatedAction } from "@/lib/zsa";
 import { z } from "zod";
 import { cookies } from "next/headers";
-import { selectedWorkspaceCookie } from "@/config";
+import { selectedWorkspaceCookie } from "@/constants";
 
 export const setSelectedWorkspaceAction = authenticatedAction
   .createServerAction()

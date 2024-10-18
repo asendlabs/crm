@@ -1,7 +1,7 @@
 "use server";
 import { createServerAction } from "zsa";
 import { googleOAuthClient } from "@/lib/lucia";
-import { googleCodeVerifierCookie, googleStateCookie } from "@/config";
+import { googleCodeVerifierCookie, googleStateCookie } from "@/constants";
 import { cookies } from "next/headers";
 import { unauthenticatedAction } from "@/lib/zsa";
 import { generateCodeVerifier, generateState } from "arctic";

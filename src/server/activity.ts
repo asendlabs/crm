@@ -8,7 +8,7 @@ import {
   updateActivity,
 } from "@/data-access/activities";
 import { activityCreateSchema } from "@/schemas/activity.schema";
-import { selectedWorkspaceCookie } from "@/config";
+import { selectedWorkspaceCookie } from "@/constants";
 import { cookies } from "next/headers";
 
 export const createActivityAction = authenticatedAction

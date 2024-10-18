@@ -8,7 +8,7 @@ import {
   getAccountById,
   updateAccount,
 } from "@/data-access/accounts";
-import { selectedWorkspaceCookie } from "@/config";
+import { selectedWorkspaceCookie } from "@/constants";
 import { cookies } from "next/headers";
 import { accountCreateSchema } from "@/schemas/account.schema";
 import {
