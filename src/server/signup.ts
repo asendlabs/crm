@@ -1,7 +1,15 @@
 "use server";
 import { createServerAction } from "zsa";
-import { loginSchema } from "@/schemas/auth.schema";
-import { createUser, getUserByEmail, recreateUser } from "@/data-access/users";
+import { signUpSchema } from "@/schemas/auth.schema";
+import {
+  createIdentity,
+  createUser,
+  createUserWithoutPassword,
+  getIdentityByUserId,
+  getUserByEmail,
+  recreateUser,
+  updateUser,
+} from "@/data-access/users";
 import { createSessionForUser } from "@/lib/session";
 import { redirect } from "next/navigation";
 import { unauthenticatedAction } from "@/lib/zsa";
@@ -10,7 +18,7 @@ import { sendVerificationEmail } from "@/lib/mailers";
 
 export const signUpAction = unauthenticatedAction
   .createServerAction()
-  .input(loginSchema)
+  .input(signUpSchema)
   .handler(async ({ input }) => {
     const { email, password } = input;
     const user = await getUserByEmail(email);

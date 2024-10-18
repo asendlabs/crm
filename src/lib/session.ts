@@ -2,13 +2,13 @@ import { cache } from "react";
 import { lucia, validateRequest } from "./lucia";
 import { cookies } from "next/headers";
 
-export const fetchAuthenticatedUser = cache(async () => {
+export const fetchAuthenticatedUser = async () => {
   const session = await validateRequest();
   if (!session.user) {
     return undefined;
   }
   return session.user;
-});
+};
 
 export const verifyAuthentication = async () => {
   const user = await fetchAuthenticatedUser();

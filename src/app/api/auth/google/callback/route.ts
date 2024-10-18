@@ -7,8 +7,9 @@ import {
   getUserByEmail,
   updateUser,
 } from "@/data-access/users";
-import { googleOAuthClient } from "@/lib/lucia";
+import { googleOAuthClient, lucia, validateRequest } from "@/lib/lucia";
 import { createSessionForUser } from "@/lib/session";
+import { afterSignUpUrl } from "@/urls";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { NextRequest } from "next/server";
@@ -70,56 +71,4 @@ export async function GET(req: NextRequest, res: Response) {
 
   cookies().delete(googleCodeVerifierCookie);
   cookies().delete(googleStateCookie);
-
-  const user = await getUserByEmail(googleEmail);
-  const identity = user ? await getIdentityByUserId(user.id) : null;
-
-  let userId: string;
-
-  if (!user) {
-    // User doesn't exist, create it
-    const newUser = await createUserWithoutPassword(googleEmail);
-    userId = newUser.id;
-
-    // // Create profile
-    // await createProfile({
-    //   userId: newUser.id,
-    //   firstName: googleFirstName,
-    //   lastName: googleLastName,
-    //   marketingConsent: true,
-    // });
-
-    // Create identity
-    await createIdentity({
-      userId: newUser.id,
-      provider: "google",
-      providerUserId: googleId,
-    });
-  } else if (!identity) {
-    // User exists, but no identity, create it
-    userId = user.id;
-    await createIdentity({
-      userId,
-      provider: "google",
-      providerUserId: googleId,
-    });
-    if (!user.verifiedAt) {
-      await updateUser(userId, {
-        verifiedAt: new Date(),
-      });
-    }
-  } else {
-    // User exists, and identity exists, do nothing
-    userId = user.id;
-    if (!user.verifiedAt) {
-      await updateUser(userId, {
-        verifiedAt: new Date(),
-      });
-    }
-  }
-
-  // Create session
-  const session = await createSessionForUser(userId);
-
-  return redirect("/app/home");
 }

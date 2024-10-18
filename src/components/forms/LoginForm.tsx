@@ -17,13 +17,12 @@ import { useServerAction } from "zsa-react";
 
 import Image from "next/image";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { toast } from "sonner";
 import { PasswordField } from "../ui/password-input";
 import { useRouter } from "next/navigation";
-import { getGoogleOauthConsentUrlAction } from "@/server/oauth";
 
 export const LoginForm = ({
   login,
@@ -32,10 +31,6 @@ export const LoginForm = ({
 }) => {
   const { execute } = useServerAction(login);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const router = useRouter();
-  const getGoogleOauthConsentUrlActionCaller = useServerAction(
-    getGoogleOauthConsentUrlAction,
-  );
 
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
@@ -59,30 +54,6 @@ export const LoginForm = ({
     }
     setIsSubmitting(false);
     reset();
-  };
-
-  const handleOAuthButtonClick = async (
-    type: "google" | "microsoft" | "apple",
-  ) => {
-    setIsSubmitting(true);
-    try {
-      switch (type) {
-        case "google": {
-          const [data, err] =
-            await getGoogleOauthConsentUrlActionCaller.execute();
-          if (!data?.success || err) {
-            toast.error("Failed to continue with Google");
-            return;
-          } else {
-            router.push(data?.url);
-          }
-        }
-      }
-    } catch (error) {
-      toast.error("Something Went Wrong. Failed to continue with Google");
-    } finally {
-      setIsSubmitting(false);
-    }
   };
 
   return (
@@ -113,11 +84,11 @@ export const LoginForm = ({
             </p>
           </div>
           <div className="flex flex-col gap-4">
-            <Button
+            {/* <Button
               variant="outline"
               type="button"
               disabled={isSubmitting}
-              onClick={async () => await handleOAuthButtonClick("google")}
+              onClick={async () => {}}
             >
               {isSubmitting ? (
                 <Loader className="mr-2 h-4 w-4 animate-spin" />
@@ -141,7 +112,7 @@ export const LoginForm = ({
                   OR
                 </span>
               </div>
-            </div>
+            </div> */}
             <Form {...form}>
               <form className="grid gap-3" onSubmit={handleSubmit(onSubmit)}>
                 <FormField

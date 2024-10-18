@@ -13,7 +13,6 @@ import { signUpSchema } from "@/schemas/auth.schema";
 import { cn } from "@/utils/tailwind";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader } from "lucide-react";
-import { useServerAction } from "zsa-react";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -23,7 +22,7 @@ import { z } from "zod";
 import { toast } from "sonner";
 import { PasswordField } from "../ui/password-input";
 import { useRouter } from "next/navigation";
-import { getGoogleOauthConsentUrlAction } from "@/server/oauth";
+import { useServerAction } from "zsa-react";
 
 export const SignUpForm = ({
   signUp,
@@ -33,9 +32,6 @@ export const SignUpForm = ({
   const { execute, isPending, error } = useServerAction(signUp);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const router = useRouter();
-  const getGoogleOauthConsentUrlActionCaller = useServerAction(
-    getGoogleOauthConsentUrlAction,
-  );
 
   const form = useForm<z.infer<typeof signUpSchema>>({
     resolver: zodResolver(signUpSchema),
@@ -45,30 +41,28 @@ export const SignUpForm = ({
     },
   });
   const { handleSubmit, control, reset } = form;
-
-  const handleOAuthButtonClick = async (
-    type: "google" | "microsoft" | "apple",
-  ) => {
-    setIsSubmitting(true);
-    try {
-      switch (type) {
-        case "google": {
-          const [data, err] =
-            await getGoogleOauthConsentUrlActionCaller.execute();
-          if (!data?.success || err) {
-            toast.error("Failed to continue with Google");
-            return;
-          } else {
-            router.push(data?.url);
-          }
-        }
-      }
-    } catch (error) {
-      toast.error("Something Went Wrong. Failed to continue with Google");
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
+  //   type: "google" | "microsoft" | "apple",
+  // ) => {
+  //   setIsSubmitting(true);
+  //   try {
+  //     switch (type) {
+  //       case "google": {
+  //         const [data, err] =
+  //           await getGoogleOauthConsentUrlActionCaller.execute();
+  //         if (!data?.success || err) {
+  //           toast.error("Failed to continue with Google");
+  //           return;
+  //         } else {
+  //           router.push(data?.url);
+  //         }
+  //       }
+  //     }
+  //   } catch (error) {
+  //     toast.error("Something Went Wrong. Failed to continue with Google");
+  //   } finally {
+  //     setIsSubmitting(false);
+  //   }
+  // };
 
   const onSubmit = async (formData: z.infer<typeof signUpSchema>) => {
     setIsSubmitting(true);
@@ -146,7 +140,7 @@ export const SignUpForm = ({
                 </Button>
               </form>
             </Form>
-            <div className="relative">
+            {/* <div className="relative">
               <div className="absolute inset-0 flex items-center">
                 <span className="w-full border-t" />
               </div>
@@ -174,7 +168,7 @@ export const SignUpForm = ({
                 />
               )}{" "}
               Continue with Google
-            </Button>
+            </Button> */}
           </div>
         </div>
       </div>

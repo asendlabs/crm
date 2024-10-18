@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 export default async function LoginPage() {
   const user = await fetchAuthenticatedUser();
   const dbUser = await getUserById(user?.id || "");
-  if (dbUser && dbUser.verifiedAt && dbUser.onboardedAt) {
+  if (dbUser && dbUser.verifiedAt) {
     return redirect(authenticatedUrl);
   }
   return <LoginForm login={loginAction} />;
