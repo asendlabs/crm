@@ -1,6 +1,5 @@
 // layout.tsx
 import React from "react";
-import { Sidebar } from "@/components/sidebar";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { getUserById } from "@/data-access/users";
