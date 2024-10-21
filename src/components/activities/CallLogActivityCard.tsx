@@ -119,7 +119,7 @@ export function CallLogActivityCard({
   return (
     <section className="flex items-center justify-between text-sm">
       <div className="flex items-center gap-2">
-        <PhoneCall className="h-4 w-4 text-gray-500" />
+        <PhoneCall className="size-4 text-gray-500" />
         <div className="flex max-w-[35.5rem] items-center gap-1 truncate py-1">
           Call{" "}
           {activity.associatedContact?.contactName && (
@@ -143,7 +143,7 @@ export function CallLogActivityCard({
             onClick={() => setOpen(true)}
           >
             Open Notes
-            <ArrowUpRight className="h-4 w-4" />
+            <ArrowUpRight className="size-4" />
           </div>
           <Dialog open={open} onOpenChange={setOpen}>
             <DialogContent className="p-4">
@@ -175,12 +175,12 @@ export function CallLogActivityCard({
                     >
                       {isSubmitting ? (
                         <span className="inline-flex items-center gap-1">
-                          <Loader className="h-4 w-4 animate-spin" />
+                          <Loader className="size-4 animate-spin" />
                           Saving...
                         </span>
                       ) : (
                         <span className="inline-flex items-center gap-1">
-                          <Check className="h-4 w-4" />
+                          <Check className="size-4" />
                           Save Changes
                         </span>
                       )}
@@ -203,19 +203,19 @@ export function CallLogActivityCard({
               className="mr-0.5 inline-flex h-6 w-7 justify-center"
               variant={"outline"}
             >
-              <MoreVertical className="h-4 w-4 p-[0.05rem]" />
+              <MoreVertical className="size-4 p-[0.05rem]" />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent className="w-20 justify-end">
             <DropdownMenuItem onClick={() => setOpen(true)}>
-              <Edit className="mr-2 h-4 w-4" />
+              <Edit className="mr-2 size-4" />
               Edit
             </DropdownMenuItem>
             <DropdownMenuItem onClick={handleDelete}>
               {deleting ? (
-                <Loader className="mr-2 h-4 w-4 animate-spin" />
+                <Loader className="mr-2 size-4 animate-spin" />
               ) : (
-                <Trash className="mr-2 h-4 w-4" />
+                <Trash className="mr-2 size-4" />
               )}
               Delete
             </DropdownMenuItem>

@@ -67,7 +67,7 @@ export function NewLeadForm({ addLead }: { addLead: (newLead: any) => void }) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger className="flex max-h-8 max-w-28 flex-row items-center gap-1 rounded-lg bg-primary px-3 text-sm text-white hover:bg-primary/90">
-        <Plus className="h-4 w-4" />
+        <Plus className="size-4" />
         <span>New</span>
       </DialogTrigger>
       <DialogContent className="flex flex-col py-2">

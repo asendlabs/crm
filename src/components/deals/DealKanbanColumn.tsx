@@ -86,7 +86,7 @@ export function DealKanbanColumn({
           {column.stage}
         </div>
         {/* <div>
-          <MoreHorizontal className="h-4 w-4 text-gray-500" />
+          <MoreHorizontal className="size-4 text-gray-500" />
         </div> */}
       </section>
       <div className="flex max-h-full flex-col gap-2 overflow-y-auto pt-2">

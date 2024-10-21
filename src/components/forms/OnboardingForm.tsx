@@ -121,7 +121,7 @@ export const OnboardingForm = ({}: {}) => {
                       }}
                     >
                       {isSubmitting && (
-                        <Loader className="mr-2 h-4 w-4 animate-spin" />
+                        <Loader className="mr-2 size-4 animate-spin" />
                       )}
                       Continue
                     </Button>
@@ -155,7 +155,7 @@ export const OnboardingForm = ({}: {}) => {
                       tabIndex={5}
                     >
                       {isSubmitting && (
-                        <Loader className="mr-2 h-4 w-4 animate-spin" />
+                        <Loader className="mr-2 size-4 animate-spin" />
                       )}
                       Submit
                     </Button>

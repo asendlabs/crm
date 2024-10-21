@@ -38,12 +38,12 @@ export default function AccountShareDialog({
         >
           {copied ? (
             <>
-              <CopyCheck className="h-4 w-4" />
+              <CopyCheck className="size-4" />
               Copied
             </>
           ) : (
             <>
-              <Copy className="h-4 w-4" />
+              <Copy className="size-4" />
               Copy Link
             </>
           )}

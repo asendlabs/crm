@@ -5,7 +5,9 @@ import {
   ContactEmail,
   ContactPhone,
   Deal,
+  Profile,
   Task,
+  User,
   Workspace,
 } from "@database/types";
 
@@ -24,6 +26,11 @@ export interface DealWithPrimaryContact extends Deal {
 
 export interface ActivityWithContact extends Activity {
   associatedContact: Contact | null;
+}
+
+export interface UserWithWorkspaceAndProfile extends User {
+  workspaces: Workspace[];
+  profile: Profile;
 }
 
 export interface DealStage {

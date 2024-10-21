@@ -13,6 +13,10 @@ import {
 import { getAllUserWorkspaces } from "@/data-access/workspaces";
 import { selectedWorkspaceCookie } from "@/constants";
 import { validateRequest } from "@/lib/lucia";
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { AppSidebar } from "@/components/sidebar/app-sidebar";
+import { UserWithWorkspaceAndProfile } from "@/types/entities";
+import { Profile } from "@database/types";
 
 export default async function ApplicationLayout({
   children,
@@ -39,14 +43,26 @@ export default async function ApplicationLayout({
   const cookieSelectedWorkspaceId =
     cookies().get(selectedWorkspaceCookie)?.value || "";
 
+const userProfileWorkspace: UserWithWorkspaceAndProfile = {
+  ...dbUser,
+  profile: dbUser.profile as Profile,
+  workspaces: workspaces,
+}
+
   return (
-    <main className="grid min-h-screen w-full grid-cols-[240px_1fr]">
-      <Sidebar
-        user={dbUser}
-        workspaces={workspaces}
-        cookieSelectedWorkspaceId={cookieSelectedWorkspaceId}
-      />
-      <div>{children}</div>
-    </main>
+    // <main className="grid min-h-screen w-full grid-cols-[240px_1fr]">
+    //   <Sidebar
+    //     user={dbUser}
+    //     workspaces={workspaces}
+    //     cookieSelectedWorkspaceId={cookieSelectedWorkspaceId}
+    //   />
+    //   <div>{children}</div>
+    // </main>
+    <SidebarProvider>
+      <AppSidebar user={userProfileWorkspace} cookieselectedworkspaceid={cookieSelectedWorkspaceId} />
+      <main className="grid min-h-screen w-full">
+        {children}
+      </main>
+    </SidebarProvider>
   );
 }

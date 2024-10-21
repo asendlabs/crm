@@ -91,7 +91,7 @@ export const LoginForm = ({
               onClick={async () => {}}
             >
               {isSubmitting ? (
-                <Loader className="mr-2 h-4 w-4 animate-spin" />
+                <Loader className="mr-2 size-4 animate-spin" />
               ) : (
                 <Image
                   src="/logos/google.png"
@@ -137,7 +137,7 @@ export const LoginForm = ({
                 <PasswordField placeholder="Enter your password" />
                 <Button disabled={isSubmitting} type="submit" className="mt-1">
                   {isSubmitting && (
-                    <Loader className="mr-2 h-4 w-4 animate-spin" />
+                    <Loader className="mr-2 size-4 animate-spin" />
                   )}
                   Login
                 </Button>

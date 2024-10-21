@@ -32,7 +32,7 @@ export function SecondaryField({
 
   const renderAccount = () => (
     <div className="flex items-center gap-1">
-      <Avatar className="h-6 w-6 rounded-lg bg-muted-foreground/20">
+      <Avatar className="size-6 rounded-lg bg-muted-foreground/20">
         <AvatarFallback className="bg-transparent">
           {account?.accountName.charAt(0).toUpperCase()}
         </AvatarFallback>
@@ -51,7 +51,7 @@ export function SecondaryField({
       <>
         {visibleContact && (
           <div className="flex items-center gap-1">
-            <Avatar className="h-6 w-6 rounded-lg bg-muted-foreground/20">
+            <Avatar className="size-6 rounded-lg bg-muted-foreground/20">
               <AvatarFallback className="bg-transparent">
                 {visibleContact.contactName.charAt(0).toUpperCase()}
               </AvatarFallback>
@@ -76,7 +76,11 @@ export function SecondaryField({
         prefetch={true}
       >
         <div className="flex items-center gap-2">
-          {contacts && contacts.length > 0 ? renderContacts() : account ? renderAccount() : renderEmpty()}
+          {contacts && contacts.length > 0
+            ? renderContacts()
+            : account
+              ? renderAccount()
+              : renderEmpty()}
         </div>
       </Link>
     </div>

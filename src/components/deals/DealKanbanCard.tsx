@@ -90,7 +90,7 @@ export function DealKanbanCard({ deal, isOverlay }: DealCardProps) {
 
   return isDragging ? (
     <div
-      className="m-0 h-32 w-full rounded-lg flex flex-col items-start ring-inset ring-1 ring-primary opacity-50 z-50"
+      className="z-50 m-0 flex h-32 w-full flex-col items-start rounded-lg opacity-50 ring-1 ring-inset ring-primary"
       ref={setNodeRef}
       {...attributes}
       {...listeners}
@@ -105,8 +105,7 @@ export function DealKanbanCard({ deal, isOverlay }: DealCardProps) {
         ...style,
         backgroundColor: `rgba(${parseInt(deal.stage.color.slice(0, 2), 16)}, ${parseInt(deal.stage.color.slice(2, 4), 16)}, ${parseInt(deal.stage.color.slice(4, 6), 16)}, 0.025)`,
       }}
-    >
-    </div>
+    ></div>
   ) : (
     <Card
       ref={setNodeRef}
@@ -179,9 +178,9 @@ export function DealKanbanCard({ deal, isOverlay }: DealCardProps) {
             }}
           >
             {loading ? (
-              <Loader className="h-4 w-4 animate-spin p-[0.05rem]" />
+              <Loader className="size-4 animate-spin p-[0.05rem]" />
             ) : (
-              <ArrowUpRight className="h-4 w-4 p-[0.05rem]" />
+              <ArrowUpRight className="size-4 p-[0.05rem]" />
             )}
           </Button>
         </div>
@@ -203,7 +202,7 @@ export function DealKanbanCard({ deal, isOverlay }: DealCardProps) {
                         window.location.href = `tel:${contact?.contactPhone?.countryCode ?? ""}${contact?.contactPhone?.phoneNumber ?? ""}`;
                       }}
                     >
-                      <PhoneIcon className="h-4 w-4" />
+                      <PhoneIcon className="size-4" />
                     </Button>
                   )}
                   {isValidEmail && (
@@ -216,7 +215,7 @@ export function DealKanbanCard({ deal, isOverlay }: DealCardProps) {
                         window.location.href = `mailto:${contact?.contactEmail?.email ?? ""}`;
                       }}
                     >
-                      <MailIcon className="h-4 w-4" />
+                      <MailIcon className="size-4" />
                     </Button>
                   )}
                 </div>

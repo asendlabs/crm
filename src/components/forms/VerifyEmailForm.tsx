@@ -129,7 +129,7 @@ export const VerifyEmailForm = ({
               type="submit"
               className="mt-1 w-96 select-none"
             >
-              {isSubmitting && <Loader className="mr-2 h-4 w-4 animate-spin" />}
+              {isSubmitting && <Loader className="mr-2 size-4 animate-spin" />}
               Verify
             </Button>
           </form>

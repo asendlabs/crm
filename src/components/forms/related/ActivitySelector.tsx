@@ -25,7 +25,7 @@ export function ActivitySelector({
         }
         type="button"
       >
-        <ActivityIcon className="h-4 w-4" />
+        <ActivityIcon className="size-4" />
         <span className="sr-only">{type}</span>
       </Button>
     </div>

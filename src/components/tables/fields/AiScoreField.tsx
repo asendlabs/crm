@@ -30,7 +30,7 @@ export function AiScoreField({ getValue, row }: AiScoreFieldProps) {
       <div className="flex items-center gap-1 py-0.5">
         {value ? (
           <>
-            <Sparkle className="mr-1 h-4 w-4" />
+            <Sparkle className="mr-1 size-4" />
             <span className="underline decoration-muted-foreground decoration-2">
               {value}
             </span>

@@ -116,7 +116,7 @@ export function CommentActivityCard({
   return (
     <section className="flex items-center justify-between text-sm">
       <div className="flex items-center gap-2">
-        <MessageSquare className="h-4 w-4" />
+        <MessageSquare className="size-4" />
         <div className="flex items-center gap-1 py-1">
           <span className="max-w-[35.5rem] truncate rounded-lg border px-2 py-0.5">
             {" "}
@@ -152,12 +152,12 @@ export function CommentActivityCard({
                     >
                       {isSubmitting ? (
                         <span className="inline-flex items-center gap-1">
-                          <Loader className="h-4 w-4 animate-spin" />
+                          <Loader className="size-4 animate-spin" />
                           Saving...
                         </span>
                       ) : (
                         <span className="inline-flex items-center gap-1">
-                          <Check className="h-4 w-4" />
+                          <Check className="size-4" />
                           Save Changes
                         </span>
                       )}
@@ -180,19 +180,19 @@ export function CommentActivityCard({
               className="mr-0.5 h-6 w-7"
               variant={"outline"}
             >
-              <MoreVertical className="h-4 w-4 p-[0.05rem]" />
+              <MoreVertical className="size-4 p-[0.05rem]" />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent className="w-20">
             <DropdownMenuItem onClick={() => setOpen(true)}>
-              <Edit className="mr-2 h-4 w-4" />
+              <Edit className="mr-2 size-4" />
               Edit
             </DropdownMenuItem>
             <DropdownMenuItem onClick={handleDelete}>
               {deleting ? (
-                <Loader className="mr-2 h-4 w-4 animate-spin" />
+                <Loader className="mr-2 size-4 animate-spin" />
               ) : (
-                <Trash className="mr-2 h-4 w-4" />
+                <Trash className="mr-2 size-4" />
               )}
               Delete
             </DropdownMenuItem>

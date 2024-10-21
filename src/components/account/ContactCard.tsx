@@ -40,7 +40,7 @@ const phoneSchema = z.string().min(7);
 
 export function ContactCard({
   contact,
-  isOpen, 
+  isOpen,
   clickable = true,
 }: {
   contact: ContactWithDetails;
@@ -161,7 +161,7 @@ export function ContactCard({
                     window.location.href = `tel:${contact.contactPhone?.countryCode ?? ""}${contact.contactPhone?.phoneNumber ?? ""}`;
                   }}
                 >
-                  <PhoneIcon className="h-4 w-4" />
+                  <PhoneIcon className="size-4" />
                 </Button>
               )}
               {isValidEmail && (
@@ -174,13 +174,13 @@ export function ContactCard({
                     window.location.href = `mailto:${contact.contactEmail?.email ?? ""}`;
                   }}
                 >
-                  <MailIcon className="h-4 w-4" />
+                  <MailIcon className="size-4" />
                 </Button>
               )}
             </div>
             {clickable && (
               <Button size="icon" variant="outline" className="h-6 w-7">
-                <MoreVertical className="h-4 w-4" />
+                <MoreVertical className="size-4" />
               </Button>
             )}
           </div>
@@ -274,12 +274,12 @@ export function ContactCard({
                 >
                   {isDeleting ? (
                     <span className="inline-flex items-center gap-1">
-                      <Loader className="h-4 w-4 animate-spin" />
+                      <Loader className="size-4 animate-spin" />
                       Deleting...
                     </span>
                   ) : (
                     <span className="inline-flex items-center gap-1">
-                      <Trash className="h-4 w-4" />
+                      <Trash className="size-4" />
                       Delete Contact
                     </span>
                   )}
@@ -300,12 +300,12 @@ export function ContactCard({
                   <Button className="h-8" type="submit" disabled={isSubmitting}>
                     {isSubmitting ? (
                       <span className="inline-flex items-center gap-1">
-                        <Loader className="h-4 w-4 animate-spin" />
+                        <Loader className="size-4 animate-spin" />
                         Saving...
                       </span>
                     ) : (
                       <span className="inline-flex items-center gap-1">
-                        <Check className="h-4 w-4" />
+                        <Check className="size-4" />
                         Save Changes
                       </span>
                     )}

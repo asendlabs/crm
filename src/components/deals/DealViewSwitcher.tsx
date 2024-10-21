@@ -28,7 +28,7 @@ export function DealViewSwitcher({ view, setView }: DealViewSwitcherProps) {
             router.push("?view=board");
           }}
         >
-          <Board className="h-4 w-4" />
+          <Board className="size-4" />
           {boardActive && <>Board</>}
         </Button>
         <Button
@@ -42,7 +42,7 @@ export function DealViewSwitcher({ view, setView }: DealViewSwitcherProps) {
             router.push("?view=grid");
           }}
         >
-          <Grid className="h-4 w-4" />
+          <Grid className="size-4" />
           {gridActive && <>Grid</>}
         </Button>
       </div>

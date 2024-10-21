@@ -127,7 +127,7 @@ export function NewTaskForm({
                         ) : (
                           <span>Pick a date</span>
                         )}
-                        <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                        <CalendarIcon className="ml-auto size-4 opacity-50" />
                       </Button>
                     </FormControl>
                   </PopoverTrigger>
@@ -147,7 +147,7 @@ export function NewTaskForm({
             )}
           />
 
-          {/* Stage */}
+          {/* Stage
           <FormField
             control={control}
             name="stage"
@@ -172,7 +172,7 @@ export function NewTaskForm({
                       className="font-medium !text-green-800 hover:!text-green-800"
                     >
                       <div className="flex flex-row items-center gap-1.5">
-                        <CheckCircleIcon className="h-4 w-4" />
+                        <CheckCircleIcon className="size-4" />
                         Todo
                       </div>
                     </SelectItem>
@@ -182,7 +182,7 @@ export function NewTaskForm({
                       className="font-medium !text-yellow-800 hover:!text-yellow-800"
                     >
                       <div className="flex flex-row items-center gap-1.5">
-                        <HourglassIcon className="h-4 w-4" />
+                        <HourglassIcon className="size-4" />
                         In Progress
                       </div>
                     </SelectItem>
@@ -192,7 +192,7 @@ export function NewTaskForm({
                       className="font-medium !text-blue-800 hover:!text-blue-800"
                     >
                       <div className="flex flex-row items-center gap-1.5">
-                        <CheckIcon className="h-4 w-4" />
+                        <CheckIcon className="size-4" />
                         Done
                       </div>
                     </SelectItem>
@@ -201,7 +201,7 @@ export function NewTaskForm({
                 <FormMessage />
               </FormItem>
             )}
-          />
+          /> */}
 
           {/* Priority */}
           <FormField

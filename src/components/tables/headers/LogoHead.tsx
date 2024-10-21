@@ -10,7 +10,7 @@ export const LogoHead = ({
 }) => {
   return (
     <div className="flex select-none items-center gap-1.5 border-l border-border px-2 py-1.5 font-medium">
-      <Icon className="h-4 w-4" />
+      <Icon className="size-4" />
       <span>{title}</span>
     </div>
   );

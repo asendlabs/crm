@@ -147,7 +147,7 @@ export default function TaskCard({ task }: { task: Task }) {
                 }}
               />
               {updating && (
-                <Loader className="ml-2 h-5 w-5 animate-spin select-text" />
+                <Loader className="ml-2 size-5 animate-spin select-text" />
               )}
             </div>
           ) : (
@@ -174,7 +174,7 @@ export default function TaskCard({ task }: { task: Task }) {
                       : ""
                 } ${taskStage === "done" ? "line-through" : ""}`}
               >
-                <CalendarIcon className="mr-2 h-4 w-4" />
+                <CalendarIcon className="mr-2 size-4" />
                 {dueDate ? format(dueDate, "PPP") : "No due date"}
               </Button>
             </PopoverTrigger>
@@ -234,19 +234,19 @@ export default function TaskCard({ task }: { task: Task }) {
           <DropdownMenu modal={false}>
             <DropdownMenuTrigger asChild>
               <Button size="icon" className="mr-0.5 h-7 w-7" variant="outline">
-                <MoreVertical className="h-4 w-4 p-[0.05rem]" />
+                <MoreVertical className="size-4 p-[0.05rem]" />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="mr-[1.9rem] w-20">
               <DropdownMenuItem onClick={() => setRenameMode(true)}>
-                <Pencil className="mr-2 h-4 w-4" />
+                <Pencil className="mr-2 size-4" />
                 Rename
               </DropdownMenuItem>
               <DropdownMenuItem onClick={handleDeleteTask}>
                 {deleting ? (
-                  <Loader className="mr-2 h-4 w-4 animate-spin" />
+                  <Loader className="mr-2 size-4 animate-spin" />
                 ) : (
-                  <Trash className="mr-2 h-4 w-4" />
+                  <Trash className="mr-2 size-4" />
                 )}
                 Delete
               </DropdownMenuItem>

@@ -220,7 +220,7 @@ export function DealCard({
             className={`flex-col items-center ${deal.primaryContact ? "" : " "}`}
           >
             <Button size="icon" variant="outline" className="h-6 w-7">
-              <MoreVertical className="h-4 w-4 p-[0.05rem]" />
+              <MoreVertical className="size-4 p-[0.05rem]" />
             </Button>
           </div>
         </div>
@@ -388,7 +388,7 @@ export function DealCard({
                           ) : (
                             <span>Pick a date</span>
                           )}
-                          <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                          <CalendarIcon className="ml-auto size-4 opacity-50" />
                         </Button>
                       </FormControl>
                     </PopoverTrigger>
@@ -435,12 +435,12 @@ export function DealCard({
                 >
                   {isDeleting ? (
                     <span className="inline-flex items-center gap-1">
-                      <Loader className="h-4 w-4 animate-spin" />
+                      <Loader className="size-4 animate-spin" />
                       Deleting...
                     </span>
                   ) : (
                     <span className="inline-flex items-center gap-1">
-                      <Trash className="h-4 w-4" />
+                      <Trash className="size-4" />
                       Delete Deal
                     </span>
                   )}
@@ -463,12 +463,12 @@ export function DealCard({
                   <Button className="h-8" type="submit" disabled={isSubmitting}>
                     {isSubmitting ? (
                       <span className="inline-flex items-center gap-1">
-                        <Loader className="h-4 w-4 animate-spin" />
+                        <Loader className="size-4 animate-spin" />
                         Saving...
                       </span>
                     ) : (
                       <span className="inline-flex items-center gap-1">
-                        <Check className="h-4 w-4" />
+                        <Check className="size-4" />
                         Save Changes
                       </span>
                     )}

@@ -143,7 +143,9 @@ export function DealTable<TData, TValue>({
         };
       }
       setData((prev) => prev.filter((row: any) => !itemIds.includes(row.id)));
-      setProvidedDeals((prev) => prev.filter((row: any) => !itemIds.includes(row.id)));
+      setProvidedDeals((prev) =>
+        prev.filter((row: any) => !itemIds.includes(row.id)),
+      );
       table.resetRowSelection();
       router.refresh();
       return {
@@ -210,8 +212,8 @@ export function DealTable<TData, TValue>({
           )}
           {dealView !== "grid" && (
             <div>
-              <Button  variant={"outline"} size={"icon"} className="h-8 w-8">
-                <Settings2 className="h-4 w-4" />
+              <Button variant={"outline"} size={"icon"} className="h-8 w-8">
+                <Settings2 className="size-4" />
               </Button>
             </div>
           )}

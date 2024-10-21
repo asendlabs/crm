@@ -47,7 +47,7 @@ export function PasswordField({
                 onClick={() => setPasswordVisibility(!passwordVisibility)}
               >
                 {createElement(passwordVisibility ? EyeOffIcon : EyeIcon, {
-                  className: "h-4 w-4",
+                  className: "size-4",
                 })}
               </Box>
             </Box>

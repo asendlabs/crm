@@ -49,11 +49,11 @@ export function EntityActivityCard({
     <section className="flex items-center justify-between text-sm">
       <div className="flex items-center gap-2">
         {activity.entityType === "deal" ? (
-          <Handshake className="h-4 w-4 text-gray-500" />
+          <Handshake className="size-4 text-gray-500" />
         ) : activity.entityType === "contact" ? (
-          <User className="h-4 w-4 text-gray-500" />
+          <User className="size-4 text-gray-500" />
         ) : activity.entityType === "account" ? (
-          <Building className="h-4 w-4 text-gray-500" />
+          <Building className="size-4 text-gray-500" />
         ) : (
           "\u3164"
         )}
@@ -81,15 +81,15 @@ export function EntityActivityCard({
               className="mr-0.5 h-6 w-7"
               variant={"outline"}
             >
-              <MoreVertical className="h-4 w-4 p-[0.05rem]" />
+              <MoreVertical className="size-4 p-[0.05rem]" />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent className="w-20">
             <DropdownMenuItem onClick={handleDelete}>
               {deleting ? (
-                <Loader className="mr-2 h-4 w-4 animate-spin" />
+                <Loader className="mr-2 size-4 animate-spin" />
               ) : (
-                <Trash className="mr-2 h-4 w-4" />
+                <Trash className="mr-2 size-4" />
               )}
               Delete
             </DropdownMenuItem>

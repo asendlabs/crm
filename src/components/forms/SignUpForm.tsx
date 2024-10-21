@@ -134,7 +134,7 @@ export const SignUpForm = ({
                 <PasswordField placeholder="Choose a strong password " />
                 <Button disabled={isSubmitting} type="submit" className="mt-1">
                   {isSubmitting && (
-                    <Loader className="mr-2 h-4 w-4 animate-spin" />
+                    <Loader className="mr-2 size-4 animate-spin" />
                   )}
                   Continue with Email
                 </Button>
@@ -157,7 +157,7 @@ export const SignUpForm = ({
               onClick={async () => await handleOAuthButtonClick("google")}
             >
               {isSubmitting ? (
-                <Loader className="mr-2 h-4 w-4 animate-spin" />
+                <Loader className="mr-2 size-4 animate-spin" />
               ) : (
                 <Image
                   src="/logos/google.png"

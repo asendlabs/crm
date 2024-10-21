@@ -17,6 +17,7 @@ import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { Dialog, DialogContent } from "../ui/dialog";
 import AccountShareDialog from "./AccountShareDialog";
+import { SidebarTrigger, useSidebar } from "../ui/sidebar";
 
 export function Header({ className }: { className?: string }) {
   const { account } = useContext(AccountContext);
@@ -81,6 +82,7 @@ export function Header({ className }: { className?: string }) {
         className,
       )}
     >
+      {/* <SidebarTrigger /> */}
       <div className="text-lg">
         <Link
           className="capitalize opacity-70 hover:opacity-90"
@@ -99,19 +101,19 @@ export function Header({ className }: { className?: string }) {
               className="mr-0.5 h-7 w-7"
               variant={"outline"}
             >
-              <MoreVertical className="h-4 w-4 p-[0.05rem]" />
+              <MoreVertical className="size-4 p-[0.05rem]" />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent className="w-20">
             <DropdownMenuItem onClick={handleDelete} className="h-7">
               {deleting ? (
                 <>
-                  <Loader className="mr-2 h-4 w-4 animate-spin" />
+                  <Loader className="mr-2 size-4 animate-spin" />
                   Deleting...
                 </>
               ) : (
                 <>
-                  <Trash className="mr-2 h-4 w-4" />
+                  <Trash className="mr-2 size-4" />
                   Delete
                 </>
               )}
@@ -120,7 +122,7 @@ export function Header({ className }: { className?: string }) {
               onClick={() => setShareDialogOpen(true)}
               className="h-7"
             >
-              <Share className="mr-2 h-4 w-4" />
+              <Share className="mr-2 size-4" />
               Share
             </DropdownMenuItem>
           </DropdownMenuContent>
@@ -133,7 +135,7 @@ export function Header({ className }: { className?: string }) {
           >
             {converting ? (
               <>
-                <Loader className="mr-2 h-4 w-4 animate-spin" />
+                <Loader className="mr-2 size-4 animate-spin" />
                 Converting...
               </>
             ) : (

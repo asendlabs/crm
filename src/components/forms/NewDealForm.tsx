@@ -90,12 +90,14 @@ export function NewDealForm({
       }
       setOpen(false);
       dealform.reset();
-      router.push(`/app/${data?.data.account.type + "s"}/${data?.data.accountId}?deal=${data?.data.id}`);
+      router.push(
+        `/app/${data?.data.account.type + "s"}/${data?.data.accountId}?deal=${data?.data.id}`,
+      );
     } catch (error) {
       toast.error("An error occurred while creating the deal.");
     } finally {
       setLoading(false);
-      router.refresh(); 
+      router.refresh();
     }
   }
 
@@ -103,7 +105,7 @@ export function NewDealForm({
     <Dialog open={open} onOpenChange={setOpen}>
       {fullButton ? (
         <DialogTrigger className="flex max-h-8 max-w-28 flex-row items-center gap-1 rounded-lg bg-primary px-3 text-sm text-white hover:bg-primary/90">
-          <Plus className="h-4 w-4" />
+          <Plus className="size-4" />
           <span>New</span>
         </DialogTrigger>
       ) : (
@@ -112,7 +114,7 @@ export function NewDealForm({
           variant={"outline"}
           className="flex h-6 max-w-28 flex-row items-center gap-1 rounded-lg px-3"
         >
-          <Plus className="h-4 w-4" />
+          <Plus className="size-4" />
           <span>Add Deal</span>
         </Button>
       )}
@@ -211,7 +213,7 @@ export function NewDealForm({
                               ) : (
                                 <span>Pick a date</span>
                               )}
-                              <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                              <CalendarIcon className="ml-auto size-4 opacity-50" />
                             </Button>
                           </FormControl>
                         </PopoverTrigger>
