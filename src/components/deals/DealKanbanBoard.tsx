@@ -46,29 +46,23 @@ export function DealKanbanBoard({
   const pickedUpDealColumn = useRef<ColumnId | null>(null);
   const columnsId = useMemo(() => columns.map((col) => col.stage), [columns]);
   const [dragEnd, setDragEnd] = useState<boolean>(false);
-
   const [deals, setDeals] = useState<DealWithPrimaryContact[]>(initialDeals);
-
   const [activeColumn, setActiveColumn] = useState<DealStage | null>(null);
-
   const [activeDeal, setActiveDeal] = useState<DealWithPrimaryContact | null>(
     null,
   );
-
   const { execute } = useServerAction(changeDealStageAction);
   const { refresh } = useRouter();
-
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
     setIsMounted(true);
   }, []);
 
-
-
+  // This effect will only run when `activeDeal?.stage` changes, ensuring it only triggers when necessary.
   useEffect(() => {
-    if (dragEnd) {
-      execute({ dealId: activeDeal?.id!, newStage: activeDeal?.stage! }).then(
+    if (dragEnd && activeDeal?.stage) {
+      execute({ dealId: activeDeal.id, newStage: activeDeal.stage }).then(
         ([data, err]) => {
           if (err) {
             toast.error(err.message);
@@ -81,7 +75,7 @@ export function DealKanbanBoard({
       setDragEnd(false);
       refresh();
     }
-  }, [dragEnd]);
+  }, [activeDeal?.stage, dragEnd]);
 
   const sensors = useSensors(
     useSensor(MouseSensor),
@@ -245,17 +239,6 @@ export function DealKanbanBoard({
       setDeals((deals) => {
         const activeIndex = deals.findIndex((t) => t.id === activeId);
         const overIndex = deals.findIndex((t) => t.id === overId);
-        // const activeDeal = deals[activeIndex];
-        // let newStage: DealStage | undefined;
-
-        // if (hasDraggableData(over)) {
-        //   const overData = over.data.current;
-        //   if (overData?.type === "Deal") {
-        //     newStage = overData.deal.stage;
-        //   } else if (overData?.type === "Column") {
-        //     newStage = columns.find((col) => col.stage === overId);
-        //   }
-        // }
         return arrayMove(deals, activeIndex, overIndex);
       });
     }
