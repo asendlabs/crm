@@ -25,7 +25,7 @@ type GoogleUserInfo = {
 };
 
 // http://localhost:3000/api/auth/google/callback
-export async function GET(req: NextRequest, res: Response) {
+export async function GET(req: NextRequest) {
   const url = req.nextUrl;
   const code = url.searchParams.get("code");
   const state = url.searchParams.get("state");
