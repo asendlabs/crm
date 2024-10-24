@@ -13,7 +13,7 @@ export const setSelectedWorkspaceAction = authenticatedAction
     }),
   )
   .output(z.boolean())
-  .handler(async ({ ctx, input }) => {
+  .handler(async ({ input }) => {
     const { workspaceId } = input;
     const cookieStore = await cookies();
 
