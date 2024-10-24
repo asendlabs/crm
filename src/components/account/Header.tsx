@@ -1,7 +1,7 @@
 "use client";
 import React, { useContext, useState } from "react";
 import { AccountContext } from "@/providers/accountProvider";
-import Link from "next/link";
+import Link from "@/components/performance-link";
 import { Button } from "../ui/button";
 import { cn } from "@/utils/tailwind";
 import {
@@ -14,7 +14,7 @@ import { Loader, MoreVertical, Share, Trash } from "lucide-react";
 import { useServerAction } from "zsa-react";
 import { deleteAccountAction, updateAccountAction } from "@/server/accounts";
 import { toast } from "sonner";
-import { useRouter } from "next/navigation";
+import { useRouter } from "@/hooks/use-performance-router";
 import { Dialog, DialogContent } from "../ui/dialog";
 import AccountShareDialog from "./AccountShareDialog";
 import { SidebarTrigger, useSidebar } from "../ui/sidebar";

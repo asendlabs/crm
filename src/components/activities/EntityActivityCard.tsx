@@ -21,7 +21,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useServerAction } from "zsa-react";
 import { deleteActivityAction } from "@/server/activity";
-import { useRouter } from "next/navigation";
+import { useRouter } from "@/hooks/use-performance-router";
 import { ActivityWithContact } from "@/types/entities";
 
 export function EntityActivityCard({

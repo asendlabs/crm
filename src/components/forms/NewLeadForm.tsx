@@ -22,7 +22,7 @@ import React from "react";
 import { accountCreateSchema } from "@/schemas/account.schema";
 import { toast } from "sonner";
 import { useForm } from "react-hook-form";
-import { useRouter } from "next/navigation";
+import { useRouter } from "@/hooks/use-performance-router";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createAccountAction } from "@/server/accounts";

@@ -8,7 +8,7 @@ import { toast } from "sonner";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { useServerAction } from "zsa-react";
-import { useRouter } from "next/navigation";
+import { useRouter } from "@/hooks/use-performance-router";
 import {
   Form,
   FormControl,

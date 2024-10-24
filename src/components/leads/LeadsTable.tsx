@@ -23,7 +23,7 @@ import { DataTableDeleteButton } from "@/components/tables/nav/DataTableDeleteBu
 import { DataTableSearch } from "@/components/tables/nav/DataTableSearch";
 import { DataTableViewOptions } from "@/components/tables/nav/DataTableViewOptions";
 import { NewLeadForm } from "@/components/forms/NewLeadForm";
-import { useRouter } from "next/navigation";
+import { useRouter } from "@/hooks/use-performance-router";
 import { useState } from "react";
 import { useServerAction } from "zsa-react";
 import { deleteAccountAction, updateAccountAction } from "@/server/accounts";
@@ -188,34 +188,34 @@ export function LeadTable<TData, TValue>({
               </TableRow>
             ))}
           </TableHeader>
-            <TableBody className="mt-10 cursor-pointer">
-              {table.getRowModel().rows.length ? (
-                table.getRowModel().rows.map((row) => (
-                  <TableRow
-                    key={row.id}
-                    data-state={row.getIsSelected() && "selected"}
-                  >
-                    {row.getVisibleCells().map((cell) => (
-                      <TableCell key={cell.id}>
-                        {flexRender(
-                          cell.column.columnDef.cell,
-                          cell.getContext(),
-                        )}
-                      </TableCell>
-                    ))}
-                  </TableRow>
-                ))
-              ) : (
-                <TableRow>
-                  <TableCell
-                    colSpan={columns.length}
-                    className="h-24 select-none text-center"
-                  >
-                    No leads found.
-                  </TableCell>
+          <TableBody className="mt-10 cursor-pointer">
+            {table.getRowModel().rows.length ? (
+              table.getRowModel().rows.map((row) => (
+                <TableRow
+                  key={row.id}
+                  data-state={row.getIsSelected() && "selected"}
+                >
+                  {row.getVisibleCells().map((cell) => (
+                    <TableCell key={cell.id}>
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext(),
+                      )}
+                    </TableCell>
+                  ))}
                 </TableRow>
-              )}
-            </TableBody>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell
+                  colSpan={columns.length}
+                  className="h-24 select-none text-center"
+                >
+                  No leads found.
+                </TableCell>
+              </TableRow>
+            )}
+          </TableBody>
         </Table>
       </section>
     </>

@@ -22,7 +22,7 @@ import {
 import { DataTableDeleteButton } from "@/components/tables/nav/DataTableDeleteButton";
 import { DataTableSearch } from "@/components/tables/nav/DataTableSearch";
 import { DataTableViewOptions } from "@/components/tables/nav/DataTableViewOptions";
-import { useRouter } from "next/navigation";
+import { useRouter } from "@/hooks/use-performance-router";
 import { useState } from "react";
 import { useServerAction } from "zsa-react";
 import { deleteAccountAction, updateAccountAction } from "@/server/accounts";

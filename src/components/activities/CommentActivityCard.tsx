@@ -13,7 +13,7 @@ import { ActivityWithContact } from "@/types/entities";
 import { Button } from "../ui/button";
 import { useServerAction } from "zsa-react";
 import { deleteActivityAction, updateActivityAction } from "@/server/activity";
-import { useRouter } from "next/navigation";
+import { useRouter } from "@/hooks/use-performance-router";
 import { timeAgo } from "@/utils";
 import {
   Dialog,

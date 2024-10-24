@@ -37,7 +37,7 @@ import {
 } from "@/components/ui/sidebar";
 import { User, Workspace } from "@database/types";
 import { usePathname, useRouter } from "next/navigation";
-import Link from "next/link";
+import Link from "@/components/performance-link";
 import { cn } from "@/utils/tailwind";
 // Sample data can be replaced with actual props
 const sampleData = {
@@ -48,7 +48,7 @@ const sampleData = {
       icon: Building,
     },
     { title: "Deals", url: "/app/deals", icon: Handshake },
-    { 
+    {
       title: "Clients",
       url: "/app/clients",
       icon: SquareUserRound,

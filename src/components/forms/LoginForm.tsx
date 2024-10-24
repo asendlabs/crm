@@ -16,13 +16,13 @@ import { Loader } from "lucide-react";
 import { useServerAction } from "zsa-react";
 
 import Image from "next/image";
-import Link from "next/link";
+import Link from "@/components/performance-link";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { toast } from "sonner";
 import { PasswordField } from "../ui/password-input";
-import { useRouter } from "next/navigation";
+import { useRouter } from "@/hooks/use-performance-router";
 
 export const LoginForm = ({
   login,

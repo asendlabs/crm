@@ -10,7 +10,7 @@ import { MessageCircle, Clock, CheckSquare, AlignLeft } from "lucide-react";
 import React from "react";
 import { ActivityPanel } from "./ActivityPanel";
 import { TaskPanel } from "./TaskPanel";
-import { useRouter } from "next/navigation";
+import { useRouter } from "@/hooks/use-performance-router";
 
 export function Panels({
   className,

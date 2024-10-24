@@ -25,7 +25,7 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
-import { useRouter } from "next/navigation";
+import { useRouter } from "@/hooks/use-performance-router";
 import { useState } from "react";
 import { toast } from "sonner";
 import { logoutAction } from "@/server/logout";
@@ -68,7 +68,7 @@ export function UserButton({ user }: { user: UserWithWorkspaceAndProfile }) {
               size="lg"
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
-              <Avatar className="border h-8 w-8 rounded-lg ">
+              <Avatar className="h-8 w-8 rounded-lg border">
                 <AvatarImage src={""} alt={user.profile.firstName ?? ""} />
                 <AvatarFallback className="rounded-lg bg-transparent">
                   {user.profile.firstName?.slice(0, 1)}

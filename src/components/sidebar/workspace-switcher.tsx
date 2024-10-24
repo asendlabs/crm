@@ -20,7 +20,7 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Workspace } from "@database/types";
 import { toast } from "sonner";
-import { useRouter } from "next/navigation";
+import { useRouter } from "@/hooks/use-performance-router";
 import { Skeleton } from "@/components/ui/skeleton";
 import { setSelectedWorkspaceAction } from "@/server/workspaces";
 import { useServerAction } from "zsa-react";
@@ -79,9 +79,7 @@ export function WorkspaceSwitcher({
       <SidebarMenuItem>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <SidebarMenuButton
-              className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground rounded-lg px-2 w-[97%] m-[0.34rem] mb-0 border"
-            >
+            <SidebarMenuButton className="m-[0.34rem] mb-0 w-[97%] rounded-lg border px-2 data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground">
               {/* <Avatar className="bg-sidebar-primary text-sidebar-primary-foreground size-7 rounded-md">
                 <AvatarImage
                   src={""} // You can add the workspace logo here

@@ -2,7 +2,7 @@ import { Views } from "@/providers/dealsViewProvider";
 import { Button } from "../ui/button";
 import { cn } from "@/utils/tailwind";
 import { SquareKanban as Board, Table as Grid } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { useRouter } from "@/hooks/use-performance-router";
 import { revalidatePath } from "next/cache";
 
 interface DealViewSwitcherProps {

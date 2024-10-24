@@ -7,7 +7,7 @@ import { useServerAction } from "zsa-react";
 import { toast } from "sonner";
 import { updateAccountAction } from "@/server/accounts";
 import { Input } from "../ui/input";
-import { useRouter } from "next/navigation";
+import { useRouter } from "@/hooks/use-performance-router";
 import { Pencil, Check, Circle } from "lucide-react";
 import {
   Select,
@@ -124,57 +124,57 @@ export function DetailsCard() {
         </div>
 
         {/* Status (Always Editable) */}
-        {account?.type !== "client" &&
-        <div className="flex items-center overflow-x-hidden text-sm">
-          <span className="!w-[9.5rem] text-sm">Status</span>
-          <Select
-            value={status?.status || ""} // Use string status, default to empty string if undefined
-            onValueChange={handleStatusChange}
-          >
-            <SelectTrigger className="!ring-none h-7 w-full text-sm font-medium capitalize !outline-none ring-0 focus:ring-offset-[-1]">
-              <SelectValue>
-                {status ? (
-                  <div
-                    className="flex items-center gap-1.5"
-                    style={{ color: `#${status.color}` }}
+        {account?.type !== "client" && (
+          <div className="flex items-center overflow-x-hidden text-sm">
+            <span className="!w-[9.5rem] text-sm">Status</span>
+            <Select
+              value={status?.status || ""} // Use string status, default to empty string if undefined
+              onValueChange={handleStatusChange}
+            >
+              <SelectTrigger className="!ring-none h-7 w-full text-sm font-medium capitalize !outline-none ring-0 focus:ring-offset-[-1]">
+                <SelectValue>
+                  {status ? (
+                    <div
+                      className="flex items-center gap-1.5"
+                      style={{ color: `#${status.color}` }}
+                    >
+                      <Circle
+                        strokeWidth={4}
+                        absoluteStrokeWidth
+                        className={`h-3 w-3`}
+                      />
+                      {status.status}
+                    </div>
+                  ) : (
+                    "Select Status"
+                  )}
+                </SelectValue>
+              </SelectTrigger>
+              <SelectContent>
+                {accountStatuses.map((statusObj: AccountStatus) => (
+                  <SelectItem
+                    key={statusObj.status}
+                    value={statusObj.status}
+                    showIndicator={false}
+                    className="font-medium"
+                    style={{
+                      color: `#${statusObj.color}`,
+                    }}
                   >
-                    <Circle
-                      strokeWidth={4}
-                      absoluteStrokeWidth
-                      className={`h-3 w-3`}
-                    />
-                    {status.status}
-                  </div>
-                ) : (
-                  "Select Status"
-                )}
-              </SelectValue>
-            </SelectTrigger>
-            <SelectContent>
-              {accountStatuses.map((statusObj: AccountStatus) => (
-                <SelectItem
-                  key={statusObj.status}
-                  value={statusObj.status}
-                  showIndicator={false}
-                  className="font-medium"
-                  style={{
-                    color: `#${statusObj.color}`,
-                  }}
-                >
-                  <div className="flex items-center gap-1.5">
-                    <Circle
-                      strokeWidth={4}
-                      absoluteStrokeWidth
-                      className={`h-3 w-3`}
-                    />
-                    {statusObj.status}
-                  </div>
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
-        }
+                    <div className="flex items-center gap-1.5">
+                      <Circle
+                        strokeWidth={4}
+                        absoluteStrokeWidth
+                        className={`h-3 w-3`}
+                      />
+                      {statusObj.status}
+                    </div>
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+        )}
 
         {/* Website */}
         <div className="group flex items-center">

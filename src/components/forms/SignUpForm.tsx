@@ -15,13 +15,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader } from "lucide-react";
 
 import Image from "next/image";
-import Link from "next/link";
+import Link from "@/components/performance-link";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { toast } from "sonner";
 import { PasswordField } from "../ui/password-input";
-import { useRouter } from "next/navigation";
+import { useRouter } from "@/hooks/use-performance-router";
 import { useServerAction } from "zsa-react";
 
 export const SignUpForm = ({

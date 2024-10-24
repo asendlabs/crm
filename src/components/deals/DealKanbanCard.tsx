@@ -17,7 +17,7 @@ import { formatDate } from "@/utils";
 import { z } from "zod";
 import { cn } from "@/utils/tailwind";
 import { toast } from "sonner";
-import { useRouter } from "next/navigation";
+import { useRouter } from "@/hooks/use-performance-router";
 import { DialogTrigger } from "@radix-ui/react-dialog";
 import { Dialog, DialogContent } from "../ui/dialog";
 

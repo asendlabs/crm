@@ -3,7 +3,7 @@
 import { Account } from "@database/types";
 import { Row } from "@tanstack/react-table";
 import { Sparkle } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { useRouter } from "@/hooks/use-performance-router";
 import React, { useEffect, useRef, useState } from "react";
 
 interface AiScoreFieldProps {

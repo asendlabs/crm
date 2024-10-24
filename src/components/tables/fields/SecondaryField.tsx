@@ -3,7 +3,7 @@
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Contact, Account } from "@database/types";
 import { Row } from "@tanstack/react-table";
-import Link from "next/link";
+import Link from "@/components/performance-link";
 import React from "react";
 
 interface SecondaryFieldProps {

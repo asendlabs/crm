@@ -1,7 +1,7 @@
 "use client";
 
-import Link from "next/link";
-import { useRouter } from "next/navigation";
+import Link from "@/components/performance-link";
+import { useRouter } from "@/hooks/use-performance-router";
 import React, { useEffect, useRef, useState } from "react";
 
 interface PrimaryFieldProps {

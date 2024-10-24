@@ -24,7 +24,7 @@ import { DataTableDeleteButton } from "@/components/tables/nav/DataTableDeleteBu
 import { DataTableSearch } from "@/components/tables/nav/DataTableSearch";
 import { DataTableViewOptions } from "@/components/tables/nav/DataTableViewOptions";
 import { NewDealForm } from "@/components/forms/NewDealForm";
-import { useRouter } from "next/navigation";
+import { useRouter } from "@/hooks/use-performance-router";
 import { useContext, useEffect, useState } from "react";
 import { useServerAction } from "zsa-react";
 import { toast } from "sonner";

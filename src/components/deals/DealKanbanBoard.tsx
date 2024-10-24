@@ -30,7 +30,7 @@ import { changeDealStageAction } from "@/server/deal";
 import { useServerAction } from "zsa-react";
 import { toast } from "sonner";
 import { Router } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { useRouter } from "@/hooks/use-performance-router";
 import { int } from "drizzle-orm/mysql-core";
 
 export type ColumnId = string;

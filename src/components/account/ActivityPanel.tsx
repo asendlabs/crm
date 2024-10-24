@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { AccountContext } from "@/providers/accountProvider";
 import { ActivityType } from "@/types/entities";
 import { PhoneCall, MailPlus, MessageSquareMore } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { useRouter } from "@/hooks/use-performance-router";
 import { useContext, useState } from "react";
 import { ScrollArea } from "../ui/scroll-area";
 
