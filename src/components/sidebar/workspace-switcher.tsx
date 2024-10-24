@@ -80,10 +80,9 @@ export function WorkspaceSwitcher({
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <SidebarMenuButton
-              size={"lg"}
-              className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground rounded-lg"
+              className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground rounded-lg px-2 w-[97%] m-[0.34rem] mb-0 border"
             >
-              <Avatar className="bg-sidebar-primary text-sidebar-primary-foreground size-7 rounded-md">
+              {/* <Avatar className="bg-sidebar-primary text-sidebar-primary-foreground size-7 rounded-md">
                 <AvatarImage
                   src={""} // You can add the workspace logo here
                   alt={selectedWorkspace?.name || ""}
@@ -92,12 +91,12 @@ export function WorkspaceSwitcher({
                 <AvatarFallback className="!bg-transparent">
                   <Hexagon className="size-4" fill="currentColor" />
                 </AvatarFallback>
-              </Avatar>
+              </Avatar> */}
               <div className="grid flex-1 text-left text-sm leading-tight">
                 <span className="truncate font-semibold">
                   {selectedWorkspace?.name}
                 </span>
-                <span className="truncate text-xs">{"Free Plan"}</span>
+                {/* <span className="truncate text-xs">{"Free Plan"}</span> */}
               </div>
               <ChevronsUpDown className="ml-auto size-4" />
             </SidebarMenuButton>
