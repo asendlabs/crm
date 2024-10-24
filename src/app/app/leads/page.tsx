@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 };
 
 async function LeadsPage() {
-  const workspaceId = cookies().get(selectedWorkspaceCookie)?.value || "";
+  const workspaceId = (await cookies()).get(selectedWorkspaceCookie)?.value || "";
   const data = await getAllWorkspaceLeads(workspaceId);
   return <LeadTable columns={LeadsColumns} tableData={data as AccountFull[]} />;
 }

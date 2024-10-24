@@ -10,20 +10,18 @@ import { Cards } from "@/components/account/Cards";
 import { Panels } from "@/components/account/Panels";
 
 type Props = {
-  params: { id: string };
-  searchParams: { [key: string]: string | string[] | undefined };
+  params: Promise<{ id: string }>;
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 };
 
-export async function generateMetadata(
-  { params, searchParams }: Props,
-  parent: ResolvingMetadata,
-): Promise<Metadata> {
+export async function generateMetadata(props: Props, parent: ResolvingMetadata): Promise<Metadata> {
+  const params = await props.params;
   const { id } = params;
   if (!id) {
     return {};
   }
   const account = await getAccountById(id.toUpperCase());
-  const workspaceId = cookies().get(selectedWorkspaceCookie)?.value || "";
+  const workspaceId = (await cookies()).get(selectedWorkspaceCookie)?.value || "";
   if (!account || !account.workspaceId || account.workspaceId !== workspaceId) {
     return {};
   }
@@ -33,7 +31,9 @@ export async function generateMetadata(
   };
 }
 
-export default async function LeadAccountPage({ params, searchParams }: Props) {
+export default async function LeadAccountPage(props: Props) {
+  const searchParams = await props.searchParams;
+  const params = await props.params;
   const { id } = params;
   const { tab } = searchParams;
   if (!id) {
@@ -57,7 +57,7 @@ export default async function LeadAccountPage({ params, searchParams }: Props) {
       </div>
     );
   }
-  const workspaceId = cookies().get(selectedWorkspaceCookie)?.value || "";
+  const workspaceId = (await cookies()).get(selectedWorkspaceCookie)?.value || "";
   if (!account.workspaceId || account.workspaceId !== workspaceId) {
     return (
       <div className="flex h-screen flex-col items-center justify-center">

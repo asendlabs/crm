@@ -10,7 +10,7 @@ import {
   FormLabel,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { createElement, useState } from "react";
+import { createElement, useState, type JSX } from "react";
 
 type PasswordFieldProps = {
   name?: string;

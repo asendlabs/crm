@@ -15,11 +15,11 @@ export const getGoogleOauthConsentUrlAction = unauthenticatedAction
       const state = generateState();
       const codeVerifier = generateCodeVerifier();
 
-      cookies().set(googleCodeVerifierCookie, codeVerifier, {
+      (await cookies()).set(googleCodeVerifierCookie, codeVerifier, {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
       });
-      cookies().set(googleStateCookie, state, {
+      (await cookies()).set(googleStateCookie, state, {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
       });

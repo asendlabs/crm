@@ -40,7 +40,7 @@ export default async function ApplicationLayout({
   const workspaces = await getAllUserWorkspaces(dbUser.id);
 
   const cookieSelectedWorkspaceId =
-    cookies().get(selectedWorkspaceCookie)?.value || "";
+    (await cookies()).get(selectedWorkspaceCookie)?.value || "";
 
 const userProfileWorkspace: UserWithWorkspaceAndProfile = {
   ...dbUser,
@@ -57,11 +57,11 @@ const userProfileWorkspace: UserWithWorkspaceAndProfile = {
     //   />
     //   <div>{children}</div>
     // </main>
-    <SidebarProvider>
+    (<SidebarProvider>
       <AppSidebar user={userProfileWorkspace} cookieselectedworkspaceid={cookieSelectedWorkspaceId} />
       <main className="grid min-h-screen w-full">
         {children}
       </main>
-    </SidebarProvider>
+    </SidebarProvider>)
   );
 }

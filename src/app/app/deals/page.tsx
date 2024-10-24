@@ -15,13 +15,14 @@ export const metadata: Metadata = {
   description: "List of Opportunties",
 };
 
-export default async function page({
-  searchParams,
-}: {
-  searchParams?: { [key: string]: string | string[] | undefined };
-}) {
+export default async function page(
+  props: {
+    searchParams?: Promise<{ [key: string]: string | string[] | undefined }>;
+  }
+) {
+  const searchParams = await props.searchParams;
   const initialView = (searchParams?.view as Views) || "board";
-  const workspaceId = cookies().get(selectedWorkspaceCookie)?.value || "";
+  const workspaceId = (await cookies()).get(selectedWorkspaceCookie)?.value || "";
   const workspace = await getWorkspaceById(workspaceId);
   const data = await getAllWorkspaceDeals(workspaceId);
   const accounts = await getAllWorkspaceAccounts(workspaceId);

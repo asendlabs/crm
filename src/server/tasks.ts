@@ -44,7 +44,7 @@ export const deleteTaskAction = authenticatedAction
     const { itemIds } = input;
     const { user } = ctx;
     for (const itemId of itemIds) {
-      const currentWorkspaceId = cookies().get(selectedWorkspaceCookie)?.value;
+      const currentWorkspaceId = (await cookies()).get(selectedWorkspaceCookie)?.value;
       if (!currentWorkspaceId) {
         throw new Error("Workspace not found"); // Inline error
       }
@@ -63,7 +63,7 @@ export const createTaskAction = authenticatedAction
   .handler(async ({ input, ctx }) => {
     const { title, description, accountId, dueDate, stage, priority } = input;
     const { user } = ctx;
-    const currentWorkspaceId = cookies().get(selectedWorkspaceCookie)?.value;
+    const currentWorkspaceId = (await cookies()).get(selectedWorkspaceCookie)?.value;
     if (!currentWorkspaceId) {
       throw new Error("Workspace not found."); // Inline error message
     }

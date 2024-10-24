@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 };
 
 async function ClientsPage() {
-  const workspaceId = cookies().get(selectedWorkspaceCookie)?.value || "";
+  const workspaceId = (await cookies()).get(selectedWorkspaceCookie)?.value || "";
   const data = await getAllWorkspaceClients(workspaceId);
   return (
     <ClientTable columns={ClientsColumns} tableData={data as AccountFull[]} />

@@ -9,7 +9,7 @@ export function GoBackLink({
   permanent: boolean;
 }) {
   return (
-    <div className="captialize flex flex-row items-center gap-1 text-sm text-gray-500 hover:text-gray-900 hover:underline">
+    (<div className="captialize flex flex-row items-center gap-1 text-sm text-gray-500 hover:text-gray-900 hover:underline">
       <ChevronLeft className="size-4" />
       <Link
         href={"/app/" + pagePath.toLowerCase().replace(/\s+/g, "")}
@@ -17,6 +17,6 @@ export function GoBackLink({
       >
         Go back to {pagePath}
       </Link>
-    </div>
+    </div>)
   );
 }

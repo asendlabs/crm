@@ -18,7 +18,7 @@ export const createActivityAction = authenticatedAction
   .handler(async ({ input, ctx }) => {
     const { type, content, contactId, title, accountId } = input;
     const { user } = ctx;
-    const currentWorkspaceId = cookies().get(selectedWorkspaceCookie)?.value;
+    const currentWorkspaceId = (await cookies()).get(selectedWorkspaceCookie)?.value;
     if (!currentWorkspaceId) {
       throw new Error("Workspace not found"); // Inline error
     }

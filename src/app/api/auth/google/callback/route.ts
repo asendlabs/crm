@@ -35,8 +35,8 @@ export async function GET(req: NextRequest, res: Response) {
     return new Response("Invalid Request", { status: 400 });
   }
 
-  const codeVerifier = cookies().get(googleCodeVerifierCookie)?.value;
-  const savedState = cookies().get(googleStateCookie)?.value;
+  const codeVerifier = (await cookies()).get(googleCodeVerifierCookie)?.value;
+  const savedState = (await cookies()).get(googleStateCookie)?.value;
 
   if (!codeVerifier || !savedState) {
     console.error("no code verifier or state");
@@ -69,6 +69,6 @@ export async function GET(req: NextRequest, res: Response) {
     picture: googleAvatar,
   } = (await googleResponse.json()) as GoogleUserInfo;
 
-  cookies().delete(googleCodeVerifierCookie);
-  cookies().delete(googleStateCookie);
+  (await cookies()).delete(googleCodeVerifierCookie);
+  (await cookies()).delete(googleStateCookie);
 }

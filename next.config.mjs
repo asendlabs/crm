@@ -1,10 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   transpilePackages: ["geist"],
-  webpack: (config) => {
-    config.externals.push("@node-rs/argon2", "@node-rs/bcrypt");
-    return config;
-  },
   images: {
     remotePatterns: [
       {
