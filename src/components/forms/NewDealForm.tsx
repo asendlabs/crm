@@ -35,7 +35,7 @@ import { CalendarIcon, Plus } from "lucide-react";
 
 import { createDealAction } from "@/server/deal";
 import { dealCreateSchema } from "@/schemas/deal.schema";
-import { Calendar } from "../ui/calendar";
+import { Calendar } from "@/components/ui/calendar";
 import { cn } from "@/utils/tailwind";
 import {
   Account,

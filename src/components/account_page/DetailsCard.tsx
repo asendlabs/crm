@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { useServerAction } from "zsa-react";
 import { toast } from "sonner";
 import { updateAccountAction } from "@/server/accounts";
-import { Input } from "../ui/input";
+import { Input } from "@/components/ui/input";
 import { useRouter } from "@/hooks/use-performance-router";
 import { Pencil, Check, Circle } from "lucide-react";
 import {

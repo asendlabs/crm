@@ -2,8 +2,6 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 import { Account, Deal } from "@database/types";
-import { CheckboxField } from "@/components/tables/fields/CheckboxField";
-import { PrimaryField } from "@/components/tables/fields/PrimaryField";
 import {
   Bot,
   Building,
@@ -16,15 +14,23 @@ import {
   Sparkle,
   Users,
 } from "lucide-react";
-import { LogoHead } from "@/components/tables/headers/LogoHead";
-import { CheckboxHead } from "@/components/tables/headers/CheckboxHead";
-import { PrimaryHead } from "@/components/tables/headers/PrimaryHead";
-import { SecondaryField } from "../tables/fields/SecondaryField";
+import {
+  CheckboxHead,
+  LogoHead,
+  PrimaryHead,
+} from "@/components/table_headers";
+import {
+  AiScoreField,
+  LastInteractionField,
+  PrimaryField,
+  SecondaryField,
+  StatusField,
+  CheckboxField,
+  DealStageField,
+  ValueField,
+  ExpectedCloseField,
+} from "@/components/table_fields";
 import { DealWithPrimaryContact } from "@/types/entities";
-import { ExpectedCloseField } from "../tables/fields/ExpectedCloseField";
-import { UneditableField } from "../tables/fields/UneditableField";
-import { ValueField } from "../tables/fields/ValueField";
-import { DealStageField } from "../tables/fields/DealStageField";
 
 export const DealColumns: ColumnDef<DealWithPrimaryContact>[] = [
   {

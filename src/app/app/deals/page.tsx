@@ -2,13 +2,13 @@ import { Metadata } from "next";
 import React from "react";
 import { cookies } from "next/headers";
 import { selectedWorkspaceCookie } from "@/constants";
-import { DealTable } from "@/components/deals/DealsTable";
-import { DealColumns } from "@/components/deals/DealsColumns";
 import { getAllWorkspaceDeals } from "@/data-access/deal";
 import { getAllWorkspaceAccounts } from "@/data-access/accounts";
 import { DealStage, DealWithPrimaryContact } from "@/types/entities";
 import { DealViewProvider, Views } from "@/providers/dealsViewProvider";
 import { getWorkspaceById } from "@/data-access/workspaces";
+import { DealTable } from "./_components/DealsTable";
+import { DealColumns } from "./_components/DealsColumns";
 
 export const metadata: Metadata = {
   title: "Deals",

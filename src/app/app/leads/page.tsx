@@ -1,11 +1,11 @@
-import { LeadsColumns } from "@/components/leads/LeadsColumns";
-import { LeadTable } from "@/components/leads/LeadsTable";
 import { Metadata } from "next";
 import React from "react";
 import { getAllWorkspaceLeads } from "@/data-access/accounts";
 import { cookies } from "next/headers";
 import { selectedWorkspaceCookie } from "@/constants";
 import { AccountFull } from "@/types/entities";
+import { LeadTable } from "./_components/LeadsTable";
+import { LeadsColumns } from "./_components/LeadsColumns";
 
 export const metadata: Metadata = {
   title: "Leads",

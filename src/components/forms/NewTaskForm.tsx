@@ -16,25 +16,29 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "../ui/form";
+} from "@/components/ui/form";
 import {
   Select,
   SelectTrigger,
   SelectValue,
   SelectContent,
   SelectItem,
-} from "../ui/select";
-import { Input } from "../ui/input";
-import { Button } from "../ui/button";
-import { Textarea } from "../ui/textarea";
+} from "@/components/ui/select";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
 import {
   CalendarIcon,
   CheckCircleIcon,
   CheckIcon,
   HourglassIcon,
 } from "lucide-react";
-import { Calendar } from "../ui/calendar";
-import { PopoverContent, Popover, PopoverTrigger } from "../ui/popover";
+import { Calendar } from "@/components/ui/calendar";
+import {
+  PopoverContent,
+  Popover,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { cn } from "@/utils/tailwind";
 import { format } from "date-fns";
 

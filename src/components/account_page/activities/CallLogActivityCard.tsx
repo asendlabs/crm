@@ -2,15 +2,16 @@
 
 import {
   Loader,
-  MessageSquare,
+  PhoneCall,
   Check,
+  ArrowUpRight,
   Trash,
   Edit,
   MoreVertical,
 } from "lucide-react";
 import React, { useEffect } from "react";
 import { ActivityWithContact } from "@/types/entities";
-import { Button } from "../ui/button";
+import { Button } from "@/components/ui/button";
 import { useServerAction } from "zsa-react";
 import { deleteActivityAction, updateActivityAction } from "@/server/activity";
 import { useRouter } from "@/hooks/use-performance-router";
@@ -20,15 +21,15 @@ import {
   DialogTrigger,
   DialogContent,
   DialogFooter,
-} from "../ui/dialog";
+} from "@/components/ui/dialog";
 import {
   FormControl,
   FormField,
   FormItem,
   FormMessage,
   Form,
-} from "../ui/form";
-import { Textarea } from "../ui/textarea";
+} from "@/components/ui/form";
+import { Textarea } from "@/components/ui/textarea";
 import { useForm } from "react-hook-form";
 import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -38,13 +39,15 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "../ui/dropdown-menu";
+  DropdownMenuSeparator,
+} from "@/components/ui/dropdown-menu";
+import { Arrow } from "@radix-ui/react-dropdown-menu";
 
 const activityUpdateSchema = z.object({
   content: z.string().optional(),
 });
 
-export function CommentActivityCard({
+export function CallLogActivityCard({
   activity,
 }: {
   activity: ActivityWithContact;
@@ -116,15 +119,35 @@ export function CommentActivityCard({
   return (
     <section className="flex items-center justify-between text-sm">
       <div className="flex items-center gap-2">
-        <MessageSquare className="size-4" />
-        <div className="flex items-center gap-1 py-1">
-          <span className="max-w-[35.5rem] truncate rounded-lg border px-2 py-0.5">
-            {" "}
-            {activity?.content}
-          </span>
+        <PhoneCall className="size-4 text-gray-500" />
+        <div className="flex max-w-[35.5rem] items-center gap-1 truncate py-1">
+          Call{" "}
+          {activity.associatedContact?.contactName && (
+            <>
+              with
+              <span className="rounded-lg border px-2 py-0.5">
+                {activity.associatedContact?.contactName}
+              </span>
+            </>
+          )}
+          {activity.title && (
+            <>
+              for
+              <div className="rounded-lg border px-2 py-0.5">
+                {activity.title}
+              </div>
+            </>
+          )}
+          <div
+            className="inline-flex items-center gap-1 rounded-lg border px-2 py-0.5 font-medium hover:cursor-pointer"
+            onClick={() => setOpen(true)}
+          >
+            Open Notes
+            <ArrowUpRight className="size-4" />
+          </div>
           <Dialog open={open} onOpenChange={setOpen}>
             <DialogContent className="p-4">
-              <h1 className="text-base font-medium">Comment Notes</h1>
+              <h1 className="text-base font-medium">Call Notes</h1>
               <Form {...form}>
                 <form onSubmit={handleSubmit(onSubmit)} className="grid gap-3">
                   <FormField
@@ -177,13 +200,13 @@ export function CommentActivityCard({
           <DropdownMenuTrigger asChild>
             <Button
               size={"icon"}
-              className="mr-0.5 h-6 w-7"
+              className="mr-0.5 inline-flex h-6 w-7 justify-center"
               variant={"outline"}
             >
               <MoreVertical className="size-4 p-[0.05rem]" />
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent className="w-20">
+          <DropdownMenuContent className="w-20 justify-end">
             <DropdownMenuItem onClick={() => setOpen(true)}>
               <Edit className="mr-2 size-4" />
               Edit

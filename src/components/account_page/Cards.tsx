@@ -7,7 +7,7 @@ import { NewContactForm } from "@/components/forms/NewContactForm";
 import { NewDealForm } from "@/components/forms/NewDealForm";
 import { DealCard } from "./DealCard";
 import { DetailsCard } from "./DetailsCard";
-import { ScrollArea } from "../ui/scroll-area";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { useSearchParams } from "next/navigation";
 export function Cards({ className }: { className?: string }) {
   const { contacts, deals, account } = useContext(AccountContext);

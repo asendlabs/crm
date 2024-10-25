@@ -15,7 +15,11 @@ import { Button } from "@/components/ui/button";
 import { Loader, RefreshCw } from "lucide-react";
 import { verificationCodeSchema } from "@/schemas/auth.schema";
 import { useServerAction } from "zsa-react";
-import { InputOTP, InputOTPGroup, InputOTPSlot } from "../ui/input-otp";
+import {
+  InputOTP,
+  InputOTPGroup,
+  InputOTPSlot,
+} from "@/components/ui/input-otp";
 import { REGEXP_ONLY_DIGITS } from "input-otp";
 import { ResendVerifyEmailButton } from "./related/ResendVerifyEmailButton";
 import Image from "next/image";

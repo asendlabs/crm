@@ -19,25 +19,27 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-import { DataTableDeleteButton } from "@/components/tables/nav/DataTableDeleteButton";
-import { DataTableSearch } from "@/components/tables/nav/DataTableSearch";
-import { DataTableViewOptions } from "@/components/tables/nav/DataTableViewOptions";
+import { DataTableDeleteButton } from "@/components/table_nav/DataTableDeleteButton";
+import { DataTableSearch } from "@/components/table_nav/DataTableSearch";
+import { DataTableViewOptions } from "@/components/table_nav/DataTableViewOptions";
+import { NewLeadForm } from "@/components/forms/NewLeadForm";
 import { useRouter } from "@/hooks/use-performance-router";
 import { useState } from "react";
 import { useServerAction } from "zsa-react";
 import { deleteAccountAction, updateAccountAction } from "@/server/accounts";
 import { toast } from "sonner";
 import { Account, Contact } from "@database/types";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
-interface ClientTableProps<TData, TValue> {
+interface LeadTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   tableData: TData[];
 }
 
-export function ClientTable<TData, TValue>({
+export function LeadTable<TData, TValue>({
   columns,
   tableData,
-}: ClientTableProps<TData, TValue>) {
+}: LeadTableProps<TData, TValue>) {
   const [data, setData] = useState<TData[]>(tableData);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [sorting, setSorting] = useState<SortingState>([
@@ -46,7 +48,7 @@ export function ClientTable<TData, TValue>({
   const [rowSelectionState, setRowSelectionState] = useState({});
   const router = useRouter();
   const addData = (newData: any) => {
-    setData((prevClients) => [...prevClients, newData]);
+    setData((prevLeads) => [...prevLeads, newData]);
     router.refresh();
   };
   const updateAccountServerAction = useServerAction(updateAccountAction);
@@ -145,12 +147,12 @@ export function ClientTable<TData, TValue>({
     <>
       <section className="flex h-screen flex-col gap-3 px-6 py-4">
         <div className="flex select-none flex-row items-center justify-between">
-          <h1 className="text-xl font-semibold">Clients</h1>
+          <h1 className="text-xl font-semibold">Leads</h1>
           <div className="flex flex-row gap-2">
             <div>
               <DataTableDeleteButton
                 table={table}
-                description="Deleting a client will delete all associated contacts. It can't be undone."
+                description="Deleting a lead will delete all associated contacts. It can't be undone."
               />
             </div>
             <div>
@@ -163,13 +165,14 @@ export function ClientTable<TData, TValue>({
               <DataTableSearch
                 table={table}
                 primaryField="accountName"
-                primaryFieldPrettyName="Clients"
+                primaryFieldPrettyName="Leads"
               />
             </div>
+            <NewLeadForm addLead={addData} />
           </div>
         </div>
-        <Table>
-          <TableHeader className=" ">
+        <Table className="first:sticky">
+          <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => (
@@ -208,7 +211,7 @@ export function ClientTable<TData, TValue>({
                   colSpan={columns.length}
                   className="h-24 select-none text-center"
                 >
-                  No results.
+                  No leads found.
                 </TableCell>
               </TableRow>
             )}

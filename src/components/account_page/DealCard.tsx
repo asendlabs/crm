@@ -53,7 +53,7 @@ import { useServerAction } from "zsa-react";
 import { dealUpdateSchema } from "@/schemas/deal.schema";
 import { AccountContext } from "@/providers/accountProvider";
 import { Deal } from "@database/types";
-import { Skeleton } from "../ui/skeleton";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export function DealCard({
   deal,

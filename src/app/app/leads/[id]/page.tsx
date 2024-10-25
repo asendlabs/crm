@@ -5,9 +5,9 @@ import { cookies } from "next/headers";
 import React from "react";
 import type { Metadata, ResolvingMetadata } from "next";
 import { AccountProvider } from "@/providers/accountProvider";
-import { Header } from "@/components/account/Header";
-import { Cards } from "@/components/account/Cards";
-import { Panels } from "@/components/account/Panels";
+import { Header } from "@/components/account_page/Header";
+import { Cards } from "@/components/account_page/Cards";
+import { Panels } from "@/components/account_page/Panels";
 
 type Props = {
   params: Promise<{ id: string }>;

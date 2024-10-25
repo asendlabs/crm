@@ -20,9 +20,9 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-import { DataTableDeleteButton } from "@/components/tables/nav/DataTableDeleteButton";
-import { DataTableSearch } from "@/components/tables/nav/DataTableSearch";
-import { DataTableViewOptions } from "@/components/tables/nav/DataTableViewOptions";
+import { DataTableDeleteButton } from "@/components/table_nav/DataTableDeleteButton";
+import { DataTableSearch } from "@/components/table_nav/DataTableSearch";
+import { DataTableViewOptions } from "@/components/table_nav/DataTableViewOptions";
 import { NewDealForm } from "@/components/forms/NewDealForm";
 import { useRouter } from "@/hooks/use-performance-router";
 import { useContext, useEffect, useState } from "react";
@@ -43,7 +43,7 @@ import {
 } from "@/types/entities";
 import { DealKanbanBoard } from "./DealKanbanBoard";
 import { dealTableRelations } from "@database/relations";
-import { Button } from "../ui/button";
+import { Button } from "@/components/ui/button";
 import { Cog, Settings, Settings2 } from "lucide-react";
 
 interface DealTableProps<TData, TValue> {

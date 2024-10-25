@@ -12,14 +12,14 @@ import {
   MoreVerticalIcon,
   PhoneIcon,
 } from "lucide-react";
-import { Button } from "../ui/button";
+import { Button } from "@/components/ui/button";
 import { formatDate } from "@/utils";
 import { z } from "zod";
 import { cn } from "@/utils/tailwind";
 import { toast } from "sonner";
 import { useRouter } from "@/hooks/use-performance-router";
 import { DialogTrigger } from "@radix-ui/react-dialog";
-import { Dialog, DialogContent } from "../ui/dialog";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
 
 interface DealCardProps {
   deal: DealWithPrimaryContact;

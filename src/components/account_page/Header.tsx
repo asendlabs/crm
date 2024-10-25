@@ -2,22 +2,22 @@
 import React, { useContext, useState } from "react";
 import { AccountContext } from "@/providers/accountProvider";
 import Link from "@/components/performance-link";
-import { Button } from "../ui/button";
+import { Button } from "@/components/ui/button";
 import { cn } from "@/utils/tailwind";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "../ui/dropdown-menu";
+} from "@/components/ui/dropdown-menu";
 import { Loader, MoreVertical, Share, Trash } from "lucide-react";
 import { useServerAction } from "zsa-react";
 import { deleteAccountAction, updateAccountAction } from "@/server/accounts";
 import { toast } from "sonner";
 import { useRouter } from "@/hooks/use-performance-router";
-import { Dialog, DialogContent } from "../ui/dialog";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
 import AccountShareDialog from "./AccountShareDialog";
-import { SidebarTrigger, useSidebar } from "../ui/sidebar";
+import { SidebarTrigger, useSidebar } from "@/components/ui/sidebar";
 
 export function Header({ className }: { className?: string }) {
   const { account } = useContext(AccountContext);

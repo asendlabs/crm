@@ -11,7 +11,7 @@ import {
   Pencil,
   Trash,
 } from "lucide-react";
-import { Button } from "../ui/button";
+import { Button } from "@/components/ui/button";
 import {
   Select,
   SelectContent,
@@ -19,9 +19,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Popover, PopoverTrigger, PopoverContent } from "../ui/popover";
-import { Calendar } from "../ui/calendar";
-import { Input } from "../ui/input";
+import {
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+} from "@/components/ui/popover";
+import { Calendar } from "@/components/ui/calendar";
+import { Input } from "@/components/ui/input";
 import { format } from "date-fns"; // Import date formatting library
 import { useServerAction } from "zsa-react";
 import { deleteTaskAction, updateTaskAction } from "@/server/tasks";
@@ -30,7 +34,7 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "../ui/dropdown-menu";
+} from "@/components/ui/dropdown-menu";
 
 export default function TaskCard({ task }: { task: Task }) {
   const [title, setTitle] = useState(task.title);

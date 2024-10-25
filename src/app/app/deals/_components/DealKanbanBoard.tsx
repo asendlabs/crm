@@ -73,7 +73,7 @@ export function DealKanbanBoard({
       setActiveColumn(null);
       setActiveDeal(null);
       setDragEnd(false);
-      refresh();
+      // refresh();
     }
   }, [activeDeal?.stage, dragEnd]);
 

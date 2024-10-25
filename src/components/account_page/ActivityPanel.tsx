@@ -1,15 +1,17 @@
 "use client";
-import { CallLogActivityCard } from "@/components/activities/CallLogActivityCard";
-import { CommentActivityCard } from "@/components/activities/CommentActivityCard";
-import { EntityActivityCard } from "@/components/activities/EntityActivityCard";
 import { NewActivityForm } from "@/components/forms/NewActivityForm";
 import { Button } from "@/components/ui/button";
 import { AccountContext } from "@/providers/accountProvider";
 import { ActivityType } from "@/types/entities";
 import { PhoneCall, MailPlus, MessageSquareMore } from "lucide-react";
-import { useRouter } from "@/hooks/use-performance-router";
 import { useContext, useState } from "react";
-import { ScrollArea } from "../ui/scroll-area";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import {
+  CommentActivityCard,
+  CallLogActivityCard,
+  EntityActivityCard,
+  TaskActivityCard,
+} from "./activities";
 
 type ActivityButton = {
   type: ActivityType;

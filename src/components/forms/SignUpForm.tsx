@@ -20,7 +20,7 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { toast } from "sonner";
-import { PasswordField } from "../ui/password-input";
+import { PasswordField } from "@/components/ui/password-input";
 import { useRouter } from "@/hooks/use-performance-router";
 import { useServerAction } from "zsa-react";
 
