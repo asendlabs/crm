@@ -31,9 +31,7 @@ const isLowEndDevice = (): boolean => {
   return hasLimitedMemory || hasLimitedCPU || isMobile;
 };
 
-export const useRouter = ({
-  fancy = true,
-}: { fancy?: boolean } = {}) => {
+export const useRouter = ({ fancy = true }: { fancy?: boolean } = {}) => {
   const [isLowEnd, setIsLowEnd] = useState<boolean>(false);
   const nextRouter = useDefaultNextRouter();
   const transitionRouter = useTransitionRouter();

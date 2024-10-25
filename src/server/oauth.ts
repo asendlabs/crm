@@ -3,6 +3,7 @@ import { createServerAction } from "zsa";
 import { googleOAuthClient } from "@/lib/lucia";
 import { googleCodeVerifierCookie, googleStateCookie } from "@/constants";
 import { cookies } from "next/headers";
+import { ScopeType } from "google-auth-scopes";
 import { unauthenticatedAction } from "@/lib/zsa";
 import { generateCodeVerifier, generateState } from "arctic";
 import { z } from "zod";
@@ -27,9 +28,7 @@ export const getGoogleOauthConsentUrlAction = unauthenticatedAction
       const authUrl = await googleOAuthClient.createAuthorizationURL(
         state,
         codeVerifier,
-        {
-          scopes: ["email", "profile", ""],
-        },
+        ["email", "profile"] as ScopeType[],
       );
       return { success: true, url: authUrl.toString() };
     } catch (error) {

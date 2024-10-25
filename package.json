@@ -60,7 +60,7 @@
     "next-view-transitions": "^0.3.2",
     "postgres": "^3.4.4",
     "react": "19.0.0-rc-69d4b800-20241021",
-    "react-day-picker": "9.2.0",
+    "react-day-picker": "8.10.1",
     "react-dom": "19.0.0-rc-69d4b800-20241021",
     "react-email": "^3.0.1",
     "react-hook-form": "^7.53.1",
