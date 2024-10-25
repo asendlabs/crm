@@ -2,23 +2,12 @@
 
 import * as React from "react";
 import {
-  AudioWaveform,
-  BookOpen,
-  Bot,
-  Command,
-  Frame,
-  GalleryVerticalEnd,
-  Map,
+  Frame, Map,
   Handshake,
   Building,
-  SquareUserRound,
-  Zap,
-  PieChart,
-  Settings2,
-  SquareTerminal,
-  Search,
+  SquareUserRound, PieChart, Search,
   Home,
-  Loader,
+  Loader
 } from "lucide-react";
 import { UserWithWorkspaceAndProfile } from "@/types/entities";
 import { UserButton } from "@/components/sidebar/user-button";
@@ -27,18 +16,14 @@ import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
-  SidebarGroup,
-  SidebarGroupLabel,
-  SidebarHeader,
+  SidebarGroup, SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarRail,
+  SidebarRail
 } from "@/components/ui/sidebar";
-import { User, Workspace } from "@database/types";
-import { usePathname, useRouter } from "next/navigation";
-import Link from "@/components/performance-link";
-import { cn } from "@/utils/tailwind";
+import { usePathname } from "next/navigation";
+import { useRouter } from "@/hooks/use-performance-router";
 // Sample data can be replaced with actual props
 const sampleData = {
   navMain: [
