@@ -9,10 +9,20 @@ import {
   Sparkle,
   Users,
 } from "lucide-react";
-import { CheckboxHead, LogoHead, PrimaryHead } from "@/components/table_headers";
-import { AiScoreField, LastInteractionField, PrimaryField, SecondaryField, StatusField, CheckboxField } from "@/components/table_fields";
+import {
+  CheckboxHead,
+  LogoHead,
+  PrimaryHead,
+} from "@/components/table_headers";
+import {
+  AiScoreField,
+  LastInteractionField,
+  PrimaryField,
+  SecondaryField,
+  StatusField,
+  CheckboxField,
+} from "@/components/table_fields";
 import { AccountFull } from "@/types/entities";
-
 
 export const LeadsColumns: ColumnDef<AccountFull>[] = [
   {
