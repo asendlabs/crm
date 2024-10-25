@@ -73,7 +73,9 @@ export function AppSidebar({
   const pathname = usePathname();
   const [loading, setLoading] = React.useState(false);
   const { user, cookieselectedworkspaceid: cookieSelectedWorkspaceId } = props; // Use the props if needed
-  const router = useRouter();
+  const router = useRouter({
+    fancy: false,
+  });
 
   const handleHover = (url: string) => () => {
     router.prefetch(url);

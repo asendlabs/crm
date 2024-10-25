@@ -31,7 +31,9 @@ const isLowEndDevice = (): boolean => {
   return hasLimitedMemory || hasLimitedCPU || isMobile;
 };
 
-export const useRouter = () => {
+export const useRouter = ({
+  fancy = true,
+}: { fancy?: boolean } = {}) => {
   const [isLowEnd, setIsLowEnd] = useState<boolean>(false);
   const nextRouter = useDefaultNextRouter();
   const transitionRouter = useTransitionRouter();
@@ -47,6 +49,11 @@ export const useRouter = () => {
     }
   }, []);
 
-  // Return appropriate router based on device capabilities
+  // Return nextRouter immediately if animation is false
+  if (!fancy) {
+    return nextRouter;
+  }
+
+  // Return appropriate router based on device capabilities and animation enabled
   return isLowEnd ? nextRouter : transitionRouter;
 };
