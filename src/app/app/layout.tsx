@@ -42,11 +42,11 @@ export default async function ApplicationLayout({
   const cookieSelectedWorkspaceId =
     (await cookies()).get(selectedWorkspaceCookie)?.value || "";
 
-const userProfileWorkspace: UserWithWorkspaceAndProfile = {
-  ...dbUser,
-  profile: dbUser.profile as Profile,
-  workspaces: workspaces,
-}
+  const userProfileWorkspace: UserWithWorkspaceAndProfile = {
+    ...dbUser,
+    profile: dbUser.profile as Profile,
+    workspaces: workspaces,
+  };
 
   return (
     // <main className="grid min-h-screen w-full grid-cols-[240px_1fr]">
@@ -57,11 +57,12 @@ const userProfileWorkspace: UserWithWorkspaceAndProfile = {
     //   />
     //   <div>{children}</div>
     // </main>
-    (<SidebarProvider>
-      <AppSidebar user={userProfileWorkspace} cookieselectedworkspaceid={cookieSelectedWorkspaceId} />
-      <main className="grid min-h-screen w-full">
-        {children}
-      </main>
-    </SidebarProvider>)
+    <SidebarProvider>
+      <AppSidebar
+        user={userProfileWorkspace}
+        cookieselectedworkspaceid={cookieSelectedWorkspaceId}
+      />
+      <main className="grid min-h-screen w-full">{children}</main>
+    </SidebarProvider>
   );
 }

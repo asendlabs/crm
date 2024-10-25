@@ -15,7 +15,7 @@ const directions: string[] = [
 
 export const coordinateGetter: KeyboardCoordinateGetter = (
   event,
-  { context: { active, droppableRects, droppableContainers, collisionRect } }
+  { context: { active, droppableRects, droppableContainers, collisionRect } },
 ) => {
   if (directions.includes(event.code)) {
     event.preventDefault();

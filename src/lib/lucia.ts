@@ -32,7 +32,8 @@ export const googleOAuthClient = new Google(
 export const validateRequest = async (): Promise<
   { user: User; session: Session } | { user: null; session: null }
 > => {
-  const sessionId = (await cookies()).get(lucia.sessionCookieName)?.value ?? null;
+  const sessionId =
+    (await cookies()).get(lucia.sessionCookieName)?.value ?? null;
   if (!sessionId) {
     return {
       user: null,

@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import { useState, useEffect } from "react";
 import NextLink from "next/link";
 import { Link as TransitionLink } from "next-view-transitions";
@@ -37,10 +37,7 @@ const isLowEndDevice = (): boolean => {
   return hasLimitedMemory || hasLimitedCPU || isMobile;
 };
 
-export const Link = ({
-  children,
-  ...props
-}: CommonLinkProps) => {
+export const Link = ({ children, ...props }: CommonLinkProps) => {
   const [isLowEnd, setIsLowEnd] = useState<boolean>(false);
 
   useEffect(() => {

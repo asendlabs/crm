@@ -1,7 +1,10 @@
 import { pgEnum } from "drizzle-orm/pg-core";
 
 export const identityProviderValues = ["google", "microsoft", "apple"] as const;
-export const identityProviderEnum = pgEnum("identity_provider", identityProviderValues);
+export const identityProviderEnum = pgEnum(
+  "identity_provider",
+  identityProviderValues,
+);
 
 export const accountTypeValues = ["lead", "client"] as const;
 export const accountTypeEnum = pgEnum("account_type", accountTypeValues);
@@ -31,4 +34,3 @@ export const taskStageEnum = pgEnum("task_stage", taskStageValues);
 
 export const taskPriorityValues = ["low", "medium", "high"] as const;
 export const taskPriorityEnum = pgEnum("task_prioirty", taskPriorityValues);
-

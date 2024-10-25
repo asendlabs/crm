@@ -2,12 +2,15 @@
 
 import * as React from "react";
 import {
-  Frame, Map,
+  Frame,
+  Map,
   Handshake,
   Building,
-  SquareUserRound, PieChart, Search,
+  SquareUserRound,
+  PieChart,
+  Search,
   Home,
-  Loader
+  Loader,
 } from "lucide-react";
 import { UserWithWorkspaceAndProfile } from "@/types/entities";
 import { UserButton } from "@/components/sidebar/user-button";
@@ -16,11 +19,12 @@ import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
-  SidebarGroup, SidebarHeader,
+  SidebarGroup,
+  SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarRail
+  SidebarRail,
 } from "@/components/ui/sidebar";
 import { usePathname } from "next/navigation";
 import { useRouter } from "@/hooks/use-performance-router";
@@ -66,8 +70,6 @@ interface AppSidebarProps {
 export function AppSidebar({
   ...props
 }: AppSidebarProps & React.ComponentProps<typeof Sidebar>) {
-  const sidebarItemClassName =
-    "flex font-medium gap-2 items-center text-black/80 text-sm hover:bg-muted-foreground/10 rounded-lg px-2 my-[2.25px] py-[3.75px] cursor-pointer";
   const pathname = usePathname();
   const [loading, setLoading] = React.useState(false);
   const { user, cookieselectedworkspaceid: cookieSelectedWorkspaceId } = props; // Use the props if needed

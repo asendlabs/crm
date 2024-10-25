@@ -1,10 +1,6 @@
 {
   "compilerOptions": {
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -22,12 +18,8 @@
       }
     ],
     "paths": {
-      "@/*": [
-        "./src/*"
-      ],
-      "@*": [
-        "./*"
-      ]
+      "@/*": ["./src/*"],
+      "@*": ["./*"]
     },
     "target": "ES2017"
   },
@@ -40,8 +32,5 @@
     "src/urls.js",
     "src/env.js"
   ],
-  "exclude": [
-    "node_modules",
-    "migrations"
-  ]
+  "exclude": ["node_modules", "migrations"]
 }

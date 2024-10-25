@@ -27,5 +27,5 @@ export type {
   ContactEmail,
   ContactPhone,
   Task,
-  Identity
+  Identity,
 };

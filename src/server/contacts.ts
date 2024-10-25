@@ -91,7 +91,9 @@ export const deleteContactAction = authenticatedAction
     const { itemIds } = input;
     const { user } = ctx;
     for (const itemId of itemIds) {
-      const currentWorkspaceId = (await cookies()).get(selectedWorkspaceCookie)?.value;
+      const currentWorkspaceId = (await cookies()).get(
+        selectedWorkspaceCookie,
+      )?.value;
       if (!currentWorkspaceId) {
         throw new Error("Workspace not found"); // Inline error
       }
@@ -133,7 +135,9 @@ export const createContactAction = authenticatedAction
   .handler(async ({ input, ctx }) => {
     const { contactName, contactEmail, contactPhone, accountId } = input;
     const { user } = ctx;
-    const currentWorkspaceId = (await cookies()).get(selectedWorkspaceCookie)?.value;
+    const currentWorkspaceId = (await cookies()).get(
+      selectedWorkspaceCookie,
+    )?.value;
     if (!currentWorkspaceId) {
       throw new Error("Workspace not found"); // Inline error
     }

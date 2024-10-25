@@ -125,12 +125,14 @@ export const dealTable = table("deals", {
     .references(() => accountTable.id),
   title: varchar("title", { length: 255 }).notNull(),
   value: varchar("deal_value", { length: 255 }),
-  stage: jsonb("stage").notNull().default(
-    JSON.stringify({
-      stage: "Proposal",
-      color: "1e40af",
-    }),
-  ),
+  stage: jsonb("stage")
+    .notNull()
+    .default(
+      JSON.stringify({
+        stage: "Proposal",
+        color: "1e40af",
+      }),
+    ),
   probability: integer("ai_probability"),
   expectedCloseDate: timestamp("expected_close_date"),
   assignedToId: text("assigned_to_id").references(() => userTable.id),
