@@ -1,4 +1,4 @@
-import { SignUpForm } from "@/components/forms/SignUpForm";
+import { SignUpForm } from "@/app/(access)/signup/_components/SignUpForm";
 import { signUpAction } from "@/server/signup";
 import { Metadata } from "next";
 import { fetchAuthenticatedUser } from "@/lib/session";

@@ -21,7 +21,7 @@ import {
   InputOTPSlot,
 } from "@/components/ui/input-otp";
 import { REGEXP_ONLY_DIGITS } from "input-otp";
-import { ResendVerifyEmailButton } from "./related/ResendVerifyEmailButton";
+import { ResendVerifyEmailButton } from "./ResendVerifyEmailButton";
 import Image from "next/image";
 
 export const VerifyEmailForm = ({

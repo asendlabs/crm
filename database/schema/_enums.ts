@@ -1,10 +1,7 @@
 import { pgEnum } from "drizzle-orm/pg-core";
 
 export const providerValues = ["google", "microsoft", "apple"] as const;
-export const providerEnum = pgEnum(
-  "identity_provider",
-  providerValues,
-);
+export const providerEnum = pgEnum("identity_provider", providerValues);
 
 export const accountTypeValues = ["lead", "client"] as const;
 export const accountTypeEnum = pgEnum("account_type", accountTypeValues);

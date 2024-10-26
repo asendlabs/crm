@@ -4,7 +4,10 @@ import {
   profileTable,
   identityTable,
 } from "./schema/users";
-import { workspaceEmailIntegrationsTable, emailMessageTable } from "./schema/emails";
+import {
+  workspaceEmailIntegrationsTable,
+  emailMessageTable,
+} from "./schema/emails";
 import { workspaceTable, workspaceUserTable } from "./schema/workspaces";
 import {
   accountTable,

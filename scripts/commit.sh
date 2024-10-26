@@ -1,12 +1,12 @@
 #!/bin/zsh
-git add .
-cd ..
-git add .
-
 read "runPrettier?Do you want to run prettier? (y/n): "
 if [[ "$runPrettier" == "y" ]]; then
   pnpm prettier:format
 fi
+
+git add .
+cd ..
+git add .
 
 read "commitMessage?Enter your commit message: "
 git commit -m "$commitMessage"

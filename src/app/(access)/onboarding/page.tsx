@@ -1,11 +1,10 @@
 import { Metadata } from "next";
 import React from "react";
-import { VerifyEmailForm } from "@/components/forms/VerifyEmailForm";
 import { getUserById } from "@/data-access/users";
 import { fetchAuthenticatedUser } from "@/lib/session";
 import { redirect } from "next/navigation";
 import { authenticatedUrl, unauthenticatedUrl } from "@/constants";
-import { OnboardingForm } from "@/components/forms/OnboardingForm";
+import { OnboardingForm } from "@/app/(access)/onboarding/_components/OnboardingForm";
 
 export const metadata: Metadata = {
   title: "Onboarding",

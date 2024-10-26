@@ -1,4 +1,4 @@
-import { LoginForm } from "@/components/forms/LoginForm";
+import { LoginForm } from "@/app/(access)/login/_components/LoginForm";
 import { loginAction } from "@/server/login";
 import { Metadata } from "next";
 import { fetchAuthenticatedUser } from "@/lib/session";

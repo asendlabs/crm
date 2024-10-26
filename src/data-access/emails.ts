@@ -1,6 +1,9 @@
 import "server-only";
 import { db } from "@database";
-import { emailMessageTable, workspaceEmailIntegrationsTable } from "@database/schema/emails";
+import {
+  emailMessageTable,
+  workspaceEmailIntegrationsTable,
+} from "@database/schema/emails";
 import { eq } from "drizzle-orm";
 import { ulid } from "ulid";
 import { Email, EmailIntegration } from "@database/types";
@@ -82,7 +85,7 @@ export async function createEmailIntegration({
   refreshToken: string;
   accessTokenExpiresAt: Date;
   connectedAt: Date;
-  email: string,
+  email: string;
 }) {
   const [created] = await db
     .insert(workspaceEmailIntegrationsTable)
@@ -104,13 +107,16 @@ export async function createEmailIntegration({
 }
 
 export async function deleteEmailIntegration(id: string) {
-  const deleted = await db.delete(workspaceEmailIntegrationsTable).where(
-    eq(workspaceEmailIntegrationsTable.id, id),
-  );
+  const deleted = await db
+    .delete(workspaceEmailIntegrationsTable)
+    .where(eq(workspaceEmailIntegrationsTable.id, id));
   return deleted;
 }
 
-export async function updateEmailIntegration(id: string, updates: Partial<EmailIntegration>) {
+export async function updateEmailIntegration(
+  id: string,
+  updates: Partial<EmailIntegration>,
+) {
   const [updated] = await db
     .update(workspaceEmailIntegrationsTable)
     .set(updates)

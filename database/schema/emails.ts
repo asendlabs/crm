@@ -36,7 +36,7 @@ export const workspaceEmailIntegrationsTable = table(
     updatedAt: timestamp("updated_at").notNull().defaultNow(),
 
     email: varchar("email", { length: 255 }).notNull().unique(),
-    metadata: jsonb("metadata"),  
+    metadata: jsonb("metadata"),
   },
 );
 
