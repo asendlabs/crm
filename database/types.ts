@@ -13,6 +13,8 @@ type ContactEmail = typeof tables.contactEmailTable.$inferSelect;
 type ContactPhone = typeof tables.contactPhoneTable.$inferSelect;
 type Task = typeof tables.taskTable.$inferSelect;
 type Identity = typeof tables.identityTable.$inferSelect;
+type Email = typeof tables.emailMessageTable.$inferSelect;
+type EmailIntegration = typeof tables.workspaceEmailIntegrationsTable.$inferSelect;
 
 export type {
   User,
@@ -28,4 +30,6 @@ export type {
   ContactPhone,
   Task,
   Identity,
+  Email,
+  EmailIntegration,
 };

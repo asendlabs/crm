@@ -19,7 +19,9 @@ export function Panels({
   className?: string;
   tab: string | undefined;
 }) {
-  const router = useRouter();
+  const router = useRouter({
+    fancy: false,
+  });
   return (
     <section className={cn(className)}>
       <CustomTabs defaultValue={tab || "activity"} className="w-full">

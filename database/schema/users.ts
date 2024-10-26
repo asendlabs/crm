@@ -8,7 +8,7 @@ import {
 } from "drizzle-orm/pg-core";
 
 import { users } from "./_schemas";
-import { identityProviderEnum } from "./_enums";
+import { providerEnum } from "./_enums";
 
 const { table } = users;
 
@@ -44,7 +44,7 @@ export const identityTable = table("identities", {
   userId: text("user_id")
     .notNull()
     .references(() => userTable.id),
-  provider: identityProviderEnum("provider").notNull(),
+  provider: providerEnum("provider").notNull(),
   providerUserId: varchar("provider_user_id", { length: 255 }).notNull(),
   createdAt: timestamp("created_at").notNull().defaultNow(),
   updatedAt: timestamp("updated_at"),
