@@ -1,7 +1,7 @@
 "use client";
 
 import { ActivityWithContact } from "@/types/entities"; // Adjust according to your project structure
-import { formatDate, formatDateAndTime } from "@/utils"; // Assuming the necessary format functions are correctly imported
+import { formatDate, formatDateAndTime } from "@/lib/utils"; // Assuming the necessary format functions are correctly imported
 import React, { useEffect, useState } from "react";
 
 interface ExpectedCloseFieldProps {

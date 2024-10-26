@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { loginSchema } from "@/schemas/auth.schema";
-import { cn } from "@/utils/tailwind";
+import { cn } from "@/lib/utils/tailwind";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader } from "lucide-react";
 import { useServerAction } from "zsa-react";

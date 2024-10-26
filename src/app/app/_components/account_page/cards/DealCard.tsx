@@ -50,8 +50,8 @@ import {
   Loader,
 } from "lucide-react";
 import { DealStage, DealWithPrimaryContact } from "@/types/entities";
-import { formatDate } from "@/utils";
-import { cn } from "@/utils/tailwind";
+import { formatDate } from "@/lib/utils";
+import { cn } from "@/lib/utils/tailwind";
 import { deleteDealAction, updateDealAction } from "@/server/deal";
 import { ContactCard } from "./ContactCard";
 import { useServerAction } from "zsa-react";

@@ -1,10 +1,10 @@
 "use client";
 import React, { useContext } from "react";
-import { cn } from "@/utils/tailwind";
+import { cn } from "@/lib/utils/tailwind";
 import { AccountContext } from "@/providers/accountProvider";
 import { ContactCard } from "./cards/ContactCard";
-import { NewContactForm } from "@/components/forms/NewContactForm";
-import { NewDealForm } from "@/components/forms/NewDealForm";
+import { NewContactForm } from "@/app/app/_components/forms/NewContactForm";
+import { NewDealForm } from "@/app/app/_components/forms/NewDealForm";
 import { DealCard } from "./cards/DealCard";
 import { DetailsCard } from "./cards/DetailsCard";
 import { ScrollArea } from "@/components/ui/scroll-area";

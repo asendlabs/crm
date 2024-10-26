@@ -20,10 +20,10 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-import { DataTableDeleteButton } from "@/components/table_nav/DataTableDeleteButton";
-import { DataTableSearch } from "@/components/table_nav/DataTableSearch";
-import { DataTableViewOptions } from "@/components/table_nav/DataTableViewOptions";
-import { NewDealForm } from "@/components/forms/NewDealForm";
+import { DataTableDeleteButton } from "@/app/app/_components/table_nav/DataTableDeleteButton";
+import { DataTableSearch } from "@/app/app/_components/table_nav/DataTableSearch";
+import { DataTableViewOptions } from "@/app/app/_components/table_nav/DataTableViewOptions";
+import { NewDealForm } from "@/app/app/_components/forms/NewDealForm";
 import { useRouter } from "@/hooks/use-performance-router";
 import { useContext, useEffect, useState } from "react";
 import { useServerAction } from "zsa-react";

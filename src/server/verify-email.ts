@@ -6,7 +6,7 @@ import { authenticatedAction } from "@/lib/zsa";
 import { afterVerifyUrl } from "@/constants";
 import { getUserById, updateUser } from "@/data-access/users";
 import { sendVerificationEmail } from "@/lib/mailers";
-import { generateEmailVerifyCode } from "@/utils";
+import { generateEmailVerifyCode } from "@/lib/utils";
 
 export const verifyEmailAction = authenticatedAction
   .createServerAction()

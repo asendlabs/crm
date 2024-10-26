@@ -13,8 +13,8 @@ import {
   Loader,
 } from "lucide-react";
 import { UserWithWorkspaceAndProfile } from "@/types/entities";
-import { UserButton } from "@/components/sidebar/user-button";
-import { WorkspaceSwitcher } from "@/components/sidebar/workspace-switcher";
+import { UserButton } from "./user-button";
+import { WorkspaceSwitcher } from "./workspace-switcher";
 import {
   Sidebar,
   SidebarContent,

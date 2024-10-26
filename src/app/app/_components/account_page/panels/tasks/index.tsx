@@ -1,5 +1,5 @@
 "use client";
-import { NewTaskForm } from "@/components/forms/NewTaskForm";
+import { NewTaskForm } from "@/app/app/_components/forms/NewTaskForm";
 import { Button } from "@/components/ui/button";
 import { AccountContext } from "@/providers/accountProvider";
 import { Plus } from "lucide-react";

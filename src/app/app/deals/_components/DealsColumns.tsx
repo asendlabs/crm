@@ -18,7 +18,7 @@ import {
   CheckboxHead,
   LogoHead,
   PrimaryHead,
-} from "@/components/table_headers";
+} from "@/app/app/_components/table_headers";
 import {
   AiScoreField,
   LastInteractionField,
@@ -29,7 +29,7 @@ import {
   DealStageField,
   ValueField,
   ExpectedCloseField,
-} from "@/components/table_fields";
+} from "@/app/app/_components/table_fields";
 import { DealWithPrimaryContact } from "@/types/entities";
 
 export const DealColumns: ColumnDef<DealWithPrimaryContact>[] = [

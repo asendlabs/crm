@@ -1,6 +1,6 @@
 import { Views } from "@/providers/dealsViewProvider";
 import { Button } from "@/components/ui/button";
-import { cn } from "@/utils/tailwind";
+import { cn } from "@/lib/utils/tailwind";
 import { SquareKanban as Board, Table as Grid } from "lucide-react";
 import { useRouter } from "@/hooks/use-performance-router";
 import { revalidatePath } from "next/cache";

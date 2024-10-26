@@ -1,4 +1,4 @@
-import { cn } from "@/utils/tailwind";
+import { cn } from "@/lib/utils/tailwind";
 import React from "react";
 
 interface BoxProps extends React.HTMLAttributes<HTMLDivElement> {}

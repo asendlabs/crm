@@ -1,7 +1,7 @@
 "use client";
 
 import { ActivityWithContact } from "@/types/entities"; // Adjust according to your project structure
-import { formatDate, formatDateAndTime, timeAgo } from "@/utils"; // Assuming timeAgo is correctly imported
+import { formatDate, formatDateAndTime, timeAgo } from "@/lib/utils"; // Assuming timeAgo is correctly imported
 import { Activity } from "@database/types"; // Adjust according to your project structure
 import React, { useEffect, useState } from "react";
 

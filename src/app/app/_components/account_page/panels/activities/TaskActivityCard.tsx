@@ -1,7 +1,7 @@
 import { CheckIcon, Ellipsis, EllipsisVertical, Trash } from "lucide-react";
 import React from "react";
 import { Button } from "@/components/ui/button";
-import { formatDate, timeAgo } from "@/utils";
+import { formatDate, timeAgo } from "@/lib/utils";
 
 interface TaskActivityProps {
   taskName: string;

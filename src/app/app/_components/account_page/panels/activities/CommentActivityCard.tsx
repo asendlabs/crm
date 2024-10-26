@@ -14,7 +14,7 @@ import { Button } from "@/components/ui/button";
 import { useServerAction } from "zsa-react";
 import { deleteActivityAction, updateActivityAction } from "@/server/activity";
 import { useRouter } from "@/hooks/use-performance-router";
-import { timeAgo } from "@/utils";
+import { timeAgo } from "@/lib/utils";
 import {
   Dialog,
   DialogTrigger,

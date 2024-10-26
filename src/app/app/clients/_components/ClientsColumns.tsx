@@ -15,7 +15,7 @@ import {
   CheckboxHead,
   LogoHead,
   PrimaryHead,
-} from "@/components/table_headers";
+} from "@/app/app/_components/table_headers";
 import {
   AiScoreField,
   LastInteractionField,
@@ -23,7 +23,7 @@ import {
   SecondaryField,
   StatusField,
   CheckboxField,
-} from "@/components/table_fields";
+} from "@/app/app/_components/table_fields";
 
 export const ClientsColumns: ColumnDef<AccountFull>[] = [
   {

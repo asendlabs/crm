@@ -3,7 +3,7 @@ import React, { useContext, useState } from "react";
 import { AccountContext } from "@/providers/accountProvider";
 import Link from "@/components/performance-link";
 import { Button } from "@/components/ui/button";
-import { cn } from "@/utils/tailwind";
+import { cn } from "@/lib/utils/tailwind";
 import {
   DropdownMenu,
   DropdownMenuContent,

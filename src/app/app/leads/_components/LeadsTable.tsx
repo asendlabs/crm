@@ -19,10 +19,10 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-import { DataTableDeleteButton } from "@/components/table_nav/DataTableDeleteButton";
-import { DataTableSearch } from "@/components/table_nav/DataTableSearch";
-import { DataTableViewOptions } from "@/components/table_nav/DataTableViewOptions";
-import { NewLeadForm } from "@/components/forms/NewLeadForm";
+import { DataTableDeleteButton } from "@/app/app/_components/table_nav/DataTableDeleteButton";
+import { DataTableSearch } from "@/app/app/_components/table_nav/DataTableSearch";
+import { DataTableViewOptions } from "@/app/app/_components/table_nav/DataTableViewOptions";
+import { NewLeadForm } from "@/app/app/_components/forms/NewLeadForm";
 import { useRouter } from "@/hooks/use-performance-router";
 import { useState } from "react";
 import { useServerAction } from "zsa-react";

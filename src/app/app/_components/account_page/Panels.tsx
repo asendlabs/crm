@@ -5,7 +5,7 @@ import {
   CustomTabsList,
   CustomTabsTrigger,
 } from "@/components/ui/custom-tabs";
-import { cn } from "@/utils/tailwind";
+import { cn } from "@/lib/utils/tailwind";
 import {
   MessageCircle,
   Clock,

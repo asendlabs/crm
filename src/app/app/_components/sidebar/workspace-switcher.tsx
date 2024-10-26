@@ -25,7 +25,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { setSelectedWorkspaceAction } from "@/server/workspaces";
 import { useServerAction } from "zsa-react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
-import { cn } from "@/utils/tailwind";
+import { cn } from "@/lib/utils/tailwind";
 
 export function WorkspaceSwitcher({
   workspaces,

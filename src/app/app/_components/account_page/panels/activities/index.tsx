@@ -1,5 +1,5 @@
 "use client";
-import { NewActivityForm } from "@/components/account_page/panels/activities/NewActivityForm";
+import { NewActivityForm } from "./NewActivityForm";
 import { Button } from "@/components/ui/button";
 import { AccountContext } from "@/providers/accountProvider";
 import { ActivityType } from "@/types/entities";

@@ -1,5 +1,5 @@
 "use client";
-import { formatDate, timeAgo } from "@/utils";
+import { formatDate, timeAgo } from "@/lib/utils";
 import {
   Building,
   Edit,
