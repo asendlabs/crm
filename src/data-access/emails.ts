@@ -15,7 +15,9 @@ export async function getEmailIntegrationsByWorkspaceId(workspaceId: string) {
   return integrations;
 }
 
-export async function getAllWorkspaceEmails(workspaceId: string) {
+export async function getAllWorkspaceEmails(
+  workspaceId: string,
+): Promise<Email[] | undefined> {
   const emails = await db.query.emailMessageTable.findMany({
     where: eq(emailMessageTable.workspaceId, workspaceId),
   });
@@ -24,32 +26,38 @@ export async function getAllWorkspaceEmails(workspaceId: string) {
 
 export async function createEmailMessage({
   workspaceId,
+  accountId,
   toEmail,
   fromEmail,
   fromName,
   subject,
   snippet,
-  receivedAt,
+  emailTimestamp,
+  type,
 }: {
   workspaceId: string;
+  accountId: string;
   toEmail: string;
   fromEmail: string;
   fromName: string;
   subject: string;
   snippet: string;
-  receivedAt: Date;
+  emailTimestamp: Date;
+  type: "received" | "sent";
 }) {
   const [created] = await db
     .insert(emailMessageTable)
     .values({
       id: ulid(),
       workspaceId,
+      accountId,
       toEmail,
       fromEmail,
       fromName,
       subject,
       snippet,
-      receivedAt,
+      emailTimestamp,
+      type,
       createdAt: new Date(),
       updatedAt: new Date(),
     })

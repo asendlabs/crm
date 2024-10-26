@@ -80,6 +80,7 @@ export default async function LeadAccountPage(props: Props) {
       deals={account.deals}
       activities={account.activities}
       tasks={account.tasks}
+      emails={account.emails}
     >
       <main className="flex h-screen max-h-screen min-h-screen min-w-full flex-col">
         <Header className="w-full px-4 pb-3 pt-4" />

@@ -5,6 +5,7 @@ import {
   ContactEmail,
   ContactPhone,
   Deal,
+  Email,
   Profile,
   Task,
   User,
@@ -50,6 +51,7 @@ export interface WorkspaceWithChooseables extends Workspace {
 
 export interface AccountFull extends Account {
   status: AccountStatus;
+  emails: Email[];
   contacts: ContactWithDetails[];
   deals: DealWithPrimaryContact[];
   activities: ActivityWithContact[];

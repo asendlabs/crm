@@ -52,6 +52,7 @@ export async function getAccountTypeById(
     where: and(eq(accountTable.id, id), eq(accountTable.type, type)),
     with: {
       workspace: true,
+      emails: true,
       contacts: {
         with: {
           account: true,
@@ -101,6 +102,7 @@ export async function getAllWorkspaceLeads(workspaceId: string) {
       eq(accountTable.type, "lead"),
     ),
     with: {
+      emails: true,
       contacts: {
         with: {
           contactEmail: true,
@@ -135,6 +137,7 @@ export async function getAllWorkspaceClients(workspaceId: string) {
       eq(accountTable.type, "client"),
     ),
     with: {
+      emails: true,
       contacts: {
         with: {
           contactEmail: true,

@@ -36,7 +36,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-export default function TaskCard({ task }: { task: Task }) {
+export function TaskCard({ task }: { task: Task }) {
   const [title, setTitle] = useState(task.title);
   const [priority, setPriority] = useState(task.priority);
   const [dueDate, setDueDate] = useState(

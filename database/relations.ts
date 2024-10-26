@@ -8,6 +8,7 @@ import {
   contactPhoneTable,
   contactTable,
   dealTable,
+  emailMessageTable,
   taskTable,
 } from "./tables";
 
@@ -55,6 +56,7 @@ export const accountTableRelations = relations(
     deals: many(dealTable),
     activities: many(activityTable),
     tasks: many(taskTable),
+    emails: many(emailMessageTable),
   }),
 );
 
@@ -139,3 +141,17 @@ export const taskTableRelations = relations(taskTable, ({ one, many }) => ({
     references: [accountTable.id],
   }),
 }));
+
+export const emailMessageTableRelations = relations(
+  emailMessageTable,
+  ({ one, many }) => ({
+    workspace: one(workspaceTable, {
+      fields: [emailMessageTable.workspaceId],
+      references: [workspaceTable.id],
+    }),
+    account: one(accountTable, {
+      fields: [emailMessageTable.accountId],
+      references: [accountTable.id],
+    }),
+  }),
+);

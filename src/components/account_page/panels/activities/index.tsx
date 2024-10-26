@@ -1,17 +1,15 @@
 "use client";
-import { NewActivityForm } from "@/components/account_page/NewActivityForm";
+import { NewActivityForm } from "@/components/account_page/panels/activities/NewActivityForm";
 import { Button } from "@/components/ui/button";
 import { AccountContext } from "@/providers/accountProvider";
 import { ActivityType } from "@/types/entities";
 import { PhoneCall, MailPlus, MessageSquareMore } from "lucide-react";
 import { useContext, useState } from "react";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import {
-  CommentActivityCard,
-  CallLogActivityCard,
-  EntityActivityCard,
-  TaskActivityCard,
-} from "./activities";
+import { CommentActivityCard } from "./CommentActivityCard";
+import { CallLogActivityCard } from "./CallLogActivityCard";
+import { EntityActivityCard } from "./EntityActivityCard";
+import { TaskActivityCard } from "./TaskActivityCard";
 
 type ActivityButton = {
   type: ActivityType;
@@ -29,11 +27,6 @@ const activityButtons: ActivityButton[] = [
     type: "call",
     icon: PhoneCall,
     label: "Call",
-  },
-  {
-    type: "email",
-    icon: MailPlus,
-    label: "Email",
   },
 ];
 
@@ -85,7 +78,7 @@ export function ActivityPanel() {
       )}
 
       <ScrollArea
-        className={`flex flex-col ${activityFormOpen ? "max-h-[70vh]" : "max-h-[81vh]"} min-w-full !gap-1 overflow-hidden overflow-y-auto pr-3`}
+        className={`flex flex-col ${activityFormOpen ? "max-h-[70vh]" : "max-h-[81vh]"} min-w-full !gap-1 overflow-hidden overflow-y-auto`}
       >
         {activities && activities.length > 0
           ? activities

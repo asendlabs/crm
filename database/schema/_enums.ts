@@ -31,3 +31,9 @@ export const taskStageEnum = pgEnum("task_stage", taskStageValues);
 
 export const taskPriorityValues = ["low", "medium", "high"] as const;
 export const taskPriorityEnum = pgEnum("task_prioirty", taskPriorityValues);
+
+export const emailMessageTypeValues = ["received", "sent"] as const;
+export const emailMessageTypeEnum = pgEnum(
+  "email_message_type",
+  emailMessageTypeValues,
+);

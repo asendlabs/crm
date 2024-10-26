@@ -8,10 +8,11 @@ import {
 } from "drizzle-orm/pg-core";
 
 import { emails } from "./_schemas";
-import { providerEnum } from "./_enums";
+import { emailMessageTypeEnum, providerEnum } from "./_enums";
 import { workspaceTable } from "./workspaces";
 import { userTable } from "./users";
 import { metadata } from "@/app/layout";
+import { accountTable } from "./entities";
 
 const { table } = emails;
 
@@ -45,12 +46,16 @@ export const emailMessageTable = table("email_messages", {
   workspaceId: text("workspace_id")
     .notNull()
     .references(() => workspaceTable.id),
+  accountId: text("account_id")
+    .notNull()
+    .references(() => accountTable.id),
   toEmail: varchar("to_email", { length: 255 }).notNull(),
   fromEmail: varchar("from_email", { length: 255 }).notNull(),
   fromName: varchar("from_name", { length: 255 }),
   subject: varchar("subject", { length: 255 }).notNull(),
   snippet: text("snippet").notNull(),
-  receivedAt: timestamp("sent_at"),
+  type: emailMessageTypeEnum("type").notNull(),
+  emailTimestamp: timestamp("email_timestamp"),
   createdAt: timestamp("created_at").notNull().defaultNow(),
   updatedAt: timestamp("updated_at").notNull().defaultNow(),
   metadata: jsonb("metadata"),

@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { AccountContext } from "@/providers/accountProvider";
 import { Plus } from "lucide-react";
 import { useContext, useState } from "react";
-import TaskCard from "./tasks/TaskCard";
+import { TaskCard } from "./TaskCard";
 export function TaskPanel() {
   const { tasks } = useContext(AccountContext);
   const [taskFormOpen, setTaskFormOpen] = useState(false);

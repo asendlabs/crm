@@ -13,7 +13,12 @@ import { toast } from "sonner";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Dialog, DialogContent, DialogFooter } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import {
   Form,
   FormField,
@@ -186,6 +191,7 @@ export function DealCard({
         router.push("?deal=");
       }}
     >
+      <DialogTitle className="sr-only">Edit Deal</DialogTitle>
       <Card
         key={deal.id}
         className="grid cursor-pointer"

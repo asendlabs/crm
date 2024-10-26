@@ -2,11 +2,11 @@
 import React, { useContext } from "react";
 import { cn } from "@/utils/tailwind";
 import { AccountContext } from "@/providers/accountProvider";
-import { ContactCard } from "./ContactCard";
+import { ContactCard } from "./cards/ContactCard";
 import { NewContactForm } from "@/components/forms/NewContactForm";
 import { NewDealForm } from "@/components/forms/NewDealForm";
-import { DealCard } from "./DealCard";
-import { DetailsCard } from "./DetailsCard";
+import { DealCard } from "./cards/DealCard";
+import { DetailsCard } from "./cards/DetailsCard";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useSearchParams } from "next/navigation";
 export function Cards({ className }: { className?: string }) {

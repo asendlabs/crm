@@ -11,8 +11,8 @@ export function ActivitySelector({
 }: {
   type: string;
   ActivityIcon: LucideIcon;
-  activityType: "email" | "call" | "message" | "comment";
-  setActivityType: (type: "email" | "call" | "message" | "comment") => void;
+  activityType: "call" | "message" | "comment";
+  setActivityType: (type: "call" | "message" | "comment") => void;
 }) {
   return (
     <div className="flex-1">
@@ -20,9 +20,7 @@ export function ActivitySelector({
         key={type}
         variant={activityType === type ? "default" : "outline"}
         size="icon"
-        onClick={() =>
-          setActivityType(type as "email" | "call" | "message" | "comment")
-        }
+        onClick={() => setActivityType(type as "call" | "message" | "comment")}
         type="button"
       >
         <ActivityIcon className="size-4" />

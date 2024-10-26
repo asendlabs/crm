@@ -6,11 +6,18 @@ import {
   CustomTabsTrigger,
 } from "@/components/ui/custom-tabs";
 import { cn } from "@/utils/tailwind";
-import { MessageCircle, Clock, CheckSquare, AlignLeft } from "lucide-react";
+import {
+  MessageCircle,
+  Clock,
+  CheckSquare,
+  AlignLeft,
+  Mail,
+} from "lucide-react";
 import React from "react";
-import { ActivityPanel } from "./ActivityPanel";
-import { TaskPanel } from "./TaskPanel";
+import { ActivityPanel } from "./panels/activities";
+import { TaskPanel } from "./panels/tasks";
 import { useRouter } from "@/hooks/use-performance-router";
+import { EmailPanel } from "./panels/emails";
 
 export function Panels({
   className,
@@ -36,6 +43,11 @@ export function Panels({
               <CheckSquare size={14} /> Tasks
             </CustomTabsTrigger>
           </div>
+          <div onClick={() => router.push("?tab=emails")}>
+            <CustomTabsTrigger value="emails">
+              <Mail size={14} /> Emails
+            </CustomTabsTrigger>
+          </div>
           <div onClick={() => router.push("?tab=analysis")}>
             <CustomTabsTrigger value="analysis">
               <AlignLeft size={14} /> Analysis
@@ -47,6 +59,9 @@ export function Panels({
         </CustomTabsContent>
         <CustomTabsContent value="tasks">
           <TaskPanel />
+        </CustomTabsContent>
+        <CustomTabsContent value="emails">
+          <EmailPanel />
         </CustomTabsContent>
         <CustomTabsContent value="analysis">
           <p>Analyze account performance and trends.</p>

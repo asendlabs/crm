@@ -1,7 +1,12 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Dialog, DialogContent, DialogFooter } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import {
   Form,
   FormField,
@@ -142,6 +147,7 @@ export function ContactCard({
         }
       }}
     >
+      <DialogTitle className="sr-only">Edit Contact</DialogTitle>
       <Card
         key={contact.id}
         className="cursor-pointer"
