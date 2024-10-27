@@ -4,6 +4,7 @@ import {
   Dialog,
   DialogContent,
   DialogDescription,
+  DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
 import {
@@ -66,6 +67,7 @@ export function NewLeadForm({ addLead }: { addLead: (newLead: any) => void }) {
   };
   return (
     <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTitle className="sr-only"></DialogTitle>
       <DialogTrigger className="flex max-h-8 max-w-28 flex-row items-center gap-1 rounded-lg bg-primary px-3 text-sm text-white hover:bg-primary/90">
         <Plus className="size-4" />
         <span>New</span>

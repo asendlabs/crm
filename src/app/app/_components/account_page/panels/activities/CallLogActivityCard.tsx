@@ -21,6 +21,7 @@ import {
   DialogTrigger,
   DialogContent,
   DialogFooter,
+  DialogTitle,
 } from "@/components/ui/dialog";
 import {
   FormControl,
@@ -49,7 +50,9 @@ const activityUpdateSchema = z.object({
 
 export function CallLogActivityCard({
   activity,
+  firstItem,
 }: {
+  firstItem: boolean;
   activity: ActivityWithContact;
 }) {
   const [open, setOpen] = React.useState(false);
@@ -117,7 +120,10 @@ export function CallLogActivityCard({
   };
 
   return (
-    <section className="flex items-center justify-between text-sm">
+    <section className="relative flex items-center justify-between text-sm">
+      {!firstItem && (
+        <div className="absolute -top-4 left-2 h-5 w-[0.05rem] bg-gray-400" />
+      )}
       <div className="flex items-center gap-2">
         <PhoneCall className="size-4 text-gray-500" />
         <div className="flex max-w-[35.5rem] items-center gap-1 truncate py-1">
@@ -146,6 +152,7 @@ export function CallLogActivityCard({
             <ArrowUpRight className="size-4" />
           </div>
           <Dialog open={open} onOpenChange={setOpen}>
+            <DialogTitle className="sr-only">Open Call Notes</DialogTitle>
             <DialogContent className="p-4">
               <h1 className="text-base font-medium">Call Notes</h1>
               <Form {...form}>

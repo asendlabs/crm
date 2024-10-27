@@ -122,7 +122,7 @@ export function AppSidebar({
                 onClick={handleNavigation("/app/home")}
                 onMouseOver={handleHover("/app/home")}
               >
-                <SidebarMenuButton>
+                <SidebarMenuButton isActive={pathname === "/app/home"}>
                   {loading && loadingPathname === "/app/home" ? (
                     <Loader className="size-4 animate-spin" />
                   ) : (

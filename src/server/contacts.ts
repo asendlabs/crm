@@ -16,8 +16,18 @@ import {
 import { selectedWorkspaceCookie } from "@/constants";
 import { cookies } from "next/headers";
 import { contactCreateSchema } from "@/schemas/contact.schema";
-import { createActivity } from "@/data-access/activities";
+import {
+  createActivity,
+  deleteActivity,
+  getActivitiesByContactId,
+  updateActivity,
+} from "@/data-access/activities";
 import { updateContactEmail, updateContactPhone } from "@/data-access/accounts";
+import {
+  deleteDeal,
+  getDealsByContactId,
+  updateDeal,
+} from "@/data-access/deal";
 
 export const updateContactEmailAction = authenticatedAction
   .createServerAction()
@@ -105,6 +115,26 @@ export const deleteContactAction = authenticatedAction
       const contactPhoneRes = await deleteContactPhone(itemId);
       if (!contactEmailRes || !contactPhoneRes) {
         throw new Error("Couldn't delete contact"); // Inline error
+      }
+      const dealsWithContactId = await getDealsByContactId(itemId);
+      if (dealsWithContactId) {
+        for (const deal of dealsWithContactId) {
+          const dealRes = await updateDeal(deal.id, {
+            primaryContactId: null,
+          });
+          if (!dealRes) {
+            throw new Error("Couldn't update deal"); // Inline error
+          }
+        }
+      }
+      const activitiesWithContactId = await getActivitiesByContactId(itemId);
+      for (const activity of activitiesWithContactId) {
+        const updateActivityRes = await updateActivity(activity.id, {
+          associatedContactId: null,
+        });
+        if (!updateActivityRes) {
+          throw new Error("Couldn't update activity"); // Inline error
+        }
       }
       const res = await deleteContact(itemId);
       if (!res) {

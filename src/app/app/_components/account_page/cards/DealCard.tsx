@@ -50,7 +50,7 @@ import {
   Loader,
 } from "lucide-react";
 import { DealStage, DealWithPrimaryContact } from "@/types/entities";
-import { formatDate } from "@/lib/utils";
+import { formatDate, formatMinimal } from "@/lib/utils";
 import { cn } from "@/lib/utils/tailwind";
 import { deleteDealAction, updateDealAction } from "@/server/deal";
 import { ContactCard } from "./ContactCard";
@@ -217,8 +217,11 @@ export function DealCard({
             </p>
             <p className="flex max-w-[30rem] items-center gap-1 text-xs">
               <span className="font-medium opacity-80">Close Date:</span>
-              <span className="truncate rounded-md border px-2 font-medium">
-                {formatDate(deal?.expectedCloseDate) ?? "\u3164"}
+              <span className="truncate rounded-md border px-2 font-medium capitalize">
+                {formatMinimal({
+                  dateString: deal?.expectedCloseDate,
+                  showTime: false,
+                }) ?? "\u3164"}
               </span>
             </p>
           </div>

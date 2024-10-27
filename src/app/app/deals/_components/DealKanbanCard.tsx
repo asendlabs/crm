@@ -13,7 +13,7 @@ import {
   PhoneIcon,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { formatDate } from "@/lib/utils";
+import { formatDate, formatMinimal } from "@/lib/utils";
 import { z } from "zod";
 import { cn } from "@/lib/utils/tailwind";
 import { toast } from "sonner";
@@ -157,8 +157,11 @@ export function DealKanbanCard({ deal, isOverlay }: DealCardProps) {
           </p>
           <p className="flex gap-1.5 text-xs">
             <span className="font-medium opacity-80">Close Date:</span>
-            <span className="font-medium">
-              {formatDate(deal?.expectedCloseDate) ?? "\u3164"}
+            <span className="font-medium capitalize">
+              {formatMinimal({
+                dateString: deal?.expectedCloseDate,
+                showTime: false,
+              }) ?? "\u3164"}
             </span>
           </p>
         </div>

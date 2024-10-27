@@ -12,6 +12,13 @@ export async function getActivityById(id: string) {
   return activity;
 }
 
+export async function getActivitiesByContactId(contactId: string) {
+  const activities = await db.query.activityTable.findMany({
+    where: eq(activityTable.associatedContactId, contactId),
+  });
+  return activities;
+}
+
 export async function getAllWorkspaceActivities(workspaceId: string) {
   const workspaceActivities = await db.query.activityTable.findMany({
     where: eq(activityTable.workspaceId, workspaceId),

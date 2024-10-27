@@ -8,7 +8,12 @@ import { format } from "date-fns";
 import { useRouter } from "@/hooks/use-performance-router";
 import { toast } from "sonner";
 
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import {
   Select,
   SelectContent,
@@ -103,20 +108,20 @@ export function NewDealForm({
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTitle className="sr-only">New Deal Form</DialogTitle>
       {fullButton ? (
         <DialogTrigger className="flex max-h-8 max-w-28 flex-row items-center gap-1 rounded-lg bg-primary px-3 text-sm text-white hover:bg-primary/90">
           <Plus className="size-4" />
           <span>New</span>
         </DialogTrigger>
       ) : (
-        <Button
+        <div
           onClick={() => setOpen(true)}
-          variant={"outline"}
-          className="flex h-6 max-w-28 flex-row items-center gap-1 rounded-lg px-3"
+          className="flex h-6 max-w-36 flex-row items-center gap-1 rounded-lg border border-border px-3 text-sm"
         >
           <Plus className="size-4" />
           <span>Add Deal</span>
-        </Button>
+        </div>
       )}
 
       <DialogContent className="py-0.5">

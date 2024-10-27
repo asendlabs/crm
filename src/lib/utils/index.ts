@@ -239,9 +239,13 @@ export function formatDateAndTime(
   return `${dateString} at ${timeString}`;
 }
 
-export function formatMinimal(
-  dateString: string | null | undefined | Date,
-): string {
+export function formatMinimal({
+  dateString,
+  showTime = true,
+}: {
+  dateString: string | null | undefined | Date;
+  showTime?: boolean;
+}): string {
   if (!dateString) {
     return "";
   }
@@ -267,11 +271,14 @@ export function formatMinimal(
   const month = months[date.getMonth()];
   const year = date.getFullYear();
 
-  const hours = date.getHours();
-  const minutes = date.getMinutes();
-  const period = hours >= 12 ? "pm" : "am";
-  const hour12 = hours % 12 || 12;
-  const paddedMinutes = minutes.toString().padStart(2, "0");
+  if (showTime) {
+    const hours = date.getHours();
+    const minutes = date.getMinutes();
+    const period = hours >= 12 ? "pm" : "am";
+    const hour12 = hours % 12 || 12;
+    const paddedMinutes = minutes.toString().padStart(2, "0");
+    return `${day} ${month} ${year} at ${hour12}:${paddedMinutes} ${period}`;
+  }
 
-  return `${day} ${month} ${year} at ${hour12}:${paddedMinutes} ${period}`;
+  return `${day} ${month} ${year}`;
 }

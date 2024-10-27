@@ -13,7 +13,7 @@ import { TaskActivityCard } from "./TaskActivityCard";
 
 type ActivityButton = {
   type: ActivityType;
-  icon: React.ElementType; // Changed to ElementType for better type safety
+  icon: React.ElementType;
   label: string;
 };
 
@@ -21,12 +21,12 @@ const activityButtons: ActivityButton[] = [
   {
     type: "comment",
     icon: MessageSquareMore,
-    label: "Comment",
+    label: "Add Comment",
   },
   {
     type: "call",
     icon: PhoneCall,
-    label: "Call",
+    label: "Log Call",
   },
 ];
 
@@ -78,39 +78,44 @@ export function ActivityPanel() {
       )}
 
       <ScrollArea
-        className={`flex flex-col ${activityFormOpen ? "max-h-[70vh]" : "max-h-[81vh]"} min-w-full !gap-1 overflow-hidden overflow-y-auto`}
+        className={`flex flex-col ${activityFormOpen ? "max-h-[70vh]" : "max-h-[81vh]"} min-w-full overflow-hidden overflow-y-auto`}
       >
-        {activities && activities.length > 0
-          ? activities
-              .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())
-              .map((activity) => {
-                switch (true) {
-                  case activity.isEntityActivity:
-                    return (
-                      <EntityActivityCard
-                        activity={activity}
-                        key={activity.id}
-                      />
-                    );
-                  case activity.activityType === "comment":
-                    return (
-                      <CommentActivityCard
-                        activity={activity}
-                        key={activity.id}
-                      />
-                    );
-                  case activity.activityType === "call":
-                    return (
-                      <CallLogActivityCard
-                        activity={activity}
-                        key={activity.id}
-                      />
-                    );
-                  default:
-                    return null; // Handle default case
-                }
-              })
-          : null}
+        <div className="grid gap-2">
+          {activities && activities.length > 0
+            ? activities
+                .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())
+                .map((activity, index) => {
+                  switch (true) {
+                    case activity.isEntityActivity:
+                      return (
+                        <EntityActivityCard
+                          activity={activity}
+                          key={activity.id}
+                          firstItem={index === 0}
+                        />
+                      );
+                    case activity.activityType === "comment":
+                      return (
+                        <CommentActivityCard
+                          activity={activity}
+                          key={activity.id}
+                          firstItem={index === 0}
+                        />
+                      );
+                    case activity.activityType === "call":
+                      return (
+                        <CallLogActivityCard
+                          activity={activity}
+                          key={activity.id}
+                          firstItem={index === 0}
+                        />
+                      );
+                    default:
+                      return null;
+                  }
+                })
+            : null}
+        </div>
       </ScrollArea>
     </section>
   );

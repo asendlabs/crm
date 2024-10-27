@@ -20,6 +20,7 @@ import {
   DialogTrigger,
   DialogContent,
   DialogFooter,
+  DialogTitle,
 } from "@/components/ui/dialog";
 import {
   FormControl,
@@ -46,7 +47,9 @@ const activityUpdateSchema = z.object({
 
 export function CommentActivityCard({
   activity,
+  firstItem,
 }: {
+  firstItem: boolean;
   activity: ActivityWithContact;
 }) {
   const [open, setOpen] = React.useState(false);
@@ -114,15 +117,19 @@ export function CommentActivityCard({
   };
 
   return (
-    <section className="flex items-center justify-between text-sm">
+    <section className="relative flex items-center justify-between text-sm">
+      {!firstItem && (
+        <div className="absolute -top-4 left-2 h-5 w-[0.05rem] bg-gray-400" />
+      )}
       <div className="flex items-center gap-2">
-        <MessageSquare className="size-4" />
+        <MessageSquare className="size-4 text-gray-500" />
         <div className="flex items-center gap-1 py-1">
           <span className="max-w-[35.5rem] truncate rounded-lg border px-2 py-0.5">
             {" "}
             {activity?.content}
           </span>
           <Dialog open={open} onOpenChange={setOpen}>
+            <DialogTitle className="sr-only">Edit Comment</DialogTitle>
             <DialogContent className="p-4">
               <h1 className="text-base font-medium">Comment Notes</h1>
               <Form {...form}>

@@ -109,7 +109,7 @@ export function DetailsCard() {
               value={accountName}
               onBlur={(e) => handleAccountNameBlur(e.target.value)}
               onChange={(e) => setAccountName(e.target.value)}
-              onDoubleClick={() => setIsEditingName(!isEditingName)}
+              onClick={() => setIsEditingName(!isEditingName)}
               readOnly={!isEditingName}
               className="h-7 !w-full truncate pr-8"
             />
@@ -184,7 +184,7 @@ export function DetailsCard() {
               value={website}
               onBlur={(e) => handleWebsiteBlur(e.target.value)}
               onChange={(e) => setWebsite(e.target.value)}
-              onDoubleClick={() => setIsEditingWebsite(!isEditingWebsite)}
+              onClick={() => setIsEditingWebsite(!isEditingWebsite)}
               readOnly={!isEditingWebsite}
               className="h-7 !w-full truncate pr-8"
             />
@@ -206,7 +206,7 @@ export function DetailsCard() {
               value={industry}
               onBlur={(e) => handleIndustryBlur(e.target.value)}
               onChange={(e) => setIndustry(e.target.value)}
-              onDoubleClick={() => setIsEditingIndustry(!isEditingIndustry)}
+              onClick={() => setIsEditingIndustry(!isEditingIndustry)}
               readOnly={!isEditingIndustry}
               className="h-7 !w-full truncate pr-8"
             />

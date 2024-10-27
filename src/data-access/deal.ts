@@ -26,6 +26,24 @@ export async function getDealById(
   return deal as DealWithPrimaryContact;
 }
 
+export async function getDealsByContactId(contactId: string) {
+  const deals = await db.query.dealTable.findMany({
+    where: eq(dealTable.primaryContactId, contactId),
+    with: {
+      account: true,
+      workspace: true,
+      primaryContact: {
+        with: {
+          account: true,
+          contactEmail: true,
+          contactPhone: true,
+        },
+      },
+    },
+  });
+  return deals;
+}
+
 export async function getAllWorkspaceDeals(workspaceId: string) {
   const workspaceDeals = await db.query.dealTable.findMany({
     where: eq(dealTable.workspaceId, workspaceId),

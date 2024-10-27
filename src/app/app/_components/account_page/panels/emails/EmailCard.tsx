@@ -23,7 +23,9 @@ export function EmailCard({ email }: { email: Email }) {
       >
         {timestampHovered ? (
           <span className="capitalize">
-            {email?.emailTimestamp ? formatMinimal(email.emailTimestamp) : ""}
+            {email?.emailTimestamp
+              ? formatMinimal({ dateString: email.emailTimestamp })
+              : ""}
           </span>
         ) : email?.emailTimestamp ? (
           timeAgo(email.emailTimestamp.toString())

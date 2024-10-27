@@ -23,10 +23,13 @@ import { useServerAction } from "zsa-react";
 import { deleteActivityAction } from "@/server/activity";
 import { useRouter } from "@/hooks/use-performance-router";
 import { ActivityWithContact } from "@/types/entities";
+import { cn } from "@/lib/utils/tailwind";
 
 export function EntityActivityCard({
   activity,
+  firstItem,
 }: {
+  firstItem: boolean;
   activity: ActivityWithContact;
 }) {
   const [deleting, setDeleting] = React.useState(false);
@@ -46,7 +49,10 @@ export function EntityActivityCard({
     }
   };
   return (
-    <section className="flex items-center justify-between text-sm">
+    <section className="relative flex items-center justify-between text-sm">
+      {!firstItem && (
+        <div className="absolute -top-4 left-2 h-5 w-[0.05rem] bg-gray-400" />
+      )}
       <div className="flex items-center gap-2">
         {activity.entityType === "deal" ? (
           <Handshake className="size-4 text-gray-500" />

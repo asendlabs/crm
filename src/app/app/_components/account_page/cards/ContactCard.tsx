@@ -27,6 +27,7 @@ import { ContactWithDetails } from "@/types/entities";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Check,
+  Copy,
   Loader,
   MailIcon,
   MoreVertical,
@@ -39,6 +40,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 import { useServerAction } from "zsa-react";
+import { cn } from "@/lib/utils/tailwind";
 
 const emailSchema = z.string().email();
 const phoneSchema = z.string().min(7);
@@ -148,44 +150,82 @@ export function ContactCard({
       }}
     >
       <DialogTitle className="sr-only">Edit Contact</DialogTitle>
-      <Card
-        key={contact.id}
-        className="cursor-pointer"
-        onClick={() => setOpen(true)}
-      >
-        <div className="flex w-full items-center justify-between px-2 py-2.5 text-sm">
-          <h1 className="max-w-[6rem] truncate">{contact.contactName}</h1>
-          <div className="flex items-center gap-1">
-            <div className="flex space-x-1">
-              {isValidPhone && (
-                <Button
-                  size="icon"
-                  variant="outline"
-                  className="h-6 w-7 rounded-l"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    window.location.href = `tel:${contact.contactPhone?.countryCode ?? ""}${contact.contactPhone?.phoneNumber ?? ""}`;
-                  }}
-                >
-                  <PhoneIcon className="size-4" />
-                </Button>
+      <Card key={contact.id} className="cursor-pointer">
+        <div className="relative flex w-full items-center justify-between px-2 py-2.5 text-sm">
+          <div className="flex-col">
+            <h1
+              onClick={() => setOpen(true)}
+              className={cn(
+                "max-w-[11rem] truncate px-1",
+                clickable ? "max-w-[14.5rem] text-base font-medium" : "",
               )}
-              {isValidEmail && (
-                <Button
-                  size="icon"
-                  variant="outline"
-                  className={`h-6 w-7 ${isValidPhone ? "rounded-r" : "rounded"}`}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    window.location.href = `mailto:${contact.contactEmail?.email ?? ""}`;
-                  }}
-                >
-                  <MailIcon className="size-4" />
-                </Button>
-              )}
-            </div>
+            >
+              {contact.contactName}
+            </h1>
             {clickable && (
-              <Button size="icon" variant="outline" className="h-6 w-7">
+              <div className="grid gap-1.5 px-1 py-0.5 text-xs">
+                {contact.contactEmail?.email && (
+                  <p className="group flex items-center gap-1 truncate font-normal">
+                    <span className="font-medium opacity-80">Email</span>
+                    <span className="rounded-md border px-1 font-medium text-blue-700 hover:text-blue-600 hover:underline">
+                      {contact.contactEmail?.email}
+                    </span>
+                    <Copy className="size-5 rounded p-1 group-hover:bg-muted" />{" "}
+                    {/* TODO: Add copy functionality */}
+                  </p>
+                )}
+                {contact.contactPhone?.phoneNumber && (
+                  <p className="group flex items-center gap-1 truncate font-normal">
+                    <span className="font-medium opacity-80">Phone</span>
+                    <span className="rounded-md border px-1 font-medium text-orange-700 hover:text-blue-600 hover:underline">
+                      {contact.contactPhone?.countryCode ??
+                        "" + contact.contactPhone?.phoneNumber}
+                    </span>
+                    <Copy className="size-5 rounded p-1 group-hover:bg-muted" />
+                    {/* TODO: Add copy functionality */}
+                  </p>
+                )}
+              </div>
+            )}
+          </div>
+          <div className="flex items-center gap-1">
+            {!clickable && (
+              <div className="flex space-x-1">
+                {isValidPhone && (
+                  <Button
+                    size="icon"
+                    variant="outline"
+                    className="h-6 w-7 rounded-l"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      window.location.href = `tel:${contact.contactPhone?.countryCode ?? ""}${contact.contactPhone?.phoneNumber ?? ""}`;
+                    }}
+                  >
+                    <PhoneIcon className="size-4" />
+                  </Button>
+                )}
+                {isValidEmail && (
+                  <Button
+                    size="icon"
+                    variant="outline"
+                    className={`h-6 w-7 ${isValidPhone ? "rounded-r" : "rounded"}`}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      window.location.href = `mailto:${contact.contactEmail?.email ?? ""}`;
+                    }}
+                  >
+                    <MailIcon className="size-4" />
+                  </Button>
+                )}
+              </div>
+            )}
+            {clickable && (
+              <Button
+                size="icon"
+                variant="outline"
+                className="absolute right-3 top-3 h-6 w-7"
+                onClick={() => setOpen(true)}
+              >
                 <MoreVertical className="size-4" />
               </Button>
             )}

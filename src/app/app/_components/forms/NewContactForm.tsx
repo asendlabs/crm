@@ -4,6 +4,7 @@ import {
   Dialog,
   DialogContent,
   DialogDescription,
+  DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
 import {
@@ -82,14 +83,14 @@ export function NewContactForm({
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <Button
+      <DialogTitle className="sr-only">New Contact Form</DialogTitle>
+      <div
         onClick={() => setOpen(true)}
-        variant={"outline"}
-        className="flex h-6 w-32 flex-row items-center gap-1 rounded-lg px-3"
+        className="flex h-6 w-fit max-w-36 flex-row items-center gap-1 rounded-lg border border-border px-3 text-sm"
       >
         <Plus className="size-4" />
         <span>Add Contact</span>
-      </Button>
+      </div>
       <DialogContent className="flex flex-col py-2">
         <div className="mb-3 px-5">
           <Form {...contactform}>
