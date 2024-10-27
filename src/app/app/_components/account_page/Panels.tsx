@@ -43,14 +43,14 @@ export function Panels({
               <CheckSquare size={14} /> Tasks
             </CustomTabsTrigger>
           </div>
-          <div onClick={() => router.push("?tab=emails")}>
-            <CustomTabsTrigger value="emails">
-              <Mail size={14} /> Emails
-            </CustomTabsTrigger>
-          </div>
           <div onClick={() => router.push("?tab=analysis")}>
             <CustomTabsTrigger value="analysis">
               <AlignLeft size={14} /> Analysis
+            </CustomTabsTrigger>
+          </div>
+          <div>
+            <CustomTabsTrigger value="" disabled={true}>
+              <Mail size={14} /> Emails (Coming Soon)
             </CustomTabsTrigger>
           </div>
         </CustomTabsList>
@@ -60,7 +60,7 @@ export function Panels({
         <CustomTabsContent value="tasks">
           <TaskPanel />
         </CustomTabsContent>
-        <CustomTabsContent value="emails">
+        <CustomTabsContent value="">
           <EmailPanel />
         </CustomTabsContent>
         <CustomTabsContent value="analysis">

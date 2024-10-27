@@ -35,26 +35,25 @@ type NavItem = {
   title: string;
   url: string;
   icon: React.ElementType;
-}
+};
 
 // Sample data can be replaced with actual props
-const nav:NavItem[] = [
+const nav: NavItem[] = [
   {
     title: "Leads",
     url: "/app/leads",
     icon: Building,
   },
-  { title: "Deals", url: "/app/deals", icon: Handshake },
+  {
+    title: "Deals",
+    url: "/app/deals",
+    icon: Handshake,
+  },
   {
     title: "Clients",
     url: "/app/clients",
     icon: SquareUserRound,
   },
-  {
-    title: "Emails",
-    url: "/app/emails",
-    icon: Mail,
-  }
 ];
 
 interface AppSidebarProps {
@@ -66,7 +65,8 @@ export function AppSidebar({
   ...props
 }: AppSidebarProps & React.ComponentProps<typeof Sidebar>) {
   const pathname = usePathname();
-  const [loading, setLoading] = React.useState(false);
+  const [loading, setLoading] = React.useState<boolean>(true);
+  const [loadingPathname, setLoadingPathname] = React.useState<string>("");
   const { user, cookieselectedworkspaceid: cookieSelectedWorkspaceId } = props; // Use the props if needed
   const router = useRouter({
     fancy: false,
@@ -76,7 +76,11 @@ export function AppSidebar({
     router.prefetch(url);
   };
 
-  const handleNavigation = (url: string) => () => {
+  React.useEffect(() => {
+    setLoading(false);
+  }, []);
+
+  const handleNavigation2 = (url: string) => () => {
     setLoading(true);
     try {
       router.push(url);
@@ -84,6 +88,15 @@ export function AppSidebar({
     } finally {
       setLoading(false);
     }
+  };
+  const handleNavigation = (url: string) => () => {
+    setLoading(true);
+    setLoadingPathname(url);
+    router.push(url);
+    setTimeout(() => {
+      setLoading(false);
+      setLoadingPathname("");
+    }, 150);
   };
 
   return (
@@ -105,10 +118,19 @@ export function AppSidebar({
               </SidebarMenuButton>
             </SidebarMenuItem>
             <SidebarMenuItem>
-              <SidebarMenuButton>
-                <Home className="size-4" />
-                <span>Home</span>
-              </SidebarMenuButton>
+              <div
+                onClick={handleNavigation("/app/home")}
+                onMouseOver={handleHover("/app/home")}
+              >
+                <SidebarMenuButton>
+                  {loading && loadingPathname === "/app/home" ? (
+                    <Loader className="size-4 animate-spin" />
+                  ) : (
+                    <Home className="size-4" />
+                  )}
+                  <span>Home</span>
+                </SidebarMenuButton>
+              </div>
             </SidebarMenuItem>
           </SidebarMenu>
         </SidebarGroup>
@@ -121,7 +143,7 @@ export function AppSidebar({
                   onMouseOver={handleHover(item.url)}
                 >
                   <SidebarMenuButton isActive={pathname.startsWith(item.url)}>
-                    {loading ? (
+                    {loading && loadingPathname === item.url ? (
                       <Loader className="size-4 animate-spin" />
                     ) : (
                       <item.icon className="size-4" />
