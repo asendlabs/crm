@@ -11,6 +11,8 @@ import {
   Search,
   Home,
   Loader,
+  Cog,
+  Mail,
 } from "lucide-react";
 import { UserWithWorkspaceAndProfile } from "@/types/entities";
 import { UserButton } from "./user-button";
@@ -28,39 +30,32 @@ import {
 } from "@/components/ui/sidebar";
 import { usePathname } from "next/navigation";
 import { useRouter } from "@/hooks/use-performance-router";
+
+type NavItem = {
+  title: string;
+  url: string;
+  icon: React.ElementType;
+}
+
 // Sample data can be replaced with actual props
-const sampleData = {
-  navMain: [
-    {
-      title: "Leads",
-      url: "/app/leads",
-      icon: Building,
-    },
-    { title: "Deals", url: "/app/deals", icon: Handshake },
-    {
-      title: "Clients",
-      url: "/app/clients",
-      icon: SquareUserRound,
-    },
-  ],
-  projects: [
-    {
-      name: "Design Engineering",
-      url: "#",
-      icon: Frame,
-    },
-    {
-      name: "Sales & Marketing",
-      url: "#",
-      icon: PieChart,
-    },
-    {
-      name: "Travel",
-      url: "#",
-      icon: Map,
-    },
-  ],
-};
+const nav:NavItem[] = [
+  {
+    title: "Leads",
+    url: "/app/leads",
+    icon: Building,
+  },
+  { title: "Deals", url: "/app/deals", icon: Handshake },
+  {
+    title: "Clients",
+    url: "/app/clients",
+    icon: SquareUserRound,
+  },
+  {
+    title: "Emails",
+    url: "/app/emails",
+    icon: Mail,
+  }
+];
 
 interface AppSidebarProps {
   user: UserWithWorkspaceAndProfile;
@@ -119,7 +114,7 @@ export function AppSidebar({
         </SidebarGroup>
         <SidebarGroup className="mt-1">
           <SidebarMenu>
-            {sampleData.navMain.map((item) => (
+            {nav.map((item) => (
               <SidebarMenuItem key={item.title}>
                 <div
                   onClick={handleNavigation(item.url)}

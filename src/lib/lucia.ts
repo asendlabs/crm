@@ -23,15 +23,18 @@ export const lucia = new Lucia(adapter, {
   },
 });
 
+const REDIRECT_URI = env.NEXT_PUBLIC_URL + "/api/auth/google/callback";
+
 export const googleOAuthClient = new Google(
-  env.GOOGLE_CLIENT_ID!,
-  env.GOOGLE_CLIENT_SECRET!,
-  env.NEXT_PUBLIC_URL + "/api/auth/google/callback",
+  env.GOOGLE_CLIENT_ID,
+  env.GOOGLE_CLIENT_SECRET,
+  REDIRECT_URI,
 );
 
 export const validateRequest = async (): Promise<
   { user: User; session: Session } | { user: null; session: null }
 > => {
+  "use server";
   const sessionId =
     (await cookies()).get(lucia.sessionCookieName)?.value ?? null;
   if (!sessionId) {

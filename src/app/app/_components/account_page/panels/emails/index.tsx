@@ -44,7 +44,7 @@ export function EmailPanel() {
       <section className="absolute right-[1rem] top-[4.12rem]">
         <div className="flex gap-2">
           <Button
-            className="inline-flex !h-fit !max-h-fit gap-1.5 px-1.5 py-1"
+            className="inline-flex h-8 w-8 gap-1.5 px-1.5 py-1"
             variant="outline"
             onClick={handleRefresh}
             disabled={isRefreshing}
