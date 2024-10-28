@@ -27,7 +27,7 @@ export default async function RootLayout({
       <html lang="en">
         <body className={GeistSans.className}>
           {children}
-          <Toaster position="bottom-right" />
+          <Toaster position="bottom-right" richColors />
           <Analytics />
           <SpeedInsights />
         </body>

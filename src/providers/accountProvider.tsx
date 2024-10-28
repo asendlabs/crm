@@ -1,21 +1,12 @@
 "use client";
-import { deleteContact } from "@/data-access/contacts";
 import {
-  AccountFull,
-  ActivityType,
-  ActivityWithContact,
+  AccountFull, ActivityWithContact,
   ContactWithDetails,
-  DealWithPrimaryContact,
+  DealWithPrimaryContact
 } from "@/types/entities";
 import {
-  Account,
-  Activity,
-  Contact,
-  ContactEmail,
-  ContactPhone,
-  Deal,
   Email,
-  Task,
+  Task
 } from "@database/types";
 import { createContext } from "react";
 

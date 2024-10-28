@@ -30,6 +30,7 @@ import {
 } from "@/components/ui/sidebar";
 import { usePathname } from "next/navigation";
 import { useRouter } from "@/hooks/use-performance-router";
+import { CommandContext } from "@/providers/commandProvider";
 
 type NavItem = {
   title: string;
@@ -68,9 +69,9 @@ export function AppSidebar({
   const [loading, setLoading] = React.useState<boolean>(true);
   const [loadingPathname, setLoadingPathname] = React.useState<string>("");
   const { user, cookieselectedworkspaceid: cookieSelectedWorkspaceId } = props; // Use the props if needed
-  const router = useRouter({
-    fancy: false,
-  });
+  const router = useRouter();
+
+  const { open, setOpen } = React.useContext(CommandContext);
 
   const handleHover = (url: string) => () => {
     router.prefetch(url);
@@ -111,10 +112,17 @@ export function AppSidebar({
       <SidebarContent>
         <SidebarGroup className="mt-0.5">
           <SidebarMenu>
-            <SidebarMenuItem>
-              <SidebarMenuButton>
-                <Search className="size-4" />
-                <span>Search</span>
+            <SidebarMenuItem className="">
+              <SidebarMenuButton
+                className="flex justify-between"
+                onClick={() => {
+                  setOpen(!open);
+                }}
+              >
+                <div className="flex items-center gap-2">
+                  <Search className="size-4" />
+                  <span>Search</span>
+                </div>
               </SidebarMenuButton>
             </SidebarMenuItem>
             <SidebarMenuItem>

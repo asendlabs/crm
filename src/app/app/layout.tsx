@@ -16,6 +16,8 @@ import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "./_components/sidebar/app-sidebar";
 import { UserWithWorkspaceAndProfile } from "@/types/entities";
 import { Profile } from "@database/types";
+import { CommandPaletteProvider } from "@/providers/commandProvider";
+import { CommandPalette } from "@/components/command-palette";
 
 export default async function ApplicationLayout({
   children,
@@ -57,12 +59,15 @@ export default async function ApplicationLayout({
     //   />
     //   <div>{children}</div>
     // </main>
-    <SidebarProvider>
-      <AppSidebar
-        user={userProfileWorkspace}
-        cookieselectedworkspaceid={cookieSelectedWorkspaceId}
-      />
-      <main className="grid min-h-screen w-full">{children}</main>
-    </SidebarProvider>
+    <CommandPaletteProvider>
+      <SidebarProvider>
+        <CommandPalette />
+        <AppSidebar
+          user={userProfileWorkspace}
+          cookieselectedworkspaceid={cookieSelectedWorkspaceId}
+        />
+        <main className="grid min-h-screen w-full">{children}</main>
+      </SidebarProvider>
+    </CommandPaletteProvider>
   );
 }

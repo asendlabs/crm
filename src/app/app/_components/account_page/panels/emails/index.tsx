@@ -8,9 +8,7 @@ import { useRouter } from "@/hooks/use-performance-router";
 
 export function EmailPanel() {
   const { emails, contacts } = useContext(AccountContext);
-  const router = useRouter({
-    fancy: false,
-  });
+  const router = useRouter();
 
   // Get all contact email addresses
   const allContactEmailAddresses = useMemo(() => {

@@ -77,7 +77,7 @@ const DetailField: React.FC<DetailFieldProps> = ({
   const handleCopy = () => {
     if (fieldValue) {
       navigator.clipboard.writeText(fieldValue);
-      toast.success(`${label} copied to clipboard`);
+      toast.success(`Copied to clipboard`);
     }
   };
 
@@ -158,7 +158,7 @@ const DetailField: React.FC<DetailFieldProps> = ({
               }`}
             />
           ))}
-        {copyEnabled && (
+        {copyEnabled && fieldValue && (
           <Copy
             size={22}
             className="absolute right-1 top-1/2 ml-1 -translate-y-1/2 cursor-pointer rounded bg-muted p-1 text-gray-500 opacity-0 hover:text-gray-700 group-hover:opacity-100"

@@ -26,9 +26,7 @@ export function Panels({
   className?: string;
   tab: string | undefined;
 }) {
-  const router = useRouter({
-    fancy: false,
-  });
+  const router = useRouter();
   return (
     <section className={cn(className)}>
       <CustomTabs defaultValue={tab || "activity"} className="w-full">
@@ -43,7 +41,7 @@ export function Panels({
               <CheckSquare size={14} /> Tasks
             </CustomTabsTrigger>
           </div>
-          <div>
+          {/* <div>
             <CustomTabsTrigger value="" disabled={true}>
               <AlignLeft size={14} /> Analysis (upcoming)
             </CustomTabsTrigger>
@@ -52,7 +50,7 @@ export function Panels({
             <CustomTabsTrigger value="" disabled={true}>
               <Mail size={14} /> Emails (upcoming)
             </CustomTabsTrigger>
-          </div>
+          </div> */}
         </CustomTabsList>
         <CustomTabsContent value="activity" className="w-full">
           <ActivityPanel />
