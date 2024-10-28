@@ -1,14 +1,26 @@
 "use client";
 
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { AccountContext } from "@/providers/accountProvider";
-import { Button } from "@/components/ui/button";
 import { useServerAction } from "zsa-react";
 import { toast } from "sonner";
 import { updateAccountAction } from "@/server/accounts";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea"; // Import Textarea
 import { useRouter } from "@/hooks/use-performance-router";
-import { Pencil, Check, Circle } from "lucide-react";
+import {
+  IdCard,
+  Circle,
+  LucideIcon,
+  Globe,
+  Component,
+  Copy,
+  Instagram,
+  Facebook,
+  Linkedin,
+  Twitter,
+  AlignLeft,
+} from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -17,33 +29,163 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { AccountStatus } from "@/types/entities";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+import { cn } from "@/lib/utils/tailwind";
+
+interface DetailFieldProps {
+  label: string;
+  icon?: LucideIcon;
+  value: string | null | undefined;
+  onSave: (value: string) => void;
+  inputClassName?: string;
+  customInput?: React.ReactNode;
+  copyEnabled?: boolean;
+  isDescription?: boolean; // New prop for description field
+}
+
+const DetailField: React.FC<DetailFieldProps> = ({
+  label,
+  icon: Icon,
+  value,
+  onSave,
+  inputClassName = "",
+  customInput,
+  copyEnabled = false,
+  isDescription = false, // Default to false
+}) => {
+  const [isEditing, setIsEditing] = useState(false);
+  const [fieldValue, setFieldValue] = useState(value || "");
+  const inputRef = useRef<HTMLInputElement | HTMLTextAreaElement>(null);
+
+  useEffect(() => {
+    setFieldValue(value || "");
+  }, [value]);
+
+  useEffect(() => {
+    if (isEditing && inputRef.current) {
+      inputRef.current.focus();
+      const length = inputRef.current.value.length;
+      inputRef.current.setSelectionRange(length, length);
+    }
+  }, [isEditing]);
+
+  const handleCopy = () => {
+    if (fieldValue) {
+      navigator.clipboard.writeText(fieldValue);
+      toast.success(`${label} copied to clipboard`);
+    }
+  };
+
+  const isUrl = (label: string, value: string): boolean => {
+    const validLabels = [
+      "Instagram",
+      "Facebook",
+      "LinkedIn",
+      "Twitter",
+      "Website",
+    ];
+    return validLabels.includes(label);
+  };
+
+  const placeholder = `Set ${label.charAt(0).toUpperCase() + label.slice(1)}`;
+
+  return (
+    <div
+      className={cn(
+        "group flex items-center text-sm",
+        isEditing && isDescription && "mt-1 items-start",
+      )}
+    >
+      <span className="flex !w-[10rem] items-center gap-1.5 capitalize text-gray-800">
+        {Icon && <Icon size={14} />}
+        {label}
+      </span>
+      <div className="group relative mx-1 flex w-full items-center">
+        {customInput ||
+          (isDescription ? (
+            <Textarea
+              ref={inputRef as any}
+              value={fieldValue}
+              placeholder={placeholder}
+              onChange={(e) => setFieldValue(e.target.value)}
+              onClick={() => setIsEditing(true)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  setIsEditing(false);
+                  if (fieldValue !== value) {
+                    onSave(fieldValue);
+                  }
+                }
+              }}
+              onBlur={(e) => {
+                setIsEditing(false);
+                if (e.target.value !== value) {
+                  onSave(e.target.value);
+                }
+              }}
+              readOnly={!isEditing}
+              className={`m-0 ml-1 !h-7 !min-h-7 w-fit max-w-full resize-none truncate break-words px-2 py-1 hover:bg-muted ${!isEditing ? "cursor-text border-none bg-transparent" : "!h-20 !resize-y"} ${inputClassName}`}
+            />
+          ) : (
+            <Input
+              ref={inputRef as any}
+              value={fieldValue}
+              placeholder={placeholder}
+              onChange={(e) => setFieldValue(e.target.value)}
+              onClick={() => setIsEditing(true)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  setIsEditing(false);
+                  if (fieldValue !== value) {
+                    onSave(fieldValue);
+                  }
+                }
+              }}
+              onBlur={(e) => {
+                setIsEditing(false);
+                if (e.target.value !== value) {
+                  onSave(e.target.value);
+                }
+              }}
+              readOnly={!isEditing}
+              className={`m-0 h-7 w-full truncate px-2 py-1 hover:bg-muted ${!isEditing ? "cursor-text border-none bg-transparent" : ""} ${inputClassName} ${fieldValue && isUrl(label, fieldValue) && "underline"} ${
+                isUrl(label, fieldValue) ? "text-blue-700" : "text-black"
+              }`}
+            />
+          ))}
+        {copyEnabled && (
+          <Copy
+            size={22}
+            className="absolute right-1 top-1/2 ml-1 -translate-y-1/2 cursor-pointer rounded bg-muted p-1 text-gray-500 opacity-0 hover:text-gray-700 group-hover:opacity-100"
+            onClick={handleCopy}
+          />
+        )}
+      </div>
+    </div>
+  );
+};
 
 export function DetailsCard() {
   const { account } = useContext(AccountContext);
   const [status, setStatus] = useState<AccountStatus | undefined>(
     account?.status ?? undefined,
   );
-  const [accountName, setAccountName] = useState(account?.accountName || "");
-  const [website, setWebsite] = useState(account?.website || "");
-  const [industry, setIndustry] = useState(account?.industry || "");
-  const [isEditingName, setIsEditingName] = useState(false);
-  const [isEditingWebsite, setIsEditingWebsite] = useState(false);
-  const [isEditingIndustry, setIsEditingIndustry] = useState(false);
   const updateAccountActionCaller = useServerAction(updateAccountAction);
   const { refresh } = useRouter();
-
-  // Fetch lead statuses from workspace (JSON object)
   const accountStatuses: AccountStatus[] =
     (account?.workspace?.accountStatuses as AccountStatus[]) || [];
 
+  const [accordionOpen, setAccordionOpen] = useState("details");
+
   useEffect(() => {
     setStatus(account?.status || undefined);
-    setAccountName(account?.accountName || "");
-    setWebsite(account?.website || "");
-    setIndustry(account?.industry || "");
   }, [account]);
 
-  // Handle updates to the status and color
   const handleUpdate = async (
     columnId: string,
     newValue: string | AccountStatus,
@@ -64,7 +206,6 @@ export function DetailsCard() {
     }
   };
 
-  // Handle status change
   const handleStatusChange = (newStatus: string) => {
     const selectedStatus = accountStatuses.find(
       (statusObj: AccountStatus) => statusObj.status === newStatus,
@@ -75,151 +216,115 @@ export function DetailsCard() {
     }
   };
 
-  const handleIndustryBlur = (newIndustry: string) => {
-    setIsEditingWebsite(false);
-    setIndustry(newIndustry);
-    handleUpdate("industry", newIndustry);
-  };
-
-  const handleAccountNameBlur = (newAccountName: string) => {
-    setIsEditingName(false);
-    setAccountName(newAccountName);
-    handleUpdate("accountName", newAccountName);
-  };
-
-  const handleWebsiteBlur = (newWebsite: string) => {
-    setIsEditingWebsite(false);
-    setWebsite(newWebsite);
-    handleUpdate("website", newWebsite);
-  };
+  const StatusSelectInput = (
+    <Select value={status?.status || ""} onValueChange={handleStatusChange}>
+      <SelectTrigger className="ml-2 h-7 w-full cursor-pointer bg-transparent px-2 text-sm font-medium capitalize hover:bg-muted">
+        <SelectValue>
+          {status ? (
+            <div
+              className="flex items-center gap-1.5"
+              style={{ color: `#${status.color}` }}
+            >
+              <Circle strokeWidth={4} absoluteStrokeWidth className="h-3 w-3" />
+              {status.status}
+            </div>
+          ) : (
+            "Select Status"
+          )}
+        </SelectValue>
+      </SelectTrigger>
+      <SelectContent>
+        {accountStatuses.map((statusObj: AccountStatus) => (
+          <SelectItem
+            key={statusObj.status}
+            value={statusObj.status}
+            showIndicator={false}
+            className="font-medium"
+            style={{ color: `#${statusObj.color}` }}
+          >
+            <div className="flex items-center gap-1.5">
+              <Circle strokeWidth={4} absoluteStrokeWidth className="h-3 w-3" />
+              {statusObj.status}
+            </div>
+          </SelectItem>
+        ))}
+      </SelectContent>
+    </Select>
+  );
 
   return (
-    <section className="grid h-full gap-1 border-b px-4 py-3">
-      <div className="flex select-none items-center justify-between">
-        <span className="font-medium">Details</span>
-      </div>
-      <section className="grid max-h-40 items-start justify-start gap-2 overflow-clip overflow-y-auto py-1 pl-0.5 pr-1">
-        {/* Lead Name */}
-        <div className="group flex items-center">
-          <span className="!w-[9rem] text-sm capitalize">
-            {account?.type} Name
-          </span>
-          <div className="relative w-full">
-            <Input
-              value={accountName}
-              onBlur={(e) => handleAccountNameBlur(e.target.value)}
-              onChange={(e) => setAccountName(e.target.value)}
-              onClick={() => setIsEditingName(!isEditingName)}
-              readOnly={!isEditingName}
-              className="h-7 !w-full truncate pr-8"
+    <Accordion
+      type="single"
+      className="w-full"
+      collapsible
+      defaultValue={accordionOpen}
+      onValueChange={setAccordionOpen}
+    >
+      <AccordionItem className="grid h-full border-b px-4" value="details">
+        <AccordionTrigger className="flex select-none items-center justify-between pb-2.5">
+          <span className="text-sm font-medium capitalize">Details</span>
+        </AccordionTrigger>
+        <AccordionContent className="grid items-start justify-start gap-1.5 overflow-clip overflow-y-auto pl-0.5 pr-1 pt-1">
+          {account?.type !== "client" && (
+            <DetailField
+              label="Status"
+              icon={Component}
+              value={status?.status || ""}
+              onSave={() => {}}
+              customInput={StatusSelectInput}
             />
-            <Button
-              onClick={() => setIsEditingName(!isEditingName)}
-              variant="ghost"
-              className="absolute right-1 top-1/2 h-6 -translate-y-1/2 transform p-1 opacity-0 transition-opacity group-hover:opacity-100"
-            >
-              {isEditingName ? <Check size={12} /> : <Pencil size={12} />}
-            </Button>
-          </div>
-        </div>
-
-        {/* Status (Always Editable) */}
-        {account?.type !== "client" && (
-          <div className="flex items-center overflow-x-hidden text-sm">
-            <span className="!w-[9.5rem] text-sm">Status</span>
-            <Select
-              value={status?.status || ""} // Use string status, default to empty string if undefined
-              onValueChange={handleStatusChange}
-            >
-              <SelectTrigger className="!ring-none h-7 w-full text-sm font-medium capitalize !outline-none ring-0 focus:ring-offset-[-1]">
-                <SelectValue>
-                  {status ? (
-                    <div
-                      className="flex items-center gap-1.5"
-                      style={{ color: `#${status.color}` }}
-                    >
-                      <Circle
-                        strokeWidth={4}
-                        absoluteStrokeWidth
-                        className={`h-3 w-3`}
-                      />
-                      {status.status}
-                    </div>
-                  ) : (
-                    "Select Status"
-                  )}
-                </SelectValue>
-              </SelectTrigger>
-              <SelectContent>
-                {accountStatuses.map((statusObj: AccountStatus) => (
-                  <SelectItem
-                    key={statusObj.status}
-                    value={statusObj.status}
-                    showIndicator={false}
-                    className="font-medium"
-                    style={{
-                      color: `#${statusObj.color}`,
-                    }}
-                  >
-                    <div className="flex items-center gap-1.5">
-                      <Circle
-                        strokeWidth={4}
-                        absoluteStrokeWidth
-                        className={`h-3 w-3`}
-                      />
-                      {statusObj.status}
-                    </div>
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-        )}
-
-        {/* Website */}
-        <div className="group flex items-center">
-          <span className="!w-[9rem] text-sm">Website</span>
-          <div className="relative w-full">
-            <Input
-              value={website}
-              onBlur={(e) => handleWebsiteBlur(e.target.value)}
-              onChange={(e) => setWebsite(e.target.value)}
-              onClick={() => setIsEditingWebsite(!isEditingWebsite)}
-              readOnly={!isEditingWebsite}
-              className="h-7 !w-full truncate pr-8"
-            />
-            <Button
-              onClick={() => setIsEditingWebsite(!isEditingWebsite)}
-              variant="ghost"
-              className="absolute right-1 top-1/2 h-6 -translate-y-1/2 transform p-1 opacity-0 transition-opacity group-hover:opacity-100"
-            >
-              {isEditingWebsite ? <Check size={12} /> : <Pencil size={12} />}
-            </Button>
-          </div>
-        </div>
-
-        {/* Industry */}
-        <div className="group flex items-center">
-          <span className="!w-[9rem] text-sm">Industry</span>
-          <div className="relative w-full">
-            <Input
-              value={industry}
-              onBlur={(e) => handleIndustryBlur(e.target.value)}
-              onChange={(e) => setIndustry(e.target.value)}
-              onClick={() => setIsEditingIndustry(!isEditingIndustry)}
-              readOnly={!isEditingIndustry}
-              className="h-7 !w-full truncate pr-8"
-            />
-            <Button
-              onClick={() => setIsEditingIndustry(!isEditingIndustry)}
-              variant="ghost"
-              className="absolute right-1 top-1/2 h-6 -translate-y-1/2 transform p-1 opacity-0 transition-opacity group-hover:opacity-100"
-            >
-              {isEditingIndustry ? <Check size={12} /> : <Pencil size={12} />}
-            </Button>
-          </div>
-        </div>
-      </section>
-    </section>
+          )}
+          <DetailField
+            label="Name"
+            icon={IdCard}
+            value={account?.accountName}
+            onSave={(value: string) => handleUpdate("accountName", value)}
+            copyEnabled
+          />
+          <DetailField
+            label="Website"
+            icon={Globe}
+            value={account?.website}
+            onSave={(value: string) => handleUpdate("website", value)}
+            copyEnabled
+          />
+          {/* <DetailField
+            label="Description"
+            icon={AlignLeft}
+            value={account?.description}
+            onSave={(value: string) => handleUpdate("description", value)}
+            isDescription
+          /> */}
+          <DetailField
+            label="Instagram"
+            icon={Instagram}
+            value={account?.instagram}
+            onSave={(value: string) => handleUpdate("instagram", value)}
+            copyEnabled
+          />
+          <DetailField
+            label="Facebook"
+            icon={Facebook}
+            value={account?.facebook}
+            onSave={(value: string) => handleUpdate("facebook", value)}
+            copyEnabled
+          />
+          <DetailField
+            label="LinkedIn"
+            icon={Linkedin}
+            value={account?.linkedin}
+            onSave={(value: string) => handleUpdate("linkedin", value)}
+            copyEnabled
+          />
+          <DetailField
+            label="Twitter"
+            icon={Twitter}
+            value={account?.twitter}
+            onSave={(value: string) => handleUpdate("twitter", value)}
+            copyEnabled
+          />
+        </AccordionContent>
+      </AccordionItem>
+    </Accordion>
   );
 }

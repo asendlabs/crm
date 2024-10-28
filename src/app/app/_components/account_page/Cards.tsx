@@ -37,32 +37,9 @@ export function Cards({ className }: { className?: string }) {
         value={accordionOpen}
         onValueChange={setAccordionOpen}
       >
-        <AccordionItem value="deals" className="flex flex-col border-b px-4">
-          <AccordionTrigger className="relative flex select-none items-center justify-between">
-            <span className="font-medium">Deals</span>
-            <div className="absolute right-6">
-              {/* TODO: fix button can't be descendant of AccordionTrigger */}
-              <NewDealForm accountId={account?.id} />
-            </div>
-          </AccordionTrigger>
-          <AccordionContent className="grid gap-2 !p-0 !pb-4">
-            {deals?.length ? (
-              deals?.map((deal) => (
-                <DealCard
-                  key={deal.id}
-                  deal={deal}
-                  isOpen={openDealId === deal.id}
-                />
-              ))
-            ) : (
-              <span />
-            )}
-          </AccordionContent>
-        </AccordionItem>
-
         <AccordionItem className="flex flex-col px-4" value="contacts">
           <AccordionTrigger className="relative flex select-none items-center justify-between">
-            <span className="font-medium">Contacts</span>
+            <span className="text-sm font-medium">Contacts</span>
             <div className="absolute right-6">
               {/* TODO: fix button can't be descendant of AccordionTrigger */}
               <NewContactForm accountId={account?.id} />
@@ -75,6 +52,28 @@ export function Cards({ className }: { className?: string }) {
                   key={contact.id}
                   contact={contact}
                   isOpen={openContactId === contact.id}
+                />
+              ))
+            ) : (
+              <span />
+            )}
+          </AccordionContent>
+        </AccordionItem>
+        <AccordionItem value="deals" className="flex flex-col border-b px-4">
+          <AccordionTrigger className="relative flex select-none items-center justify-between">
+            <span className="text-sm font-medium">Deals</span>
+            <div className="absolute right-6">
+              {/* TODO: fix button can't be descendant of AccordionTrigger */}
+              <NewDealForm accountId={account?.id} />
+            </div>
+          </AccordionTrigger>
+          <AccordionContent className="grid gap-2 !p-0 !pb-4">
+            {deals?.length ? (
+              deals?.map((deal) => (
+                <DealCard
+                  key={deal.id}
+                  deal={deal}
+                  isOpen={openDealId === deal.id}
                 />
               ))
             ) : (
