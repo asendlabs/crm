@@ -24,7 +24,7 @@ import { DialogTitle } from "../ui/dialog";
 import { CommandContext } from "@/providers/commandProvider";
 
 export function CommandPalette() {
-  const {open, setOpen} = React.useContext(CommandContext);
+  const { open, setOpen } = React.useContext(CommandContext);
 
   React.useEffect(() => {
     const down = (e: KeyboardEvent) => {

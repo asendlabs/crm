@@ -1,13 +1,11 @@
 "use client";
 import {
-  AccountFull, ActivityWithContact,
+  AccountFull,
+  ActivityWithContact,
   ContactWithDetails,
-  DealWithPrimaryContact
+  DealWithPrimaryContact,
 } from "@/types/entities";
-import {
-  Email,
-  Task
-} from "@database/types";
+import { Email, Task } from "@database/types";
 import { createContext } from "react";
 
 export interface State {

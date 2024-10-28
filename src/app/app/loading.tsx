@@ -1,7 +1,6 @@
 import { Loader } from "lucide-react";
-import React from "react";
 
-function LoadingPage() {
+export default function Loading() {
   return (
     <section className="flex min-h-screen flex-col items-center justify-center text-gray-700">
       <div className="flex items-center gap-1.5">
@@ -10,5 +9,3 @@ function LoadingPage() {
     </section>
   );
 }
-
-export default LoadingPage;

@@ -1,4 +1,3 @@
-
 import React from "react";
 export default async function HomePage() {
   return (
@@ -7,4 +6,3 @@ export default async function HomePage() {
     </section>
   );
 }
-
