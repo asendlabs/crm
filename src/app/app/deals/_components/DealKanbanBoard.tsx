@@ -75,7 +75,7 @@ export function DealKanbanBoard({
       setDragEnd(false);
       // refresh();
     }
-  }, [activeDeal?.stage]);
+  }, [activeDeal?.stage, dragEnd]);
 
   const sensors = useSensors(
     useSensor(MouseSensor),
