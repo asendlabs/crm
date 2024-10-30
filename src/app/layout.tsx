@@ -4,7 +4,7 @@ import type { Metadata } from "next";
 import { Toaster } from "sonner";
 
 import { ViewTransitions } from "next-view-transitions";
-import AppPostHogProvider from "@/providers/services/posthogProvider";
+import { AppPostHogProvider } from "@/providers/services/posthogProvider";
 
 export const metadata: Metadata = {
   title: {

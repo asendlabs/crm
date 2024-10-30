@@ -1,32 +1,23 @@
-// app/providers.js
 "use client";
-
 import { env } from "@/env";
 import posthog from "posthog-js";
 import { PostHogProvider } from "posthog-js/react";
+import { useEffect } from "react";
+import React from "react";
 
-let AppPostHogProvider: React.FC<{ children: React.ReactNode }>;
-
-if (env.POSTHOG_KEY) {
-  if (typeof window !== "undefined") {
-    posthog.init(env.POSTHOG_KEY, {
+export function AppPostHogProvider({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  useEffect(() => {
+    posthog.init(env.NEXT_PUBLIC_POSTHOG_KEY, {
+      api_host: env.NEXT_PUBLIC_POSTHOG_HOST,
       secure_cookie: process.env.NODE_ENV === "production",
-      api_host: env.POSTHOG_HOST,
-      person_profiles: "identified_only", // or 'always' to create profiles for anonymous users as well
+      person_profiles: "identified_only",
+      capture_pageview: false, // Disable automatic pageview capture, as we capture manually
     });
-  }
+  }, []);
 
-  function CSPostHogProvider({ children }: { children: React.ReactNode }) {
-    return <PostHogProvider client={posthog}>{children}</PostHogProvider>;
-  }
-
-  AppPostHogProvider = CSPostHogProvider;
-} else {
-  function CSPostHogProvider({ children }: { children: React.ReactNode }) {
-    return <>{children}</>;
-  }
-
-  AppPostHogProvider = CSPostHogProvider;
+  return <PostHogProvider client={posthog}>{children}</PostHogProvider>;
 }
-
-export default AppPostHogProvider;

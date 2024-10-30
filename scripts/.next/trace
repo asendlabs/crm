@@ -4,3 +4,4 @@
 [{"name":"next-dev","duration":307794,"timestamp":341438024931,"id":1,"tags":{"isTurbopack":false},"startTime":1730197847697,"traceId":"8cca3e61073d6dcb"}]
 [{"name":"next-dev","duration":311778,"timestamp":4590340245,"id":1,"tags":{"isTurbopack":false},"startTime":1730204010577,"traceId":"4119e62517ed9860"}]
 [{"name":"next-dev","duration":253008,"timestamp":4606190847,"id":1,"tags":{"isTurbopack":false},"startTime":1730204026428,"traceId":"b1ef9cc4f3363664"}]
+[{"name":"next-dev","duration":322319,"timestamp":24373699670,"id":1,"tags":{"isTurbopack":false},"startTime":1730278319492,"traceId":"ab739dc2e5c2038f"}]
