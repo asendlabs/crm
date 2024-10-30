@@ -10,11 +10,11 @@ export const env = createEnv({
     RESEND_API_KEY: z.string(),
     GOOGLE_CLIENT_ID: z.string(),
     GOOGLE_CLIENT_SECRET: z.string(),
+    POSTHOG_KEY: z.string().optional(),
+    POSTHOG_HOST: z.string().optional(),
   },
   client: {
     NEXT_PUBLIC_URL: z.string(),
-    NEXT_PUBLIC_POSTHOG_KEY: z.string().optional(),
-    NEXT_PUBLIC_POSTHOG_HOST: z.string().optional(),
   },
   runtimeEnv: {
     DATABASE_POSTGRES_URL: process.env.DATABASE_POSTGRES_URL,
@@ -24,8 +24,8 @@ export const env = createEnv({
     GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
     GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
     NEXT_PUBLIC_URL: process.env.NEXT_PUBLIC_URL,
-    NEXT_PUBLIC_POSTHOG_KEY: process.env.NEXT_PUBLIC_POSTHOG_KEY,
-    NEXT_PUBLIC_POSTHOG_HOST: process.env.NEXT_PUBLIC_POSTHOG_HOST,
+    POSTHOG_KEY: process.env.NEXT_PUBLIC_POSTHOG_KEY,
+    POSTHOG_HOST: process.env.NEXT_PUBLIC_POSTHOG_HOST,
     TZ: process.env.TZ,
   },
 });

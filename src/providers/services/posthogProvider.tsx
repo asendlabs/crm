@@ -7,11 +7,11 @@ import { PostHogProvider } from "posthog-js/react";
 
 let AppPostHogProvider: React.FC<{ children: React.ReactNode }>;
 
-if (env.NEXT_PUBLIC_POSTHOG_KEY) {
+if (env.POSTHOG_KEY) {
   if (typeof window !== "undefined") {
-    posthog.init(env.NEXT_PUBLIC_POSTHOG_KEY, {
+    posthog.init(env.POSTHOG_KEY, {
       secure_cookie: process.env.NODE_ENV === "production",
-      api_host: env.NEXT_PUBLIC_POSTHOG_HOST,
+      api_host: env.POSTHOG_HOST,
       person_profiles: "identified_only", // or 'always' to create profiles for anonymous users as well
     });
   }
