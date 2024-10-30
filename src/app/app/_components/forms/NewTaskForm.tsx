@@ -44,8 +44,10 @@ import { format } from "date-fns";
 
 export function NewTaskForm({
   setTaskFormOpen,
+  isCommand,
 }: {
   setTaskFormOpen: (open: boolean) => void;
+  isCommand: boolean;
 }) {
   const { account } = useContext(AccountContext);
   const [loading, setLoading] = useState(false);

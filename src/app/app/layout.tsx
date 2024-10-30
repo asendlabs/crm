@@ -18,6 +18,7 @@ import { UserWithWorkspaceAndProfile } from "@/types/entities";
 import { Profile } from "@database/types";
 import { CommandPaletteProvider } from "@/providers/commandProvider";
 import { CommandPalette } from "@/components/command-palette";
+import { getAllWorkspaceAccounts } from "@/data-access/accounts";
 
 export default async function ApplicationLayout({
   children,
@@ -50,6 +51,10 @@ export default async function ApplicationLayout({
     workspaces: workspaces,
   };
 
+  const workspaceAccounts = await getAllWorkspaceAccounts(
+    cookieSelectedWorkspaceId,
+  );
+
   return (
     // <main className="grid min-h-screen w-full grid-cols-[240px_1fr]">
     //   <Sidebar
@@ -61,7 +66,7 @@ export default async function ApplicationLayout({
     // </main>
     <CommandPaletteProvider>
       <SidebarProvider>
-        <CommandPalette />
+        <CommandPalette accounts={workspaceAccounts} />
         <AppSidebar
           user={userProfileWorkspace}
           cookieselectedworkspaceid={cookieSelectedWorkspaceId}

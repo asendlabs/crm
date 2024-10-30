@@ -11,7 +11,7 @@ import { Cards } from "@/app/app/_components/account_page/Cards";
 
 type Props = {
   params: Promise<{ id: string }>;
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+  // searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 };
 
 export async function generateMetadata(
@@ -36,10 +36,8 @@ export async function generateMetadata(
 }
 
 export default async function ClientAccountPage(props: Props) {
-  const searchParams = await props.searchParams;
   const params = await props.params;
   const { id } = params;
-  const { tab } = searchParams;
   if (!id) {
     return (
       <div className="flex h-screen flex-col items-center justify-center">
@@ -86,7 +84,7 @@ export default async function ClientAccountPage(props: Props) {
         <Header className="w-full px-4 pb-3 pt-4" />
         <section className="grid h-full w-full grid-cols-[27%_1fr] overflow-hidden">
           <Cards className="grid w-full gap-1" />
-          <Panels className="w-full" tab={tab as string | undefined} />
+          <Panels className="w-full" />
         </section>
       </main>
     </AccountProvider>

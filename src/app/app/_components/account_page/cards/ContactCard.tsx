@@ -54,7 +54,7 @@ export function ContactCard({
   isOpen: boolean;
   clickable?: boolean;
 }) {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(isOpen);
   const [saveButtonEnabled, setSaveButtonEnabled] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
@@ -147,6 +147,7 @@ export function ContactCard({
           form.reset();
           setOpen(newOpen);
         }
+        if (open) router.push("?contact=");
       }}
     >
       <DialogTitle className="sr-only">Edit Contact</DialogTitle>
@@ -154,7 +155,10 @@ export function ContactCard({
         <div className="relative flex w-full items-center justify-between px-2 py-2.5 text-sm">
           <div className="flex-col">
             <h1
-              onClick={() => setOpen(true)}
+              onClick={() => {
+                setOpen(true);
+                router.push(`?contact=${contact.id}`);
+              }}
               className={cn(
                 "max-w-[11rem] truncate px-1",
                 clickable ? "max-w-[14.5rem] text-base font-medium" : "",
@@ -338,6 +342,8 @@ export function ContactCard({
                   variant={"outline"}
                   onClick={() => {
                     setOpen(false);
+                    form.reset();
+                    router.push("?deal=");
                   }}
                 >
                   Cancel

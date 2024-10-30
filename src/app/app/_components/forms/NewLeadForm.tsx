@@ -15,8 +15,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Plus } from "lucide-react";
-
+import { Building, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import React from "react";
@@ -28,12 +27,23 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createAccountAction } from "@/server/accounts";
 import { useServerAction } from "zsa-react";
+import { CommandItem } from "@/components/ui/command";
+import { CommandContext } from "@/providers/commandProvider";
 
-export function NewLeadForm({ addLead }: { addLead: (newLead: any) => void }) {
+export function NewLeadForm({
+  addLead,
+  runCommandFunction,
+}: {
+  addLead: (newLead: any) => void;
+  runCommandFunction?: (command: () => void) => void;
+}) {
   const [loading, setLoading] = React.useState(false);
   const [open, setOpen] = React.useState(false);
   const router = useRouter();
   const { execute, data } = useServerAction(createAccountAction);
+  const { setCommandOpen } = React.useContext(CommandContext);
+  const formRef = React.useRef<HTMLFormElement>(null);
+
   const form = useForm<z.infer<typeof accountCreateSchema>>({
     resolver: zodResolver(accountCreateSchema),
     defaultValues: {
@@ -56,28 +66,62 @@ export function NewLeadForm({ addLead }: { addLead: (newLead: any) => void }) {
         return;
       }
       addLead(data?.data);
-      // router.push(`/app/leads/${data?.data.id.toLowerCase()}`);
+      if (runCommandFunction) {
+        setOpen(false);
+        setCommandOpen(false);
+        router.push(`/app/leads/${data?.data.id.toLowerCase()}`);
+      }
     } catch (error) {
       toast.error("Internal Error");
     } finally {
-      setOpen(false);
       setLoading(false);
       form.reset();
+      if (!runCommandFunction) {
+        setOpen(false);
+      }
     }
   };
+
+  const handleOpenChange = (newOpen: boolean) => {
+    if (!loading) {
+      setOpen(newOpen);
+    }
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      formRef.current?.requestSubmit();
+    }
+  };
+
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTitle className="sr-only"></DialogTitle>
-      <DialogTrigger className="flex max-h-8 max-w-28 flex-row items-center gap-1 rounded-lg bg-primary px-3 text-sm text-white hover:bg-primary/90">
-        <Plus className="size-4" />
-        <span>New</span>
-      </DialogTrigger>
+    <Dialog open={open} onOpenChange={handleOpenChange}>
+      <DialogTitle className="sr-only">New Lead</DialogTitle>
+      {runCommandFunction ? (
+        <CommandItem
+          className="flex gap-2"
+          onSelect={() => {
+            setOpen(true);
+          }}
+        >
+          <Building className="!size-[1.5rem] rounded-md border p-1" />
+          <span>Create new lead</span>
+        </CommandItem>
+      ) : (
+        <DialogTrigger className="flex max-h-8 max-w-28 flex-row items-center gap-1 rounded-lg bg-primary px-3 text-sm text-white hover:bg-primary/90">
+          <Plus className="size-4" />
+          <span>New</span>
+        </DialogTrigger>
+      )}
       <DialogContent className="flex flex-col py-2">
         <div className="mb-3 px-5">
           <Form {...form}>
             <form
+              ref={formRef}
               onSubmit={form.handleSubmit(handleSubmit)}
               className="flex flex-col gap-4 pt-2"
+              onKeyDown={handleKeyDown}
             >
               <div className="flex flex-col gap-3 sm:flex-row">
                 <FormField
@@ -126,6 +170,9 @@ export function NewLeadForm({ addLead }: { addLead: (newLead: any) => void }) {
                     setLoading(false);
                     form.reset();
                     setOpen(false);
+                    if (runCommandFunction) {
+                      setCommandOpen(false);
+                    }
                   }}
                 >
                   Cancel

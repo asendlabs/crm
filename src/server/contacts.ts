@@ -207,8 +207,12 @@ export const createContactAction = authenticatedAction
     if (!activityRes) {
       throw new Error("Could not create the activity."); // Inline error message
     }
+    const contact = await getContactById(contactRes.id);
+    if (!contact) {
+      throw new Error("Contact not found after creation."); // Inline error message
+    }
     return {
       success: true,
-      data: contactRes,
+      data: contact,
     };
   });

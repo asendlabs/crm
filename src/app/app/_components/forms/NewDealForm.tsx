@@ -36,21 +36,16 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { CalendarIcon, Plus } from "lucide-react";
+import { CalendarIcon, Plus, DollarSign } from "lucide-react";
 
 import { createDealAction } from "@/server/deal";
 import { dealCreateSchema } from "@/schemas/deal.schema";
 import { Calendar } from "@/components/ui/calendar";
 import { cn } from "@/lib/utils/tailwind";
-import {
-  Account,
-  Contact,
-  ContactEmail,
-  ContactPhone,
-  Deal,
-} from "@database/types";
+import { Account } from "@database/types";
 import { useServerAction } from "zsa-react";
-import { DealWithPrimaryContact } from "@/types/entities";
+import { CommandItem } from "@/components/ui/command";
+import { CommandContext } from "@/providers/commandProvider";
 
 export function NewDealForm({
   accountId,
@@ -59,6 +54,7 @@ export function NewDealForm({
   accessPoint,
   addDeal,
   addDealKanban,
+  runCommandFunction,
 }: {
   accountId?: string;
   accessPoint?: "accountPage" | "grid" | "board";
@@ -66,22 +62,41 @@ export function NewDealForm({
   fullButton?: boolean;
   addDeal?: (deal: any) => void;
   addDealKanban?: (deal: any) => void;
+  runCommandFunction?: (command: () => void) => void;
 }) {
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const router = useRouter();
   const { execute } = useServerAction(createDealAction);
+  const formRef = React.useRef<HTMLFormElement>(null);
+
+  const { setCommandOpen } = React.useContext(CommandContext);
 
   const dealform = useForm<z.infer<typeof dealCreateSchema>>({
     resolver: zodResolver(dealCreateSchema),
     defaultValues: {
       title: "",
       value: "",
-      accountId: accountId || "", // Default accountId if passed
+      accountId: accountId || "",
     },
   });
 
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      formRef.current?.requestSubmit();
+    }
+  };
+
+  const handleOpenChange = (newOpen: boolean) => {
+    if (!loading) {
+      setOpen(newOpen);
+    }
+  };
+
   async function onSubmit(values: z.infer<typeof dealCreateSchema>) {
+    if (loading) return;
+
     setLoading(true);
     try {
       const [data, err] = await execute(values);
@@ -89,15 +104,28 @@ export function NewDealForm({
         toast.error("Failed to create deal.");
         return;
       }
-      if (addDeal && addDealKanban) {
-        addDeal(data?.data);
-        addDealKanban(data?.data);
+
+      if (addDeal && addDealKanban && data?.data) {
+        addDeal(data.data);
+        addDealKanban(data.data);
       }
-      setOpen(false);
+
       dealform.reset();
-      router.push(
-        `/app/${data?.data.account.type + "s"}/${data?.data.accountId}?deal=${data?.data.id}`,
-      );
+      setOpen(false);
+
+      if (data?.data) {
+        router.push(
+          `/app/${data.data.account.type + "s"}/${data.data.accountId}?deal=${data.data.id}`,
+        );
+      }
+
+      if (runCommandFunction) {
+        setOpen(false);
+        setCommandOpen(false);
+        router.push(
+          `/app/${data.data.account.type + "s"}/${data.data.accountId}?deal=${data.data.id}`,
+        );
+      }
     } catch (error) {
       toast.error("An error occurred while creating the deal.");
     } finally {
@@ -107,9 +135,19 @@ export function NewDealForm({
   }
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogTitle className="sr-only">New Deal Form</DialogTitle>
-      {fullButton ? (
+      {runCommandFunction ? (
+        <CommandItem
+          className="flex gap-2"
+          onSelect={() => {
+            setOpen(true);
+          }}
+        >
+          <DollarSign className="!size-[1.5rem] rounded-md border p-1" />
+          <span>Create new deal</span>
+        </CommandItem>
+      ) : fullButton ? (
         <DialogTrigger className="flex max-h-8 max-w-28 flex-row items-center gap-1 rounded-lg bg-primary px-3 text-sm text-white hover:bg-primary/90">
           <Plus className="size-4" />
           <span>New</span>
@@ -128,8 +166,10 @@ export function NewDealForm({
         <div className="mb-3 px-5">
           <Form {...dealform}>
             <form
+              ref={formRef}
               className="flex flex-col gap-4 pt-3"
               onSubmit={dealform.handleSubmit(onSubmit)}
+              onKeyDown={handleKeyDown}
             >
               <div className="flex flex-col gap-5">
                 {!accountId && accounts && (
@@ -246,6 +286,9 @@ export function NewDealForm({
                     setLoading(false);
                     dealform.reset();
                     setOpen(false);
+                    if (runCommandFunction) {
+                      setCommandOpen(false);
+                    }
                   }}
                 >
                   Cancel

@@ -12,6 +12,9 @@ import { Contact } from "@database/types";
 export async function getContactById(id: string) {
   const contact = await db.query.contactTable.findFirst({
     where: eq(contactTable.id, id),
+    with: {
+      account: true,
+    },
   });
   return contact;
 }

@@ -188,14 +188,17 @@ export function DealCard({
       onOpenChange={() => {
         form.reset();
         setOpen(!open);
-        router.push("?deal=");
+        if (open) router.push("?deal=");
       }}
     >
       <DialogTitle className="sr-only">Edit Deal</DialogTitle>
       <Card
         key={deal.id}
         className="grid cursor-pointer"
-        onClick={() => setOpen(true)}
+        onClick={() => {
+          setOpen(true);
+          router.push(`?deal=${deal.id}`);
+        }}
       >
         <div className="flex items-start justify-between p-3">
           <div className="grid gap-2">

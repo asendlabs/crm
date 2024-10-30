@@ -36,6 +36,7 @@ type NavItem = {
   title: string;
   url: string;
   icon: React.ElementType;
+  searchParams?: string;
 };
 
 // Sample data can be replaced with actual props
@@ -48,6 +49,7 @@ const nav: NavItem[] = [
   {
     title: "Deals",
     url: "/app/deals",
+    searchParams: "?view=board",
     icon: Handshake,
   },
   {
@@ -71,7 +73,7 @@ export function AppSidebar({
   const { user, cookieselectedworkspaceid: cookieSelectedWorkspaceId } = props; // Use the props if needed
   const router = useRouter();
 
-  const { open, setOpen } = React.useContext(CommandContext);
+  const { commandOpen, setCommandOpen } = React.useContext(CommandContext);
 
   const handleHover = (url: string) => () => {
     router.prefetch(url);
@@ -116,7 +118,7 @@ export function AppSidebar({
               <SidebarMenuButton
                 className="flex justify-between"
                 onClick={() => {
-                  setOpen(!open);
+                  setCommandOpen(!commandOpen);
                 }}
               >
                 <div className="flex items-center gap-2">
@@ -147,7 +149,9 @@ export function AppSidebar({
             {nav.map((item) => (
               <SidebarMenuItem key={item.title}>
                 <div
-                  onClick={handleNavigation(item.url)}
+                  onClick={handleNavigation(
+                    item.url + (item.searchParams || ""),
+                  )}
                   onMouseOver={handleHover(item.url)}
                 >
                   <SidebarMenuButton isActive={pathname.startsWith(item.url)}>

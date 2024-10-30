@@ -22,8 +22,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Plus } from "lucide-react";
-
+import { Plus, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import React from "react";
@@ -36,20 +35,28 @@ import { createContactAction } from "@/server/contacts";
 import { useServerAction } from "zsa-react";
 import { contactCreateSchema } from "@/schemas/contact.schema";
 import { Account } from "@database/types";
+import { CommandItem } from "@/components/ui/command";
+import { CommandContext } from "@/providers/commandProvider";
 
 export function NewContactForm({
   addContact,
   accountId,
   accounts,
+  runCommandFunction,
 }: {
   addContact?: (newContact: any) => void;
   accountId?: string;
   accounts?: Account[];
+  runCommandFunction?: (command: () => void) => void;
 }) {
   const [loading, setLoading] = React.useState(false);
   const [open, setOpen] = React.useState(false);
   const router = useRouter();
-  const { execute, data } = useServerAction(createContactAction);
+  const { execute } = useServerAction(createContactAction);
+  const formRef = React.useRef<HTMLFormElement>(null);
+
+  const { setCommandOpen } = React.useContext(CommandContext);
+
   const contactform = useForm<z.infer<typeof contactCreateSchema>>({
     resolver: zodResolver(contactCreateSchema),
     defaultValues: {
@@ -60,43 +67,91 @@ export function NewContactForm({
     },
   });
 
-  // Handle form submission
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      formRef.current?.requestSubmit();
+    }
+  };
+
+  const handleOpenChange = (newOpen: boolean) => {
+    if (!loading) {
+      setOpen(newOpen);
+    }
+  };
+
   async function onSubmit(values: z.infer<typeof contactCreateSchema>) {
+    if (loading) return;
+
+    setLoading(true);
     try {
-      setLoading(true);
       const [data, err] = await execute({
         ...values,
       });
-      if (!err) {
-        contactform.reset();
-        setOpen(false);
-        router.refresh(); // Refresh the page or data
-      } else {
+
+      if (err) {
         toast.error("Failed to create contact.");
+        return;
+      }
+
+      if (addContact && data?.data) {
+        addContact(data.data);
+      }
+
+      contactform.reset();
+      setOpen(false);
+
+      if (data?.data) {
+        router.push(
+          `/app/${data.data.account.type + "s"}/${data.data.accountId}?contact=${data.data.id}`,
+        );
+      }
+      if (runCommandFunction) {
+        setOpen(false);
+        setCommandOpen(false);
+        router.push(
+          `/app/${data.data.account.type + "s"}/${data.data.accountId}?contact=${data.data.id}`,
+        );
       }
     } catch (error) {
+      console.error(error);
       toast.error("An error occurred while creating the contact.");
     } finally {
       setLoading(false);
+      router.refresh();
     }
   }
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogTitle className="sr-only">New Contact Form</DialogTitle>
-      <div
-        onClick={() => setOpen(true)}
-        className="flex h-6 w-fit max-w-36 flex-row items-center gap-1 rounded-lg border border-border px-3 text-sm"
-      >
-        <Plus className="size-4" />
-        <span>Add Contact</span>
-      </div>
+      {runCommandFunction ? (
+        <CommandItem
+          className="flex gap-2"
+          onSelect={() => {
+            setOpen(true);
+          }}
+        >
+          <Users className="!size-[1.5rem] rounded-md border p-1" />
+          <span>Create new contact</span>
+        </CommandItem>
+      ) : (
+        <div
+          onClick={() => setOpen(true)}
+          className="flex h-6 w-fit max-w-36 flex-row items-center gap-1 rounded-lg border border-border px-3 text-sm"
+        >
+          <Plus className="size-4" />
+          <span>Add Contact</span>
+        </div>
+      )}
       <DialogContent className="flex flex-col py-2">
         <div className="mb-3 px-5">
           <Form {...contactform}>
             <form
+              ref={formRef}
               className="flex flex-col gap-4 pt-2"
               onSubmit={contactform.handleSubmit(onSubmit)}
+              onKeyDown={handleKeyDown}
             >
               <div className="flex flex-col gap-5">
                 {!accountId && accounts && (
@@ -105,6 +160,7 @@ export function NewContactForm({
                     name="accountId"
                     render={({ field }) => (
                       <FormItem className="flex-1">
+                        <FormLabel>Lead or Client</FormLabel>
                         <Select
                           onValueChange={field.onChange}
                           defaultValue={field.value}
@@ -177,6 +233,9 @@ export function NewContactForm({
                     setLoading(false);
                     contactform.reset();
                     setOpen(false);
+                    if (runCommandFunction) {
+                      setCommandOpen(false);
+                    }
                   }}
                 >
                   Cancel

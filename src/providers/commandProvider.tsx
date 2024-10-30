@@ -2,13 +2,13 @@
 import React, { createContext } from "react";
 
 export interface Command {
-  open: boolean;
-  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  commandOpen: boolean;
+  setCommandOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const CommandContext = createContext<Command>({
-  open: false,
-  setOpen: (value: any) => {},
+  commandOpen: false,
+  setCommandOpen: (value: any) => {},
 });
 
 export function CommandPaletteProvider({
@@ -16,10 +16,10 @@ export function CommandPaletteProvider({
 }: {
   children: React.ReactNode;
 }) {
-  const [open, setOpen] = React.useState(false);
+  const [commandOpen, setCommandOpen] = React.useState(false);
 
   return (
-    <CommandContext.Provider value={{ open, setOpen }}>
+    <CommandContext.Provider value={{ commandOpen, setCommandOpen }}>
       {children}
     </CommandContext.Provider>
   );

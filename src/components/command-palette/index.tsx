@@ -2,86 +2,182 @@
 
 import * as React from "react";
 import {
-  Calculator,
-  Calendar,
-  CreditCard,
-  Settings,
-  Smile,
-  User,
-} from "lucide-react";
-
-import {
   CommandDialog,
   CommandEmpty,
   CommandGroup,
   CommandInput,
-  CommandItem,
   CommandList,
   CommandSeparator,
-  CommandShortcut,
 } from "@/components/ui/command";
 import { DialogTitle } from "../ui/dialog";
 import { CommandContext } from "@/providers/commandProvider";
+import { GoToLink } from "./commands/GoToLink";
+import {
+  Book,
+  BookText,
+  CheckSquare,
+  Clock,
+  Command,
+  Headset,
+  LucideIcon,
+  MessageSquareText,
+} from "lucide-react";
+import { CustomIconLink } from "./commands/CustomIconLink";
+import { LogoutCommand } from "./commands/LogoutCommand";
+import { usePathname } from "next/navigation";
+import { ShowInViewCommand } from "./commands/ShowInViewCommand";
+import { SwitchPanelCommand } from "./commands/SwitchPanelCommand";
+import { NewLeadForm } from "@/app/app/_components/forms/NewLeadForm";
+import { NewContactForm } from "@/app/app/_components/forms/NewContactForm";
+import { Account } from "@database/types";
+import { NewDealForm } from "@/app/app/_components/forms/NewDealForm";
 
-export function CommandPalette() {
-  const { open, setOpen } = React.useContext(CommandContext);
+interface CommandLink {
+  title: string;
+  url: string;
+}
+
+interface CustomLogoLink {
+  title: string;
+  url: string;
+  icon: LucideIcon;
+}
+
+interface SwitchPanelCommandProps {
+  panel: string;
+  PanelIcon: LucideIcon;
+}
+
+interface CommandData {
+  gotoLinks: CommandLink[];
+  helpLinks: CustomLogoLink[];
+  showInViewPathnames: string[];
+  switchPanelPathnames: string[];
+  panels: SwitchPanelCommandProps[];
+}
+
+const commandsData: CommandData = {
+  gotoLinks: [
+    { title: "Leads", url: "/app/leads" },
+    { title: "Clients", url: "/app/clients" },
+    { title: "Deals", url: "/app/deals?view=board" },
+    { title: "Account Settings", url: "/app/settings/account" },
+    { title: "Workspace Settings", url: "/app/settings/workspace" },
+    { title: "Billing Settings", url: "/app/settings/billing" },
+    { title: "Appearance Settings", url: "/app/settings/appearance" },
+    { title: "Home", url: "/app/home" },
+  ],
+  helpLinks: [
+    { title: "Contact Support", url: "/reach/support", icon: Headset },
+    { title: "Give Feedback", url: "/reach/feedback", icon: MessageSquareText },
+    { title: "Read Documentation", url: "#", icon: Book },
+  ],
+  panels: [
+    { panel: "activity", PanelIcon: Clock },
+    { panel: "tasks", PanelIcon: CheckSquare },
+  ],
+  showInViewPathnames: ["/app/deals"],
+  switchPanelPathnames: ["/app/client/", "/app/leads/"],
+};
+
+export function CommandPalette({ accounts }: { accounts: Account[] }) {
+  const { commandOpen, setCommandOpen } = React.useContext(CommandContext);
+
+  const pathname = usePathname();
+
+  const shouldRenderShowInViewCommand = commandsData.showInViewPathnames.some(
+    (path) => pathname.startsWith(path),
+  );
+
+  const shouldRenderSwitchPanelCommand = React.useMemo(() => {
+    const pathSegments = pathname.split("/");
+    if (pathSegments.length !== 4) return false;
+
+    return (
+      (pathname.startsWith("/app/clients/") && pathname !== "/app/clients/") ||
+      (pathname.startsWith("/app/leads/") && pathname !== "/app/leads/")
+    );
+  }, [pathname]);
 
   React.useEffect(() => {
     const down = (e: KeyboardEvent) => {
-      if (e.key === "j" && (e.metaKey || e.ctrlKey)) {
+      if (e.key.toLowerCase() === "k" && (e.metaKey || e.ctrlKey)) {
         e.preventDefault();
-        setOpen((open) => !open);
+        setCommandOpen((prev) => !prev);
       }
     };
 
     document.addEventListener("keydown", down);
     return () => document.removeEventListener("keydown", down);
-  }, []);
+  }, [setCommandOpen]);
+
+  const runCommand = (command: () => void) => {
+    setCommandOpen(false);
+    command();
+  };
 
   return (
     <>
-      {/* <p className="text-sm text-muted-foreground">
-        Press{" "}
-        <kbd className="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100">
-          <span className="text-xs">⌘</span>J
-        </kbd>
-      </p> */}
-      <CommandDialog open={open} onOpenChange={setOpen}>
+      <CommandDialog open={commandOpen} onOpenChange={setCommandOpen}>
         <DialogTitle className="sr-only">Command Palette</DialogTitle>
         <CommandInput placeholder="Type a command or search..." />
         <CommandList>
           <CommandEmpty>No results found.</CommandEmpty>
-          <CommandGroup heading="Suggestions">
-            <CommandItem>
-              <Calendar className="!h-4 !w-4" />
-              <span>Calendar</span>
-            </CommandItem>
-            <CommandItem>
-              <Smile />
-              <span>Search Emoji</span>
-            </CommandItem>
-            <CommandItem>
-              <Calculator />
-              <span>Calculator</span>
-            </CommandItem>
+          <CommandGroup heading="Create">
+            <NewLeadForm runCommandFunction={runCommand} addLead={() => {}} />
+            <NewContactForm
+              runCommandFunction={runCommand}
+              addContact={() => {}}
+              accounts={accounts}
+            />
+            <NewDealForm
+              runCommandFunction={runCommand}
+              addDeal={() => {}}
+              accounts={accounts}
+            />
           </CommandGroup>
-          <CommandSeparator />
-          <CommandGroup heading="Settings">
-            <CommandItem>
-              <User />
-              <span>Profile</span>
-              <CommandShortcut>⌘P</CommandShortcut>
-            </CommandItem>
-            <CommandItem>
-              <CreditCard />
-              <span>Billing</span>
-              <CommandShortcut>⌘B</CommandShortcut>
-            </CommandItem>
-            <CommandItem>
-              <Settings />
-              <span>Settings</span>
-              <CommandShortcut>⌘S</CommandShortcut>
-            </CommandItem>
+          <CommandGroup heading="Navigation">
+            {commandsData.gotoLinks.map((link) => (
+              <GoToLink
+                key={link.title}
+                {...link}
+                runCommandFunction={runCommand}
+              />
+            ))}
+          </CommandGroup>
+          <CommandSeparator className="my-2" />
+          <CommandGroup heading="Help">
+            {commandsData.helpLinks.map((link) => (
+              <CustomIconLink
+                Icon={link.icon}
+                key={link.title}
+                {...link}
+                runCommandFunction={runCommand}
+              />
+            ))}
+          </CommandGroup>
+          {shouldRenderShowInViewCommand ||
+            (shouldRenderSwitchPanelCommand && (
+              <>
+                <CommandSeparator className="my-2" />
+                <CommandGroup heading="Miscellaneous">
+                  {shouldRenderShowInViewCommand && (
+                    <ShowInViewCommand runCommandFunction={runCommand} />
+                  )}
+                  {shouldRenderSwitchPanelCommand &&
+                    commandsData.panels.map((panel) => (
+                      <SwitchPanelCommand
+                        key={panel.panel}
+                        runCommandFunction={runCommand}
+                        {...panel}
+                      />
+                    ))}
+                </CommandGroup>
+              </>
+            ))}
+          <CommandSeparator className="my-2" />
+          <CommandGroup heading="Account">
+            <LogoutCommand runCommandFunction={runCommand} />
           </CommandGroup>
         </CommandList>
       </CommandDialog>

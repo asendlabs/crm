@@ -13,30 +13,27 @@ import {
   AlignLeft,
   Mail,
 } from "lucide-react";
-import React from "react";
+import React, { useEffect } from "react";
 import { ActivityPanel } from "./panels/activities";
 import { TaskPanel } from "./panels/tasks";
 import { useRouter } from "@/hooks/use-performance-router";
 import { EmailPanel } from "./panels/emails";
+import { useSearchParams } from "next/navigation";
 
-export function Panels({
-  className,
-  tab,
-}: {
-  className?: string;
-  tab: string | undefined;
-}) {
+export function Panels({ className }: { className?: string }) {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const panel = searchParams.get("panel") || "activity";
   return (
     <section className={cn(className)}>
-      <CustomTabs defaultValue={tab || "activity"} className="w-full">
+      <CustomTabs value={panel} className="w-full">
         <CustomTabsList className="w-full select-none">
-          <div onClick={() => router.push("?tab=activity")}>
+          <div onClick={() => router.push("?panel=activity")}>
             <CustomTabsTrigger value="activity">
               <Clock size={14} /> Activity
             </CustomTabsTrigger>
           </div>
-          <div onClick={() => router.push("?tab=tasks")}>
+          <div onClick={() => router.push("?panel=tasks")}>
             <CustomTabsTrigger value="tasks">
               <CheckSquare size={14} /> Tasks
             </CustomTabsTrigger>
