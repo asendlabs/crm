@@ -14,6 +14,9 @@ import {
 import { Link } from "next-view-transitions";
 import { AlertCircle, Trash2, Settings, Shield, Building2 } from "lucide-react";
 import { SettingsTextField } from "../_components/settings-text-field";
+import { selectedWorkspaceCookie } from "@/constants";
+import { cookies } from "next/headers";
+import { getWorkspaceById } from "@/data-access/workspaces";
 
 export const metadata = {
   title: {
@@ -24,7 +27,13 @@ export const metadata = {
   },
 };
 
-const WorkspacePage = () => {
+const WorkspacePage = async () => {
+  const workspaceId =
+    (await cookies()).get(selectedWorkspaceCookie)?.value || "";
+  const workspace = await getWorkspaceById(workspaceId);
+  if (!workspace) {
+    return null;
+  }
   return (
     <Card className="flex h-fit w-full flex-col px-8 py-6">
       {/* Header Section */}
@@ -49,8 +58,9 @@ const WorkspacePage = () => {
         </div>
         <div className="flex flex-col gap-2">
           <SettingsTextField
-            defaultValue="My Workspace"
+            defaultValue={workspace.name!}
             label=""
+            entityType="name"
             placeholder="Enter workspace name"
           />
           <p className="text-xs text-muted-foreground">

@@ -54,8 +54,8 @@ export function SidebarItem({
     <Link
       href={currentItem.href}
       className={cn(
-        "flex h-8 items-center gap-2 rounded-lg p-1.5 text-sm font-medium capitalize hover:border",
-        active && "border",
+        "flex h-8 items-center gap-2 rounded-lg p-1.5 text-sm font-medium capitalize hover:bg-sidebar-accent",
+        active && "bg-sidebar-accent",
       )}
     >
       <currentItem.icon size={16} />

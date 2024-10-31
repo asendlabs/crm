@@ -4,6 +4,7 @@ import { workspaceTable, workspaceUserTable } from "@database/tables";
 import { eq, inArray } from "drizzle-orm";
 import { ulid } from "ulid";
 import { getUserById } from "./users";
+import { Workspace } from "@database/types";
 
 export async function getWorkspaceById(id: string) {
   const workspace = await db.query.workspaceTable.findFirst({
@@ -63,4 +64,16 @@ export async function createWorkspaceUser(
     })
     .returning();
   return created;
+}
+
+export async function updateWorkspace(
+  workspaceId: string,
+  updates: Partial<Workspace>,
+) {
+  const [updated] = await db
+    .update(workspaceTable)
+    .set(updates)
+    .where(eq(workspaceTable.id, workspaceId))
+    .returning();
+  return updated;
 }

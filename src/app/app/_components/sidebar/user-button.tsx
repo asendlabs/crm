@@ -78,7 +78,7 @@ export function UserButton({ user }: { user: UserWithWorkspaceAndProfile }) {
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
                 <span className="truncate font-semibold">
-                  {user.profile.firstName}
+                  {user.profile.firstName} {user.profile.lastName ?? ""}
                 </span>
                 <span className="truncate text-xs">{user.email}</span>
               </div>
@@ -102,7 +102,7 @@ export function UserButton({ user }: { user: UserWithWorkspaceAndProfile }) {
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
                   <span className="truncate font-semibold">
-                    {user.profile.firstName}
+                    {user.profile.firstName} {user.profile.lastName ?? ""}
                   </span>
                   <span className="truncate text-xs">{user.email}</span>
                 </div>

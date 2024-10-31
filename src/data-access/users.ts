@@ -2,7 +2,7 @@ import "server-only";
 import { db } from "@database";
 import { userTable } from "@database/tables";
 import { compare, genSalt, hash } from "bcryptjs";
-import { User } from "@database/types";
+import { Profile, User } from "@database/types";
 import { eq } from "drizzle-orm";
 import { ulid } from "ulid";
 import { generateEmailVerifyCode } from "@/lib/utils";
@@ -169,4 +169,12 @@ export async function createIdentity({
     })
     .returning();
   return created;
+}
+export async function updateProfile(userId: string, updates: Partial<Profile>) {
+  const [updated] = await db
+    .update(profileTable)
+    .set(updates)
+    .where(eq(profileTable.userId, userId))
+    .returning();
+  return updated;
 }

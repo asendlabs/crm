@@ -39,7 +39,7 @@ export default async function ApplicationLayout({
           your entire Asend experience.
         </p>
       </div>
-      <section className="grid h-full w-full grid-cols-[275px_1fr] gap-3 pt-6">
+      <section className="grid h-full w-full grid-cols-[225px_1fr] gap-3 pt-6">
         <section className="flex h-full flex-col gap-1">
           <SidebarItem label="account" />
           <SidebarItem label="workspace" />

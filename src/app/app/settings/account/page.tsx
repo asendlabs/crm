@@ -2,7 +2,9 @@ import React from "react";
 import { Card } from "@/components/ui/card";
 import { Link } from "next-view-transitions";
 import { SettingsTextField } from "../_components/settings-text-field";
-import { User, Shield, IdCard } from "lucide-react";
+import { User, Shield, IdCard, Loader } from "lucide-react";
+import { validateRequest } from "@/lib/lucia";
+import { getUserById } from "@/data-access/users";
 
 export const metadata = {
   title: {
@@ -13,7 +15,14 @@ export const metadata = {
   },
 };
 
-function AccountPage() {
+async function AccountPage() {
+  const user = await validateRequest();
+  const userId = user.user?.id;
+  if (!userId) return null;
+
+  const dbUser = await getUserById(userId);
+  if (!dbUser) return null;
+
   return (
     <Card className="flex h-fit w-full flex-col px-8 py-6">
       {/* Header Section */}
@@ -38,14 +47,16 @@ function AccountPage() {
         </div>
         <div className="flex gap-4">
           <SettingsTextField
-            defaultValue="test"
+            defaultValue={dbUser.profile?.firstName ?? ""}
             label="First Name"
             placeholder="Enter your first name"
+            entityType="firstName"
           />
           <SettingsTextField
-            defaultValue="test"
+            defaultValue={dbUser.profile?.lastName ?? ""}
             label="Last Name"
             placeholder="Enter your last name"
+            entityType="lastName"
           />
         </div>
       </div>
@@ -62,7 +73,7 @@ function AccountPage() {
           {/* Email Section */}
           <div className="flex flex-col gap-2">
             <SettingsTextField
-              defaultValue="test@example.com"
+              defaultValue={dbUser.email}
               label="Email Address"
               placeholder="Enter your email"
               isNotEditable
