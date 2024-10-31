@@ -12,7 +12,7 @@ import {
 import { getAllUserWorkspaces } from "@/data-access/workspaces";
 import { selectedWorkspaceCookie } from "@/constants";
 import { validateRequest } from "@/lib/lucia";
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "./_components/sidebar/app-sidebar";
 import { UserWithWorkspaceAndProfile } from "@/types/entities";
 import { Profile } from "@database/types";

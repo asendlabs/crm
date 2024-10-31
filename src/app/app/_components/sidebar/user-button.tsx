@@ -7,6 +7,7 @@ import {
   CreditCard,
   Loader,
   LogOut,
+  Settings,
   Sparkles,
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -114,7 +115,7 @@ export function UserButton({ user }: { user: UserWithWorkspaceAndProfile }) {
                 Upgrade to Pro
               </DropdownMenuItem>
             </DropdownMenuGroup>
-            <DropdownMenuSeparator />
+            {/* <DropdownMenuSeparator />
             <DropdownMenuGroup>
               <DropdownMenuItem>
                 <BadgeCheck size={15} />
@@ -128,8 +129,17 @@ export function UserButton({ user }: { user: UserWithWorkspaceAndProfile }) {
                 <Bell size={15} />
                 Notifications
               </DropdownMenuItem>
-            </DropdownMenuGroup>
+            </DropdownMenuGroup> */}
             <DropdownMenuSeparator />
+            <DropdownMenuItem
+              onClick={() => {
+                router.push("/app/settings/account");
+              }}
+              className="flex items-center"
+            >
+              <Settings size={15} />
+              <span>Settings</span>
+            </DropdownMenuItem>
             <DropdownMenuItem
               onClick={handleLogout}
               className="flex items-center"

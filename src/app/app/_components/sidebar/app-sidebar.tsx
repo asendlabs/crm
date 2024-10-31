@@ -13,6 +13,7 @@ import {
   Loader,
   Cog,
   Mail,
+  Settings,
 } from "lucide-react";
 import { UserWithWorkspaceAndProfile } from "@/types/entities";
 import { UserButton } from "./user-button";

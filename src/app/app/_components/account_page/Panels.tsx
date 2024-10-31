@@ -6,60 +6,53 @@ import {
   CustomTabsTrigger,
 } from "@/components/ui/custom-tabs";
 import { cn } from "@/lib/utils/tailwind";
-import {
-  MessageCircle,
-  Clock,
-  CheckSquare,
-  AlignLeft,
-  Mail,
-} from "lucide-react";
+import { Clock, CheckSquare } from "lucide-react";
 import React, { useEffect } from "react";
 import { ActivityPanel } from "./panels/activities";
 import { TaskPanel } from "./panels/tasks";
 import { useRouter } from "@/hooks/use-performance-router";
-import { EmailPanel } from "./panels/emails";
 import { useSearchParams } from "next/navigation";
+
+type Panels = "activity" | "tasks";
 
 export function Panels({ className }: { className?: string }) {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const panel = searchParams.get("panel") || "activity";
+  const initialPanel = (searchParams.get("panel") as Panels) || "activity";
+
+  const [panelState, setPanelState] = React.useState<Panels>(initialPanel);
+
+  useEffect(() => {
+    setPanelState(initialPanel);
+  }, [initialPanel]);
+
+  useEffect(() => {
+    router.push(`?panel=${panelState}`);
+  }, [panelState]);
+
   return (
     <section className={cn(className)}>
-      <CustomTabs value={panel} className="w-full">
+      <CustomTabs
+        value={panelState}
+        onValueChange={(value) => setPanelState(value as Panels)} // Cast `value` as `Panels`
+        className="w-full"
+      >
         <CustomTabsList className="w-full select-none">
-          <div onClick={() => router.push("?panel=activity")}>
-            <CustomTabsTrigger value="activity">
-              <Clock size={14} /> Activity
-            </CustomTabsTrigger>
-          </div>
-          <div onClick={() => router.push("?panel=tasks")}>
-            <CustomTabsTrigger value="tasks">
-              <CheckSquare size={14} /> Tasks
-            </CustomTabsTrigger>
-          </div>
-          {/* <div>
-            <CustomTabsTrigger value="" disabled={true}>
-              <AlignLeft size={14} /> Analysis (upcoming)
-            </CustomTabsTrigger>
-          </div>
-          <div>
-            <CustomTabsTrigger value="" disabled={true}>
-              <Mail size={14} /> Emails (upcoming)
-            </CustomTabsTrigger>
-          </div> */}
+          <CustomTabsTrigger
+            value="activity"
+            className="flex items-center gap-2"
+          >
+            <Clock size={14} /> Activity
+          </CustomTabsTrigger>
+          <CustomTabsTrigger value="tasks" className="flex items-center gap-2">
+            <CheckSquare size={14} /> Tasks
+          </CustomTabsTrigger>
         </CustomTabsList>
         <CustomTabsContent value="activity" className="w-full">
           <ActivityPanel />
         </CustomTabsContent>
         <CustomTabsContent value="tasks">
           <TaskPanel />
-        </CustomTabsContent>
-        <CustomTabsContent value="">
-          <EmailPanel />
-        </CustomTabsContent>
-        <CustomTabsContent value="">
-          <p>Analyze account performance and trends.</p>
         </CustomTabsContent>
       </CustomTabs>
     </section>
