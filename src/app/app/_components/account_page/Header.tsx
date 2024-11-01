@@ -131,6 +131,7 @@ export function Header({ className }: { className?: string }) {
           <Button
             className="h-7"
             onClick={handleConvertToClient}
+            variant={"outline"}
             disabled={converting}
           >
             {converting ? (

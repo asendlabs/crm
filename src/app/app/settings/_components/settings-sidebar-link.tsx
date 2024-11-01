@@ -58,7 +58,7 @@ export function SidebarItem({
         active && "bg-sidebar-accent",
       )}
     >
-      <currentItem.icon size={16} />
+      <currentItem.icon className="size-4" />
       {currentItem.label}
     </Link>
   );

@@ -109,9 +109,9 @@ export function NewLeadForm({
           <span>Create new lead</span>
         </CommandItem>
       ) : (
-        <DialogTrigger className="flex max-h-8 max-w-28 flex-row items-center gap-1 rounded-lg bg-primary px-3 text-sm text-white hover:bg-primary/90">
+        <DialogTrigger className="flex max-h-8 max-w-28 flex-row items-center gap-1 rounded-lg border px-3 text-sm">
           <Plus className="size-4" />
-          <span>New</span>
+          <span>Add Lead</span>
         </DialogTrigger>
       )}
       <DialogContent className="flex flex-col py-2">

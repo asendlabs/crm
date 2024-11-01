@@ -148,9 +148,9 @@ export function NewDealForm({
           <span>Create new deal</span>
         </CommandItem>
       ) : fullButton ? (
-        <DialogTrigger className="flex max-h-8 max-w-28 flex-row items-center gap-1 rounded-lg bg-primary px-3 text-sm text-white hover:bg-primary/90">
+        <DialogTrigger className="flex max-h-8 max-w-28 flex-row items-center gap-1 rounded-lg border px-3 text-sm">
           <Plus className="size-4" />
-          <span>New</span>
+          <span>Add Deal</span>
         </DialogTrigger>
       ) : (
         <div

@@ -6,7 +6,7 @@ import { useServerAction } from "zsa-react";
 import { toast } from "sonner";
 import { updateAccountAction } from "@/server/accounts";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea"; // Import Textarea
+import { Textarea } from "@/components/ui/textarea";
 import { useRouter } from "@/hooks/use-performance-router";
 import {
   IdCard,
@@ -20,6 +20,7 @@ import {
   Linkedin,
   Twitter,
   AlignLeft,
+  Pencil,
 } from "lucide-react";
 import {
   Select,
@@ -37,6 +38,91 @@ import {
 } from "@/components/ui/accordion";
 import { cn } from "@/lib/utils/tailwind";
 
+// Utility functions for handling URLs and social media values
+const isValidUrl = (value: string): boolean => {
+  try {
+    new URL(value);
+    return true;
+  } catch {
+    return false;
+  }
+};
+
+const getSocialMediaUrl = (platform: string, value: string): string => {
+  if (!value) return "";
+
+  // If it's already a full URL, return it
+  if (isValidUrl(value)) return value;
+
+  // Remove @ if present
+  const handle = value.startsWith("@") ? value.slice(1) : value;
+
+  switch (platform) {
+    case "Instagram":
+      return `https://instagram.com/${handle}`;
+    case "Twitter":
+      return `https://twitter.com/${handle}`;
+    case "LinkedIn":
+      return handle.includes("/")
+        ? `https://linkedin.com/${handle}`
+        : handle.match(/^[\w\s-]+$/)
+          ? `https://linkedin.com/company/${handle}`
+          : `https://linkedin.com/in/${handle}`;
+    case "Facebook":
+      return handle.includes("/")
+        ? `https://facebook.com/${handle}`
+        : `https://facebook.com/${handle}`;
+    default:
+      return value;
+  }
+};
+
+const formatSocialMediaHandle = (platform: string, value: string): string => {
+  if (!value) return "";
+
+  // If it's a full URL, extract the handle/name
+  if (isValidUrl(value)) {
+    try {
+      const url = new URL(value);
+      const pathParts = url.pathname.split("/").filter(Boolean);
+
+      switch (platform) {
+        case "LinkedIn":
+          if (pathParts[0] === "company") {
+            return pathParts[1];
+          } else if (pathParts[0] === "in") {
+            return `@${pathParts[1]}`;
+          }
+          return pathParts.join("/");
+
+        case "Facebook":
+          if (pathParts[0] === "pages") {
+            return pathParts.slice(1).join("/");
+          }
+          return pathParts.join("/");
+
+        case "Instagram":
+        case "Twitter":
+          return `@${pathParts[pathParts.length - 1]}`;
+
+        default:
+          return value;
+      }
+    } catch {
+      return value;
+    }
+  }
+
+  // For non-URL inputs
+  switch (platform) {
+    case "Instagram":
+    case "Twitter":
+      return value.startsWith("@") ? value : `@${value}`;
+    default:
+      return value;
+  }
+};
+
 interface DetailFieldProps {
   label: string;
   icon?: LucideIcon;
@@ -45,7 +131,7 @@ interface DetailFieldProps {
   inputClassName?: string;
   customInput?: React.ReactNode;
   copyEnabled?: boolean;
-  isDescription?: boolean; // New prop for description field
+  isDescription?: boolean;
 }
 
 const DetailField: React.FC<DetailFieldProps> = ({
@@ -56,11 +142,12 @@ const DetailField: React.FC<DetailFieldProps> = ({
   inputClassName = "",
   customInput,
   copyEnabled = false,
-  isDescription = false, // Default to false
+  isDescription = false,
 }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [fieldValue, setFieldValue] = useState(value || "");
   const inputRef = useRef<HTMLInputElement | HTMLTextAreaElement>(null);
+  const router = useRouter();
 
   useEffect(() => {
     setFieldValue(value || "");
@@ -74,30 +161,92 @@ const DetailField: React.FC<DetailFieldProps> = ({
     }
   }, [isEditing]);
 
-  const handleCopy = () => {
+  const handleCopy = (e: React.MouseEvent) => {
+    e.stopPropagation();
     if (fieldValue) {
-      navigator.clipboard.writeText(fieldValue);
-      toast.success(`Copied to clipboard`);
+      const valueToCopy = isSocialMedia(label)
+        ? getSocialMediaUrl(label, fieldValue)
+        : fieldValue;
+      navigator.clipboard.writeText(valueToCopy);
+      toast.success("Copied to clipboard");
     }
   };
 
-  const isUrl = (label: string, value: string): boolean => {
-    const validLabels = [
-      "Instagram",
-      "Facebook",
-      "LinkedIn",
-      "Twitter",
-      "Website",
-    ];
-    return validLabels.includes(label);
+  const isSocialMedia = (label: string): boolean => {
+    return ["Instagram", "Facebook", "LinkedIn", "Twitter"].includes(label);
+  };
+
+  const isClickableUrl = (value: string): boolean => {
+    return isValidUrl(value) || isSocialMedia(label);
+  };
+
+  const displayValue = isSocialMedia(label)
+    ? formatSocialMediaHandle(label, fieldValue)
+    : isValidUrl(fieldValue)
+      ? new URL(fieldValue).hostname + new URL(fieldValue).pathname
+      : fieldValue;
+
+  const handleClick = (e: React.MouseEvent) => {
+    if (!isEditing && fieldValue && isClickableUrl(fieldValue)) {
+      e.preventDefault();
+      const url = isSocialMedia(label)
+        ? getSocialMediaUrl(label, fieldValue)
+        : fieldValue.startsWith("http")
+          ? fieldValue
+          : `https://${fieldValue}`;
+
+      if (url.startsWith(window.location.origin)) {
+        router.push(url);
+      } else {
+        window.open(url, "_blank");
+      }
+    }
+  };
+
+  const handleEditClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setIsEditing(true);
+  };
+
+  const handleFieldClick = (e: React.MouseEvent) => {
+    if (!isEditing) {
+      if (fieldValue && isClickableUrl(fieldValue)) {
+        handleClick(e);
+      } else {
+        setIsEditing(true);
+      }
+    }
   };
 
   const placeholder = `Set ${label.charAt(0).toUpperCase() + label.slice(1)}`;
 
+  const renderActionButtons = () => {
+    return (
+      <div className="absolute right-1 top-1/2 flex -translate-y-1/2 gap-1">
+        {!isEditing && fieldValue && (
+          <button
+            onClick={handleEditClick}
+            className="cursor-pointer rounded bg-muted p-1 text-gray-500 opacity-0 transition-opacity hover:text-gray-700 group-hover:opacity-100"
+          >
+            <Pencil size={14} />
+          </button>
+        )}
+        {copyEnabled && fieldValue && (
+          <button
+            onClick={handleCopy}
+            className="cursor-pointer rounded bg-muted p-1 text-gray-500 opacity-0 transition-opacity hover:text-gray-700 group-hover:opacity-100"
+          >
+            <Copy size={14} />
+          </button>
+        )}
+      </div>
+    );
+  };
+
   return (
     <div
       className={cn(
-        "group flex items-center text-sm",
+        "group flex w-full items-center text-sm",
         isEditing && isDescription && "mt-1 items-start",
       )}
     >
@@ -113,31 +262,38 @@ const DetailField: React.FC<DetailFieldProps> = ({
               value={fieldValue}
               placeholder={placeholder}
               onChange={(e) => setFieldValue(e.target.value)}
-              onClick={() => setIsEditing(true)}
+              onClick={handleFieldClick}
               onKeyDown={(e) => {
-                if (e.key === "Enter") {
+                if (e.key === "Enter" && !e.shiftKey) {
+                  e.preventDefault();
                   setIsEditing(false);
                   if (fieldValue !== value) {
                     onSave(fieldValue);
                   }
                 }
               }}
-              onBlur={(e) => {
+              onBlur={() => {
                 setIsEditing(false);
-                if (e.target.value !== value) {
-                  onSave(e.target.value);
+                if (fieldValue !== value) {
+                  onSave(fieldValue);
                 }
               }}
               readOnly={!isEditing}
-              className={`m-0 ml-1 !h-7 !min-h-7 w-fit max-w-full resize-none truncate break-words px-2 py-1 hover:bg-muted ${!isEditing ? "cursor-text border-none bg-transparent" : "!h-20 !resize-y"} ${inputClassName}`}
+              className={cn(
+                "m-0 ml-1 !h-7 !min-h-7 w-full max-w-full resize-none truncate break-words px-2 py-1 hover:bg-muted",
+                !isEditing
+                  ? "cursor-text border-none bg-transparent"
+                  : "!h-20 !resize-y",
+                inputClassName,
+              )}
             />
           ) : (
             <Input
               ref={inputRef as any}
-              value={fieldValue}
+              value={isEditing ? fieldValue : displayValue}
               placeholder={placeholder}
               onChange={(e) => setFieldValue(e.target.value)}
-              onClick={() => setIsEditing(true)}
+              onClick={handleFieldClick}
               onKeyDown={(e) => {
                 if (e.key === "Enter") {
                   setIsEditing(false);
@@ -146,25 +302,25 @@ const DetailField: React.FC<DetailFieldProps> = ({
                   }
                 }
               }}
-              onBlur={(e) => {
+              onBlur={() => {
                 setIsEditing(false);
-                if (e.target.value !== value) {
-                  onSave(e.target.value);
+                if (fieldValue !== value) {
+                  onSave(fieldValue);
                 }
               }}
               readOnly={!isEditing}
-              className={`m-0 h-7 w-full truncate px-2 py-1 hover:bg-muted ${!isEditing ? "cursor-text border-none bg-transparent" : ""} ${inputClassName} ${fieldValue && isUrl(label, fieldValue) && "underline"} ${
-                isUrl(label, fieldValue) ? "text-blue-700" : "text-black"
-              }`}
+              className={cn(
+                "m-0 h-7 w-full truncate px-2 py-1 hover:bg-muted",
+                !isEditing && "cursor-pointer border-none bg-transparent",
+                fieldValue && isClickableUrl(fieldValue) && "underline",
+                fieldValue && isClickableUrl(fieldValue)
+                  ? "text-blue-700"
+                  : "text-black",
+                inputClassName,
+              )}
             />
           ))}
-        {copyEnabled && fieldValue && (
-          <Copy
-            size={22}
-            className="absolute right-1 top-1/2 ml-1 -translate-y-1/2 cursor-pointer rounded bg-muted p-1 text-gray-500 opacity-0 hover:text-gray-700 group-hover:opacity-100"
-            onClick={handleCopy}
-          />
-        )}
+        {renderActionButtons()}
       </div>
     </div>
   );
@@ -264,7 +420,7 @@ export function DetailsCard() {
         <AccordionTrigger className="flex select-none items-center justify-between pb-2.5">
           <span className="text-sm font-medium capitalize">Details</span>
         </AccordionTrigger>
-        <AccordionContent className="grid items-start justify-start gap-1.5 overflow-clip overflow-y-auto pl-0.5 pr-1 pt-1">
+        <AccordionContent className="grid w-full items-start justify-start gap-1.5 overflow-clip overflow-y-auto pl-0.5 pr-1 pt-1">
           {account?.type !== "client" && (
             <DetailField
               label="Status"
@@ -288,13 +444,13 @@ export function DetailsCard() {
             onSave={(value: string) => handleUpdate("website", value)}
             copyEnabled
           />
-          {/* <DetailField
+          <DetailField
             label="Description"
             icon={AlignLeft}
             value={account?.description}
             onSave={(value: string) => handleUpdate("description", value)}
             isDescription
-          /> */}
+          />
           <DetailField
             label="Instagram"
             icon={Instagram}
@@ -302,13 +458,13 @@ export function DetailsCard() {
             onSave={(value: string) => handleUpdate("instagram", value)}
             copyEnabled
           />
-          <DetailField
+          {/* <DetailField
             label="Facebook"
             icon={Facebook}
             value={account?.facebook}
             onSave={(value: string) => handleUpdate("facebook", value)}
             copyEnabled
-          />
+          /> */}
           <DetailField
             label="LinkedIn"
             icon={Linkedin}

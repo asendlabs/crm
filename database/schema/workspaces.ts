@@ -1,4 +1,5 @@
 import {
+  json,
   jsonb,
   pgSchema,
   primaryKey,
@@ -27,6 +28,7 @@ export const workspaceTable = table("workspaces", {
     .notNull()
     .references(() => userTable.id),
   metadata: jsonb("metadata"),
+  oramaIndex: json("orama_index"),
   dealStages: jsonb("deal_stages").default(JSON.stringify(dealStagesDefault)),
   accountStatuses: jsonb("account_statuses").default(
     JSON.stringify(accountStatusesDefault),

@@ -40,7 +40,7 @@ export default async function ApplicationLayout({
         </p>
       </div>
       <section className="grid h-full w-full grid-cols-[225px_1fr] gap-3 pt-6">
-        <section className="flex h-full flex-col gap-1">
+        <section className="flex h-full flex-col gap-0.5">
           <SidebarItem label="account" />
           <SidebarItem label="workspace" />
           <SidebarItem label="billing" />

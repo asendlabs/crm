@@ -138,7 +138,7 @@ export function WorkspaceSwitcher({
                 </DropdownMenuShortcut>
               </DropdownMenuItem>
             ))}
-            <DropdownMenuSeparator />
+            {/* <DropdownMenuSeparator />
             <DropdownMenuItem
               onClick={() => setShowNewWorkspaceDialog(true)}
               className="cursor-pointer"
@@ -149,19 +149,19 @@ export function WorkspaceSwitcher({
               <div className="font-medium text-muted-foreground">
                 Add workspace
               </div>
-            </DropdownMenuItem>
+            </DropdownMenuItem> */}
           </DropdownMenuContent>
         </DropdownMenu>
       </SidebarMenuItem>
 
-      <Dialog
+      {/* <Dialog
         open={showNewWorkspaceDialog}
         onOpenChange={setShowNewWorkspaceDialog}
       >
         <DialogContent className="p-5">
           New workspace form goes here
         </DialogContent>
-      </Dialog>
+      </Dialog> */}
     </SidebarMenu>
   );
 }
