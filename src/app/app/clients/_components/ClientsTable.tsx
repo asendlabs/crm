@@ -28,6 +28,7 @@ import { useServerAction } from "zsa-react";
 import { deleteAccountAction, updateAccountAction } from "@/server/accounts";
 import { toast } from "sonner";
 import { Account, Contact } from "@database/types";
+import { PageTitle } from "@/components/PageTitle";
 
 interface ClientTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -145,7 +146,7 @@ export function ClientTable<TData, TValue>({
     <>
       <section className="flex h-screen flex-col gap-3 px-6 py-4">
         <div className="flex select-none flex-row items-center justify-between">
-          <h1 className="text-xl font-semibold">Clients</h1>
+          <PageTitle>Clients</PageTitle>
           <div className="flex flex-row gap-2">
             <div>
               <DataTableDeleteButton

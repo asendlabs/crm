@@ -9,6 +9,7 @@ import {
 } from "@/constants";
 import { validateRequest } from "@/lib/lucia";
 import { SidebarItem } from "./_components/settings-sidebar-link";
+import { PageTitle } from "@/components/PageTitle";
 
 export default async function ApplicationLayout({
   children,
@@ -33,7 +34,7 @@ export default async function ApplicationLayout({
   return (
     <section className="flex h-screen min-h-screen w-full flex-col items-start p-5">
       <div className="flex flex-col gap-2">
-        <h1 className="text-xl font-semibold">Settings</h1>
+        <PageTitle>Settings</PageTitle>
         <p className="text-sm">
           Hey, {dbUser.profile?.firstName}, here you can personalize and manage
           your entire Asend experience.

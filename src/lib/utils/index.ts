@@ -11,189 +11,45 @@ export function generateEmailVerifyCode() {
   return code;
 }
 
-export function timeAgo(timestamp: string): string {
-  const now: Date = new Date();
-  const past: Date = new Date(timestamp);
-  const diffInSeconds: number = Math.floor(
-    (now.getTime() - past.getTime()) / 1000,
-  );
+export function formatDate(date: string | Date): string {
+  const now = new Date();
+  const pastDate = new Date(date);
+  const diffInSeconds = Math.floor((now.getTime() - pastDate.getTime()) / 1000);
 
-  const getTimeOfDay = (date: Date): string => {
-    const hour = date.getHours();
-    if (hour >= 5 && hour < 12) return "morning";
-    if (hour >= 12 && hour < 17) return "afternoon";
-    if (hour >= 17 && hour < 22) return "evening";
-    return "night";
-  };
-
-  const getDayContext = (date: Date, isRelative: boolean = false): string => {
-    const days = [
-      "sunday",
-      "monday",
-      "tuesday",
-      "wednesday",
-      "thursday",
-      "friday",
-      "saturday",
-    ];
-    const dayName = days[date.getDay()];
-
-    if (isRelative) {
-      const today = new Date();
-      const dayDiff = Math.floor(
-        (today.getTime() - date.getTime()) / (1000 * 60 * 60 * 24),
-      );
-
-      switch (dayDiff) {
-        case 0:
-          return "today";
-        case 1:
-          return "yesterday";
-        case 2:
-          return "the day before yesterday";
-        case -1:
-          return "tomorrow";
-        case -2:
-          return "the day after tomorrow";
-      }
-
-      if (dayDiff > 2 && dayDiff < 7) {
-        return `last ${dayName}`;
-      }
-    }
-    return dayName;
-  };
-
-  if (diffInSeconds < 5) {
-    return "just now";
-  }
-  if (diffInSeconds < 30) {
-    return "a few seconds ago";
-  }
-  if (diffInSeconds < 60) {
-    return "less than a minute ago";
-  }
-
+  // Convert to different units
   const minutes = Math.floor(diffInSeconds / 60);
   const hours = Math.floor(minutes / 60);
   const days = Math.floor(hours / 24);
   const weeks = Math.floor(days / 7);
   const months = Math.floor(days / 30.44);
-  const years = Math.floor(days / 365.25);
 
-  if (minutes === 1) return "a minute ago";
-  if (minutes < 5) return "a few minutes ago";
-  if (minutes < 15) return "about 10 minutes ago";
-  if (minutes < 25) return "about 20 minutes ago";
-  if (minutes < 35) return "half an hour ago";
-  if (minutes < 45) return "about half an hour ago";
-  if (minutes < 55) return "about 45 minutes ago";
+  // Just now
+  if (diffInSeconds < 30) {
+    return "just now";
+  }
 
-  if (hours === 1) return "an hour ago";
+  // Minutes
+  if (minutes < 60) {
+    return `${minutes} minutes ago`;
+  }
+
+  // Hours
   if (hours < 24) {
-    const todayOrYesterday = hours >= now.getHours() ? "yesterday" : "today";
-    const timeOfDay = getTimeOfDay(past);
-    return `${todayOrYesterday} in the ${timeOfDay}`;
+    return `${hours} hour${hours === 1 ? "" : "s"} ago`;
   }
 
-  if (days === 1) return "yesterday";
-  if (days === 2) return "the day before yesterday";
-  if (days <= 7) {
-    return `last ${getDayContext(past)}`;
+  // Days
+  if (days < 7) {
+    return `${days} day${days === 1 ? "" : "s"} ago`;
   }
 
-  if (weeks === 1) return "last week";
-  if (weeks === 2) return "two weeks ago";
-  if (weeks <= 4) return `${weeks} weeks ago`;
-
-  if (months === 1) return "last month";
-  if (months === 2) return "two months ago";
-  if (months === 6) return "half a year ago";
-  if (months < 12) return `${months} months ago`;
-
-  if (years === 1) return "last year";
-  if (years === 2) return "two years ago";
-  return `${years} years ago`;
-}
-
-export function formatDate(
-  dateString: string | null | undefined | Date,
-): string {
-  if (!dateString) {
-    return "";
+  // Weeks
+  if (weeks < 4) {
+    return `${weeks} week${weeks === 1 ? "" : "s"} ago`;
   }
-  const date = new Date(dateString);
-  const now = new Date();
 
-  const isSameDay = (d1: Date, d2: Date) => {
-    return (
-      d1.getFullYear() === d2.getFullYear() &&
-      d1.getMonth() === d2.getMonth() &&
-      d1.getDate() === d2.getDate()
-    );
-  };
-
-  const getDayName = (date: Date): string => {
-    const days = [
-      "sunday",
-      "monday",
-      "tuesday",
-      "wednesday",
-      "thursday",
-      "friday",
-      "saturday",
-    ];
-    const today = new Date();
-    const dayDiff = Math.floor(
-      (today.getTime() - date.getTime()) / (1000 * 60 * 60 * 24),
-    );
-
-    if (isSameDay(date, today)) return "today";
-    if (dayDiff === 1) return "yesterday";
-    if (dayDiff === -1) return "tomorrow";
-    if (dayDiff > 1 && dayDiff < 7) return `last ${days[date.getDay()]}`;
-    if (dayDiff < -1 && dayDiff > -7) return `next ${days[date.getDay()]}`;
-    return "";
-  };
-
-  const formatMonth = (date: Date): string => {
-    const months = [
-      "january",
-      "february",
-      "march",
-      "april",
-      "may",
-      "june",
-      "july",
-      "august",
-      "september",
-      "october",
-      "november",
-      "december",
-    ];
-
-    const currentYear = new Date().getFullYear();
-    const dateYear = date.getFullYear();
-    const monthName = months[date.getMonth()];
-    const day = date.getDate();
-
-    const getOrdinal = (n: number): string => {
-      const s = ["th", "st", "nd", "rd"];
-      const v = n % 100;
-      return n + (s[(v - 20) % 10] || s[v] || s[0]);
-    };
-
-    const relativeDayName = getDayName(date);
-    if (relativeDayName) return relativeDayName;
-
-    if (dateYear === currentYear) {
-      return `${monthName} ${getOrdinal(day)}`;
-    }
-
-    return `${monthName} ${getOrdinal(day)}, ${dateYear}`;
-  };
-
-  return formatMonth(date);
+  // Months
+  return `${months} month${months === 1 ? "" : "s"} ago`;
 }
 
 export function formatDateAndTime(

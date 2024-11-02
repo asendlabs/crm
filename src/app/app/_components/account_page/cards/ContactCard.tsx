@@ -174,7 +174,7 @@ export function ContactCard({
                     <span className="rounded-md border px-1 font-medium text-blue-700 hover:text-blue-600 hover:underline">
                       {contact.contactEmail?.email}
                     </span>
-                    <Copy className="size-5 rounded p-1 group-hover:bg-muted" />{" "}
+                    <Copy className="size-5 rounded bg-muted p-1 group-hover:border" />{" "}
                     {/* TODO: Add copy functionality */}
                   </p>
                 )}
@@ -185,7 +185,7 @@ export function ContactCard({
                       {contact.contactPhone?.countryCode ??
                         "" + contact.contactPhone?.phoneNumber}
                     </span>
-                    <Copy className="size-5 rounded p-1 group-hover:bg-muted" />
+                    <Copy className="size-5 rounded bg-muted p-1 group-hover:border" />
                     {/* TODO: Add copy functionality */}
                   </p>
                 )}

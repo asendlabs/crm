@@ -82,7 +82,7 @@ export default async function ClientAccountPage(props: Props) {
     >
       <main className="flex h-screen max-h-screen min-h-screen min-w-full flex-col">
         <Header className="w-full px-4 pb-3 pt-4" />
-        <section className="grid h-full w-full grid-cols-[27%_1fr] overflow-hidden">
+        <section className="grid h-full w-full grid-cols-[19.5rem_1fr] overflow-hidden">
           <Cards className="grid w-full gap-1" />
           <Panels className="w-full" />
         </section>

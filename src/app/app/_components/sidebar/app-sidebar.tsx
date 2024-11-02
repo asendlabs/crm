@@ -14,6 +14,7 @@ import {
   Cog,
   Mail,
   Settings,
+  PanelLeft,
 } from "lucide-react";
 import { UserWithWorkspaceAndProfile } from "@/types/entities";
 import { UserButton } from "./user-button";
@@ -28,10 +29,14 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarRail,
+  SidebarTrigger,
+  useSidebar,
 } from "@/components/ui/sidebar";
 import { usePathname } from "next/navigation";
 import { useRouter } from "@/hooks/use-performance-router";
 import { CommandContext } from "@/providers/commandProvider";
+import { cn } from "@/lib/utils/tailwind";
+import { Button } from "@/components/ui/button";
 
 type NavItem = {
   title: string;
@@ -103,15 +108,30 @@ export function AppSidebar({
     }, 150);
   };
 
+  const {
+    open: isSidebarOpen,
+    setOpen: setIsSidebarOpen,
+    toggleSidebar,
+  } = useSidebar();
+
   return (
-    <Sidebar collapsible="none" {...props}>
-      <SidebarHeader>
+    <Sidebar collapsible="icon" {...props}>
+      <section className="relative flex items-center gap-2 p-2">
         <WorkspaceSwitcher
           workspaces={user.workspaces}
           cookieSelectedWorkspaceId={cookieSelectedWorkspaceId}
         />{" "}
+        {/* {isSidebarOpen && (
+          <div
+            className="mt-[0.34rem] flex h-7 w-7 cursor-pointer items-center justify-center rounded-md border"
+            onClick={toggleSidebar}
+          >
+            <PanelLeft className="size-4" />
+            <span className="sr-only">Toggle Sidebar</span>
+          </div>
+        )} */}
         {/* Use props if available */}
-      </SidebarHeader>
+      </section>
       <SidebarContent>
         <SidebarGroup className="mt-0.5">
           <SidebarMenu>
@@ -134,12 +154,14 @@ export function AppSidebar({
                 onMouseOver={handleHover("/app/home")}
               >
                 <SidebarMenuButton isActive={pathname === "/app/home"}>
-                  {loading && loadingPathname === "/app/home" ? (
-                    <Loader className="size-4 animate-spin" />
-                  ) : (
-                    <Home className="size-4" />
-                  )}
-                  <span>Home</span>
+                  <div className="flex items-center gap-2">
+                    {loading && loadingPathname === "/app/home" ? (
+                      <Loader className="size-4 animate-spin" />
+                    ) : (
+                      <Home className="size-4" />
+                    )}
+                    <span>Home</span>
+                  </div>
                 </SidebarMenuButton>
               </div>
             </SidebarMenuItem>
@@ -155,13 +177,18 @@ export function AppSidebar({
                   )}
                   onMouseOver={handleHover(item.url)}
                 >
-                  <SidebarMenuButton isActive={pathname.startsWith(item.url)}>
-                    {loading && loadingPathname === item.url ? (
-                      <Loader className="size-4 animate-spin" />
-                    ) : (
-                      <item.icon className="size-4" />
-                    )}
-                    <span>{item.title}</span>
+                  <SidebarMenuButton
+                    isActive={pathname.startsWith(item.url)}
+                    className="data-[state=open]:bg-black"
+                  >
+                    <div className="flex items-center gap-2">
+                      {loading && loadingPathname === item.url ? (
+                        <Loader className="size-4 animate-spin data-[state=open]:bg-black" />
+                      ) : (
+                        <item.icon className={cn("size-4")} />
+                      )}
+                      <span>{item.title}</span>
+                    </div>
                   </SidebarMenuButton>
                 </div>
                 {/* </div> */}
@@ -173,7 +200,6 @@ export function AppSidebar({
       <SidebarFooter>
         <UserButton user={user} /> {/* Use props if available */}
       </SidebarFooter>
-      <SidebarRail />
     </Sidebar>
   );
 }

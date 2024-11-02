@@ -1,7 +1,7 @@
 import { CheckIcon, Ellipsis, EllipsisVertical, Trash } from "lucide-react";
 import React from "react";
 import { Button } from "@/components/ui/button";
-import { formatDate, timeAgo } from "@/lib/utils";
+import { formatDate } from "@/lib/utils";
 
 interface TaskActivityProps {
   taskName: string;
@@ -26,7 +26,7 @@ export function TaskActivityCard({
         </div>
       </div>
       <span className="flex items-center gap-2 px-3 py-1 text-gray-500">
-        {formatDate(completedAt)} ({timeAgo(completedAt.toString())})
+        {formatDate(completedAt)}
         <Button variant="ghost" className="size-5" size="icon">
           <EllipsisVertical className="size-5" />
         </Button>

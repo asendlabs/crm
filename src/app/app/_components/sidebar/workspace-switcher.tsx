@@ -34,7 +34,7 @@ export function WorkspaceSwitcher({
   workspaces: Workspace[];
   cookieSelectedWorkspaceId: string;
 }) {
-  const { isMobile } = useSidebar();
+  const { isMobile, open: isSidebarOpen } = useSidebar();
   const router = useRouter();
   const [open, setOpen] = React.useState(false);
   const [showNewWorkspaceDialog, setShowNewWorkspaceDialog] =
@@ -64,23 +64,34 @@ export function WorkspaceSwitcher({
     workspaceLogic();
   }, [workspaces, cookieSelectedWorkspaceId, execute]);
 
-  if (loading)
+  if (loading) {
     return (
-      <div className="flex w-full items-center justify-between px-2">
-        <div className="flex items-center">
-          <Skeleton className="h-4 w-20" />
-        </div>
-        <Skeleton className="ml-auto size-4 rounded" />
-      </div>
+      <>
+        {isSidebarOpen ? (
+          <div className="flex w-full items-center justify-between px-2">
+            <div className="flex items-center">
+              <Skeleton className="h-4 w-20" />
+            </div>
+            <Skeleton className="ml-auto size-4 rounded" />
+          </div>
+        ) : (
+          <Skeleton className="h-8 w-8" />
+        )}
+      </>
     );
-
+  }
   return (
-    <SidebarMenu className="mt-1">
+    <SidebarMenu>
       <SidebarMenuItem>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <SidebarMenuButton className="m-[0.34rem] mb-0 w-[97%] rounded-lg border px-2 data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground">
-              {/* <Avatar className="bg-sidebar-primary text-sidebar-primary-foreground size-7 rounded-md">
+            {isSidebarOpen ? (
+              <SidebarMenuButton
+                className={cn(
+                  "m-[0.34rem] mb-0 w-[97%] rounded-lg border px-2 data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground",
+                )}
+              >
+                {/* <Avatar className="bg-sidebar-primary text-sidebar-primary-foreground size-7 rounded-md">
                 <AvatarImage
                   src={""} // You can add the workspace logo here
                   alt={selectedWorkspace?.name || ""}
@@ -90,14 +101,22 @@ export function WorkspaceSwitcher({
                   <Hexagon className="size-4" fill="currentColor" />
                 </AvatarFallback>
               </Avatar> */}
-              <div className="grid flex-1 text-left text-sm leading-tight">
-                <span className="truncate font-semibold">
-                  {selectedWorkspace?.name}
-                </span>
-                {/* <span className="truncate text-xs">{"Free Plan"}</span> */}
-              </div>
-              <ChevronsUpDown className="ml-auto size-4" />
-            </SidebarMenuButton>
+                <div className="grid flex-1 text-left text-sm leading-tight">
+                  <span className="truncate font-semibold">
+                    {selectedWorkspace?.name}
+                  </span>
+                  {/* <span className="truncate text-xs">{"Free Plan"}</span> */}
+                </div>
+                <ChevronsUpDown className="ml-auto size-4" />
+              </SidebarMenuButton>
+            ) : (
+              <Avatar className="h-8 w-8 rounded-lg border">
+                <AvatarImage src={""} alt={selectedWorkspace?.name ?? ""} />
+                <AvatarFallback className="rounded-lg bg-transparent font-medium">
+                  {selectedWorkspace?.name?.slice(0, 1)}
+                </AvatarFallback>
+              </Avatar>
+            )}
           </DropdownMenuTrigger>
           <DropdownMenuContent
             className="w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-lg"
@@ -119,10 +138,7 @@ export function WorkspaceSwitcher({
                   }
                   setOpen(false);
                 }}
-                className={cn(
-                  "gap-2 p-2",
-                  selectedWorkspace?.id === workspace.id ? "text-primary" : "",
-                )}
+                className={cn("gap-2 p-2")}
               >
                 {/* <Avatar className="size-6">
                   <AvatarImage

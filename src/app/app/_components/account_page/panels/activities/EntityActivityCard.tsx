@@ -1,5 +1,4 @@
 "use client";
-import { formatDate, timeAgo } from "@/lib/utils";
 import {
   Building,
   Edit,
@@ -24,6 +23,7 @@ import { deleteActivityAction } from "@/server/activity";
 import { useRouter } from "@/hooks/use-performance-router";
 import { ActivityWithContact } from "@/types/entities";
 import { cn } from "@/lib/utils/tailwind";
+import ActivityTimestamp from "./ActivityTimestamp";
 
 export function EntityActivityCard({
   activity,
@@ -65,7 +65,7 @@ export function EntityActivityCard({
         )}
         <div className="flex items-center gap-1 py-1">
           <span className="capitalize">{activity.entityType}</span>
-          <span className="rounded-lg border px-2 py-0.5">
+          <span className="truncate rounded-lg border px-2 py-0.5 sm:max-w-28 md:max-w-32 lg:max-w-56">
             {activity.entityTitle}
           </span>
           <span className="py-0.5">
@@ -76,10 +76,7 @@ export function EntityActivityCard({
         </div>
       </div>
       <div className="flex items-center gap-1">
-        <span className="flex gap-1 px-3 py-1 text-gray-500">
-          {/* {formatDate(activity.createdAt)} ( */}
-          {timeAgo(activity.createdAt.toString())}
-        </span>
+        <ActivityTimestamp timestamp={activity.createdAt} />
         <DropdownMenu modal={false}>
           <DropdownMenuTrigger asChild>
             <Button

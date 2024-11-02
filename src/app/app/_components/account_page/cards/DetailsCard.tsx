@@ -50,11 +50,7 @@ const isValidUrl = (value: string): boolean => {
 
 const getSocialMediaUrl = (platform: string, value: string): string => {
   if (!value) return "";
-
-  // If it's already a full URL, return it
   if (isValidUrl(value)) return value;
-
-  // Remove @ if present
   const handle = value.startsWith("@") ? value.slice(1) : value;
 
   switch (platform) {
@@ -80,7 +76,6 @@ const getSocialMediaUrl = (platform: string, value: string): string => {
 const formatSocialMediaHandle = (platform: string, value: string): string => {
   if (!value) return "";
 
-  // If it's a full URL, extract the handle/name
   if (isValidUrl(value)) {
     try {
       const url = new URL(value);
@@ -113,7 +108,6 @@ const formatSocialMediaHandle = (platform: string, value: string): string => {
     }
   }
 
-  // For non-URL inputs
   switch (platform) {
     case "Instagram":
     case "Twitter":
@@ -121,6 +115,76 @@ const formatSocialMediaHandle = (platform: string, value: string): string => {
     default:
       return value;
   }
+};
+
+const DescriptionField = ({
+  value,
+  onSave,
+  isEditing,
+  setIsEditing,
+  placeholder,
+}: {
+  value: string;
+  onSave: (value: string) => void;
+  isEditing: boolean;
+  setIsEditing: (value: boolean) => void;
+  placeholder: string;
+}) => {
+  const [fieldValue, setFieldValue] = useState<string>(value || "");
+  const inputRef = useRef<HTMLTextAreaElement>(null);
+
+  useEffect(() => {
+    setFieldValue(value || "");
+  }, [value]);
+
+  useEffect(() => {
+    if (isEditing && inputRef.current) {
+      inputRef.current?.focus();
+      const length = inputRef.current.value.length;
+      inputRef.current.setSelectionRange(length, length);
+    }
+  }, [isEditing]);
+
+  const truncateText = (text: string, maxLength = 150) => {
+    if (!text) return "";
+    return text.length > maxLength
+      ? `${text.substring(0, maxLength)}...`
+      : text;
+  };
+
+  return (
+    <div className="relative w-full">
+      <Textarea
+        ref={inputRef}
+        value={fieldValue}
+        onChange={(e) => setFieldValue(e.target.value)}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" && !e.shiftKey) {
+            e.preventDefault();
+            setIsEditing(false);
+            onSave(fieldValue);
+          }
+        }}
+        onBlur={() => {
+          setIsEditing(false);
+          if (fieldValue !== value) {
+            onSave(fieldValue);
+          }
+        }}
+        onClick={() => {
+          if (!isEditing) {
+            setIsEditing(true);
+          }
+        }}
+        placeholder={placeholder}
+        className={cn(
+          "h-7 !min-h-7 w-full resize-none rounded-lg border-none px-2 py-1 text-black hover:bg-muted",
+          isEditing &&
+            "h-20 focus:border-primary focus:ring-1 focus:ring-primary",
+        )}
+      />
+    </div>
+  );
 };
 
 interface DetailFieldProps {
@@ -183,7 +247,10 @@ const DetailField: React.FC<DetailFieldProps> = ({
   const displayValue = isSocialMedia(label)
     ? formatSocialMediaHandle(label, fieldValue)
     : isValidUrl(fieldValue)
-      ? new URL(fieldValue).hostname + new URL(fieldValue).pathname
+      ? new URL(fieldValue).hostname +
+        (new URL(fieldValue).pathname === "/"
+          ? ""
+          : new URL(fieldValue).pathname)
       : fieldValue;
 
   const handleClick = (e: React.MouseEvent) => {
@@ -218,7 +285,11 @@ const DetailField: React.FC<DetailFieldProps> = ({
     }
   };
 
-  const placeholder = `Set ${label.charAt(0).toUpperCase() + label.slice(1)}`;
+  const placeholder = `Set ${label.charAt(0).toUpperCase() + label.slice(1)} ${
+    ["LinkedIn", "Twitter", "Instagram", "Facebook", "Website"].includes(label)
+      ? "Url"
+      : ""
+  }`;
 
   const renderActionButtons = () => {
     return (
@@ -226,7 +297,7 @@ const DetailField: React.FC<DetailFieldProps> = ({
         {!isEditing && fieldValue && (
           <button
             onClick={handleEditClick}
-            className="cursor-pointer rounded bg-muted p-1 text-gray-500 opacity-0 transition-opacity hover:text-gray-700 group-hover:opacity-100"
+            className="cursor-pointer rounded-md bg-muted p-1 text-gray-500 opacity-0 transition-opacity hover:text-gray-700 group-hover:opacity-100"
           >
             <Pencil size={14} />
           </button>
@@ -234,7 +305,7 @@ const DetailField: React.FC<DetailFieldProps> = ({
         {copyEnabled && fieldValue && (
           <button
             onClick={handleCopy}
-            className="cursor-pointer rounded bg-muted p-1 text-gray-500 opacity-0 transition-opacity hover:text-gray-700 group-hover:opacity-100"
+            className="cursor-pointer rounded-md bg-muted p-1 text-gray-500 opacity-0 transition-opacity hover:text-gray-700 group-hover:opacity-100"
           >
             <Copy size={14} />
           </button>
@@ -257,35 +328,16 @@ const DetailField: React.FC<DetailFieldProps> = ({
       <div className="group relative mx-1 flex w-full items-center">
         {customInput ||
           (isDescription ? (
-            <Textarea
-              ref={inputRef as any}
+            <DescriptionField
               value={fieldValue}
+              onSave={(value: string) => {
+                if (value !== fieldValue) {
+                  onSave(value);
+                }
+              }}
+              isEditing={isEditing}
+              setIsEditing={setIsEditing}
               placeholder={placeholder}
-              onChange={(e) => setFieldValue(e.target.value)}
-              onClick={handleFieldClick}
-              onKeyDown={(e) => {
-                if (e.key === "Enter" && !e.shiftKey) {
-                  e.preventDefault();
-                  setIsEditing(false);
-                  if (fieldValue !== value) {
-                    onSave(fieldValue);
-                  }
-                }
-              }}
-              onBlur={() => {
-                setIsEditing(false);
-                if (fieldValue !== value) {
-                  onSave(fieldValue);
-                }
-              }}
-              readOnly={!isEditing}
-              className={cn(
-                "m-0 ml-1 !h-7 !min-h-7 w-full max-w-full resize-none truncate break-words px-2 py-1 hover:bg-muted",
-                !isEditing
-                  ? "cursor-text border-none bg-transparent"
-                  : "!h-20 !resize-y",
-                inputClassName,
-              )}
             />
           ) : (
             <Input
@@ -312,7 +364,9 @@ const DetailField: React.FC<DetailFieldProps> = ({
               className={cn(
                 "m-0 h-7 w-full truncate px-2 py-1 hover:bg-muted",
                 !isEditing && "cursor-pointer border-none bg-transparent",
-                fieldValue && isClickableUrl(fieldValue) && "underline",
+                fieldValue &&
+                  isClickableUrl(fieldValue) &&
+                  "underline decoration-2 underline-offset-[2.5px]",
                 fieldValue && isClickableUrl(fieldValue)
                   ? "text-blue-700"
                   : "text-black",
@@ -320,7 +374,7 @@ const DetailField: React.FC<DetailFieldProps> = ({
               )}
             />
           ))}
-        {renderActionButtons()}
+        {!customInput && renderActionButtons()}
       </div>
     </div>
   );
@@ -328,24 +382,11 @@ const DetailField: React.FC<DetailFieldProps> = ({
 
 export function DetailsCard() {
   const { account } = useContext(AccountContext);
-  const [status, setStatus] = useState<AccountStatus | undefined>(
-    account?.status ?? undefined,
-  );
   const updateAccountActionCaller = useServerAction(updateAccountAction);
   const { refresh } = useRouter();
-  const accountStatuses: AccountStatus[] =
-    (account?.workspace?.accountStatuses as AccountStatus[]) || [];
-
   const [accordionOpen, setAccordionOpen] = useState("details");
 
-  useEffect(() => {
-    setStatus(account?.status || undefined);
-  }, [account]);
-
-  const handleUpdate = async (
-    columnId: string,
-    newValue: string | AccountStatus,
-  ) => {
+  const handleUpdate = async (columnId: string, newValue: string) => {
     try {
       const [data, err] = await updateAccountActionCaller.execute({
         itemId: account?.id ?? "",
@@ -362,52 +403,6 @@ export function DetailsCard() {
     }
   };
 
-  const handleStatusChange = (newStatus: string) => {
-    const selectedStatus = accountStatuses.find(
-      (statusObj: AccountStatus) => statusObj.status === newStatus,
-    );
-    if (selectedStatus) {
-      setStatus(selectedStatus);
-      handleUpdate("status", JSON.stringify(selectedStatus));
-    }
-  };
-
-  const StatusSelectInput = (
-    <Select value={status?.status || ""} onValueChange={handleStatusChange}>
-      <SelectTrigger className="ml-2 h-7 w-full cursor-pointer bg-transparent px-2 text-sm font-medium capitalize hover:bg-muted">
-        <SelectValue>
-          {status ? (
-            <div
-              className="flex items-center gap-1.5"
-              style={{ color: `#${status.color}` }}
-            >
-              <Circle strokeWidth={4} absoluteStrokeWidth className="h-3 w-3" />
-              {status.status}
-            </div>
-          ) : (
-            "Select Status"
-          )}
-        </SelectValue>
-      </SelectTrigger>
-      <SelectContent>
-        {accountStatuses.map((statusObj: AccountStatus) => (
-          <SelectItem
-            key={statusObj.status}
-            value={statusObj.status}
-            showIndicator={false}
-            className="font-medium"
-            style={{ color: `#${statusObj.color}` }}
-          >
-            <div className="flex items-center gap-1.5">
-              <Circle strokeWidth={4} absoluteStrokeWidth className="h-3 w-3" />
-              {statusObj.status}
-            </div>
-          </SelectItem>
-        ))}
-      </SelectContent>
-    </Select>
-  );
-
   return (
     <Accordion
       type="single"
@@ -420,16 +415,7 @@ export function DetailsCard() {
         <AccordionTrigger className="flex select-none items-center justify-between pb-2.5">
           <span className="text-sm font-medium capitalize">Details</span>
         </AccordionTrigger>
-        <AccordionContent className="grid w-full items-start justify-start gap-1.5 overflow-clip overflow-y-auto pl-0.5 pr-1 pt-1">
-          {account?.type !== "client" && (
-            <DetailField
-              label="Status"
-              icon={Component}
-              value={status?.status || ""}
-              onSave={() => {}}
-              customInput={StatusSelectInput}
-            />
-          )}
+        <AccordionContent className="grid w-full items-start justify-start gap-1.5 overflow-clip overflow-y-auto overflow-x-scroll pl-0.5 pr-1 pt-1">
           <DetailField
             label="Name"
             icon={IdCard}
@@ -458,13 +444,6 @@ export function DetailsCard() {
             onSave={(value: string) => handleUpdate("instagram", value)}
             copyEnabled
           />
-          {/* <DetailField
-            label="Facebook"
-            icon={Facebook}
-            value={account?.facebook}
-            onSave={(value: string) => handleUpdate("facebook", value)}
-            copyEnabled
-          /> */}
           <DetailField
             label="LinkedIn"
             icon={Linkedin}

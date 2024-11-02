@@ -15,7 +15,6 @@ import { Button } from "@/components/ui/button";
 import { useServerAction } from "zsa-react";
 import { deleteActivityAction, updateActivityAction } from "@/server/activity";
 import { useRouter } from "@/hooks/use-performance-router";
-import { timeAgo } from "@/lib/utils";
 import {
   Dialog,
   DialogTrigger,
@@ -43,6 +42,7 @@ import {
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
 import { Arrow } from "@radix-ui/react-dropdown-menu";
+import ActivityTimestamp from "./ActivityTimestamp";
 
 const activityUpdateSchema = z.object({
   content: z.string().optional(),
@@ -145,7 +145,7 @@ export function CallLogActivityCard({
             </>
           )}
           <div
-            className="inline-flex items-center gap-1 rounded-lg border px-2 py-0.5 font-medium hover:cursor-pointer"
+            className="inline-flex items-center gap-1 rounded-lg border px-2 py-1 text-xs font-medium hover:cursor-pointer hover:underline"
             onClick={() => setOpen(true)}
           >
             Open Notes
@@ -200,9 +200,7 @@ export function CallLogActivityCard({
         </div>
       </div>
       <div className="flex items-center gap-1">
-        <span className="flex gap-1 px-3 py-1 text-gray-500">
-          {timeAgo(activity.createdAt.toString())}
-        </span>
+        <ActivityTimestamp timestamp={activity.createdAt} />
         <DropdownMenu modal={false}>
           <DropdownMenuTrigger asChild>
             <Button

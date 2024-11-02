@@ -202,7 +202,9 @@ export function DealCard({
       >
         <div className="flex items-start justify-between p-3">
           <div className="grid gap-2">
-            <h1 className="break-words text-base font-medium">{deal.title}</h1>
+            <h1 className="max-w-[13.5rem] break-words text-base font-medium">
+              {deal.title}
+            </h1>
             <p className="flex max-w-[13rem] items-center gap-1 truncate text-xs">
               <span className="font-medium opacity-80">Value:</span>
               <span className="truncate rounded-md border px-2 font-medium">

@@ -30,6 +30,8 @@ import { deleteAccountAction, updateAccountAction } from "@/server/accounts";
 import { toast } from "sonner";
 import { Account, Contact } from "@database/types";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { SidebarTrigger } from "@/components/ui/sidebar";
+import { PageTitle } from "@/components/PageTitle";
 
 interface LeadTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -145,9 +147,9 @@ export function LeadTable<TData, TValue>({
   });
   return (
     <>
-      <section className="flex h-screen flex-col gap-3 px-6 py-4">
+      <section className="flex h-screen flex-col gap-3 px-5 py-4">
         <div className="flex select-none flex-row items-center justify-between">
-          <h1 className="text-xl font-semibold">Leads</h1>
+          <PageTitle>Leads</PageTitle>
           <div className="flex flex-row gap-2">
             <div>
               <DataTableDeleteButton

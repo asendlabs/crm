@@ -19,12 +19,32 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 
-const SIDEBAR_COOKIE_NAME = "sidebar:state";
-const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7;
+const SIDEBAR_STORAGE_KEY = "sidebar:state";
 const SIDEBAR_WIDTH = "16rem";
 const SIDEBAR_WIDTH_MOBILE = "18rem";
 const SIDEBAR_WIDTH_ICON = "3rem";
 const SIDEBAR_KEYBOARD_SHORTCUT = "b";
+
+// Helper function to safely interact with localStorage
+const storage = {
+  get: (key: string, fallback: any) => {
+    if (typeof window === "undefined") return fallback;
+    try {
+      const item = window.localStorage.getItem(key);
+      return item ? JSON.parse(item) : fallback;
+    } catch (error) {
+      return fallback;
+    }
+  },
+  set: (key: string, value: any) => {
+    if (typeof window === "undefined") return;
+    try {
+      window.localStorage.setItem(key, JSON.stringify(value));
+    } catch (error) {
+      console.warn(`Error writing ${key} to localStorage:`, error);
+    }
+  },
+};
 
 type SidebarContext = {
   state: "expanded" | "collapsed";
@@ -43,7 +63,6 @@ function useSidebar() {
   if (!context) {
     throw new Error("useSidebar must be used within a Sidebar.");
   }
-
   return context;
 }
 
@@ -70,34 +89,45 @@ const SidebarProvider = React.forwardRef<
     const isMobile = useIsMobile();
     const [openMobile, setOpenMobile] = React.useState(false);
 
-    // This is the internal state of the sidebar.
-    // We use openProp and setOpenProp for control from outside the component.
-    const [_open, _setOpen] = React.useState(defaultOpen);
+    // Initialize `_open` directly from localStorage or fallback to `defaultOpen`
+    const [_open, _setOpen] = React.useState(() =>
+      storage.get(SIDEBAR_STORAGE_KEY, defaultOpen),
+    );
+
+    // Loading state to control initial render
+    const [isReady, setIsReady] = React.useState(false);
+
+    React.useEffect(() => {
+      setIsReady(true);
+    }, []);
+
     const open = openProp ?? _open;
+
     const setOpen = React.useCallback(
       (value: boolean | ((value: boolean) => boolean)) => {
+        const newValue = typeof value === "function" ? value(open) : value;
+
+        // Optimistically update the state
         if (setOpenProp) {
-          return setOpenProp?.(
-            typeof value === "function" ? value(open) : value,
-          );
+          setOpenProp(newValue);
+        } else {
+          _setOpen(newValue);
         }
 
-        _setOpen(value);
-
-        // This sets the cookie to keep the sidebar state.
-        document.cookie = `${SIDEBAR_COOKIE_NAME}=${open}; path=/; max-age=${SIDEBAR_COOKIE_MAX_AGE}`;
+        // Persist to localStorage
+        storage.set(SIDEBAR_STORAGE_KEY, newValue);
       },
       [setOpenProp, open],
     );
 
-    // Helper to toggle the sidebar.
+    // Helper to toggle the sidebar
     const toggleSidebar = React.useCallback(() => {
       return isMobile
         ? setOpenMobile((open) => !open)
         : setOpen((open) => !open);
     }, [isMobile, setOpen, setOpenMobile]);
 
-    // Adds a keyboard shortcut to toggle the sidebar.
+    // Add keyboard shortcut
     React.useEffect(() => {
       const handleKeyDown = (event: KeyboardEvent) => {
         if (
@@ -113,8 +143,6 @@ const SidebarProvider = React.forwardRef<
       return () => window.removeEventListener("keydown", handleKeyDown);
     }, [toggleSidebar]);
 
-    // We add a state so that we can do data-state="expanded" or "collapsed".
-    // This makes it easier to style the sidebar with Tailwind classes.
     const state = open ? "expanded" : "collapsed";
 
     const contextValue = React.useMemo<SidebarContext>(
@@ -141,29 +169,33 @@ const SidebarProvider = React.forwardRef<
     return (
       <SidebarContext.Provider value={contextValue}>
         <TooltipProvider delayDuration={0}>
-          <div
-            style={
-              {
-                "--sidebar-width": SIDEBAR_WIDTH,
-                "--sidebar-width-icon": SIDEBAR_WIDTH_ICON,
-                ...style,
-              } as React.CSSProperties
-            }
-            className={cn(
-              "group/sidebar-wrapper flex min-h-svh w-full text-sidebar-foreground has-[[data-variant=inset]]:bg-sidebar",
-              className,
-            )}
-            ref={ref}
-            {...props}
-          >
-            {children}
-          </div>
+          {isReady && (
+            <div
+              style={
+                {
+                  "--sidebar-width": SIDEBAR_WIDTH,
+                  "--sidebar-width-icon": SIDEBAR_WIDTH_ICON,
+                  ...style,
+                } as React.CSSProperties
+              }
+              className={cn(
+                "group/sidebar-wrapper flex min-h-svh w-full text-sidebar-foreground has-[[data-variant=inset]]:bg-sidebar",
+                className,
+              )}
+              ref={ref}
+              {...props}
+            >
+              {children}
+            </div>
+          )}
         </TooltipProvider>
       </SidebarContext.Provider>
     );
   },
 );
 SidebarProvider.displayName = "SidebarProvider";
+
+// ... (rest of the components remain the same)
 
 const Sidebar = React.forwardRef<
   HTMLDivElement,

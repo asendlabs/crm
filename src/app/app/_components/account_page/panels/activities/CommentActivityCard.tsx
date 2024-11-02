@@ -7,6 +7,7 @@ import {
   Trash,
   Edit,
   MoreVertical,
+  ArrowUpRight,
 } from "lucide-react";
 import React, { useEffect } from "react";
 import { ActivityWithContact } from "@/types/entities";
@@ -14,7 +15,6 @@ import { Button } from "@/components/ui/button";
 import { useServerAction } from "zsa-react";
 import { deleteActivityAction, updateActivityAction } from "@/server/activity";
 import { useRouter } from "@/hooks/use-performance-router";
-import { timeAgo } from "@/lib/utils";
 import {
   Dialog,
   DialogTrigger,
@@ -40,6 +40,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import ActivityTimestamp from "./ActivityTimestamp";
 
 const activityUpdateSchema = z.object({
   content: z.string().optional(),
@@ -124,14 +125,20 @@ export function CommentActivityCard({
       <div className="flex items-center gap-2">
         <MessageSquare className="size-4 text-gray-500" />
         <div className="flex items-center gap-1 py-1">
-          <span className="max-w-[35.5rem] truncate rounded-lg border px-2 py-0.5">
+          <span className="max-w-[35.5rem] truncate rounded-lg border px-2 py-0.5 sm:max-w-32 md:max-w-[20vw] lg:max-w-[30vw] xl:max-w-[40vw]">
             {" "}
             {activity?.content}
           </span>
+          <div
+            className="inline-flex items-center gap-1 rounded-lg border px-2 py-1 text-xs font-medium hover:cursor-pointer hover:underline"
+            onClick={() => setOpen(true)}
+          >
+            Read more..
+            <ArrowUpRight className="size-4" />
+          </div>
           <Dialog open={open} onOpenChange={setOpen}>
-            <DialogTitle className="sr-only">Edit Comment</DialogTitle>
             <DialogContent className="p-4">
-              <h1 className="text-base font-medium">Comment Notes</h1>
+              <DialogTitle className="py-2">Comment</DialogTitle>
               <Form {...form}>
                 <form onSubmit={handleSubmit(onSubmit)} className="grid gap-3">
                   <FormField
@@ -144,7 +151,7 @@ export function CommentActivityCard({
                             {...field}
                             value={field.value || ""}
                             onChange={field.onChange}
-                            className="mt-[-10px] px-2"
+                            className="mt-[-10px] h-56 px-2"
                           />
                         </FormControl>
                         <FormMessage />
@@ -177,9 +184,7 @@ export function CommentActivityCard({
         </div>
       </div>
       <div className="flex items-center gap-1">
-        <span className="flex gap-1 px-3 py-1 text-gray-500">
-          {timeAgo(activity.createdAt.toString())}
-        </span>
+        <ActivityTimestamp timestamp={activity.createdAt} />
         <DropdownMenu modal={false}>
           <DropdownMenuTrigger asChild>
             <Button

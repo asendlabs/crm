@@ -3,7 +3,7 @@ import { Email } from "@database/types";
 import { ArrowUpRight, Mail, MoreVertical } from "lucide-react";
 import React from "react";
 import { Button } from "@/components/ui/button";
-import { formatMinimal, timeAgo } from "@/lib/utils";
+import { formatDate, formatMinimal } from "@/lib/utils";
 
 export function EmailCard({ email }: { email: Email }) {
   const [timestampHovered, setTimestampHovered] = React.useState(false);
@@ -28,7 +28,7 @@ export function EmailCard({ email }: { email: Email }) {
               : ""}
           </span>
         ) : email?.emailTimestamp ? (
-          timeAgo(email.emailTimestamp.toString())
+          formatDate(email.emailTimestamp.toString())
         ) : (
           ""
         )}

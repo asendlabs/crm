@@ -45,6 +45,9 @@ import { DealKanbanBoard } from "./DealKanbanBoard";
 import { dealTableRelations } from "@database/relations";
 import { Button } from "@/components/ui/button";
 import { Cog, Settings, Settings2 } from "lucide-react";
+import { PageTitle } from "@/components/PageTitle";
+import { useSidebar } from "@/components/ui/sidebar";
+import { cn } from "@/lib/utils/tailwind";
 
 interface DealTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -68,6 +71,7 @@ export function DealTable<TData, TValue>({
   const [sorting, setSorting] = useState<SortingState>([
     { id: "title", desc: false },
   ]);
+  const { open: isSidebarOpen } = useSidebar();
   const [providedDeals, setProvidedDeals] = useState(deals);
   const [rowSelectionState, setRowSelectionState] = useState({});
   const router = useRouter();
@@ -181,9 +185,9 @@ export function DealTable<TData, TValue>({
     },
   });
   return (
-    <section className="flex h-screen flex-col gap-3 overflow-x-hidden px-6 pb-0 pt-4">
+    <section className="flex h-screen flex-col gap-3 overflow-x-hidden px-5 pb-0 pt-4">
       <div className="flex select-none flex-row items-center justify-between">
-        <h1 className="text-xl font-semibold capitalize">Deals</h1>
+        <PageTitle>Deals</PageTitle>
         <div className="flex flex-row gap-2">
           {dealView !== "board" && (
             <>
@@ -280,7 +284,12 @@ export function DealTable<TData, TValue>({
           </Table>
         </>
       ) : (
-        <section className="mt-2 flex h-full max-w-[78.7vw] overflow-x-auto overflow-y-hidden">
+        <section
+          className={cn(
+            "mt-2 flex h-full overflow-x-auto overflow-y-hidden",
+            isSidebarOpen ? "max-w-[78.7vw]" : "max-w-full",
+          )}
+        >
           {/* {dealStages?.map((dealStage: DealStage) => <DealKanbanColumn dealStage={dealStage} deals={providedDeals} setProvidedDeals={setProvidedDeals} />)} */}
           <DealKanbanBoard
             defaultCols={dealStages ?? []}
