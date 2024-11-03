@@ -29,17 +29,18 @@ import { deleteAccountAction, updateAccountAction } from "@/server/accounts";
 import { toast } from "sonner";
 import { Account, Contact } from "@database/types";
 import { PageTitle } from "@/components/PageTitle";
+import { AccountFull } from "@/types/entities";
 
 interface ClientTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
-  tableData: TData[];
+  tableData: AccountFull[];
 }
 
 export function ClientTable<TData, TValue>({
   columns,
   tableData,
 }: ClientTableProps<TData, TValue>) {
-  const [data, setData] = useState<TData[]>(tableData);
+  const [data, setData] = useState<AccountFull[]>(tableData);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [sorting, setSorting] = useState<SortingState>([
     { id: "accountName", desc: false },
@@ -124,7 +125,7 @@ export function ClientTable<TData, TValue>({
   };
 
   const table = useReactTable<TData>({
-    data,
+    data: data as TData[],
     columns,
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel(),

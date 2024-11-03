@@ -102,6 +102,7 @@ export async function getAllWorkspaceLeads(workspaceId: string) {
       eq(accountTable.type, "lead"),
     ),
     with: {
+      workspace: true,
       emails: true,
       contacts: {
         with: {
@@ -127,7 +128,7 @@ export async function getAllWorkspaceLeads(workspaceId: string) {
       },
     },
   });
-  return workspaceAccounts;
+  return workspaceAccounts as AccountFull[];
 }
 
 export async function getAllWorkspaceClients(workspaceId: string) {

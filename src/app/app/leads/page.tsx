@@ -32,10 +32,7 @@ export default async function LeadsPage() {
         </section>
       }
     >
-      <LeadTable
-        columns={LeadsColumns}
-        tableData={(leads as AccountFull[]) || []}
-      />
+      <LeadTable columns={LeadsColumns} tableData={leads || []} />
     </Suspense>
   );
 }

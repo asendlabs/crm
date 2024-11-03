@@ -24,7 +24,7 @@ import { DataTableSearch } from "@/app/app/_components/table_nav/DataTableSearch
 import { DataTableViewOptions } from "@/app/app/_components/table_nav/DataTableViewOptions";
 import { NewLeadForm } from "@/app/app/_components/forms/NewLeadForm";
 import { useRouter } from "@/hooks/use-performance-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useServerAction } from "zsa-react";
 import { deleteAccountAction, updateAccountAction } from "@/server/accounts";
 import { toast } from "sonner";
@@ -32,17 +32,18 @@ import { Account, Contact } from "@database/types";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { PageTitle } from "@/components/PageTitle";
+import { AccountFull } from "@/types/entities";
 
 interface LeadTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
-  tableData: TData[];
+  tableData: AccountFull[];
 }
 
 export function LeadTable<TData, TValue>({
   columns,
   tableData,
 }: LeadTableProps<TData, TValue>) {
-  const [data, setData] = useState<TData[]>(tableData);
+  const [data, setData] = useState<AccountFull[]>(tableData);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [sorting, setSorting] = useState<SortingState>([
     { id: "accountName", desc: false },
@@ -127,7 +128,7 @@ export function LeadTable<TData, TValue>({
   };
 
   const table = useReactTable<TData>({
-    data,
+    data: tableData as TData[],
     columns,
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel(),

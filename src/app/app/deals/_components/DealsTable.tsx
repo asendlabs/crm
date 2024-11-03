@@ -51,7 +51,6 @@ import { cn } from "@/lib/utils/tailwind";
 
 interface DealTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
-  tableData: TData[];
   deals: DealWithPrimaryContact[];
   accounts: Account[];
   dealStages?: DealStage[];
@@ -59,20 +58,18 @@ interface DealTableProps<TData, TValue> {
 
 export function DealTable<TData, TValue>({
   columns,
-  tableData,
   deals,
   accounts,
   dealStages,
 }: DealTableProps<TData, TValue>) {
   const { view } = useContext(DealViewContext);
   const [dealView, setDealView] = useState<Views>(view);
-  const [data, setData] = useState<TData[]>(tableData);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [sorting, setSorting] = useState<SortingState>([
     { id: "title", desc: false },
   ]);
   const { open: isSidebarOpen } = useSidebar();
-  const [providedDeals, setProvidedDeals] = useState(deals);
+  const [data, setData] = useState(deals);
   const [rowSelectionState, setRowSelectionState] = useState({});
   const router = useRouter();
   const updateDealServerAction = useServerAction(updateDealAction);
@@ -83,7 +80,7 @@ export function DealTable<TData, TValue>({
   };
 
   const addDealKanban = (newDeal: any) => {
-    setProvidedDeals((prevDeals) => [...prevDeals, newDeal]);
+    setData((prevDeals) => [...prevDeals, newDeal]);
   };
 
   useEffect(() => {
@@ -147,9 +144,7 @@ export function DealTable<TData, TValue>({
         };
       }
       setData((prev) => prev.filter((row: any) => !itemIds.includes(row.id)));
-      setProvidedDeals((prev) =>
-        prev.filter((row: any) => !itemIds.includes(row.id)),
-      );
+      setData((prev) => prev.filter((row: any) => !itemIds.includes(row.id)));
       table.resetRowSelection();
       router.refresh();
       return {
@@ -166,7 +161,7 @@ export function DealTable<TData, TValue>({
   };
 
   const table = useReactTable<TData>({
-    data,
+    data: data as TData[],
     columns,
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
@@ -290,11 +285,8 @@ export function DealTable<TData, TValue>({
             isSidebarOpen ? "max-w-[78.7vw]" : "max-w-full",
           )}
         >
-          {/* {dealStages?.map((dealStage: DealStage) => <DealKanbanColumn dealStage={dealStage} deals={providedDeals} setProvidedDeals={setProvidedDeals} />)} */}
-          <DealKanbanBoard
-            defaultCols={dealStages ?? []}
-            initialDeals={providedDeals}
-          />
+          {/* {dealStages?.map((dealStage: DealStage) => <DealKanbanColumn dealStage={dealStage} deals={data} setData={setData} />)} */}
+          <DealKanbanBoard defaultCols={dealStages ?? []} initialDeals={data} />
         </section>
       )}
     </section>

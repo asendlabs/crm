@@ -45,7 +45,6 @@ export default async function DealsPage(props: {
       >
         <DealTable
           columns={DealColumns}
-          tableData={(deals as DealWithPrimaryContact[]) || []}
           deals={(deals as DealWithPrimaryContact[]) || []}
           accounts={accounts || []}
           dealStages={(workspace?.dealStages as DealStage[]) || undefined}
