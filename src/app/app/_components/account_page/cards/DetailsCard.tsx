@@ -415,7 +415,7 @@ export function DetailsCard() {
         <AccordionTrigger className="flex select-none items-center justify-between pb-2.5">
           <span className="text-sm font-medium capitalize">Details</span>
         </AccordionTrigger>
-        <AccordionContent className="grid w-full items-start justify-start gap-1.5 overflow-clip overflow-y-auto overflow-x-scroll pl-0.5 pr-1 pt-1">
+        <AccordionContent className="grid w-full items-start justify-start gap-1.5 overflow-clip overflow-y-auto pl-0.5 pr-1 pt-1">
           <DetailField
             label="Name"
             icon={IdCard}

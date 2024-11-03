@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { toast } from "sonner";
 
 interface Item {
   label: string;
@@ -49,13 +50,14 @@ export function SidebarItem({
   const pathname = usePathname();
   const currentItem = allItems.find((item) => item.label === label);
   if (!currentItem) return <></>;
+  toast.info(`pathname: ${pathname}, currentItem.href: ${currentItem.href}`);
   const active = pathname === currentItem.href;
   return (
     <Link
       href={currentItem.href}
       className={cn(
         "flex h-8 items-center gap-2 rounded-lg p-1.5 text-sm font-medium capitalize hover:bg-sidebar-accent",
-        active && "bg-sidebar-accent",
+        active && "!bg-muted/70",
       )}
     >
       <currentItem.icon className="size-4" />

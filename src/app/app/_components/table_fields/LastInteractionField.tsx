@@ -1,7 +1,7 @@
 "use client";
 
 import { ActivityWithContact } from "@/types/entities"; // Adjust according to your project structure
-import { formatDate, formatDateAndTime } from "@/lib/utils"; // Assuming timeAgo is correctly imported
+import { formatDate, formatDateAndTime } from "@/lib/utils";
 import { Activity } from "@database/types"; // Adjust according to your project structure
 import React, { useEffect, useState } from "react";
 
@@ -22,7 +22,7 @@ export function LastInteractionField({ getValue }: LastInteractionFieldProps) {
       )[0];
       setValue(
         mostRecentActivity
-          ? formatDateAndTime(mostRecentActivity.createdAt)
+          ? formatDate(mostRecentActivity.createdAt)
           : undefined,
       ); // Set formatted time ago
     } else {

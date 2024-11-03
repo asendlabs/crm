@@ -1,5 +1,6 @@
+// ----------------- DealsPage.tsx -----------------
 import { Metadata } from "next";
-import React from "react";
+import React, { Suspense } from "react";
 import { cookies } from "next/headers";
 import { selectedWorkspaceCookie } from "@/constants";
 import { getAllWorkspaceDeals } from "@/data-access/deal";
@@ -9,31 +10,47 @@ import { DealViewProvider, Views } from "@/providers/dealsViewProvider";
 import { getWorkspaceById } from "@/data-access/workspaces";
 import { DealTable } from "./_components/DealsTable";
 import { DealColumns } from "./_components/DealsColumns";
+import { Loader } from "lucide-react";
+import { fetchWithRetry } from "@/lib/utils/fetchWithRetry";
 
 export const metadata: Metadata = {
   title: "Deals",
-  description: "List of Opportunties",
+  description: "List of Opportunities",
 };
 
-export default async function page(props: {
+export default async function DealsPage(props: {
   searchParams?: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
   const searchParams = await props.searchParams;
   const initialView = (searchParams?.view as Views) || "board";
   const workspaceId =
     (await cookies()).get(selectedWorkspaceCookie)?.value || "";
-  const workspace = await getWorkspaceById(workspaceId);
-  const data = await getAllWorkspaceDeals(workspaceId);
-  const accounts = await getAllWorkspaceAccounts(workspaceId);
+
+  const [workspace, deals, accounts] = await Promise.all([
+    fetchWithRetry(() => getWorkspaceById(workspaceId), "workspace"),
+    fetchWithRetry(() => getAllWorkspaceDeals(workspaceId), "deals"),
+    fetchWithRetry(() => getAllWorkspaceAccounts(workspaceId), "accounts"),
+  ]);
+
   return (
     <DealViewProvider view={initialView}>
-      <DealTable
-        columns={DealColumns}
-        tableData={data as DealWithPrimaryContact[]}
-        deals={data as DealWithPrimaryContact[]}
-        accounts={accounts}
-        dealStages={(workspace?.dealStages as DealStage[]) || undefined}
-      />
+      <Suspense
+        fallback={
+          <section className="flex min-h-screen flex-col items-center justify-center text-gray-700">
+            <div className="flex items-center gap-1.5">
+              <Loader className="size-4 animate-spin" /> Loading
+            </div>
+          </section>
+        }
+      >
+        <DealTable
+          columns={DealColumns}
+          tableData={(deals as DealWithPrimaryContact[]) || []}
+          deals={(deals as DealWithPrimaryContact[]) || []}
+          accounts={accounts || []}
+          dealStages={(workspace?.dealStages as DealStage[]) || undefined}
+        />
+      </Suspense>
     </DealViewProvider>
   );
 }
