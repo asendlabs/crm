@@ -280,10 +280,7 @@ export function DealTable<TData, TValue>({
         </>
       ) : (
         <section
-          className={cn(
-            "mt-2 flex h-full overflow-x-auto overflow-y-hidden",
-            isSidebarOpen ? "max-w-[78.7vw]" : "max-w-full",
-          )}
+          className={cn("mt-2 flex h-full overflow-x-auto overflow-y-hidden")}
         >
           {/* {dealStages?.map((dealStage: DealStage) => <DealKanbanColumn dealStage={dealStage} deals={data} setData={setData} />)} */}
           <DealKanbanBoard defaultCols={dealStages ?? []} initialDeals={data} />

@@ -50,7 +50,7 @@ export function SidebarItem({
   const pathname = usePathname();
   const currentItem = allItems.find((item) => item.label === label);
   if (!currentItem) return <></>;
-  toast.info(`pathname: ${pathname}, currentItem.href: ${currentItem.href}`);
+  // toast.info(`pathname: ${pathname}, currentItem.href: ${currentItem.href}`);
   const active = pathname === currentItem.href;
   return (
     <Link

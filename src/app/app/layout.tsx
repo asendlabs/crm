@@ -1,5 +1,5 @@
 // layout.tsx
-import React from "react";
+import React, { Suspense } from "react";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { getUserById } from "@/data-access/users";
@@ -70,8 +70,11 @@ export default async function ApplicationLayout({
         <AppSidebar
           user={userProfileWorkspace}
           cookieselectedworkspaceid={cookieSelectedWorkspaceId}
-        />
-        <main className="grid min-h-screen w-full">{children}</main>
+        />{" "}
+        <main className="grid min-h-screen w-full">
+          {" "}
+          <Suspense fallback={<div>Loading...</div>}>{children} </Suspense>
+        </main>
       </SidebarProvider>
     </CommandPaletteProvider>
   );

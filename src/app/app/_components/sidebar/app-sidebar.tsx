@@ -45,7 +45,6 @@ type NavItem = {
   searchParams?: string;
 };
 
-// Sample data can be replaced with actual props
 const nav: NavItem[] = [
   {
     title: "Leads",
@@ -75,29 +74,58 @@ export function AppSidebar({
 }: AppSidebarProps & React.ComponentProps<typeof Sidebar>) {
   const pathname = usePathname();
   const [loading, setLoading] = React.useState<boolean>(true);
+  const [loadedPathnames, setLoadedPathnames] = React.useState<string[]>([]);
   const [loadingPathname, setLoadingPathname] = React.useState<string>("");
-  const { user, cookieselectedworkspaceid: cookieSelectedWorkspaceId } = props; // Use the props if needed
+  const { user, cookieselectedworkspaceid: cookieSelectedWorkspaceId } = props;
   const router = useRouter();
 
   const { commandOpen, setCommandOpen } = React.useContext(CommandContext);
 
-  const handleHover = (url: string) => () => {
-    router.prefetch(url);
-  };
+  // Create a ref to track if the component is mounted
+  const isMounted = React.useRef(false);
 
-  React.useEffect(() => {
-    setLoading(false);
+  // Collect all routes that need to be prefetched
+  const allRoutes = React.useMemo(() => {
+    const routes = ["/app/home"];
+    nav.forEach((item) => {
+      routes.push(item.url + (item.searchParams || ""));
+    });
+    return routes;
   }, []);
 
-  const handleNavigation2 = (url: string) => () => {
-    setLoading(true);
-    try {
-      router.push(url);
-    } catch (error) {
-    } finally {
-      setLoading(false);
+  // Handle initial route prefetching
+  React.useEffect(() => {
+    if (!isMounted.current) {
+      isMounted.current = true;
+
+      // Wait for the page to be fully loaded
+      if (typeof window !== "undefined") {
+        if (document.readyState === "complete") {
+          prefetchAllRoutes();
+        } else {
+          window.addEventListener("load", prefetchAllRoutes);
+          return () => window.removeEventListener("load", prefetchAllRoutes);
+        }
+      }
     }
-  };
+  }, []);
+
+  // Function to prefetch all routes
+  const prefetchAllRoutes = React.useCallback(() => {
+    // Small delay to ensure we don't interfere with initial page load
+    setTimeout(() => {
+      allRoutes.forEach((route) => {
+        if (route !== pathname) {
+          router.prefetch(route);
+        }
+      });
+      setLoading(false);
+      if (loadedPathnames.length === 0) {
+        setLoadedPathnames([pathname]);
+      }
+    }, 100);
+  }, [router, allRoutes, pathname, loadedPathnames]);
+
   const handleNavigation = (url: string) => () => {
     setLoading(true);
     setLoadingPathname(url);
@@ -120,17 +148,7 @@ export function AppSidebar({
         <WorkspaceSwitcher
           workspaces={user.workspaces}
           cookieSelectedWorkspaceId={cookieSelectedWorkspaceId}
-        />{" "}
-        {/* {isSidebarOpen && (
-          <div
-            className="mt-[0.34rem] flex h-7 w-7 cursor-pointer items-center justify-center rounded-md border"
-            onClick={toggleSidebar}
-          >
-            <PanelLeft className="size-4" />
-            <span className="sr-only">Toggle Sidebar</span>
-          </div>
-        )} */}
-        {/* Use props if available */}
+        />
       </section>
       <SidebarContent>
         <SidebarGroup className="mt-0.5">
@@ -151,7 +169,10 @@ export function AppSidebar({
             <SidebarMenuItem>
               <div
                 onClick={handleNavigation("/app/home")}
-                onMouseOver={handleHover("/app/home")}
+                onDoubleClick={() => {
+                  handleNavigation("/app/home");
+                  toggleSidebar();
+                }}
               >
                 <SidebarMenuButton isActive={pathname === "/app/home"}>
                   <div className="flex items-center gap-2">
@@ -175,7 +196,10 @@ export function AppSidebar({
                   onClick={handleNavigation(
                     item.url + (item.searchParams || ""),
                   )}
-                  onMouseOver={handleHover(item.url)}
+                  onDoubleClick={() => {
+                    handleNavigation(item.url);
+                    toggleSidebar();
+                  }}
                 >
                   <SidebarMenuButton
                     isActive={pathname.startsWith(item.url)}
@@ -191,14 +215,13 @@ export function AppSidebar({
                     </div>
                   </SidebarMenuButton>
                 </div>
-                {/* </div> */}
               </SidebarMenuItem>
             ))}
           </SidebarMenu>
         </SidebarGroup>
       </SidebarContent>
       <SidebarFooter>
-        <UserButton user={user} /> {/* Use props if available */}
+        <UserButton user={user} />
       </SidebarFooter>
     </Sidebar>
   );

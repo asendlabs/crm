@@ -193,7 +193,7 @@ export function Header({ className }: { className?: string }) {
                   Converting...
                 </>
               ) : (
-                "Convert to Client"
+                "Convert"
               )}
             </Button>
           </>

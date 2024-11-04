@@ -61,7 +61,11 @@ export function DealKanbanBoard({
 
   // This effect will only run when `activeDeal?.stage` changes, ensuring it only triggers when necessary.
   useEffect(() => {
-    if (dragEnd && activeDeal?.stage) {
+    if (
+      dragEnd &&
+      activeDeal?.stage &&
+      activeDeal.stage.stage !== activeColumn?.stage
+    ) {
       execute({ dealId: activeDeal.id, newStage: activeDeal.stage }).then(
         ([data, err]) => {
           if (err) {
@@ -75,7 +79,7 @@ export function DealKanbanBoard({
       setDragEnd(false);
       // refresh();
     }
-  }, [activeDeal?.stage, dragEnd]);
+  }, [activeDeal?.stage, dragEnd]); 
 
   const sensors = useSensors(
     useSensor(MouseSensor),
