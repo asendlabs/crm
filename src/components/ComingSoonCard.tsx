@@ -6,7 +6,7 @@ import {
   CardContent,
 } from "@/components/ui/card";
 import { Mail, Zap, BarChart, Users } from "lucide-react";
-
+import React from "react";
 export function ComingSoonCard() {
   return (
     <Card className="w-5xl mx-auto px-6 py-10 !opacity-50">

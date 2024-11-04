@@ -28,7 +28,16 @@ export function PrimaryField({ getValue, row, isAccount }: PrimaryFieldProps) {
       );
     }
     router.prefetch(routerPath);
-  }, [initialValue]);
+  }, [
+    initialValue,
+    isAccount,
+    router,
+    routerPath,
+    row.original.account?.id,
+    row.original.account?.type,
+    row.original.id,
+    row.original.type,
+  ]);
 
   return (
     <div

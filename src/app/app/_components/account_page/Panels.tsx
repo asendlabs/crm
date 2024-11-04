@@ -28,7 +28,7 @@ export function Panels({ className }: { className?: string }) {
 
   useEffect(() => {
     router.push(`?panel=${panelState}`);
-  }, [panelState]);
+  }, [panelState, router]);
 
   return (
     <section className={cn(className)}>

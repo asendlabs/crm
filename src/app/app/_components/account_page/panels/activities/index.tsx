@@ -10,7 +10,7 @@ import { CommentActivityCard } from "./CommentActivityCard";
 import { CallLogActivityCard } from "./CallLogActivityCard";
 import { EntityActivityCard } from "./EntityActivityCard";
 import { TaskActivityCard } from "./TaskActivityCard";
-
+import React from "react";
 type ActivityButton = {
   type: ActivityType;
   icon: React.ElementType;

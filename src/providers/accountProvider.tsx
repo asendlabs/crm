@@ -7,6 +7,7 @@ import {
 } from "@/types/entities";
 import { Email, Task } from "@database/types";
 import { createContext } from "react";
+import React from "react";
 
 export interface State {
   account: AccountFull | undefined;

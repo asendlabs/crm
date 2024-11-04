@@ -98,7 +98,7 @@ export const contactEmailTableRelations = relations(
   }),
 );
 
-export const dealTableRelations = relations(dealTable, ({ one, many }) => ({
+export const dealTableRelations = relations(dealTable, ({ one }) => ({
   workspace: one(workspaceTable, {
     fields: [dealTable.workspaceId],
     references: [workspaceTable.id],
@@ -113,25 +113,22 @@ export const dealTableRelations = relations(dealTable, ({ one, many }) => ({
   }),
 }));
 
-export const activityTableRelations = relations(
-  activityTable,
-  ({ one, many }) => ({
-    workspace: one(workspaceTable, {
-      fields: [activityTable.workspaceId],
-      references: [workspaceTable.id],
-    }),
-    account: one(accountTable, {
-      fields: [activityTable.accountId],
-      references: [accountTable.id],
-    }),
-    associatedContact: one(contactTable, {
-      fields: [activityTable.associatedContactId],
-      references: [contactTable.id],
-    }),
+export const activityTableRelations = relations(activityTable, ({ one }) => ({
+  workspace: one(workspaceTable, {
+    fields: [activityTable.workspaceId],
+    references: [workspaceTable.id],
   }),
-);
+  account: one(accountTable, {
+    fields: [activityTable.accountId],
+    references: [accountTable.id],
+  }),
+  associatedContact: one(contactTable, {
+    fields: [activityTable.associatedContactId],
+    references: [contactTable.id],
+  }),
+}));
 
-export const taskTableRelations = relations(taskTable, ({ one, many }) => ({
+export const taskTableRelations = relations(taskTable, ({ one }) => ({
   workspace: one(workspaceTable, {
     fields: [taskTable.workspaceId],
     references: [workspaceTable.id],
@@ -144,7 +141,7 @@ export const taskTableRelations = relations(taskTable, ({ one, many }) => ({
 
 export const emailMessageTableRelations = relations(
   emailMessageTable,
-  ({ one, many }) => ({
+  ({ one }) => ({
     workspace: one(workspaceTable, {
       fields: [emailMessageTable.workspaceId],
       references: [workspaceTable.id],

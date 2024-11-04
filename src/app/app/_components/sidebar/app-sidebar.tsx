@@ -93,6 +93,21 @@ export function AppSidebar({
     return routes;
   }, []);
 
+  const prefetchAllRoutes = React.useCallback(() => {
+    // Small delay to ensure we don't interfere with initial page load
+    setTimeout(() => {
+      allRoutes.forEach((route) => {
+        if (route !== pathname) {
+          router.prefetch(route);
+        }
+      });
+      setLoading(false);
+      if (loadedPathnames.length === 0) {
+        setLoadedPathnames([pathname]);
+      }
+    }, 100);
+  }, [router, allRoutes, pathname, loadedPathnames]);
+
   // Handle initial route prefetching
   React.useEffect(() => {
     if (!isMounted.current) {
@@ -108,23 +123,7 @@ export function AppSidebar({
         }
       }
     }
-  }, []);
-
-  // Function to prefetch all routes
-  const prefetchAllRoutes = React.useCallback(() => {
-    // Small delay to ensure we don't interfere with initial page load
-    setTimeout(() => {
-      allRoutes.forEach((route) => {
-        if (route !== pathname) {
-          router.prefetch(route);
-        }
-      });
-      setLoading(false);
-      if (loadedPathnames.length === 0) {
-        setLoadedPathnames([pathname]);
-      }
-    }, 100);
-  }, [router, allRoutes, pathname, loadedPathnames]);
+  }, [prefetchAllRoutes]);
 
   const handleNavigation = (url: string) => () => {
     setLoading(true);

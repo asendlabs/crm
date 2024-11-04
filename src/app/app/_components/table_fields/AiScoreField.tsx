@@ -20,7 +20,7 @@ export function AiScoreField({ getValue, row }: AiScoreFieldProps) {
   useEffect(() => {
     setValue(initialValue);
     router.prefetch(`/app/${type}s/${id.toLowerCase()}`);
-  }, [initialValue]);
+  }, [initialValue, id, router, type]);
 
   return (
     <div

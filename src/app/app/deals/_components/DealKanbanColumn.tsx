@@ -7,7 +7,7 @@ import { cva } from "class-variance-authority";
 import { Circle, MoreHorizontal } from "lucide-react";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { DealStage, DealWithPrimaryContact } from "@/types/entities";
-
+import React from "react";
 export type ColumnType = "Column";
 
 export interface ColumnDragData {

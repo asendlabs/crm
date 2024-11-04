@@ -79,7 +79,13 @@ export function DealKanbanBoard({
       setDragEnd(false);
       // refresh();
     }
-  }, [activeDeal?.stage, dragEnd]); 
+  }, [
+    activeDeal?.stage,
+    dragEnd,
+    activeColumn?.stage,
+    activeDeal?.id,
+    execute,
+  ]);
 
   const sensors = useSensors(
     useSensor(MouseSensor),

@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils/tailwind";
-
+import React from "react";
 function Skeleton({
   className,
   ...props

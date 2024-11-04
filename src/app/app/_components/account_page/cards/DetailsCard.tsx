@@ -231,7 +231,7 @@ const DetailField: React.FC<DetailFieldProps> = ({
       const valueToCopy = isSocialMedia(label)
         ? getSocialMediaUrl(label, fieldValue)
         : fieldValue;
-      navigator.clipboard.writeText(valueToCopy);
+      const clipboardRes = navigator.clipboard.writeText(valueToCopy);
       toast.success("Copied to clipboard");
     }
   };

@@ -85,7 +85,7 @@ export function NewActivityForm({
   }
 
   useEffect(() => {
-    form.reset();
+    reset();
   }, [activityType]);
 
   return (

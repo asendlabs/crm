@@ -61,7 +61,7 @@ export function WorkspaceSwitcher({
       setLoading(false);
     };
 
-    workspaceLogic();
+    const res = workspaceLogic();
   }, [workspaces, cookieSelectedWorkspaceId, execute]);
 
   if (loading) {
@@ -85,7 +85,7 @@ export function WorkspaceSwitcher({
       <SidebarMenuItem>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            {isSidebarOpen ? (
+            {isSidebarOpen || isMobile ? (
               <SidebarMenuButton
                 className={cn(
                   "m-[0.34rem] mb-0 w-[97%] rounded-lg border px-2 data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground",

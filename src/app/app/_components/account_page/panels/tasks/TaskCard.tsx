@@ -139,10 +139,10 @@ export function TaskCard({ task }: { task: Task }) {
                 value={title}
                 className="h-8 w-96 px-1.5"
                 onChange={(e) => setTitle(e.target.value)}
-                onKeyDown={(e) => {
+                onKeyDown={async (e) => {
                   if (e.key === "Enter") {
                     setRenameMode(false);
-                    handleUpdateTask(title, "title");
+                    await handleUpdateTask(title, "title");
                   }
                 }}
                 onBlur={async () => {
