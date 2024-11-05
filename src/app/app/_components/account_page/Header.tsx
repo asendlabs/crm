@@ -142,7 +142,11 @@ export function Header({ className }: { className?: string }) {
               value={status?.status || ""}
               onValueChange={handleStatusChange}
             >
-              <SelectTrigger className="ml-2 h-7 w-40 cursor-pointer bg-transparent px-2 text-sm font-medium capitalize hover:bg-muted">
+              <SelectTrigger
+                className={cn(
+                  "ml-2 h-7 w-fit cursor-pointer items-center gap-1 bg-transparent px-2 text-sm font-medium capitalize hover:bg-muted",
+                )}
+              >
                 {status ? (
                   <div
                     className="flex items-center gap-1.5"

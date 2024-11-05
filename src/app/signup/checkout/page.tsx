@@ -11,11 +11,11 @@ export const metadata: Metadata = {
 };
 
 export default async function CheckoutPage() {
-  const user = await fetchAuthenticatedUser();
   const PADDLE_DOMAIN_APPROVED = false;
-  if (!user) return redirect("/signup?redirecterror=nouser");
-  const dbUser = await getUserById(user.id || "");
   if (PADDLE_DOMAIN_APPROVED) {
+    const user = await fetchAuthenticatedUser();
+    if (!user) return redirect("/signup?redirecterror=nouser");
+    const dbUser = await getUserById(user.id || "");
     if (
       dbUser &&
       dbUser.verifiedAt &&
