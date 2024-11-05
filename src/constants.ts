@@ -1,5 +1,6 @@
-export const afterSignUpUrl = "/verify-email";
-export const afterVerifyUrl = "/onboarding";
+export const afterSignUpUrl = "/signup/verify-email";
+export const afterVerifyUrl = "/signup/checkout";
+export const afterCheckoutUrl = "/signup/onboarding";
 export const authenticatedUrl = "/app/home";
 export const unauthenticatedUrl = "/login";
 

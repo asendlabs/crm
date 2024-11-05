@@ -13,7 +13,9 @@ interface DealViewSwitcherProps {
 export function DealViewSwitcher({ view, setView }: DealViewSwitcherProps) {
   const gridActive = view === "grid";
   const boardActive = view === "board";
-  const router = useRouter();
+  const router = useRouter({
+    fancy: true,
+  });
   return (
     <div>
       <div className="flex h-8 items-center rounded-lg ring-1 ring-border">

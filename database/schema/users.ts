@@ -21,6 +21,7 @@ export const userTable = table("users", {
     .notNull()
     .defaultNow(),
   verifiedAt: timestamp("verified_at"),
+  checkoutAt: timestamp("checkout_at"),
   onboardedAt: timestamp("onboarded_at"),
   createdAt: timestamp("created_at").notNull().defaultNow(),
   updatedAt: timestamp("updated_at"),

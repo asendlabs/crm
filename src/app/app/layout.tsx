@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import { getUserById } from "@/data-access/users";
 import { fetchAuthenticatedUser } from "@/lib/session";
 import {
+  afterCheckoutUrl,
   afterSignUpUrl,
   afterVerifyUrl,
   unauthenticatedUrl,
@@ -36,8 +37,11 @@ export default async function ApplicationLayout({
   if (!dbUser.verifiedAt) {
     return redirect(afterSignUpUrl);
   }
-  if (!dbUser.onboardedAt) {
+  if (!dbUser.checkoutAt) {
     return redirect(afterVerifyUrl);
+  }
+  if (!dbUser.onboardedAt) {
+    return redirect(afterCheckoutUrl);
   }
 
   const workspaces = await getAllUserWorkspaces(dbUser.id);

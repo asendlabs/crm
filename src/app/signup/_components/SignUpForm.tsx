@@ -16,13 +16,14 @@ import { Loader } from "lucide-react";
 
 import Image from "next/image";
 import Link from "@/components/performance-link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { toast } from "sonner";
 import { PasswordField } from "@/components/ui/password-input";
 import { useRouter } from "@/hooks/use-performance-router";
 import { useServerAction } from "zsa-react";
+import { useSearchParams } from "next/navigation";
 
 export const SignUpForm = ({
   signUp,
@@ -32,6 +33,16 @@ export const SignUpForm = ({
   const { execute, isPending, error } = useServerAction(signUp);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const router = useRouter();
+
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    if (searchParams.get("redirecterror") === "nouser") {
+      toast.error(
+        "You need to create an account or login before accessing the checkout page.",
+      );
+    }
+  }, [searchParams]);
 
   const form = useForm<z.infer<typeof signUpSchema>>({
     resolver: zodResolver(signUpSchema),

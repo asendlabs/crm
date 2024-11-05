@@ -58,7 +58,7 @@ export const LoginForm = ({
 
   return (
     <main className="grid h-screen items-center">
-      <Link
+      {/* <Link
         href="/signup"
         className={cn(
           buttonVariants({ variant: "outline" }),
@@ -66,7 +66,7 @@ export const LoginForm = ({
         )}
       >
         Sign Up
-      </Link>
+      </Link> */}
       <div>
         <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
           <div className="flex flex-col space-y-2 text-center">

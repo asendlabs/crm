@@ -77,7 +77,9 @@ export function AppSidebar({
   const [loadedPathnames, setLoadedPathnames] = React.useState<string[]>([]);
   const [loadingPathname, setLoadingPathname] = React.useState<string>("");
   const { user, cookieselectedworkspaceid: cookieSelectedWorkspaceId } = props;
-  const router = useRouter();
+  const router = useRouter({
+    fancy: true,
+  });
 
   const { commandOpen, setCommandOpen } = React.useContext(CommandContext);
 

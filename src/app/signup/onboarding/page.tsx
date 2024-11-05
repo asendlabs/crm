@@ -4,7 +4,7 @@ import { getUserById } from "@/data-access/users";
 import { fetchAuthenticatedUser } from "@/lib/session";
 import { redirect } from "next/navigation";
 import { authenticatedUrl, unauthenticatedUrl } from "@/constants";
-import { OnboardingForm } from "@/app/(access)/onboarding/_components/OnboardingForm";
+import { OnboardingForm } from "@/app/signup/onboarding/_components/OnboardingForm";
 
 export const metadata: Metadata = {
   title: "Onboarding",
@@ -16,7 +16,10 @@ const OnboardingPage = async () => {
     return redirect(unauthenticatedUrl);
   }
   const dbUser = await getUserById(user.id);
-  if (dbUser?.verifiedAt && dbUser?.onboardedAt) {
+  if (
+    (dbUser?.verifiedAt && dbUser?.onboardedAt) ||
+    (dbUser?.checkoutAt && dbUser?.verifiedAt && dbUser?.onboardedAt)
+  ) {
     return redirect(authenticatedUrl);
   }
   return <OnboardingForm />;

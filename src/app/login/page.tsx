@@ -1,4 +1,4 @@
-import { LoginForm } from "@/app/(access)/login/_components/LoginForm";
+import { LoginForm } from "@/app/login/_components/LoginForm";
 import { loginAction } from "@/server/login";
 import { Metadata } from "next";
 import { fetchAuthenticatedUser } from "@/lib/session";
@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 export default async function LoginPage() {
   const user = await fetchAuthenticatedUser();
   const dbUser = await getUserById(user?.id || "");
-  if (dbUser && dbUser.verifiedAt) {
+  if (dbUser && dbUser.verifiedAt && dbUser.checkoutAt) {
     return redirect(authenticatedUrl);
   }
   return <LoginForm login={loginAction} />;

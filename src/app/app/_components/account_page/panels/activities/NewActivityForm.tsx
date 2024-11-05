@@ -138,6 +138,7 @@ export function NewActivityForm({
                       {...field}
                       placeholder={`Enter title for ${activityType}`}
                       className="h-8"
+                      autoFocus={activityType === "call"}
                     />
                   </FormControl>
                   <FormMessage />
@@ -198,6 +199,7 @@ export function NewActivityForm({
               <FormControl>
                 <Textarea
                   {...field}
+                  autoFocus={activityType === "comment"}
                   placeholder={`Enter ${activityType === "comment" ? "comment" : "notes"}`}
                 />
               </FormControl>
