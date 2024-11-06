@@ -54,12 +54,12 @@ export function DealKanbanColumn({
   };
 
   const variants = cva(
-    "min-h-[86vh] max-h-[86vh] min-w-60 max-w-60 flex flex-col flex-shrink-0 snap-center cursor-pointer my-1 ",
+    "my-1 flex max-h-[86vh] min-h-[86vh] min-w-60 max-w-60 flex-shrink-0 cursor-pointer snap-center flex-col",
     {
       variants: {
         dragging: {
           default: "border-2 border-transparent",
-          over: "ring-1 opacity-30 ring-muted-foreground/60",
+          over: "opacity-30 ring-1 ring-muted-foreground/60",
           overlay: "ring-1 ring-primary",
         },
       },
@@ -107,7 +107,7 @@ export function DealKanbanColumnContainer({
 }) {
   const dndContext = useDndContext();
 
-  const variations = cva("flex -pl-2", {
+  const variations = cva("-pl-2 flex", {
     variants: {
       dragging: {
         default: "snap-x snap-mandatory",

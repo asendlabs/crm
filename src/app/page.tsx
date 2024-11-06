@@ -8,10 +8,5 @@ export default async function RootPage() {
   if (!user) {
     return redirect(unauthenticatedUrl);
   }
-  const dbUser = await getUserById(user.id);
-  if (dbUser?.verifiedAt && dbUser?.onboardedAt) {
-    return redirect(authenticatedUrl);
-  } else {
-    return redirect(unauthenticatedUrl);
-  }
+  return redirect(authenticatedUrl);
 }

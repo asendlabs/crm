@@ -86,7 +86,7 @@ export function NewActivityForm({
 
   useEffect(() => {
     reset();
-  }, [activityType]);
+  }, [activityType, reset]);
 
   return (
     <Form {...form}>

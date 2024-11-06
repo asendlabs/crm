@@ -128,9 +128,7 @@ export function DealKanbanBoard({
         );
         return `Picked up Deal ${
           active.data.current.deal.title
-        } at position: ${dealPosition + 1} of ${
-          dealsInColumn.length
-        } in column ${column?.stage}`;
+        } at position: ${dealPosition + 1} of ${dealsInColumn.length} in column ${column?.stage}`;
       }
     },
     onDragOver({ active, over }) {
@@ -177,9 +175,7 @@ export function DealKanbanBoard({
 
         return `Column ${
           active.data.current.column.stage
-        } was dropped into position ${overColumnPosition + 1} of ${
-          columnsId.length
-        }`;
+        } was dropped into position ${overColumnPosition + 1} of ${columnsId.length}`;
       } else if (
         active.data.current?.type === "Deal" &&
         over.data.current?.type === "Deal"

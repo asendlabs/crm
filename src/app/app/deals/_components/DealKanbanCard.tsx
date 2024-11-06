@@ -75,10 +75,10 @@ export function DealKanbanCard({ deal, isOverlay }: DealCardProps) {
     contact?.contactPhone?.phoneNumber,
   ).success;
 
-  const variants = cva("z-30 cursor-grab grid ", {
+  const variants = cva("z-30 grid cursor-grab", {
     variants: {
       dragging: {
-        over: "!p-0 !m-0 opacity-30 bg-muted",
+        over: "!m-0 bg-muted !p-0 opacity-30",
         overlay: "",
       },
     },
