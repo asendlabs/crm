@@ -102,6 +102,7 @@ export function NewTaskForm({
                     {...field}
                     placeholder="eg. Send Follow up Email"
                     className="h-8"
+                    autoFocus
                   />
                 </FormControl>
                 <FormMessage />

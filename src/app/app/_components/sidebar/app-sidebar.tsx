@@ -32,11 +32,9 @@ import {
   SidebarTrigger,
   useSidebar,
 } from "@/components/ui/sidebar";
-import { usePathname } from "next/navigation";
-import { useRouter } from "@/hooks/use-performance-router";
+import { usePathname, useRouter } from "next/navigation";
 import { CommandContext } from "@/providers/commandProvider";
 import { cn } from "@/lib/utils/tailwind";
-import { Button } from "@/components/ui/button";
 
 type NavItem = {
   title: string;
@@ -77,9 +75,7 @@ export function AppSidebar({
   const [loadedPathnames, setLoadedPathnames] = React.useState<string[]>([]);
   const [loadingPathname, setLoadingPathname] = React.useState<string>("");
   const { user, cookieselectedworkspaceid: cookieSelectedWorkspaceId } = props;
-  const router = useRouter({
-    fancy: true,
-  });
+  const router = useRouter();
 
   const { commandOpen, setCommandOpen } = React.useContext(CommandContext);
 
@@ -128,13 +124,7 @@ export function AppSidebar({
   }, [prefetchAllRoutes]);
 
   const handleNavigation = (url: string) => () => {
-    setLoading(true);
-    setLoadingPathname(url);
-    router.push(url);
-    setTimeout(() => {
-      setLoading(false);
-      setLoadingPathname("");
-    }, 150);
+    router.replace(url);
   };
 
   const {

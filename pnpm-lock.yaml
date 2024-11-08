@@ -117,6 +117,9 @@ importers:
       input-otp:
         specifier: ^1.2.4
         version: 1.2.4(react-dom@19.0.0-rc-69d4b800-20241021(react@19.0.0-rc-69d4b800-20241021))(react@19.0.0-rc-69d4b800-20241021)
+      js-base64:
+        specifier: ^3.7.7
+        version: 3.7.7
       lucia:
         specifier: ^3.2.2
         version: 3.2.2

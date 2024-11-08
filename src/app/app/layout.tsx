@@ -70,15 +70,20 @@ export default async function ApplicationLayout({
     // </main>
     <CommandPaletteProvider>
       <SidebarProvider>
-        <CommandPalette accounts={workspaceAccounts} />
-        <AppSidebar
-          user={userProfileWorkspace}
-          cookieselectedworkspaceid={cookieSelectedWorkspaceId}
-        />{" "}
-        <main className="grid min-h-screen w-full">
-          {" "}
-          <Suspense fallback={<div>Loading...</div>}>{children} </Suspense>
-        </main>
+        <Suspense fallback={<></>}>
+          <CommandPalette accounts={workspaceAccounts} />
+        </Suspense>
+        <Suspense
+          fallback={
+            <div className="min-h-screen w-[16rem] border-r border-border" />
+          }
+        >
+          <AppSidebar
+            user={userProfileWorkspace}
+            cookieselectedworkspaceid={cookieSelectedWorkspaceId}
+          />
+        </Suspense>
+        <main className="grid min-h-screen w-full">{children}</main>
       </SidebarProvider>
     </CommandPaletteProvider>
   );

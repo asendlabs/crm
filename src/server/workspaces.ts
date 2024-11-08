@@ -18,7 +18,11 @@ export const setSelectedWorkspaceAction = authenticatedAction
     const { workspaceId } = input;
     const cookieStore = await cookies();
 
-    const res = cookieStore.set(selectedWorkspaceCookie, workspaceId);
+    const res = cookieStore.set(selectedWorkspaceCookie, workspaceId, {
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+    });
+    
     if (!res) {
       throw new Error(
         "Something went wrong. Unable to set selected workspace.",
