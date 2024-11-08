@@ -22,7 +22,7 @@ export const setSelectedWorkspaceAction = authenticatedAction
       secure: process.env.NODE_ENV === "production",
       sameSite: "strict",
     });
-    
+
     if (!res) {
       throw new Error(
         "Something went wrong. Unable to set selected workspace.",

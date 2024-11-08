@@ -1,5 +1,5 @@
 // layout.tsx
-import React from "react";
+import React, { Suspense } from "react";
 import { redirect } from "next/navigation";
 import { getUserById } from "@/data-access/users";
 import {

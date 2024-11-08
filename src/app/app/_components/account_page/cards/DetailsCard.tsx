@@ -180,7 +180,7 @@ const DescriptionField = ({
         className={cn(
           "h-7 !min-h-7 w-full resize-none rounded-lg border-none px-2 py-1 text-black hover:bg-muted",
           isEditing &&
-            "h-20 focus:border-primary focus:ring-1 focus:ring-primary"
+            "h-20 focus:border-primary focus:ring-1 focus:ring-primary",
         )}
       />
     </div>

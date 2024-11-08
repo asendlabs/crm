@@ -20,6 +20,7 @@ import { Profile } from "@database/types";
 import { CommandPaletteProvider } from "@/providers/commandProvider";
 import { CommandPalette } from "@/components/command-palette";
 import { getAllWorkspaceAccounts } from "@/data-access/accounts";
+import { Loader } from "lucide-react";
 
 export default async function ApplicationLayout({
   children,
@@ -60,29 +61,13 @@ export default async function ApplicationLayout({
   );
 
   return (
-    // <main className="grid min-h-screen w-full grid-cols-[240px_1fr]">
-    //   <Sidebar
-    //     user={dbUser}
-    //     workspaces={workspaces}
-    //     cookieSelectedWorkspaceId={cookieSelectedWorkspaceId}
-    //   />
-    //   <div>{children}</div>
-    // </main>
     <CommandPaletteProvider>
+      <CommandPalette accounts={workspaceAccounts} />
       <SidebarProvider>
-        <Suspense fallback={<></>}>
-          <CommandPalette accounts={workspaceAccounts} />
-        </Suspense>
-        <Suspense
-          fallback={
-            <div className="min-h-screen w-[16rem] border-r border-border" />
-          }
-        >
-          <AppSidebar
-            user={userProfileWorkspace}
-            cookieselectedworkspaceid={cookieSelectedWorkspaceId}
-          />
-        </Suspense>
+        <AppSidebar
+          user={userProfileWorkspace}
+          cookieselectedworkspaceid={cookieSelectedWorkspaceId}
+        />
         <main className="grid min-h-screen w-full">{children}</main>
       </SidebarProvider>
     </CommandPaletteProvider>
