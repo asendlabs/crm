@@ -5,6 +5,7 @@ import { Contact, Account } from "@database/types";
 import { Row } from "@tanstack/react-table";
 import Link from "@/components/performance-link";
 import React from "react";
+import { cn } from "@/lib/utils/tailwind";
 
 interface SecondaryFieldProps {
   row: Row<any>;
@@ -12,6 +13,7 @@ interface SecondaryFieldProps {
   accountId: string;
   entityId?: string;
   entityType?: string;
+  showAvatar?: boolean;
 }
 
 export function SecondaryField({
@@ -20,9 +22,14 @@ export function SecondaryField({
   accountId,
   entityId,
   entityType,
+  showAvatar = true,
 }: SecondaryFieldProps) {
   const derivedRow = row.original;
   const { account, contacts } = derivedRow;
+
+  const searchParams = showAvatar
+    ? entityType + "=" + (contacts?.[0]?.id ? contacts?.[0]?.id : entityId)
+    : "";
 
   const renderEmpty = () => {
     return (
@@ -32,13 +39,15 @@ export function SecondaryField({
 
   const renderAccount = () => (
     <div className="flex items-center gap-1">
-      <Avatar className="size-6 rounded-lg bg-muted-foreground/20">
-        <AvatarFallback className="bg-transparent">
-          {account?.accountName.charAt(0).toUpperCase()}
-        </AvatarFallback>
-      </Avatar>
+      {showAvatar && (
+        <Avatar className="size-6 rounded-lg bg-muted-foreground/20">
+          <AvatarFallback className="bg-transparent">
+            {account?.accountName.charAt(0).toUpperCase()}
+          </AvatarFallback>
+        </Avatar>
+      )}
       <p className="ml-1 max-w-[6rem] truncate group-hover:underline">
-        {account?.accountName}
+        {entityId ? row.original.title : account?.accountName}
       </p>
     </div>
   );
@@ -51,11 +60,13 @@ export function SecondaryField({
       <>
         {visibleContact && (
           <div className="flex items-center gap-1">
-            <Avatar className="size-6 rounded-lg bg-muted-foreground/20">
-              <AvatarFallback className="bg-transparent">
-                {visibleContact.contactName.charAt(0).toUpperCase()}
-              </AvatarFallback>
-            </Avatar>
+            {showAvatar && (
+              <Avatar className="size-6 rounded-lg bg-muted-foreground/20">
+                <AvatarFallback className="bg-transparent">
+                  {visibleContact.contactName.charAt(0).toUpperCase()}
+                </AvatarFallback>
+              </Avatar>
+            )}
             <p className="ml-1 max-w-[6rem] truncate group-hover:underline">
               {visibleContact.contactName}
             </p>
@@ -69,9 +80,15 @@ export function SecondaryField({
   };
 
   return (
-    <div className="group select-none border-l border-border px-2 py-1">
+    <div
+      className={cn(
+        "group select-none border-border px-2 py-1",
+        showAvatar && "border-l",
+        !showAvatar && "px-1",
+      )}
+    >
       <Link
-        href={`/app/${urlType}s/${accountId?.toLowerCase() ?? ""}?${entityType}=${contacts ? accountId : account ? entityId : ""}`}
+        href={`/app/${urlType}s/${accountId?.toLowerCase() ?? ""}?${searchParams}`}
         replace={false}
         prefetch={true}
       >

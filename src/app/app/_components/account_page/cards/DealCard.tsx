@@ -1,10 +1,4 @@
-import React, {
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-  useCallback,
-} from "react";
+import React, { useContext, useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "@/hooks/use-performance-router";
@@ -59,15 +53,11 @@ import { dealUpdateSchema } from "@/schemas/deal.schema";
 import { AccountContext } from "@/providers/accountProvider";
 import { Deal } from "@database/types";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useQueryState } from "nuqs";
 
-export function DealCard({
-  deal,
-  isOpen,
-}: {
-  deal: DealWithPrimaryContact;
-  isOpen: boolean;
-}) {
-  const [open, setOpen] = useState(isOpen);
+export function DealCard({ deal }: { deal: DealWithPrimaryContact }) {
+  const [openDealId, setOpenDealId] = useQueryState("deal");
+  const [open, setOpen] = useState(openDealId === deal.id);
   const [saveButtonEnabled, setSaveButtonEnabled] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
@@ -186,9 +176,8 @@ export function DealCard({
     <Dialog
       open={open}
       onOpenChange={() => {
-        form.reset();
         setOpen(!open);
-        if (open) router.push("?deal=");
+        setOpenDealId(openDealId ? "" : deal.id);
       }}
     >
       <DialogTitle className="sr-only">Edit Deal</DialogTitle>
@@ -197,7 +186,7 @@ export function DealCard({
         className="grid cursor-pointer"
         onClick={() => {
           setOpen(true);
-          router.push(`?deal=${deal.id}`);
+          setOpenDealId(deal.id);
         }}
       >
         <div className="flex items-start justify-between p-3">
@@ -240,11 +229,7 @@ export function DealCard({
         </div>
         {deal.primaryContact && (
           <div className="p-2 pt-0">
-            <ContactCard
-              contact={deal.primaryContact}
-              clickable={false}
-              isOpen={false}
-            />
+            <ContactCard contact={deal.primaryContact} clickable={false} />
           </div>
         )}
       </Card>
@@ -438,6 +423,7 @@ export function DealCard({
                         toast.error(err?.message);
                       } else {
                         setOpen(false);
+                        setOpenDealId("");
                         router.refresh();
                       }
                     } catch (error) {

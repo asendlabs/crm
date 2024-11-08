@@ -79,7 +79,6 @@ export async function createDeal({
   value,
   stage,
   primaryContactId,
-  probability,
   expectedCloseDate,
   description,
   assignedToId,
@@ -91,7 +90,6 @@ export async function createDeal({
   value?: string;
   stage?: string;
   primaryContactId?: string;
-  probability?: number;
   expectedCloseDate?: Date;
   description?: string;
   assignedToId?: string;
@@ -105,7 +103,6 @@ export async function createDeal({
       title,
       value,
       stage,
-      probability,
       expectedCloseDate,
       assignedToId,
       primaryContactId,

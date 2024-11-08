@@ -15,11 +15,9 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { useQueryState } from "nuqs";
 export function Cards({ className }: { className?: string }) {
   const { contacts, deals, account } = useContext(AccountContext);
-  const openDealId = useSearchParams().get("deal");
-  const openContactId = useSearchParams().get("contact");
-
   const [accordionOpen, setAccordionOpen] = useState(["deals", "contacts"]);
 
   return (
@@ -48,11 +46,7 @@ export function Cards({ className }: { className?: string }) {
           <AccordionContent className="grid gap-2">
             {contacts?.length ? (
               contacts?.map((contact) => (
-                <ContactCard
-                  key={contact.id}
-                  contact={contact}
-                  isOpen={openContactId === contact.id}
-                />
+                <ContactCard key={contact.id} contact={contact} />
               ))
             ) : (
               <span />
@@ -69,13 +63,7 @@ export function Cards({ className }: { className?: string }) {
           </AccordionTrigger>
           <AccordionContent className="grid gap-2 !p-0 !pb-4">
             {deals?.length ? (
-              deals?.map((deal) => (
-                <DealCard
-                  key={deal.id}
-                  deal={deal}
-                  isOpen={openDealId === deal.id}
-                />
-              ))
+              deals?.map((deal) => <DealCard key={deal.id} deal={deal} />)
             ) : (
               <span />
             )}

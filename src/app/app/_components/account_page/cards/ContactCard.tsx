@@ -41,20 +41,20 @@ import { toast } from "sonner";
 import { z } from "zod";
 import { useServerAction } from "zsa-react";
 import { cn } from "@/lib/utils/tailwind";
+import { useQueryState } from "nuqs";
 
 const emailSchema = z.string().email();
 const phoneSchema = z.string().min(7);
 
 export function ContactCard({
   contact,
-  isOpen,
   clickable = true,
 }: {
   contact: ContactWithDetails;
-  isOpen: boolean;
   clickable?: boolean;
 }) {
-  const [open, setOpen] = useState(isOpen);
+  const [openContactId, setOpenContactId] = useQueryState("contact");
+  const [open, setOpen] = useState(openContactId === contact.id);
   const [saveButtonEnabled, setSaveButtonEnabled] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
@@ -74,12 +74,14 @@ export function ContactCard({
       contactName: contact.contactName,
       contactEmail: contact.contactEmail?.email ?? "",
       contactPhone: contact.contactPhone?.phoneNumber ?? "",
+      jobTitle: contact.jobTitle ?? undefined,
     },
   });
   const { control, watch } = form;
   const nameValue = watch("contactName");
   const emailValue = watch("contactEmail");
   const phoneValue = watch("contactPhone");
+  const jobTitleValue = watch("jobTitle");
 
   const router = useRouter();
 
@@ -121,6 +123,16 @@ export function ContactCard({
           toast.error(err?.message);
         }
       }
+      if (values.jobTitle !== contact.jobTitle) {
+        const [data, err] = await updateContactActionCaller.execute({
+          itemId: contact.id,
+          columnId: "jobTitle",
+          newValue: values.jobTitle || "",
+        });
+        if (err) {
+          toast.error(err?.message);
+        }
+      }
       setOpen(false);
       router.refresh();
     } catch (error) {
@@ -135,36 +147,45 @@ export function ContactCard({
       contact.contactName !== nameValue,
       contact.contactEmail?.email !== emailValue,
       contact.contactPhone?.phoneNumber !== phoneValue,
+      (contact.jobTitle !== jobTitleValue && jobTitleValue !== undefined) ||
+        (contact.jobTitle === null && jobTitleValue === ""),
     ].some(Boolean);
     setSaveButtonEnabled(hasChanges);
-  }, [contact, nameValue, emailValue, phoneValue]);
+  }, [contact, nameValue, emailValue, phoneValue, jobTitleValue]);
 
   return (
     <Dialog
-      open={open && clickable}
-      onOpenChange={(newOpen) => {
+      open={clickable ? open : false}
+      onOpenChange={() => {
         if (clickable) {
+          setOpen(!open);
           form.reset();
-          setOpen(newOpen);
+          setOpenContactId(openContactId ? "" : contact.id);
+        } else {
+          setOpen(false);
+          setOpenContactId("");
         }
-        if (open) router.push("?contact=");
       }}
     >
       <DialogTitle className="sr-only">Edit Contact</DialogTitle>
-      <Card key={contact.id} className="cursor-pointer">
+      <Card
+        key={contact.id}
+        className="cursor-pointer"
+        onClick={() => {
+          setOpen(true);
+          setOpenContactId(contact.id);
+        }}
+      >
         <div className="relative flex w-full items-center justify-between px-2 py-2.5 text-sm">
           <div className="flex-col">
             <h1
-              onClick={() => {
-                setOpen(true);
-                router.push(`?contact=${contact.id}`);
-              }}
               className={cn(
                 "max-w-[11rem] truncate px-1",
                 clickable ? "max-w-[14.5rem] text-base font-medium" : "",
               )}
             >
-              {contact.contactName}
+              {contact.contactName}{" "}
+              {contact.jobTitle && `(${contact.jobTitle})`}
             </h1>
             {clickable && (
               <div className="grid gap-1.5 px-1 py-0.5 text-xs">
@@ -174,19 +195,40 @@ export function ContactCard({
                     <span className="rounded-md border px-1 font-medium text-blue-700 hover:text-blue-600 hover:underline">
                       {contact.contactEmail?.email}
                     </span>
-                    <Copy className="size-5 rounded bg-muted p-1 group-hover:border" />{" "}
-                    {/* TODO: Add copy functionality */}
+                    <Copy
+                      className="size-5 rounded-md border p-1 opacity-0 group-hover:opacity-100"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        if (contact.contactEmail?.email) {
+                          navigator.clipboard.writeText(
+                            contact.contactEmail?.email,
+                          );
+                          toast.success("Email copied to clipboard");
+                        }
+                      }}
+                    />{" "}
                   </p>
                 )}
                 {contact.contactPhone?.phoneNumber && (
                   <p className="group flex items-center gap-1 truncate font-normal">
                     <span className="font-medium opacity-80">Phone</span>
-                    <span className="rounded-md border px-1 font-medium text-orange-700 hover:text-blue-600 hover:underline">
+                    <span className="rounded-md border px-1 font-medium text-orange-700 hover:text-orange-600 hover:underline">
                       {contact.contactPhone?.countryCode ??
                         "" + contact.contactPhone?.phoneNumber}
                     </span>
-                    <Copy className="size-5 rounded bg-muted p-1 group-hover:border" />
-                    {/* TODO: Add copy functionality */}
+                    <Copy
+                      className="size-5 rounded-md border p-1 opacity-0 group-hover:opacity-100"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        if (contact.contactEmail?.email) {
+                          navigator.clipboard.writeText(
+                            contact.contactPhone?.countryCode ??
+                              "" + contact.contactPhone?.phoneNumber,
+                          );
+                          toast.success("Phone number copied to clipboard");
+                        }
+                      }}
+                    />
                   </p>
                 )}
               </div>
@@ -238,7 +280,9 @@ export function ContactCard({
       </Card>
       <DialogContent className="p-4">
         <div className="">
-          <h1 className="text-xl font-medium">{contact.contactName}</h1>
+          <h1 className="text-xl font-medium">
+            {contact.contactName} {contact.jobTitle && `(${contact.jobTitle})`}
+          </h1>
           <p className="text-sm">{contact.contactEmail?.email ?? ""}</p>
         </div>
         <Form {...form}>
@@ -256,6 +300,24 @@ export function ContactCard({
                     <Input
                       {...field}
                       placeholder="eg. John Doe"
+                      className="h-9 w-full"
+                      autoFocus={false}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={control}
+              name="jobTitle"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Job Title</FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      placeholder="eg. CEO"
                       className="h-9 w-full"
                       autoFocus={false}
                     />
@@ -317,6 +379,7 @@ export function ContactCard({
                     } catch (error) {
                     } finally {
                       setIsDeleting(false);
+                      setOpenContactId("");
                       setOpen(false);
                       router.refresh();
                     }

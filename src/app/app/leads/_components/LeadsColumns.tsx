@@ -1,14 +1,7 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
-import {
-  CalendarDays,
-  Component,
-  LucideFileText,
-  LucideUsers,
-  Sparkle,
-  Users,
-} from "lucide-react";
+import { CalendarDays, Component, LucideUsers, Users } from "lucide-react";
 import {
   CheckboxHead,
   LogoHead,
@@ -43,7 +36,12 @@ export const LeadsColumns: ColumnDef<AccountFull>[] = [
     accessorKey: "contacts",
     header: () => <LogoHead title="Contacts" Icon={LucideUsers} />,
     cell: ({ getValue, row }) => (
-      <SecondaryField row={row} urlType="lead" accountId={row.original.id} />
+      <SecondaryField
+        row={row}
+        urlType="lead"
+        accountId={row.original.id}
+        entityType="contact"
+      />
     ),
   },
   {

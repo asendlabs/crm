@@ -1,3 +1,4 @@
+import { NuqsAdapter } from "nuqs/adapters/next/app";
 import "@/styles/globals.css";
 import { GeistSans } from "geist/font/sans";
 import type { Metadata } from "next";
@@ -27,7 +28,7 @@ export default async function RootLayout({
       <html lang="en">
         <AppPostHogProvider>
           <body className={GeistSans.className}>
-            {children}
+            <NuqsAdapter>{children}</NuqsAdapter>
             <Toaster position="bottom-right" richColors />
           </body>
         </AppPostHogProvider>

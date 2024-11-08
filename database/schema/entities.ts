@@ -137,7 +137,6 @@ export const dealTable = table("deals", {
         color: "1e40af",
       }),
     ),
-  probability: integer("ai_probability"),
   expectedCloseDate: timestamp("expected_close_date"),
   assignedToId: text("assigned_to_id").references(() => userTable.id),
   primaryContactId: text("primary_contact_id").references(

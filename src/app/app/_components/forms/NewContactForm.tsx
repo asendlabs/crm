@@ -64,6 +64,7 @@ export function NewContactForm({
       contactEmail: "",
       contactPhone: "",
       accountId: accountId || "",
+      jobTitle: "",
     },
   });
 
