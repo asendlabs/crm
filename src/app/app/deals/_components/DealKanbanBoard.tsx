@@ -29,9 +29,7 @@ import { DealStage, DealWithPrimaryContact } from "@/types/entities";
 import { changeDealStageAction } from "@/server/deal";
 import { useServerAction } from "zsa-react";
 import { toast } from "sonner";
-import { Router } from "lucide-react";
 import { useRouter } from "@/hooks/use-performance-router";
-import { int } from "drizzle-orm/mysql-core";
 
 export type ColumnId = string;
 
@@ -59,34 +57,6 @@ export function DealKanbanBoard({
     setIsMounted(true);
   }, []);
 
-  // This effect will only run when `activeDeal?.stage` changes, ensuring it only triggers when necessary.
-  useEffect(() => {
-    if (
-      dragEnd &&
-      activeDeal?.stage &&
-      activeDeal.stage.stage !== activeColumn?.stage
-    ) {
-      execute({ dealId: activeDeal.id, newStage: activeDeal.stage }).then(
-        ([data, err]) => {
-          if (err) {
-            toast.error(err.message);
-            console.error("Failed to update deal stage:", err);
-          }
-        },
-      );
-      setActiveColumn(null);
-      setActiveDeal(null);
-      setDragEnd(false);
-      // refresh();
-    }
-  }, [
-    activeDeal?.stage,
-    dragEnd,
-    activeColumn?.stage,
-    activeDeal?.id,
-    execute,
-  ]);
-
   const sensors = useSensors(
     useSensor(MouseSensor),
     useSensor(TouchSensor),
@@ -109,6 +79,22 @@ export function DealKanbanBoard({
       dealPosition,
       column,
     };
+  }
+
+  async function handleDealStageUpdate(dealId: string, newStage: DealStage) {
+    try {
+      const [data, err] = await execute({ dealId, newStage });
+      if (err) {
+        toast.error(err.message);
+        console.error("Failed to update deal stage:", err);
+        return false;
+      }
+      return true;
+    } catch (error) {
+      console.error("Error updating deal stage:", error);
+      toast.error("Failed to update deal stage");
+      return false;
+    }
   }
 
   const announcements: Announcements = {
@@ -250,62 +236,69 @@ export function DealKanbanBoard({
     }
   }
 
-  function onDragOver(event: DragOverEvent) {
+  async function onDragOver(event: DragOverEvent) {
     const { active, over } = event;
-    if (!over) return;
+    if (!over || !hasDraggableData(active) || !hasDraggableData(over)) return;
 
     const activeId = active.id;
     const overId = over.id;
-
     if (activeId === overId) return;
-
-    if (!hasDraggableData(active) || !hasDraggableData(over)) return;
 
     const activeData = active.data.current;
     const overData = over.data.current;
 
-    const isActiveADeal = activeData?.type === "Deal";
-    const isOverADeal = overData?.type === "Deal";
+    if (activeData?.type !== "Deal") return;
 
-    if (!isActiveADeal) return;
+    if (overData?.type === "Deal") {
+      const overDeal = deals.find((d) => d.id === overId);
+      if (!overDeal) return;
 
-    // Handle moving deals between columns
-    if (isActiveADeal && isOverADeal) {
-      setDeals((deals) => {
-        const activeIndex = deals.findIndex((t) => t.id === activeId);
-        const overIndex = deals.findIndex((t) => t.id === overId);
-        const activeDeal = deals[activeIndex];
-        const overDeal = deals[overIndex];
+      setDeals((currentDeals) => {
+        const activeIndex = currentDeals.findIndex((t) => t.id === activeId);
+        const overIndex = currentDeals.findIndex((t) => t.id === overId);
+        const updatedDeals = arrayMove(currentDeals, activeIndex, overIndex);
 
+        const activeDeal = updatedDeals[overIndex];
         if (activeDeal.stage.stage !== overDeal.stage.stage) {
-          // If moving to a different column, update the stage
           activeDeal.stage = overDeal.stage;
+          handleDealStageUpdate(activeDeal.id, activeDeal.stage).then(
+            (success) => {
+              if (success) {
+                refresh();
+              }
+            },
+          );
         }
 
-        return arrayMove(deals, activeIndex, overIndex);
+        return updatedDeals;
       });
-    }
+    } else if (overData?.type === "Column") {
+      const newStage = columns.find((col) => col.stage === overId);
+      if (!newStage) return;
 
-    const isOverAColumn = overData?.type === "Column";
+      setDeals((currentDeals) => {
+        const activeIndex = currentDeals.findIndex((t) => t.id === activeId);
+        const activeDeal = currentDeals[activeIndex];
 
-    // Handle dropping a deal directly onto a column
-    if (isActiveADeal && isOverAColumn) {
-      setDeals((deals) => {
-        const activeIndex = deals.findIndex((t) => t.id === activeId);
-        const activeDeal = deals[activeIndex];
-        const newStage = columns.find((col) => col.stage === overId);
+        if (activeDeal && activeDeal.stage.stage !== newStage.stage) {
+          const updatedDeals = [...currentDeals];
+          updatedDeals[activeIndex] = {
+            ...activeDeal,
+            stage: newStage,
+          };
 
-        if (
-          activeDeal &&
-          newStage &&
-          activeDeal.stage.stage !== newStage.stage
-        ) {
-          activeDeal.stage = newStage;
-          return [...deals];
+          return updatedDeals;
         }
 
-        return deals;
+        return currentDeals;
       });
+      await handleDealStageUpdate(activeData.deal.id, newStage).then(
+        (success) => {
+          if (success) {
+            refresh();
+          }
+        },
+      );
     }
   }
 
