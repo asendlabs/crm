@@ -29,7 +29,7 @@ import {
 import { useRouter } from "@/hooks/use-performance-router";
 import { useState } from "react";
 import { toast } from "sonner";
-import { logoutAction } from "@/server/logout";
+import { signOutAction } from "@/server/sign-out";
 import { useServerAction } from "zsa-react";
 import { UserWithWorkspaceAndProfile } from "@/types/entities";
 
@@ -37,18 +37,18 @@ export function UserButton({ user }: { user: UserWithWorkspaceAndProfile }) {
   const { isMobile } = useSidebar();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  const { execute } = useServerAction(logoutAction);
+  const { execute } = useServerAction(signOutAction);
 
-  async function handleLogout() {
+  async function handleSignOut() {
     setLoading(true);
     try {
       const response = await execute();
       if (!response) {
-        toast.error("Unable to logout");
+        toast.error("Unable to sign out");
         return;
       }
-      router.replace("/login");
-      toast.success("Logged out successfully", {
+      router.replace("/sign-in");
+      toast.success("Signed out successfully", {
         position: "bottom-right",
         duration: 2000,
         richColors: false,
@@ -141,7 +141,7 @@ export function UserButton({ user }: { user: UserWithWorkspaceAndProfile }) {
               <span>Settings</span>
             </DropdownMenuItem>
             <DropdownMenuItem
-              onClick={handleLogout}
+              onClick={handleSignOut}
               className="flex items-center"
             >
               {loading ? (
@@ -149,7 +149,7 @@ export function UserButton({ user }: { user: UserWithWorkspaceAndProfile }) {
               ) : (
                 <LogOut size={15} />
               )}
-              <span>{loading ? "Logging out..." : "Log out"}</span>
+              <span>{loading ? "Signing out..." : "Sign out"}</span>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

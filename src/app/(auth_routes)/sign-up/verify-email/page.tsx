@@ -3,10 +3,6 @@ import React from "react";
 import { VerifyEmailForm } from "./_components/VerifyEmailForm";
 import { getUserById } from "@/data-access/users";
 import { fetchAuthenticatedUser } from "@/lib/session";
-import {
-  resendVerifyEmailAction,
-  verifyEmailAction,
-} from "@/server/verify-email";
 import { redirect } from "next/navigation";
 import { afterVerifyUrl, unauthenticatedUrl } from "@/constants";
 
@@ -23,13 +19,7 @@ const VerifyEmailPage = async () => {
   if (dbUser?.verifiedAt) {
     return redirect(afterVerifyUrl);
   }
-  return (
-    <VerifyEmailForm
-      action={verifyEmailAction}
-      email={dbUser?.email || ""}
-      resendAction={resendVerifyEmailAction}
-    />
-  );
+  return <VerifyEmailForm email={dbUser?.email || ""} />;
 };
 
 export default VerifyEmailPage;

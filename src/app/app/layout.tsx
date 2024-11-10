@@ -21,6 +21,7 @@ import { CommandPaletteProvider } from "@/providers/commandProvider";
 import { CommandPalette } from "@/components/command-palette";
 import { getAllWorkspaceAccounts } from "@/data-access/accounts";
 import { Loader } from "lucide-react";
+import { Shortcuts } from "@/components/shortcuts";
 
 export default async function ApplicationLayout({
   children,
@@ -63,6 +64,7 @@ export default async function ApplicationLayout({
   return (
     <CommandPaletteProvider>
       <CommandPalette accounts={workspaceAccounts} />
+      <Shortcuts />
       <SidebarProvider>
         <AppSidebar
           user={userProfileWorkspace}

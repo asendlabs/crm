@@ -54,7 +54,7 @@ export function NewDealForm({
   accessPoint,
   addDeal,
   addDealKanban,
-  runCommandFunction,
+  runCommandAction,
 }: {
   accountId?: string;
   accessPoint?: "accountPage" | "grid" | "board";
@@ -62,7 +62,7 @@ export function NewDealForm({
   fullButton?: boolean;
   addDeal?: (deal: any) => void;
   addDealKanban?: (deal: any) => void;
-  runCommandFunction?: (command: () => void) => void;
+  runCommandAction?: (command: () => void) => void;
 }) {
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
@@ -119,7 +119,7 @@ export function NewDealForm({
         );
       }
 
-      if (runCommandFunction) {
+      if (runCommandAction) {
         setOpen(false);
         setCommandOpen(false);
         router.push(
@@ -137,7 +137,7 @@ export function NewDealForm({
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogTitle className="sr-only">New Deal Form</DialogTitle>
-      {runCommandFunction ? (
+      {runCommandAction ? (
         <CommandItem
           className="flex gap-2"
           onSelect={() => {
@@ -286,7 +286,7 @@ export function NewDealForm({
                     setLoading(false);
                     dealform.reset();
                     setOpen(false);
-                    if (runCommandFunction) {
+                    if (runCommandAction) {
                       setCommandOpen(false);
                     }
                   }}

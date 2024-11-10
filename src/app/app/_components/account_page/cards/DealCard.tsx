@@ -424,6 +424,7 @@ export function DealCard({ deal }: { deal: DealWithPrimaryContact }) {
                       } else {
                         setOpen(false);
                         setOpenDealId("");
+
                         router.refresh();
                       }
                     } catch (error) {
@@ -453,8 +454,8 @@ export function DealCard({ deal }: { deal: DealWithPrimaryContact }) {
                   type="button"
                   onClick={() => {
                     setOpen(false);
+                    setOpenDealId("");
                     form.reset();
-                    router.push("?deal=");
                   }}
                 >
                   Cancel

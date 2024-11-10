@@ -11,7 +11,7 @@ export const signUpSchema = z.object({
     .max(128, { message: "Password cannot exceed 128 characters." }),
 });
 
-export const loginSchema = z.object({
+export const signInSchema = z.object({
   email: z
     .string()
     .email({ message: "Please enter a valid email address." })

@@ -24,13 +24,11 @@ import { PasswordField } from "@/components/ui/password-input";
 import { useRouter } from "@/hooks/use-performance-router";
 import { useServerAction } from "zsa-react";
 import { useSearchParams } from "next/navigation";
+import { signUpAction } from "@/server/sign-up";
+import { Logo } from "@/components/Logo";
 
-export const SignUpForm = ({
-  signUp,
-}: {
-  signUp: (formData: z.infer<typeof signUpSchema>) => Promise<any>;
-}) => {
-  const { execute, isPending, error } = useServerAction(signUp);
+export const SignUpForm = () => {
+  const { execute, isPending, error } = useServerAction(signUpAction);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const router = useRouter();
 
@@ -39,7 +37,7 @@ export const SignUpForm = ({
   useEffect(() => {
     if (searchParams.get("redirecterror") === "nouser") {
       toast.error(
-        "You need to create an account or login before accessing the checkout page.",
+        "You need to create an account or sign in before accessing the checkout page.",
       );
     }
   }, [searchParams]);
@@ -91,24 +89,19 @@ export const SignUpForm = ({
   return (
     <div className="grid h-screen items-center">
       <Link
-        href="/login"
+        href="/sign-in"
         className={cn(
           buttonVariants({ variant: "outline" }),
           "absolute right-4 top-4 md:right-8 md:top-8",
         )}
       >
-        Login
+        Sign In
       </Link>
       <div>
         <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
           <div className="flex flex-col space-y-2 text-center">
             <h1 className="flex flex-row items-center justify-center gap-2 text-2xl font-semibold tracking-tight">
-              <Image
-                src={"/assets/logo_app.svg"}
-                alt="Logo"
-                width={25}
-                height={25}
-              />
+              <Logo className="h-6 w-6" />
               Create a free account
             </h1>
             <p className="text-sm text-muted-foreground">

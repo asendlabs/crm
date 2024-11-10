@@ -15,7 +15,7 @@ export const contactCreateSchema = z.object({
 
 export const contactUpdateSchema = z.object({
   contactName: z.string().min(1, { message: "Contact name is required" }),
-  contactEmail: z.string().email().optional(),
+  contactEmail: z.string().optional(),
   contactPhone: z.string().optional(),
   jobTitle: z
     .string()

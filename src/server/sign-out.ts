@@ -4,7 +4,7 @@ import { authenticatedAction } from "@/lib/zsa";
 import { lucia, validateRequest } from "@/lib/lucia";
 import { cookies } from "next/headers";
 
-export const logoutAction = authenticatedAction
+export const signOutAction = authenticatedAction
   .createServerAction()
   .handler(async ({ input }) => {
     const { session } = await validateRequest();

@@ -23,7 +23,7 @@ import {
   MessageSquareText,
 } from "lucide-react";
 import { CustomIconLink } from "./commands/CustomIconLink";
-import { LogoutCommand } from "./commands/LogoutCommand";
+import { SignOutCommand } from "./commands/SignOutCommand";
 import { usePathname } from "next/navigation";
 import { ShowInViewCommand } from "./commands/ShowInViewCommand";
 import { SwitchPanelCommand } from "./commands/SwitchPanelCommand";
@@ -99,17 +99,17 @@ export function CommandPalette({ accounts }: { accounts: Account[] }) {
     );
   }, [pathname]);
 
-  React.useEffect(() => {
-    const down = (e: KeyboardEvent) => {
-      if (e.key.toLowerCase() === "k" && (e.metaKey || e.ctrlKey)) {
-        e.preventDefault();
-        setCommandOpen((prev) => !prev);
-      }
-    };
+  // React.useEffect(() => {
+  //   const down = (e: KeyboardEvent) => {
+  //     if (e.key.toLowerCase() === "k" && (e.metaKey || e.ctrlKey)) {
+  //       e.preventDefault();
+  //       setCommandOpen((prev) => !prev);
+  //     }
+  //   };
 
-    document.addEventListener("keydown", down);
-    return () => document.removeEventListener("keydown", down);
-  }, [setCommandOpen]);
+  //   document.addEventListener("keydown", down);
+  //   return () => document.removeEventListener("keydown", down);
+  // }, [setCommandOpen]);
 
   const runCommand = (command: () => void) => {
     setCommandOpen(false);
@@ -124,14 +124,14 @@ export function CommandPalette({ accounts }: { accounts: Account[] }) {
         <CommandList>
           <CommandEmpty>No results found.</CommandEmpty>
           <CommandGroup heading="Create">
-            <NewLeadForm runCommandFunction={runCommand} addLead={() => {}} />
+            <NewLeadForm runCommandAction={runCommand} addLead={() => {}} />
             <NewContactForm
-              runCommandFunction={runCommand}
+              runCommandAction={runCommand}
               addContact={() => {}}
               accounts={accounts}
             />
             <NewDealForm
-              runCommandFunction={runCommand}
+              runCommandAction={runCommand}
               addDeal={() => {}}
               accounts={accounts}
             />
@@ -141,7 +141,7 @@ export function CommandPalette({ accounts }: { accounts: Account[] }) {
               <GoToLink
                 key={link.title}
                 {...link}
-                runCommandFunction={runCommand}
+                runCommandAction={runCommand}
               />
             ))}
           </CommandGroup>
@@ -152,7 +152,7 @@ export function CommandPalette({ accounts }: { accounts: Account[] }) {
                 Icon={link.icon}
                 key={link.title}
                 {...link}
-                runCommandFunction={runCommand}
+                runCommandAction={runCommand}
               />
             ))}
           </CommandGroup>
@@ -162,13 +162,13 @@ export function CommandPalette({ accounts }: { accounts: Account[] }) {
                 <CommandSeparator className="my-2" />
                 <CommandGroup heading="Miscellaneous">
                   {shouldRenderShowInViewCommand && (
-                    <ShowInViewCommand runCommandFunction={runCommand} />
+                    <ShowInViewCommand runCommandAction={runCommand} />
                   )}
                   {shouldRenderSwitchPanelCommand &&
                     commandsData.panels.map((panel) => (
                       <SwitchPanelCommand
                         key={panel.panel}
-                        runCommandFunction={runCommand}
+                        runCommandAction={runCommand}
                         {...panel}
                       />
                     ))}
@@ -177,7 +177,7 @@ export function CommandPalette({ accounts }: { accounts: Account[] }) {
             ))}
           <CommandSeparator className="my-2" />
           <CommandGroup heading="Account">
-            <LogoutCommand runCommandFunction={runCommand} />
+            <SignOutCommand runCommandAction={runCommand} />
           </CommandGroup>
         </CommandList>
       </CommandDialog>

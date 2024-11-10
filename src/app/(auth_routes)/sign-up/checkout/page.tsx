@@ -3,7 +3,6 @@ import { fetchAuthenticatedUser } from "@/lib/session";
 import { redirect } from "next/navigation";
 import { getUserById } from "@/data-access/users";
 import { authenticatedUrl } from "@/constants";
-import { Link } from "next-view-transitions";
 import { DemoCheckoutButton } from "./_components/DemoCheckoutButton";
 
 export const metadata: Metadata = {
@@ -14,7 +13,7 @@ export default async function CheckoutPage() {
   const PADDLE_DOMAIN_APPROVED = false;
   if (PADDLE_DOMAIN_APPROVED) {
     const user = await fetchAuthenticatedUser();
-    if (!user) return redirect("/signup?redirecterror=nouser");
+    if (!user) return redirect("/sign-up?redirecterror=nouser");
     const dbUser = await getUserById(user.id || "");
     if (
       dbUser &&

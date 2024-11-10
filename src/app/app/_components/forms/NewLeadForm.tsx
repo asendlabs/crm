@@ -32,10 +32,10 @@ import { CommandContext } from "@/providers/commandProvider";
 
 export function NewLeadForm({
   addLead,
-  runCommandFunction,
+  runCommandAction,
 }: {
   addLead: (newLead: any) => void;
-  runCommandFunction?: (command: () => void) => void;
+  runCommandAction?: (command: () => void) => void;
 }) {
   const [loading, setLoading] = React.useState(false);
   const [open, setOpen] = React.useState(false);
@@ -66,7 +66,7 @@ export function NewLeadForm({
         return;
       }
       addLead(data?.data);
-      if (runCommandFunction) {
+      if (runCommandAction) {
         setOpen(false);
         setCommandOpen(false);
         router.push(`/app/leads/${data?.data.id.toLowerCase()}`);
@@ -76,7 +76,7 @@ export function NewLeadForm({
     } finally {
       setLoading(false);
       form.reset();
-      if (!runCommandFunction) {
+      if (!runCommandAction) {
         setOpen(false);
       }
     }
@@ -98,7 +98,7 @@ export function NewLeadForm({
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogTitle className="sr-only">New Lead</DialogTitle>
-      {runCommandFunction ? (
+      {runCommandAction ? (
         <CommandItem
           className="flex gap-2"
           onSelect={() => {
@@ -170,7 +170,7 @@ export function NewLeadForm({
                     setLoading(false);
                     form.reset();
                     setOpen(false);
-                    if (runCommandFunction) {
+                    if (runCommandAction) {
                       setCommandOpen(false);
                     }
                   }}

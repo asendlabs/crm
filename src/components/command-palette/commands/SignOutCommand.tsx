@@ -1,34 +1,34 @@
 "use client";
 import { CommandItem } from "@/components/ui/command";
 import { useRouter } from "@/hooks/use-performance-router";
-import { logoutAction } from "@/server/logout";
+import { signOutAction } from "@/server/sign-out";
 import { Loader, LogOut } from "lucide-react";
 import React from "react";
 import { toast } from "sonner";
 import { useServerAction } from "zsa-react";
 
-interface LogoutCommandProps {
-  runCommandFunction: (command: () => void) => void;
+interface SignOutCommandProps {
+  runCommandAction: (command: () => void) => void;
 }
 
-export function LogoutCommand({ runCommandFunction }: LogoutCommandProps) {
+export function SignOutCommand({ runCommandAction }: SignOutCommandProps) {
   const router = useRouter();
-  const { execute } = useServerAction(logoutAction);
+  const { execute } = useServerAction(signOutAction);
   const [isLoggingOut, setIsLoggingOut] = React.useState(false);
   return (
     <CommandItem
       className="group flex gap-2"
       onSelect={() =>
-        runCommandFunction(async () => {
+        runCommandAction(async () => {
           setIsLoggingOut(true);
           try {
             const response = await execute();
             if (!response) {
-              toast.error("Unable to logout");
+              toast.error("Unable to sign out");
               return;
             }
-            router.replace("/login");
-            toast.success("Logged out successfully", {
+            router.replace("/sign-in");
+            toast.success("Signed out successfully", {
               position: "bottom-right",
               duration: 2000,
               richColors: false,
@@ -47,7 +47,7 @@ export function LogoutCommand({ runCommandFunction }: LogoutCommandProps) {
       ) : (
         <LogOut className="!size-[1.5rem] rounded-md border p-1" />
       )}
-      <span>{isLoggingOut ? "Logging out..." : "Logout"}</span>
+      <span>{isLoggingOut ? "Signing out..." : "Sign Out"}</span>
     </CommandItem>
   );
 }

@@ -9,7 +9,7 @@ import {
   Form,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { loginSchema } from "@/schemas/auth.schema";
+import { signInSchema } from "@/schemas/auth.schema";
 import { cn } from "@/lib/utils/tailwind";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader } from "lucide-react";
@@ -23,17 +23,15 @@ import { z } from "zod";
 import { toast } from "sonner";
 import { PasswordField } from "@/components/ui/password-input";
 import { useRouter } from "@/hooks/use-performance-router";
+import { signInAction } from "@/server/sign-in";
+import { Logo } from "@/components/Logo";
 
-export const LoginForm = ({
-  login,
-}: {
-  login: (formData: z.infer<typeof loginSchema>) => Promise<any>;
-}) => {
-  const { execute } = useServerAction(login);
+export const SignInForm = () => {
+  const { execute } = useServerAction(signInAction);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const form = useForm<z.infer<typeof loginSchema>>({
-    resolver: zodResolver(loginSchema),
+  const form = useForm<z.infer<typeof signInSchema>>({
+    resolver: zodResolver(signInSchema),
     defaultValues: {
       email: "",
       password: "",
@@ -41,7 +39,7 @@ export const LoginForm = ({
   });
   const { handleSubmit, control, reset } = form;
 
-  const onSubmit = async (formData: z.infer<typeof loginSchema>) => {
+  const onSubmit = async (formData: z.infer<typeof signInSchema>) => {
     setIsSubmitting(true);
     const [data, err] = await execute(formData);
 
@@ -59,7 +57,7 @@ export const LoginForm = ({
   return (
     <main className="grid h-screen items-center">
       {/* <Link
-        href="/signup"
+        href="/sign-up"
         className={cn(
           buttonVariants({ variant: "outline" }),
           "absolute right-4 top-4 md:right-8 md:top-8",
@@ -71,16 +69,11 @@ export const LoginForm = ({
         <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
           <div className="flex flex-col space-y-2 text-center">
             <h1 className="flex flex-row items-center justify-center gap-2 text-2xl font-semibold tracking-tight">
-              <Image
-                src={"/assets/logo_app.svg"}
-                alt="Logo"
-                width={25}
-                height={25}
-              />
-              Login to Asend
+              <Logo className="h-6 w-6" />
+              Sign In to Asend
             </h1>
             <p className="text-sm text-muted-foreground">
-              Enter your email and password below to login.
+              Enter your email and password below to sign in.
             </p>
           </div>
           <div className="flex flex-col gap-4">
@@ -139,7 +132,7 @@ export const LoginForm = ({
                   {isSubmitting && (
                     <Loader className="mr-2 size-4 animate-spin" />
                   )}
-                  Login
+                  Sign In
                 </Button>
               </form>
             </Form>

@@ -5,11 +5,11 @@ import { useSearchParams } from "next/navigation";
 import { SquareKanban as Board, Table as Grid } from "lucide-react";
 
 interface ShowInViewCommandProps {
-  runCommandFunction: (command: () => void) => void;
+  runCommandAction: (command: () => void) => void;
 }
 
 export function ShowInViewCommand({
-  runCommandFunction,
+  runCommandAction,
 }: ShowInViewCommandProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -21,7 +21,7 @@ export function ShowInViewCommand({
     <CommandItem
       className="flex gap-2"
       onSelect={() =>
-        runCommandFunction(() => {
+        runCommandAction(() => {
           router.push(`?view=${existingViewIsBoard ? "grid" : "board"}`);
         })
       }

@@ -42,12 +42,12 @@ export function NewContactForm({
   addContact,
   accountId,
   accounts,
-  runCommandFunction,
+  runCommandAction,
 }: {
   addContact?: (newContact: any) => void;
   accountId?: string;
   accounts?: Account[];
-  runCommandFunction?: (command: () => void) => void;
+  runCommandAction?: (command: () => void) => void;
 }) {
   const [loading, setLoading] = React.useState(false);
   const [open, setOpen] = React.useState(false);
@@ -107,7 +107,7 @@ export function NewContactForm({
           `/app/${data.data.account.type + "s"}/${data.data.accountId}?contact=${data.data.id}`,
         );
       }
-      if (runCommandFunction) {
+      if (runCommandAction) {
         setOpen(false);
         setCommandOpen(false);
         router.push(
@@ -126,7 +126,7 @@ export function NewContactForm({
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogTitle className="sr-only">New Contact Form</DialogTitle>
-      {runCommandFunction ? (
+      {runCommandAction ? (
         <CommandItem
           className="flex gap-2"
           onSelect={() => {
@@ -234,7 +234,7 @@ export function NewContactForm({
                     setLoading(false);
                     contactform.reset();
                     setOpen(false);
-                    if (runCommandFunction) {
+                    if (runCommandAction) {
                       setCommandOpen(false);
                     }
                   }}

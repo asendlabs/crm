@@ -4,7 +4,7 @@ import { getUserById } from "@/data-access/users";
 import { fetchAuthenticatedUser } from "@/lib/session";
 import { redirect } from "next/navigation";
 import { authenticatedUrl, unauthenticatedUrl } from "@/constants";
-import { OnboardingForm } from "@/app/signup/onboarding/_components/OnboardingForm";
+import { OnboardingForm } from "./_components/OnboardingForm";
 
 export const metadata: Metadata = {
   title: "Onboarding",

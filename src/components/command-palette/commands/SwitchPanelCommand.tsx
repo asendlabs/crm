@@ -6,11 +6,11 @@ import { LucideIcon } from "lucide-react";
 interface SwitchPanelCommandProps {
   panel: string;
   PanelIcon: LucideIcon;
-  runCommandFunction: (command: () => void) => void;
+  runCommandAction: (command: () => void) => void;
 }
 
 export function SwitchPanelCommand({
-  runCommandFunction,
+  runCommandAction,
   PanelIcon,
   panel,
 }: SwitchPanelCommandProps) {
@@ -19,7 +19,7 @@ export function SwitchPanelCommand({
     <CommandItem
       className="flex gap-2"
       onSelect={() =>
-        runCommandFunction(() => {
+        runCommandAction(() => {
           router.replace(`?panel=${panel}`);
         })
       }

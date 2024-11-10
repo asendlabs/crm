@@ -23,17 +23,11 @@ import {
 import { REGEXP_ONLY_DIGITS } from "input-otp";
 import { ResendVerifyEmailButton } from "./ResendVerifyEmailButton";
 import Image from "next/image";
+import { verifyEmailAction } from "@/server/verify-email";
+import { Logo } from "@/components/Logo";
 
-export const VerifyEmailForm = ({
-  email,
-  action,
-  resendAction,
-}: {
-  email: string;
-  action: (formData: z.infer<typeof verificationCodeSchema>) => Promise<any>;
-  resendAction: () => Promise<any>;
-}) => {
-  const { execute, isPending, error } = useServerAction(action);
+export const VerifyEmailForm = ({ email }: { email: string }) => {
+  const { execute, isPending, error } = useServerAction(verifyEmailAction);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const form = useForm<z.infer<typeof verificationCodeSchema>>({
@@ -62,12 +56,7 @@ export const VerifyEmailForm = ({
     <div className="flex min-h-screen flex-col items-center justify-center space-y-6 px-4 py-8">
       <div className="flex flex-col space-y-2 text-center">
         <h1 className="flex flex-row items-center justify-center gap-2 text-2xl font-semibold tracking-tight">
-          <Image
-            src={"/assets/logo_app.svg"}
-            alt="Logo"
-            width={25}
-            height={25}
-          />
+          <Logo className="h-6 w-6" />
           Verify your Email
         </h1>
         <div className="group mt-2 flex flex-row items-center justify-center gap-2 text-sm text-gray-600">
