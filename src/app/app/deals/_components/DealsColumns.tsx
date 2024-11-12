@@ -44,11 +44,11 @@ export const DealColumns: ColumnDef<DealWithPrimaryContact>[] = [
     cell: ({ getValue, row }) => (
       <SecondaryField
         row={row}
+        urlType={row.original.account?.type ?? ""} // Account type is used to determine the URL path
         accountId={row.original.accountId}
         entityId={row.original.id}
-        urlType={row.original.account?.type ?? ""}
         entityType={"deal"}
-        showAvatar={false}
+        showAvatar={false} // Hides avatar in the title column for a cleaner look
       />
     ),
     accessorKey: "title",
@@ -60,9 +60,8 @@ export const DealColumns: ColumnDef<DealWithPrimaryContact>[] = [
       <SecondaryField
         row={row}
         urlType={row.original.account?.type ?? ""}
+        isPrimary
         accountId={row.original.accountId}
-        entityId={row.original.id}
-        entityType={"deal"}
       />
     ),
     accessorKey: "account",

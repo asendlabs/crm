@@ -6,6 +6,7 @@ import { Row } from "@tanstack/react-table";
 import Link from "@/components/performance-link";
 import React from "react";
 import { cn } from "@/lib/utils/tailwind";
+import { toast } from "sonner";
 
 interface SecondaryFieldProps {
   row: Row<any>;
@@ -13,6 +14,7 @@ interface SecondaryFieldProps {
   accountId: string;
   entityId?: string;
   entityType?: string;
+  isPrimary?: boolean;
   showAvatar?: boolean;
 }
 
@@ -22,12 +24,13 @@ export function SecondaryField({
   accountId,
   entityId,
   entityType,
+  isPrimary = false,
   showAvatar = true,
 }: SecondaryFieldProps) {
   const derivedRow = row.original;
   const { account, contacts } = derivedRow;
 
-  const searchParams = showAvatar
+  const searchParams = !isPrimary
     ? entityType + "=" + (contacts?.[0]?.id ? contacts?.[0]?.id : entityId)
     : "";
 
