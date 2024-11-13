@@ -25,6 +25,7 @@
     "@dnd-kit/utilities": "^3.2.2",
     "@hookform/resolvers": "^3.9.1",
     "@lucia-auth/adapter-drizzle": "^1.1.0",
+    "@neondatabase/serverless": "^0.10.3",
     "@orama/orama": "^3.0.1",
     "@orama/plugin-data-persistence": "^3.0.1",
     "@radix-ui/react-accordion": "^1.2.1",
