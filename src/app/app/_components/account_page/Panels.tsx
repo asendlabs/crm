@@ -36,10 +36,10 @@ export function Panels({ className }: { className?: string }) {
             value="activity"
             className="flex items-center gap-2"
           >
-            <Clock size={14} /> Activity
+            <Clock size={14} /> activity
           </CustomTabsTrigger>
           <CustomTabsTrigger value="tasks" className="flex items-center gap-2">
-            <CheckSquare size={14} /> Tasks
+            <CheckSquare size={14} /> tasks
           </CustomTabsTrigger>
         </CustomTabsList>
         <CustomTabsContent value="activity" className="w-full">

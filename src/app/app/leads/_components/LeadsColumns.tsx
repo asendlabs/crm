@@ -26,7 +26,7 @@ export const LeadsColumns: ColumnDef<AccountFull>[] = [
   {
     id: "accountName",
     accessorKey: "accountName",
-    header: () => <PrimaryHead title="Lead Name" />,
+    header: () => <PrimaryHead title="lead name" />,
     cell: ({ getValue, row }) => (
       <PrimaryField getValue={getValue} row={row} isAccount={true} />
     ),
@@ -34,7 +34,7 @@ export const LeadsColumns: ColumnDef<AccountFull>[] = [
   {
     id: "contacts",
     accessorKey: "contacts",
-    header: () => <LogoHead title="Contacts" Icon={LucideUsers} />,
+    header: () => <LogoHead title="contacts" Icon={LucideUsers} />,
     cell: ({ getValue, row }) => (
       <SecondaryField
         row={row}
@@ -47,19 +47,19 @@ export const LeadsColumns: ColumnDef<AccountFull>[] = [
   {
     id: "status",
     accessorKey: "status",
-    header: () => <LogoHead title="Status" Icon={Component} />,
+    header: () => <LogoHead title="status" Icon={Component} />,
     cell: ({ getValue, row }) => <StatusField getValue={getValue} />,
   },
   {
     id: "AI score",
     accessorKey: "score",
-    header: () => <LogoHead title="AI Score" Icon={CalendarDays} />,
+    header: () => <LogoHead title="ai score" Icon={CalendarDays} />,
     cell: AiScoreField,
   },
   {
     id: "last activity",
     accessorKey: "activities",
-    header: () => <LogoHead title="Last Activity" Icon={Users} />,
+    header: () => <LogoHead title="last activity" Icon={Users} />,
     cell: ({ getValue, row }) => <LastInteractionField getValue={getValue} />,
   },
 ];

@@ -23,9 +23,7 @@ export function CustomIconLink({
       onSelect={() => runCommandAction(() => router.push(url))}
     >
       <Icon className="!size-[1.5rem] rounded-md border p-1" />
-      <span>
-        {title.charAt(0).toUpperCase() + title.slice(1).toLowerCase()}
-      </span>
+      <span>{title}</span>
     </CommandItem>
   );
 }

@@ -61,7 +61,6 @@ export const updateContactPhoneAction = authenticatedAction
   .handler(async ({ input }) => {
     const { contactId, phoneNumber } = input;
     const res = await updateContactPhone(contactId, phoneNumber);
-    console.log(res);
     if (!res) {
       throw new Error("Couldn't update contact phone"); // Inline error
     }

@@ -12,6 +12,7 @@ import { ClientsColumns } from "./_components/ClientsColumns";
 import { Loader } from "lucide-react";
 import { getWorkspaceById } from "@/data-access/workspaces";
 import { fetchWithRetry } from "@/lib/utils/fetchWithRetry";
+import { decode } from "js-base64";
 
 export const metadata: Metadata = {
   title: "Clients",
@@ -22,8 +23,10 @@ export default async function ClientsPage() {
   const workspaceId =
     (await cookies()).get(selectedWorkspaceCookie)?.value || "";
 
+  const decodedWorkspaceId = decode(decodeURI(workspaceId));
+
   const [clients] = await Promise.all([
-    fetchWithRetry(() => getAllWorkspaceClients(workspaceId), "clients"),
+    fetchWithRetry(() => getAllWorkspaceClients(decodedWorkspaceId), "clients"),
   ]);
 
   return (

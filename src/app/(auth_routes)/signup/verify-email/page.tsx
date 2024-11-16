@@ -7,7 +7,7 @@ import { redirect } from "next/navigation";
 import { afterVerifyUrl, unauthenticatedUrl } from "@/constants";
 
 export const metadata: Metadata = {
-  title: "Verify your Email",
+  title: "verify your email",
 };
 
 const VerifyEmailPage = async () => {

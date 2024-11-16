@@ -21,7 +21,7 @@ export function StatusField({ getValue }: StatusFieldProps) {
             }}
           >
             <Circle className="mr-1 h-3 w-3" strokeWidth={4} />
-            <span className="font-medium capitalize">{value.status}</span>
+            <span className="font-medium normal-case">{value.status}</span>
           </div>
         )}
       </div>

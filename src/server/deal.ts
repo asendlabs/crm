@@ -13,6 +13,7 @@ import { cookies } from "next/headers";
 import { dealCreateSchema } from "@/schemas/deal.schema";
 import { createActivity } from "@/data-access/activities";
 import { dealTableRelations } from "@database/relations";
+import { decryptFromBase64URI } from "@/lib/utils";
 
 export const changeDealStageAction = authenticatedAction
   .createServerAction()
@@ -75,6 +76,7 @@ export const deleteDealAction = authenticatedAction
       if (!currentWorkspaceId) {
         throw new Error("Workspace not found"); // Inline error
       }
+      const decodedWorkspaceId = decryptFromBase64URI(currentWorkspaceId);
       const retrivedDeal = await getDealById(itemId);
       if (!retrivedDeal) {
         throw new Error("Deal not found"); // Inline error
@@ -85,7 +87,7 @@ export const deleteDealAction = authenticatedAction
       }
       const activityRes = await createActivity({
         userId: user.id,
-        workspaceId: currentWorkspaceId,
+        workspaceId: decodedWorkspaceId,
         accountId: retrivedDeal.accountId,
         title: "Delete Deal",
         activityType: "entity_deletion",
@@ -113,9 +115,10 @@ export const createDealAction = authenticatedAction
     if (!currentWorkspaceId) {
       throw new Error("Workspace not found."); // Inline error message
     }
+    const decodedWorkspaceId = decryptFromBase64URI(currentWorkspaceId);
     const dealRes = await createDeal({
       userId: user.id,
-      workspaceId: currentWorkspaceId,
+      workspaceId: decodedWorkspaceId,
       accountId,
       title,
       value,
@@ -127,7 +130,7 @@ export const createDealAction = authenticatedAction
     }
     const activityRes = await createActivity({
       userId: user.id,
-      workspaceId: currentWorkspaceId,
+      workspaceId: decodedWorkspaceId,
       accountId,
       title: "New Deal",
       activityType: "entity_creation",

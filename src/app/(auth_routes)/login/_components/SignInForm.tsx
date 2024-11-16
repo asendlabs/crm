@@ -25,6 +25,7 @@ import { PasswordField } from "@/components/ui/password-input";
 import { useRouter } from "@/hooks/use-performance-router";
 import { signInAction } from "@/server/sign-in";
 import { Logo } from "@/components/Logo";
+import { signUpUrl } from "@/constants";
 
 export const SignInForm = () => {
   const { execute } = useServerAction(signInAction);
@@ -67,13 +68,13 @@ export const SignInForm = () => {
       </Link> */}
       <div>
         <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
-          <div className="flex flex-col space-y-2 text-center">
-            <h1 className="flex flex-row items-center justify-center gap-2 text-2xl font-semibold tracking-tight">
-              <Logo className="h-6 w-6" />
-              Sign In to Asend
+          <div className="flex flex-col space-y-2">
+            <h1 className="flex flex-row items-center gap-2 text-2xl font-semibold tracking-tight">
+              {/* <Logo className="h-6 w-6" /> */}
+              welcome back to asend
             </h1>
             <p className="text-sm text-muted-foreground">
-              Enter your email and password below to sign in.
+              put in your credentials to dive back in.
             </p>
           </div>
           <div className="flex flex-col gap-4">
@@ -113,10 +114,9 @@ export const SignInForm = () => {
                   control={control}
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Email</FormLabel>
                       <FormControl>
                         <Input
-                          placeholder="name@example.com"
+                          placeholder="enter your email"
                           autoCapitalize="none"
                           autoComplete="email"
                           disabled={isSubmitting}
@@ -127,13 +127,24 @@ export const SignInForm = () => {
                     </FormItem>
                   )}
                 />
-                <PasswordField placeholder="Enter your password" />
-                <Button disabled={isSubmitting} type="submit" className="mt-1">
+                <PasswordField placeholder="enter your password" />
+
+                <Button
+                  disabled={isSubmitting}
+                  type="submit"
+                  className="mt-1 h-10"
+                >
                   {isSubmitting && (
                     <Loader className="mr-2 size-4 animate-spin" />
                   )}
-                  Sign In
+                  login with email
                 </Button>
+                <Link
+                  href={signUpUrl}
+                  className="pt-3 text-center text-sm text-muted-foreground hover:text-primary"
+                >
+                  don't have an account?
+                </Link>
               </form>
             </Form>
           </div>

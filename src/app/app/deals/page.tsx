@@ -12,10 +12,11 @@ import { DealTable } from "./_components/DealsTable";
 import { DealColumns } from "./_components/DealsColumns";
 import { Loader } from "lucide-react";
 import { fetchWithRetry } from "@/lib/utils/fetchWithRetry";
+import { decode } from "js-base64";
 
 export const metadata: Metadata = {
-  title: "Deals",
-  description: "List of Opportunities",
+  title: "deals",
+  description: "list of sales opportunities",
 };
 
 export default async function DealsPage(props: {
@@ -26,10 +27,15 @@ export default async function DealsPage(props: {
   const workspaceId =
     (await cookies()).get(selectedWorkspaceCookie)?.value || "";
 
+  const decodedWorkspaceId = decode(decodeURI(workspaceId));
+
   const [workspace, deals, accounts] = await Promise.all([
-    fetchWithRetry(() => getWorkspaceById(workspaceId), "workspace"),
-    fetchWithRetry(() => getAllWorkspaceDeals(workspaceId), "deals"),
-    fetchWithRetry(() => getAllWorkspaceAccounts(workspaceId), "accounts"),
+    fetchWithRetry(() => getWorkspaceById(decodedWorkspaceId), "workspace"),
+    fetchWithRetry(() => getAllWorkspaceDeals(decodedWorkspaceId), "deals"),
+    fetchWithRetry(
+      () => getAllWorkspaceAccounts(decodedWorkspaceId),
+      "accounts",
+    ),
   ]);
 
   return (

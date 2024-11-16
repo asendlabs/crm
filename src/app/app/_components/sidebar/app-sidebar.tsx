@@ -45,18 +45,18 @@ type NavItem = {
 
 const nav: NavItem[] = [
   {
-    title: "Leads",
+    title: "leads",
     url: "/app/leads",
     icon: Building,
   },
   {
-    title: "Deals",
+    title: "deals",
     url: "/app/deals",
     searchParams: "?view=board",
     icon: Handshake,
   },
   {
-    title: "Clients",
+    title: "clients",
     url: "/app/clients",
     icon: SquareUserRound,
   },
@@ -153,7 +153,7 @@ export function AppSidebar({
               >
                 <div className="flex items-center gap-2">
                   <Search className="size-4" />
-                  <span>Search</span>
+                  <span>search</span>
                 </div>
               </SidebarMenuButton>
             </SidebarMenuItem>
@@ -172,7 +172,7 @@ export function AppSidebar({
                     ) : (
                       <Home className="size-4" />
                     )}
-                    <span>Home</span>
+                    <span>home</span>
                   </div>
                 </SidebarMenuButton>
               </div>

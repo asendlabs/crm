@@ -5,6 +5,8 @@ import { z } from "zod";
 import { cookies } from "next/headers";
 import { selectedWorkspaceCookie } from "@/constants";
 import { updateWorkspace } from "@/data-access/workspaces";
+import { encode, decode } from "js-base64";
+import { decryptFromBase64URI, encryptToBase64URI } from "@/lib/utils";
 
 export const setSelectedWorkspaceAction = authenticatedAction
   .createServerAction()
@@ -18,10 +20,14 @@ export const setSelectedWorkspaceAction = authenticatedAction
     const { workspaceId } = input;
     const cookieStore = await cookies();
 
-    const res = cookieStore.set(selectedWorkspaceCookie, workspaceId, {
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
-    });
+    const res = cookieStore.set(
+      selectedWorkspaceCookie,
+      encryptToBase64URI(workspaceId),
+      {
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "strict",
+      },
+    );
 
     if (!res) {
       throw new Error(
@@ -52,9 +58,12 @@ export const updateSelectedWorkspaceNameAction = authenticatedAction
       throw new Error("Workspace not found."); // Inline error message
     }
 
-    const updated = await updateWorkspace(currentWorkspaceId, {
-      name: updatedName,
-    });
+    const updated = await updateWorkspace(
+      decryptFromBase64URI(currentWorkspaceId),
+      {
+        name: updatedName,
+      },
+    );
     if (!updated) {
       throw new Error("Workspace name could not be updated."); // Inline error message
     }

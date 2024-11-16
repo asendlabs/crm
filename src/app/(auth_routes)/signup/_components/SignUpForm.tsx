@@ -12,7 +12,7 @@ import { Input } from "@/components/ui/input";
 import { signUpSchema } from "@/schemas/auth.schema";
 import { cn } from "@/lib/utils/tailwind";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Loader } from "lucide-react";
+import { ArrowRight, Loader } from "lucide-react";
 
 import Image from "next/image";
 import Link from "@/components/performance-link";
@@ -26,11 +26,13 @@ import { useServerAction } from "zsa-react";
 import { useSearchParams } from "next/navigation";
 import { signUpAction } from "@/server/sign-up";
 import { Logo } from "@/components/Logo";
+import { signInUrl } from "@/constants";
 
 export const SignUpForm = () => {
   const { execute, isPending, error } = useServerAction(signUpAction);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const router = useRouter();
+  const [formStep, setFormStep] = useState(0);
 
   const searchParams = useSearchParams();
 
@@ -49,29 +51,7 @@ export const SignUpForm = () => {
       password: "",
     },
   });
-  const { handleSubmit, control, reset } = form;
-  //   type: "google" | "microsoft" | "apple",
-  // ) => {
-  //   setIsSubmitting(true);
-  //   try {
-  //     switch (type) {
-  //       case "google": {
-  //         const [data, err] =
-  //           await getGoogleOauthConsentUrlActionCaller.execute();
-  //         if (!data?.success || err) {
-  //           toast.error("Failed to continue with Google");
-  //           return;
-  //         } else {
-  //           router.push(data?.url);
-  //         }
-  //       }
-  //     }
-  //   } catch (error) {
-  //     toast.error("Something Went Wrong. Failed to continue with Google");
-  //   } finally {
-  //     setIsSubmitting(false);
-  //   }
-  // };
+  const { handleSubmit, control, reset, trigger } = form;
 
   const onSubmit = async (formData: z.infer<typeof signUpSchema>) => {
     setIsSubmitting(true);
@@ -86,26 +66,29 @@ export const SignUpForm = () => {
     reset();
   };
 
+  const nextStep = async () => {
+    const valid = await form.trigger("email");
+    if (!valid) {
+      return;
+    }
+    form.clearErrors();
+    setFormStep(1);
+  };
+
   return (
     <div className="grid h-screen items-center">
-      <Link
-        href="/sign-in"
-        className={cn(
-          buttonVariants({ variant: "outline" }),
-          "absolute right-4 top-4 md:right-8 md:top-8",
-        )}
-      >
-        Sign In
-      </Link>
       <div>
         <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
-          <div className="flex flex-col space-y-2 text-center">
-            <h1 className="flex flex-row items-center justify-center gap-2 text-2xl font-semibold tracking-tight">
-              <Logo className="h-6 w-6" />
-              Create a free account
+          <div className="flex flex-col space-y-2">
+            <h1 className="flex flex-row items-center gap-2 text-2xl font-semibold tracking-tight">
+              {formStep === 0
+                ? "create a free asend account"
+                : "continue to signup"}
             </h1>
-            <p className="text-sm text-muted-foreground">
-              Provide your email and choose a password.
+            <p className="flex items-center gap-1 text-sm text-muted-foreground">
+              {formStep === 0
+                ? "put in your email to get started with asend"
+                : "just choose a strong enough password"}
             </p>
           </div>
           <div className="flex flex-col gap-5">
@@ -115,33 +98,64 @@ export const SignUpForm = () => {
                 onSubmit={handleSubmit(onSubmit)}
                 autoComplete="off"
               >
-                <FormField
-                  name="email"
-                  control={control}
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Email</FormLabel>
-                      <FormControl>
-                        <Input
-                          placeholder="name@example.com"
-                          autoCapitalize="none"
-                          autoComplete="off"
-                          disabled={isSubmitting}
-                          autoFocus
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <PasswordField placeholder="Choose a strong password " />
-                <Button disabled={isSubmitting} type="submit" className="mt-1">
-                  {isSubmitting && (
-                    <Loader className="mr-2 size-4 animate-spin" />
-                  )}
-                  Continue with Email
-                </Button>
+                {formStep === 0 && (
+                  <FormField
+                    name="email"
+                    control={control}
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormControl>
+                          <Input
+                            placeholder="enter your email"
+                            autoCapitalize="none"
+                            autoComplete="off"
+                            disabled={isSubmitting}
+                            onKeyDown={async (e) =>
+                              e.key === "Enter" && (await nextStep())
+                            }
+                            autoFocus
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                )}
+                {formStep === 1 && (
+                  <PasswordField placeholder="choose a strong password" />
+                )}
+                {formStep === 0 && (
+                  <Button
+                    disabled={isSubmitting}
+                    type="button"
+                    onClick={async () => await nextStep()}
+                    className="mt-1 h-10"
+                  >
+                    {isSubmitting && (
+                      <Loader className="mr-2 size-4 animate-spin" />
+                    )}
+                    continue with email
+                  </Button>
+                )}
+                {formStep === 1 && (
+                  <Button
+                    disabled={isSubmitting}
+                    type="submit"
+                    className="mt-1 h-10"
+                  >
+                    {isSubmitting && (
+                      <Loader className="mr-2 size-4 animate-spin" />
+                    )}
+                    continue
+                  </Button>
+                )}
+                <Link
+                  href={signInUrl}
+                  className="pt-3 text-center text-sm text-muted-foreground hover:text-primary"
+                >
+                  already have an account?
+                </Link>
               </form>
             </Form>
             {/* <div className="relative">

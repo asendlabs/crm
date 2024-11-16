@@ -52,16 +52,14 @@ export const OnboardingForm = () => {
     <main className="grid h-screen items-center">
       <div>
         <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
-          <div className="flex flex-col space-y-2 text-center">
+          <div className="flex flex-col space-y-2">
             <h1 className="text-2xl font-semibold tracking-tight">
               {formState === 0
-                ? "Create your Profile"
-                : "Let's build a Workspace"}
+                ? "create your profile"
+                : "let's build a workspace"}
             </h1>
             <p className="text-sm text-muted-foreground">
-              {formState === 0
-                ? "Enter your details to get started with Asend."
-                : "Just one final step to get started."}
+              just a few final steps and you are all ready to go
             </p>
           </div>
           <div className="flex flex-col gap-4">
@@ -75,10 +73,9 @@ export const OnboardingForm = () => {
                         control={control}
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>First Name</FormLabel>
                             <FormControl>
                               <Input
-                                placeholder="John"
+                                placeholder="enter your first name"
                                 autoFocus
                                 disabled={isSubmitting}
                                 className="w-full"
@@ -95,10 +92,9 @@ export const OnboardingForm = () => {
                         control={control}
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>Last Name (optional)</FormLabel>
                             <FormControl>
                               <Input
-                                placeholder="Doe"
+                                placeholder="enter your last name (optional)"
                                 className="w-full"
                                 disabled={isSubmitting}
                                 {...field}
@@ -113,6 +109,7 @@ export const OnboardingForm = () => {
                     <Button
                       disabled={isSubmitting}
                       type="button"
+                      className="h-10"
                       tabIndex={3}
                       onClick={() => {
                         setIsSubmitting(true);
@@ -123,7 +120,7 @@ export const OnboardingForm = () => {
                       {isSubmitting && (
                         <Loader className="mr-2 size-4 animate-spin" />
                       )}
-                      Continue
+                      continue
                     </Button>
                   </section>
                 )}
@@ -134,10 +131,9 @@ export const OnboardingForm = () => {
                       control={control}
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Workspace Name</FormLabel>
                           <FormControl>
                             <Input
-                              placeholder="Acme Inc"
+                              placeholder="choose a workspace name"
                               autoFocus
                               disabled={isSubmitting}
                               {...field}
@@ -151,13 +147,13 @@ export const OnboardingForm = () => {
                     <Button
                       disabled={isSubmitting}
                       type="submit"
-                      className="mt-1"
+                      className="mt-1 h-10"
                       tabIndex={5}
                     >
                       {isSubmitting && (
                         <Loader className="mr-2 size-4 animate-spin" />
                       )}
-                      Submit
+                      get started
                     </Button>
                   </>
                 )}

@@ -8,6 +8,7 @@ import { AccountProvider } from "@/providers/accountProvider";
 import { Header } from "@/app/app/_components/account_page/Header";
 import { Panels } from "@/app/app/_components/account_page/Panels";
 import { Cards } from "@/app/app/_components/account_page/Cards";
+import { decryptFromBase64URI } from "@/lib/utils";
 
 type Props = {
   params: Promise<{ id: string }>;
@@ -25,11 +26,17 @@ export async function generateMetadata(
   const account = await getAccountById(id.toUpperCase());
   const workspaceId =
     (await cookies()).get(selectedWorkspaceCookie)?.value || "";
-  if (!account || !account.workspaceId || account.workspaceId !== workspaceId) {
+
+  const decodedWorkspaceId = decryptFromBase64URI(workspaceId);
+  if (
+    !account ||
+    !account.workspaceId ||
+    account.workspaceId !== decodedWorkspaceId
+  ) {
     return {};
   }
   return {
-    title: `${account.accountName} | ${account.type.charAt(0).toUpperCase() + account.type.slice(1)}s`,
+    title: `${account.accountName} | ${account.type.toLowerCase()}s`,
     description: account.description,
   };
 }
@@ -60,7 +67,9 @@ export default async function LeadAccountPage(props: Props) {
   }
   const workspaceId =
     (await cookies()).get(selectedWorkspaceCookie)?.value || "";
-  if (!account.workspaceId || account.workspaceId !== workspaceId) {
+
+  const decodedWorkspaceId = decryptFromBase64URI(workspaceId);
+  if (!decodedWorkspaceId || account.workspaceId !== decodedWorkspaceId) {
     return (
       <div className="flex h-screen flex-col items-center justify-center">
         <GoBackLink pagePath="leads" permanent={true} />

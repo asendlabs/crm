@@ -25,13 +25,14 @@ export default function AccountShareDialog({
   return (
     <div>
       <h1 className="text-2xl font-semibold text-primary">
-        Share this {entityType}
+        share this {entityType.toLowerCase()}
       </h1>
       <p className="text-sm text-gray-500">
-        Only people who are in your workspace view this {entityType}.
+        only people who are in your workspace view this{" "}
+        {entityType.toLowerCase()}.
       </p>
       <div className="flex space-x-2 py-2 pt-3">
-        <Input value={shareUrl} readOnly className="flex-grow" />
+        <Input value={shareUrl.toLowerCase()} readOnly className="flex-grow" />
         <Button
           onClick={copyToClipboard}
           variant="outline"
@@ -40,12 +41,12 @@ export default function AccountShareDialog({
           {copied ? (
             <>
               <CopyCheck className="size-4" />
-              Copied
+              copied
             </>
           ) : (
             <>
               <Copy className="size-4" />
-              Copy Link
+              copy link
             </>
           )}
         </Button>

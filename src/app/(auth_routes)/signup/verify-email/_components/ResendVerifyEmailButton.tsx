@@ -48,12 +48,12 @@ export function ResendVerifyEmailButton() {
 
   return (
     <p className="flex gap-1 text-center text-xs font-medium text-gray-600">
-      Didn't get the code?
+      didn't get the code?
       <span
         className={`cursor-pointer text-gray-900 underline hover:text-black ${loading ? "pointer-events-none opacity-50" : ""}`}
         onClick={handleClick}
       >
-        {loading ? `Resend in ${timer}s` : "Click to resend"}
+        {loading ? `resend in ${timer}s` : "click to resend"}
       </span>
     </p>
   );

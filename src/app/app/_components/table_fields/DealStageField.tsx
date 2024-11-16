@@ -21,7 +21,7 @@ export function DealStageField({ getValue }: DealStageFieldProps) {
             }}
           >
             <Circle className="mr-1 h-3 w-3" strokeWidth={4} />
-            <span className="font-medium capitalize">{value.stage}</span>
+            <span className="font-medium normal-case">{value.stage}</span>
           </div>
         )}
       </div>

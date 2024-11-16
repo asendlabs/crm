@@ -11,6 +11,14 @@ export function generateEmailVerifyCode() {
   return code;
 }
 
+export function encryptToBase64URI(text: string): string {
+  return encodeURI(btoa(text));
+}
+
+export function decryptFromBase64URI(text: string): string {
+  return atob(decodeURI(text));
+}
+
 export function formatDate(date: string | Date): string {
   const now = new Date();
   const pastDate = new Date(date);

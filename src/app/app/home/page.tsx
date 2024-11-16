@@ -11,14 +11,14 @@ export default async function HomePage() {
         <PageTitle>Home</PageTitle>
         <div className="flex flex-row gap-2">
           <Button variant={"outline"} className="h-8">
-            Upgrade to Pro
+            write feedback
           </Button>
         </div>
       </div>
       <div className="flex h-full items-center justify-center gap-2">
-        Go to <GoToPageButton label="Leads" href="/app/leads" />
-        or <GoToPageButton label="Deals" href="/app/deals" />
-        or <GoToPageButton label="Clients" href="/app/clients" />
+        go to <GoToPageButton label="leads" href="/app/leads" />
+        or <GoToPageButton label="deals" href="/app/deals" />
+        or <GoToPageButton label="clients" href="/app/clients" />
       </div>
     </section>
   );

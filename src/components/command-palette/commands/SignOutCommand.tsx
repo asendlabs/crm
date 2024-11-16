@@ -1,5 +1,6 @@
 "use client";
 import { CommandItem } from "@/components/ui/command";
+import { signInUrl } from "@/constants";
 import { useRouter } from "@/hooks/use-performance-router";
 import { signOutAction } from "@/server/sign-out";
 import { Loader, LogOut } from "lucide-react";
@@ -24,17 +25,17 @@ export function SignOutCommand({ runCommandAction }: SignOutCommandProps) {
           try {
             const response = await execute();
             if (!response) {
-              toast.error("Unable to sign out");
+              toast.error("unable to logout");
               return;
             }
-            router.replace("/sign-in");
-            toast.success("Signed out successfully", {
+            router.replace(signInUrl);
+            toast.success("logged out successfully", {
               position: "bottom-right",
               duration: 2000,
               richColors: false,
             });
           } catch (error) {
-            toast.error("Internal error occurred");
+            toast.error("internal error occurred");
           } finally {
             setIsLoggingOut(false);
           }
@@ -47,7 +48,7 @@ export function SignOutCommand({ runCommandAction }: SignOutCommandProps) {
       ) : (
         <LogOut className="!size-[1.5rem] rounded-md border p-1" />
       )}
-      <span>{isLoggingOut ? "Signing out..." : "Sign Out"}</span>
+      <span>{isLoggingOut ? "logging out..." : "log out"}</span>
     </CommandItem>
   );
 }

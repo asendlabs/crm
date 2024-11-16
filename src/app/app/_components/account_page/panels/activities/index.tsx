@@ -21,12 +21,12 @@ const activityButtons: ActivityButton[] = [
   {
     type: "comment",
     icon: MessageSquareMore,
-    label: "Add Comment",
+    label: "add comment",
   },
   {
     type: "call",
     icon: PhoneCall,
-    label: "Log Call",
+    label: "log call",
   },
 ];
 

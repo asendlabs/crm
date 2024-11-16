@@ -34,13 +34,13 @@ export default async function ApplicationLayout({
   return (
     <section className="flex h-screen min-h-screen w-full flex-col items-start p-5">
       <div className="flex flex-col gap-2">
-        <PageTitle>Settings</PageTitle>
-        <p className="text-sm">
-          Hey, {dbUser.profile?.firstName}, here you can personalize and manage
-          your entire Asend experience.
-        </p>
+        <PageTitle>settings</PageTitle>
+        {/* <p className="text-sm">
+          hey {dbUser.profile?.firstName}, here you can personalize and manage
+          your entire asend experience.
+        </p> */}
       </div>
-      <section className="grid h-full w-full grid-cols-[225px_1fr] gap-3 pt-6">
+      <section className="grid h-full w-full grid-cols-[225px_1fr] gap-3 pt-4">
         <section className="flex h-full flex-col gap-0.5">
           <SidebarItem label="account" />
           <SidebarItem label="workspace" />

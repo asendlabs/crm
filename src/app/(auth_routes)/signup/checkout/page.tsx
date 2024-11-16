@@ -6,14 +6,14 @@ import { authenticatedUrl } from "@/constants";
 import { DemoCheckoutButton } from "./_components/DemoCheckoutButton";
 
 export const metadata: Metadata = {
-  title: "Sign Up",
+  title: "checkout",
 };
 
 export default async function CheckoutPage() {
   const PADDLE_DOMAIN_APPROVED = false;
   if (PADDLE_DOMAIN_APPROVED) {
     const user = await fetchAuthenticatedUser();
-    if (!user) return redirect("/sign-up?redirecterror=nouser");
+    if (!user) return redirect("/signup?redirecterror=nouser");
     const dbUser = await getUserById(user.id || "");
     if (
       dbUser &&

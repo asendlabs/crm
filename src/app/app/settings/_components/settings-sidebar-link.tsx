@@ -56,7 +56,7 @@ export function SidebarItem({
     <Link
       href={currentItem.href}
       className={cn(
-        "flex h-8 items-center gap-2 rounded-lg p-1.5 text-sm font-medium capitalize hover:bg-sidebar-accent",
+        "flex h-8 items-center gap-2 rounded-lg p-1.5 text-sm font-medium lowercase hover:bg-sidebar-accent",
         active && "!bg-muted/70",
       )}
     >

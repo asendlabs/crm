@@ -127,7 +127,7 @@ export function CallLogActivityCard({
       <div className="flex items-center gap-2">
         <PhoneCall className="size-4 text-gray-500" />
         <div className="flex max-w-[35.5rem] items-center gap-1 truncate py-1">
-          Call{" "}
+          call{" "}
           {activity.associatedContact?.contactName && (
             <>
               with
@@ -148,7 +148,7 @@ export function CallLogActivityCard({
             className="inline-flex items-center gap-1 rounded-lg border px-2 py-1 text-xs font-medium hover:cursor-pointer hover:underline"
             onClick={() => setOpen(true)}
           >
-            Open Notes
+            open notes
             <ArrowUpRight className="size-4" />
           </div>
           <Dialog open={open} onOpenChange={setOpen}>
@@ -214,7 +214,7 @@ export function CallLogActivityCard({
           <DropdownMenuContent className="w-20 justify-end">
             <DropdownMenuItem onClick={() => setOpen(true)}>
               <Edit className="mr-2 size-4" />
-              Edit
+              edit
             </DropdownMenuItem>
             <DropdownMenuItem onClick={handleDelete}>
               {deleting ? (
@@ -222,7 +222,7 @@ export function CallLogActivityCard({
               ) : (
                 <Trash className="mr-2 size-4" />
               )}
-              Delete
+              delete
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

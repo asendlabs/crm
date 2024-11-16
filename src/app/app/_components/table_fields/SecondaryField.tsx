@@ -31,7 +31,11 @@ export function SecondaryField({
   const { account, contacts } = derivedRow;
 
   const searchParams = !isPrimary
-    ? entityType + "=" + (contacts?.[0]?.id ? contacts?.[0]?.id : entityId)
+    ? entityType +
+      "=" +
+      (contacts?.[0]?.id
+        ? contacts?.[0]?.id.toLowerCase()
+        : entityId?.toLowerCase())
     : "";
 
   const renderEmpty = () => {

@@ -1,4 +1,4 @@
-import { SignInForm } from "./_components/SignInForm";
+import { SignUpForm } from "./_components/SignUpForm";
 import { Metadata } from "next";
 import { fetchAuthenticatedUser } from "@/lib/session";
 import { redirect } from "next/navigation";
@@ -6,14 +6,14 @@ import { getUserById } from "@/data-access/users";
 import { authenticatedUrl } from "@/constants";
 
 export const metadata: Metadata = {
-  title: "Sign In",
+  title: "sign up",
 };
 
-export default async function SignInPage() {
+export default async function SignUpPage() {
   const user = await fetchAuthenticatedUser();
   const dbUser = await getUserById(user?.id || "");
-  if (dbUser && dbUser.verifiedAt && dbUser.checkoutAt) {
+  if (dbUser && dbUser.verifiedAt && dbUser.onboardedAt && dbUser.checkoutAt) {
     return redirect(authenticatedUrl);
   }
-  return <SignInForm />;
+  return <SignUpForm />;
 }

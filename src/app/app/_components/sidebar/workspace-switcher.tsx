@@ -26,6 +26,8 @@ import { setSelectedWorkspaceAction } from "@/server/workspaces";
 import { useServerAction } from "zsa-react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils/tailwind";
+import { decode } from "js-base64";
+import { decryptFromBase64URI } from "@/lib/utils";
 
 export function WorkspaceSwitcher({
   workspaces,
@@ -34,6 +36,8 @@ export function WorkspaceSwitcher({
   workspaces: Workspace[];
   cookieSelectedWorkspaceId: string;
 }) {
+  const decodedWorkspaceId = decryptFromBase64URI(cookieSelectedWorkspaceId);
+
   const { isMobile, open: isSidebarOpen } = useSidebar();
   const router = useRouter();
   const [open, setOpen] = React.useState(false);
@@ -47,7 +51,7 @@ export function WorkspaceSwitcher({
   React.useEffect(() => {
     const workspaceLogic = async () => {
       const previouslySelectedWorkspace = workspaces.find(
-        (ws) => ws.id === cookieSelectedWorkspaceId,
+        (ws) => ws.id === decodedWorkspaceId,
       );
 
       if (!previouslySelectedWorkspace) {
@@ -62,7 +66,7 @@ export function WorkspaceSwitcher({
     };
 
     const res = workspaceLogic();
-  }, [workspaces, cookieSelectedWorkspaceId, execute]);
+  }, [workspaces, decodedWorkspaceId, execute]);
 
   if (loading) {
     return (
@@ -125,7 +129,7 @@ export function WorkspaceSwitcher({
             sideOffset={4}
           >
             <DropdownMenuLabel className="text-xs text-muted-foreground">
-              Workspaces
+              workspaces
             </DropdownMenuLabel>
             {workspaces.map((workspace) => (
               <DropdownMenuItem

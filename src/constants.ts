@@ -1,10 +1,10 @@
-export const afterSignUpUrl = "/sign-up/verify-email";
-export const afterVerifyUrl = "/sign-up/checkout";
-export const afterCheckoutUrl = "/sign-up/onboarding";
+export const afterSignUpUrl = "/signup/verify-email";
+export const afterVerifyUrl = "/signup/checkout";
+export const afterCheckoutUrl = "/signup/onboarding";
 export const authenticatedUrl = "/app/home";
-export const unauthenticatedUrl = "/sign-in";
-export const signInUrl = "/sign-in";
-export const signUpUrl = "/sign-up";
+export const unauthenticatedUrl = "/login";
+export const signInUrl = "/login";
+export const signUpUrl = "/signup";
 
 export const selectedWorkspaceCookie = "PROVIDER";
 export const authCookie = "SESSION";

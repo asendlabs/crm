@@ -134,7 +134,7 @@ export function DealKanbanCard({ deal, isOverlay }: DealCardProps) {
           onClick={() => {
             setLoading(true);
             router.push(
-              `/app/${deal.account?.type + "s"}/${deal.accountId}?deal=${deal.id}`,
+              `/app/${deal.account?.type + "s"}/${deal.accountId.toLowerCase()}?deal=${deal.id.toLowerCase()}`,
             );
           }}
         >
@@ -142,7 +142,7 @@ export function DealKanbanCard({ deal, isOverlay }: DealCardProps) {
             {deal.title}
           </h1>
           <p className="flex max-w-[13rem] items-center gap-1.5 truncate text-xs">
-            <span className="font-medium capitalize opacity-80">
+            <span className="font-medium lowercase opacity-80">
               {deal.account?.type}:
             </span>
             <span className="truncate rounded-md border px-2 font-medium">
@@ -150,14 +150,14 @@ export function DealKanbanCard({ deal, isOverlay }: DealCardProps) {
             </span>
           </p>
           <p className="flex max-w-[13rem] items-center gap-1.5 truncate text-xs">
-            <span className="font-medium opacity-80">Value:</span>
+            <span className="font-medium opacity-80">value</span>
             <span className="truncate rounded-md border px-2 font-medium">
               {"$" + deal.value}
             </span>
           </p>
           <p className="flex gap-1.5 text-xs">
-            <span className="font-medium opacity-80">Close Date:</span>
-            <span className="font-medium capitalize">
+            <span className="font-medium opacity-80">close date</span>
+            <span className="font-medium lowercase">
               {formatMinimal({
                 dateString: deal?.expectedCloseDate,
                 showTime: false,

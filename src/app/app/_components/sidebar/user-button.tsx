@@ -44,11 +44,11 @@ export function UserButton({ user }: { user: UserWithWorkspaceAndProfile }) {
     try {
       const response = await execute();
       if (!response) {
-        toast.error("Unable to sign out");
+        toast.error("unable to logout");
         return;
       }
-      router.replace("/sign-in");
-      toast.success("Signed out successfully", {
+      router.replace("/login");
+      toast.success("logged out successfully", {
         position: "bottom-right",
         duration: 2000,
         richColors: false,
@@ -112,7 +112,7 @@ export function UserButton({ user }: { user: UserWithWorkspaceAndProfile }) {
             <DropdownMenuGroup>
               <DropdownMenuItem>
                 <Sparkles size={15} />
-                Upgrade to Pro
+                upgrade to pro
               </DropdownMenuItem>
             </DropdownMenuGroup>
             {/* <DropdownMenuSeparator />
@@ -138,7 +138,7 @@ export function UserButton({ user }: { user: UserWithWorkspaceAndProfile }) {
               className="flex items-center"
             >
               <Settings size={15} />
-              <span>Settings</span>
+              <span>settings</span>
             </DropdownMenuItem>
             <DropdownMenuItem
               onClick={handleSignOut}
@@ -149,7 +149,7 @@ export function UserButton({ user }: { user: UserWithWorkspaceAndProfile }) {
               ) : (
                 <LogOut size={15} />
               )}
-              <span>{loading ? "Signing out..." : "Sign out"}</span>
+              <span>{loading ? "logging out..." : "log out"}</span>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

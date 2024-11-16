@@ -8,10 +8,12 @@ import { LeadTable } from "./_components/LeadsTable";
 import { LeadsColumns } from "./_components/LeadsColumns";
 import { Loader } from "lucide-react";
 import { fetchWithRetry } from "@/lib/utils/fetchWithRetry";
+import { decode, fromBase64 } from "js-base64";
+import { decryptFromBase64URI } from "@/lib/utils";
 
 export const metadata: Metadata = {
-  title: "Leads",
-  description: "List of Leads",
+  title: "leads",
+  description: "List of leads",
 };
 
 export default async function LeadsPage() {
@@ -19,7 +21,10 @@ export default async function LeadsPage() {
     (await cookies()).get(selectedWorkspaceCookie)?.value || "";
 
   const [leads] = await Promise.all([
-    fetchWithRetry(() => getAllWorkspaceLeads(workspaceId), "leads"),
+    fetchWithRetry(
+      () => getAllWorkspaceLeads(decryptFromBase64URI(workspaceId)),
+      "leads",
+    ),
   ]);
 
   return (

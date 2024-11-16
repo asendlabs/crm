@@ -64,7 +64,7 @@ export function EntityActivityCard({
           "\u3164"
         )}
         <div className="flex items-center gap-1 py-1">
-          <span className="capitalize">{activity.entityType}</span>
+          <span className="lowercase">{activity.entityType}</span>
           <span className="truncate rounded-lg border px-2 py-0.5 sm:max-w-28 md:max-w-32 lg:max-w-56">
             {activity.entityTitle}
           </span>
@@ -90,11 +90,11 @@ export function EntityActivityCard({
           <DropdownMenuContent className="w-20">
             <DropdownMenuItem onClick={handleDelete}>
               {deleting ? (
-                <Loader className="mr-2 size-4 animate-spin" />
+                <Loader className="mr-1 size-4 animate-spin" />
               ) : (
-                <Trash className="mr-2 size-4" />
+                <Trash className="mr-1 size-4" />
               )}
-              Delete
+              delete
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

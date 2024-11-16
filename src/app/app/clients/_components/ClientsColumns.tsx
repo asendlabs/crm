@@ -34,7 +34,7 @@ export const ClientsColumns: ColumnDef<AccountFull>[] = [
   {
     id: "accountName",
     accessorKey: "accountName",
-    header: () => <PrimaryHead title="Client Name" />,
+    header: () => <PrimaryHead title="client Name" />,
     cell: ({ getValue, row }) => (
       <PrimaryField getValue={getValue} row={row} isAccount={true} />
     ),
@@ -42,7 +42,7 @@ export const ClientsColumns: ColumnDef<AccountFull>[] = [
   {
     id: "contacts",
     accessorKey: "contacts",
-    header: () => <LogoHead title="Contacts" Icon={LucideUsers} />,
+    header: () => <LogoHead title="contacts" Icon={LucideUsers} />,
     cell: ({ getValue, row }) => (
       <SecondaryField
         row={row}
@@ -55,7 +55,7 @@ export const ClientsColumns: ColumnDef<AccountFull>[] = [
   {
     id: "last activity",
     accessorKey: "activities",
-    header: () => <LogoHead title="Last Activity" Icon={Users} />,
+    header: () => <LogoHead title="last activity" Icon={Users} />,
     cell: ({ getValue, row }) => <LastInteractionField getValue={getValue} />,
   },
 ];

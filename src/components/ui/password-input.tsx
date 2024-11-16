@@ -32,7 +32,6 @@ export function PasswordField({
       name={name}
       render={({ field }) => (
         <FormItem>
-          <FormLabel>Password</FormLabel>
           <FormControl>
             <Box className="relative">
               <Input
@@ -40,7 +39,7 @@ export function PasswordField({
                 type={passwordVisibility ? "text" : "password"}
                 autoComplete="on"
                 placeholder={placeholder}
-                className={`pr-12 ${getFieldState(name).error && "text-destructive"}`}
+                className={`pr-12 ${getFieldState(name).error && "text-destructive"} h-10`}
               />
               <Box
                 className="absolute inset-y-0 right-0 flex cursor-pointer items-center p-3 text-muted-foreground"

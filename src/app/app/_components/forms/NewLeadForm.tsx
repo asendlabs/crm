@@ -97,7 +97,7 @@ export function NewLeadForm({
 
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
-      <DialogTitle className="sr-only">New Lead</DialogTitle>
+      <DialogTitle className="sr-only">new lead</DialogTitle>
       {runCommandAction ? (
         <CommandItem
           className="flex gap-2"
@@ -106,12 +106,12 @@ export function NewLeadForm({
           }}
         >
           <Building className="!size-[1.5rem] rounded-md border p-1" />
-          <span>Create new lead</span>
+          <span>create new lead</span>
         </CommandItem>
       ) : (
         <DialogTrigger className="flex max-h-8 max-w-28 flex-row items-center gap-1 rounded-lg border px-3 text-sm">
           <Plus className="size-4" />
-          <span>Add Lead</span>
+          <span>add lead</span>
         </DialogTrigger>
       )}
       <DialogContent className="flex flex-col py-2">
@@ -129,11 +129,11 @@ export function NewLeadForm({
                   name="accountName"
                   render={({ field }) => (
                     <FormItem className="flex-1">
-                      <FormLabel>Lead Name</FormLabel>
+                      <FormLabel>lead name</FormLabel>
                       <FormControl>
                         <Input
                           {...field}
-                          placeholder="eg. Acme Inc"
+                          placeholder="eg. acme inc"
                           className="h-9 w-full"
                         />
                       </FormControl>
@@ -147,11 +147,11 @@ export function NewLeadForm({
                   name="contactName"
                   render={({ field }) => (
                     <FormItem className="flex-1">
-                      <FormLabel>Contact Name</FormLabel>
+                      <FormLabel>contact name</FormLabel>
                       <FormControl>
                         <Input
                           {...field}
-                          placeholder="eg. John Doe"
+                          placeholder="eg. john doe"
                           className="h-9 w-full"
                         />
                       </FormControl>
@@ -175,10 +175,10 @@ export function NewLeadForm({
                     }
                   }}
                 >
-                  Cancel
+                  cancel
                 </Button>
                 <Button type="submit" className="h-8" disabled={loading}>
-                  {loading ? "Creating..." : "Create New Lead"}
+                  {loading ? "creating..." : "create new lead"}
                 </Button>
               </div>
             </form>

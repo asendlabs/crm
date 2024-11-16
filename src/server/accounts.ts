@@ -28,6 +28,7 @@ import {
   getAllAccountActivities,
 } from "@/data-access/activities";
 import { deleteTask, getAllAccountTasks } from "@/data-access/tasks";
+import { decryptFromBase64URI } from "@/lib/utils";
 
 export const updateAccountAction = authenticatedAction
   .createServerAction()
@@ -106,14 +107,15 @@ export const createAccountAction = authenticatedAction
     if (!currentWorkspaceId) {
       throw new Error("Workspace not found"); // Inline error
     }
+    const decodedWorkspaceId = decryptFromBase64URI(currentWorkspaceId);
     const accountRes = await createAccount(
-      currentWorkspaceId,
+      decodedWorkspaceId,
       user.id,
       accountName,
       type,
     );
     const contactRes = await createContact(
-      currentWorkspaceId,
+      decodedWorkspaceId,
       user.id,
       accountRes.id,
       contactName,
@@ -123,7 +125,7 @@ export const createAccountAction = authenticatedAction
     }
     const accountActivityRes = await createActivity({
       userId: user.id,
-      workspaceId: currentWorkspaceId,
+      workspaceId: decodedWorkspaceId,
       accountId: accountRes.id,
       title: "New Account",
       activityType: "entity_creation",
@@ -134,7 +136,7 @@ export const createAccountAction = authenticatedAction
     });
     const contactActivityRes = await createActivity({
       userId: user.id,
-      workspaceId: currentWorkspaceId,
+      workspaceId: decodedWorkspaceId,
       accountId: accountRes.id,
       title: "New Contact",
       activityType: "entity_creation",

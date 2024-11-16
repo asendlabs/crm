@@ -127,13 +127,15 @@ export function Header({ className }: { className?: string }) {
       <PageTitle>
         <div className="text-lg">
           <Link
-            className="capitalize opacity-70 hover:opacity-90"
+            className="opacity-70 hover:opacity-90"
             href={`/app/${account?.type}s/`}
           >
             {account?.type}
           </Link>
           {" / "}
-          <span className="font-medium">{account?.accountName || ""}</span>
+          <span className="font-medium normal-case">
+            {account?.accountName || ""}
+          </span>
         </div>
       </PageTitle>
       <div className="flex gap-2">
@@ -145,7 +147,7 @@ export function Header({ className }: { className?: string }) {
             >
               <SelectTrigger
                 className={cn(
-                  "ml-2 h-7 w-fit cursor-pointer items-center gap-1 bg-transparent px-2 text-sm font-medium capitalize hover:bg-muted",
+                  "ml-2 h-7 w-fit cursor-pointer items-center gap-1 bg-transparent px-2 text-sm font-medium normal-case hover:bg-muted",
                 )}
               >
                 {status ? (
@@ -195,10 +197,10 @@ export function Header({ className }: { className?: string }) {
               {converting ? (
                 <>
                   <Loader className="mr-2 size-4 animate-spin" />
-                  Converting...
+                  converting...
                 </>
               ) : (
-                "Convert"
+                "convert"
               )}
             </Button>
           </>
@@ -218,12 +220,12 @@ export function Header({ className }: { className?: string }) {
               {deleting ? (
                 <>
                   <Loader className="mr-2 size-4 animate-spin" />
-                  Deleting...
+                  deleting...
                 </>
               ) : (
                 <>
                   <Trash className="mr-2 size-4" />
-                  Delete
+                  delete
                 </>
               )}
             </DropdownMenuItem>
@@ -232,7 +234,7 @@ export function Header({ className }: { className?: string }) {
               className="h-7"
             >
               <Share className="mr-2 size-4" />
-              Share
+              share
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

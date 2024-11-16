@@ -7,11 +7,12 @@ import { Toaster } from "sonner";
 import { ViewTransitions } from "next-view-transitions";
 import React from "react";
 import { AppPostHogProvider } from "@/providers/services/posthogProvider";
+import { ThemeProvider } from "@/providers/themeProvider";
 
 export const metadata: Metadata = {
   title: {
-    default: `Asend${process.env.NODE_ENV === "development" ? " | DEV" : ""}`,
-    template: `%s | Asend${process.env.NODE_ENV === "development" ? " | DEV" : ""}`,
+    default: `asend${process.env.NODE_ENV === "development" ? " | dev" : ""}`,
+    template: `%s | asend${process.env.NODE_ENV === "development" ? " | dev" : ""}`,
   },
   icons: {
     icon: "/assets/favicon.ico",
@@ -27,8 +28,10 @@ export default async function RootLayout({
     <ViewTransitions>
       <html lang="en">
         <AppPostHogProvider>
-          <body className={GeistSans.className}>
-            <NuqsAdapter>{children}</NuqsAdapter>
+          <body className={GeistSans.className + ""}>
+            <NuqsAdapter>
+              <ThemeProvider>{children} </ThemeProvider>
+            </NuqsAdapter>
             <Toaster position="bottom-right" richColors />
           </body>
         </AppPostHogProvider>

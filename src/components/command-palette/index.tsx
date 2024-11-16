@@ -58,19 +58,19 @@ interface CommandData {
 
 const commandsData: CommandData = {
   gotoLinks: [
-    { title: "Leads", url: "/app/leads" },
-    { title: "Clients", url: "/app/clients" },
-    { title: "Deals", url: "/app/deals?view=board" },
-    { title: "Account Settings", url: "/app/settings/account" },
-    { title: "Workspace Settings", url: "/app/settings/workspace" },
-    { title: "Billing Settings", url: "/app/settings/billing" },
-    { title: "Appearance Settings", url: "/app/settings/appearance" },
-    { title: "Home", url: "/app/home" },
+    { title: "leads", url: "/app/leads" },
+    { title: "clients", url: "/app/clients" },
+    { title: "deals", url: "/app/deals?view=board" },
+    { title: "account settings", url: "/app/settings/account" },
+    { title: "workspace settings", url: "/app/settings/workspace" },
+    { title: "billing settings", url: "/app/settings/billing" },
+    { title: "appearance settings", url: "/app/settings/appearance" },
+    { title: "home", url: "/app/home" },
   ],
   helpLinks: [
-    { title: "Contact Support", url: "/reach/support", icon: Headset },
-    { title: "Give Feedback", url: "/reach/feedback", icon: MessageSquareText },
-    { title: "Read Documentation", url: "#", icon: Book },
+    { title: "contact support", url: "/reach/support", icon: Headset },
+    { title: "give feedback", url: "/reach/feedback", icon: MessageSquareText },
+    { title: "read documentation", url: "#", icon: Book },
   ],
   panels: [
     { panel: "activity", PanelIcon: Clock },
@@ -119,11 +119,11 @@ export function CommandPalette({ accounts }: { accounts: Account[] }) {
   return (
     <>
       <CommandDialog open={commandOpen} onOpenChange={setCommandOpen}>
-        <DialogTitle className="sr-only">Command Palette</DialogTitle>
-        <CommandInput placeholder="Type a command or search..." />
+        <DialogTitle className="sr-only">command palette</DialogTitle>
+        <CommandInput placeholder="type a command or search..." />
         <CommandList>
           <CommandEmpty>No results found.</CommandEmpty>
-          <CommandGroup heading="Create">
+          <CommandGroup heading="create">
             <NewLeadForm runCommandAction={runCommand} addLead={() => {}} />
             <NewContactForm
               runCommandAction={runCommand}
@@ -136,7 +136,7 @@ export function CommandPalette({ accounts }: { accounts: Account[] }) {
               accounts={accounts}
             />
           </CommandGroup>
-          <CommandGroup heading="Navigation">
+          <CommandGroup heading="navigation">
             {commandsData.gotoLinks.map((link) => (
               <GoToLink
                 key={link.title}
@@ -146,7 +146,7 @@ export function CommandPalette({ accounts }: { accounts: Account[] }) {
             ))}
           </CommandGroup>
           <CommandSeparator className="my-2" />
-          <CommandGroup heading="Help">
+          <CommandGroup heading="help">
             {commandsData.helpLinks.map((link) => (
               <CustomIconLink
                 Icon={link.icon}
@@ -160,7 +160,7 @@ export function CommandPalette({ accounts }: { accounts: Account[] }) {
             (shouldRenderSwitchPanelCommand && (
               <>
                 <CommandSeparator className="my-2" />
-                <CommandGroup heading="Miscellaneous">
+                <CommandGroup heading="miscellaneous">
                   {shouldRenderShowInViewCommand && (
                     <ShowInViewCommand runCommandAction={runCommand} />
                   )}
@@ -176,7 +176,7 @@ export function CommandPalette({ accounts }: { accounts: Account[] }) {
               </>
             ))}
           <CommandSeparator className="my-2" />
-          <CommandGroup heading="Account">
+          <CommandGroup heading="account">
             <SignOutCommand runCommandAction={runCommand} />
           </CommandGroup>
         </CommandList>

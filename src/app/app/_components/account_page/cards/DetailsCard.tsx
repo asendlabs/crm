@@ -82,7 +82,7 @@ const formatSocialMediaHandle = (platform: string, value: string): string => {
       const pathParts = url.pathname.split("/").filter(Boolean);
 
       switch (platform) {
-        case "LinkedIn":
+        case "linkedIn":
           if (pathParts[0] === "company") {
             return pathParts[1];
           } else if (pathParts[0] === "in") {
@@ -90,14 +90,14 @@ const formatSocialMediaHandle = (platform: string, value: string): string => {
           }
           return pathParts.join("/");
 
-        case "Facebook":
+        case "facebook":
           if (pathParts[0] === "pages") {
             return pathParts.slice(1).join("/");
           }
           return pathParts.join("/");
 
-        case "Instagram":
-        case "Twitter":
+        case "instagram":
+        case "twitter":
           return `@${pathParts[pathParts.length - 1]}`;
 
         default:
@@ -109,8 +109,8 @@ const formatSocialMediaHandle = (platform: string, value: string): string => {
   }
 
   switch (platform) {
-    case "Instagram":
-    case "Twitter":
+    case "instagram":
+    case "twitter":
       return value.startsWith("@") ? value : `@${value}`;
     default:
       return value;
@@ -178,7 +178,7 @@ const DescriptionField = ({
         }}
         placeholder={placeholder}
         className={cn(
-          "h-7 !min-h-7 w-full resize-none rounded-lg border-none px-2 py-1 text-black hover:bg-muted",
+          "h-7 !min-h-7 w-full resize-none rounded-lg border-none px-2 py-1 text-black hover:bg-muted dark:text-white dark:hover:bg-muted",
           isEditing &&
             "h-20 focus:border-primary focus:ring-1 focus:ring-primary",
         )}
@@ -237,7 +237,7 @@ const DetailField: React.FC<DetailFieldProps> = ({
   };
 
   const isSocialMedia = (label: string): boolean => {
-    return ["Instagram", "Facebook", "LinkedIn", "Twitter"].includes(label);
+    return ["instagram", "facebook", "linkedIn", "twitter"].includes(label);
   };
 
   const isClickableUrl = (value: string): boolean => {
@@ -285,8 +285,8 @@ const DetailField: React.FC<DetailFieldProps> = ({
     }
   };
 
-  const placeholder = `Set ${label.charAt(0).toUpperCase() + label.slice(1)} ${
-    ["LinkedIn", "Twitter", "Instagram", "Facebook", "Website"].includes(label)
+  const placeholder = `set ${label} ${
+    ["linkedIn", "twitter", "instagram", "facebook", "website"].includes(label)
       ? "Url"
       : ""
   }`;
@@ -321,7 +321,7 @@ const DetailField: React.FC<DetailFieldProps> = ({
         isEditing && isDescription && "mt-1 items-start",
       )}
     >
-      <span className="flex !w-[10rem] items-center gap-1.5 capitalize text-gray-800">
+      <span className="flex !w-[10rem] items-center gap-1.5 text-gray-800 dark:text-gray-300">
         {Icon && <Icon size={14} />}
         {label}
       </span>
@@ -368,8 +368,8 @@ const DetailField: React.FC<DetailFieldProps> = ({
                   isClickableUrl(fieldValue) &&
                   "underline decoration-2 underline-offset-[2.5px]",
                 fieldValue && isClickableUrl(fieldValue)
-                  ? "text-blue-700"
-                  : "text-black",
+                  ? "text-primary"
+                  : "text-black dark:text-white",
                 inputClassName,
               )}
             />
@@ -413,46 +413,46 @@ export function DetailsCard() {
     >
       <AccordionItem className="grid h-full border-b px-4" value="details">
         <AccordionTrigger className="flex select-none items-center justify-between pb-2.5">
-          <span className="text-sm font-medium capitalize">Details</span>
+          <span className="text-sm font-medium">details</span>
         </AccordionTrigger>
         <AccordionContent className="grid w-full items-start justify-start gap-1.5 overflow-clip overflow-y-auto pl-0.5 pr-1 pt-1">
           <DetailField
-            label="Name"
+            label="name"
             icon={IdCard}
             value={account?.accountName}
             onSave={(value: string) => handleUpdate("accountName", value)}
             copyEnabled
           />
           <DetailField
-            label="Website"
+            label="website"
             icon={Globe}
             value={account?.website}
             onSave={(value: string) => handleUpdate("website", value)}
             copyEnabled
           />
           <DetailField
-            label="Description"
+            label="description"
             icon={AlignLeft}
             value={account?.description}
             onSave={(value: string) => handleUpdate("description", value)}
             isDescription
           />
           <DetailField
-            label="Instagram"
+            label="instagram"
             icon={Instagram}
             value={account?.instagram}
             onSave={(value: string) => handleUpdate("instagram", value)}
             copyEnabled
           />
           <DetailField
-            label="LinkedIn"
+            label="linkedin"
             icon={Linkedin}
             value={account?.linkedin}
             onSave={(value: string) => handleUpdate("linkedin", value)}
             copyEnabled
           />
           <DetailField
-            label="Twitter"
+            label="twitter"
             icon={Twitter}
             value={account?.twitter}
             onSave={(value: string) => handleUpdate("twitter", value)}

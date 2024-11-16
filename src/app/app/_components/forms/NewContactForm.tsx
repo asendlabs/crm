@@ -134,15 +134,15 @@ export function NewContactForm({
           }}
         >
           <Users className="!size-[1.5rem] rounded-md border p-1" />
-          <span>Create new contact</span>
+          <span>create new contact</span>
         </CommandItem>
       ) : (
         <div
           onClick={() => setOpen(true)}
-          className="flex h-6 w-fit max-w-36 flex-row items-center gap-1 rounded-lg border border-border px-3 text-sm"
+          className="flex h-6 w-fit max-w-36 flex-row items-center gap-0.5 rounded-lg border border-border px-3 text-sm"
         >
           <Plus className="size-4" />
-          <span>Add Contact</span>
+          <span>add contact</span>
         </div>
       )}
       <DialogContent className="flex flex-col py-2">
@@ -161,7 +161,7 @@ export function NewContactForm({
                     name="accountId"
                     render={({ field }) => (
                       <FormItem className="flex-1">
-                        <FormLabel>Lead or Client</FormLabel>
+                        <FormLabel>lead or client</FormLabel>
                         <Select
                           onValueChange={field.onChange}
                           defaultValue={field.value}

@@ -8,7 +8,6 @@ export async function fetchWithRetry<T>(
     try {
       const data = await fetcher();
       if (data) {
-        // console.log(`Successfully fetched ${entityName} on attempt ${attempt}`);
         return data;
       }
     } catch (error) {
