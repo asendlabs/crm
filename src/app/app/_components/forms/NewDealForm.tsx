@@ -45,7 +45,7 @@ import { cn } from "@/lib/utils/tailwind";
 import { Account } from "@database/types";
 import { useServerAction } from "zsa-react";
 import { CommandItem } from "@/components/ui/command";
-import { CommandContext } from "@/providers/commandProvider";
+import { CommandContext } from "@/providers/command-provider";
 
 export function NewDealForm({
   accountId,

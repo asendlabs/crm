@@ -25,17 +25,17 @@ export function SignOutCommand({ runCommandAction }: SignOutCommandProps) {
           try {
             const response = await execute();
             if (!response) {
-              toast.error("unable to logout");
+              toast.error("Unable to logout");
               return;
             }
             router.replace(signInUrl);
-            toast.success("logged out successfully", {
+            toast.success("Logged out successfully", {
               position: "bottom-right",
               duration: 2000,
               richColors: false,
             });
           } catch (error) {
-            toast.error("internal error occurred");
+            toast.error("Internal error occurred");
           } finally {
             setIsLoggingOut(false);
           }
@@ -48,7 +48,7 @@ export function SignOutCommand({ runCommandAction }: SignOutCommandProps) {
       ) : (
         <LogOut className="!size-[1.5rem] rounded-md border p-1" />
       )}
-      <span>{isLoggingOut ? "logging out..." : "log out"}</span>
+      <span>{isLoggingOut ? "Logging out..." : "Log out"}</span>
     </CommandItem>
   );
 }

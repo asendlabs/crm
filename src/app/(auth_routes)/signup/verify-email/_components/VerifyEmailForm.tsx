@@ -24,7 +24,7 @@ import { REGEXP_ONLY_DIGITS } from "input-otp";
 import { ResendVerifyEmailButton } from "./ResendVerifyEmailButton";
 import Image from "next/image";
 import { verifyEmailAction } from "@/server/verify-email";
-import { Logo } from "@/components/Logo";
+import { Logo } from "@/components/logo";
 
 export const VerifyEmailForm = ({ email }: { email: string }) => {
   const { execute, isPending, error } = useServerAction(verifyEmailAction);

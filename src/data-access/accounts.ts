@@ -8,7 +8,7 @@ import {
 import { and, eq } from "drizzle-orm";
 import { ulid } from "ulid";
 import { Account } from "@database/types";
-import { State } from "@/providers/accountProvider";
+import { State } from "@/providers/account-provider";
 import { AccountFull } from "@/types/entities";
 
 export async function getAccountById(id: string) {

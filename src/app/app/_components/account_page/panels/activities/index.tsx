@@ -1,7 +1,7 @@
 "use client";
 import { NewActivityForm } from "./NewActivityForm";
 import { Button } from "@/components/ui/button";
-import { AccountContext } from "@/providers/accountProvider";
+import { AccountContext } from "@/providers/account-provider";
 import { ActivityType } from "@/types/entities";
 import { PhoneCall, MailPlus, MessageSquareMore } from "lucide-react";
 import { useContext, useState } from "react";

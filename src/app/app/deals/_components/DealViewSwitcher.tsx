@@ -1,4 +1,4 @@
-import { Views } from "@/providers/dealsViewProvider";
+import { Views } from "@/providers/deal-view-provider";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils/tailwind";
 import { SquareKanban as Board, Table as Grid } from "lucide-react";

@@ -25,7 +25,7 @@ export function SwitchPanelCommand({
       }
     >
       <PanelIcon className="!size-[1.5rem] rounded-md border p-1" />
-      <span>switch to {panel} panel</span>
+      <span>Switch to {panel} Panel</span>
     </CommandItem>
   );
 }

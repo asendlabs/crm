@@ -28,7 +28,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { createAccountAction } from "@/server/accounts";
 import { useServerAction } from "zsa-react";
 import { CommandItem } from "@/components/ui/command";
-import { CommandContext } from "@/providers/commandProvider";
+import { CommandContext } from "@/providers/command-provider";
 
 export function NewLeadForm({
   addLead,

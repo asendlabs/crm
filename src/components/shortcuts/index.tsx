@@ -1,5 +1,5 @@
 "use client";
-import { CommandContext } from "@/providers/commandProvider";
+import { CommandContext } from "@/providers/command-provider";
 import { useContext, useEffect } from "react";
 
 export function Shortcuts() {

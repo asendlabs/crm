@@ -17,7 +17,7 @@ export function GoToLink({ url, title, runCommandAction }: GoToLinkProps) {
       onSelect={() => runCommandAction(() => router.push(url))}
     >
       <ArrowUpRight className="!size-[1.5rem] rounded-md border p-1" />
-      <span>go to {title.toLowerCase()}</span>
+      <span>Go to {title}</span>
     </CommandItem>
   );
 }

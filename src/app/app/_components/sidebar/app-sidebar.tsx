@@ -2,19 +2,12 @@
 
 import * as React from "react";
 import {
-  Frame,
-  Map,
   Handshake,
   Building,
   SquareUserRound,
-  PieChart,
   Search,
   Home,
   Loader,
-  Cog,
-  Mail,
-  Settings,
-  PanelLeft,
 } from "lucide-react";
 import { UserWithWorkspaceAndProfile } from "@/types/entities";
 import { UserButton } from "./user-button";
@@ -24,17 +17,15 @@ import {
   SidebarContent,
   SidebarFooter,
   SidebarGroup,
-  SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarRail,
-  SidebarTrigger,
   useSidebar,
 } from "@/components/ui/sidebar";
 import { usePathname, useRouter } from "next/navigation";
-import { CommandContext } from "@/providers/commandProvider";
+import { CommandContext } from "@/providers/command-provider";
 import { cn } from "@/lib/utils/tailwind";
+import { ModeToggle } from "@/components/mode-toggle";
 
 type NavItem = {
   title: string;
@@ -134,7 +125,7 @@ export function AppSidebar({
   } = useSidebar();
 
   return (
-    <Sidebar collapsible="icon" {...props}>
+    <Sidebar collapsible="icon" {...props} className="">
       <section className="relative flex items-center gap-2 p-2">
         <WorkspaceSwitcher
           workspaces={user.workspaces}
@@ -212,6 +203,7 @@ export function AppSidebar({
         </SidebarGroup>
       </SidebarContent>
       <SidebarFooter>
+        <ModeToggle />
         <UserButton user={user} />
       </SidebarFooter>
     </Sidebar>

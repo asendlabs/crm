@@ -3,7 +3,6 @@ import React, { Suspense } from "react";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { getUserById } from "@/data-access/users";
-import { fetchAuthenticatedUser } from "@/lib/session";
 import {
   afterCheckoutUrl,
   afterSignUpUrl,
@@ -17,10 +16,9 @@ import { SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "./_components/sidebar/app-sidebar";
 import { UserWithWorkspaceAndProfile } from "@/types/entities";
 import { Profile } from "@database/types";
-import { CommandPaletteProvider } from "@/providers/commandProvider";
+import { CommandPaletteProvider } from "@/providers/command-provider";
 import { CommandPalette } from "@/components/command-palette";
 import { getAllWorkspaceAccounts } from "@/data-access/accounts";
-import { Loader } from "lucide-react";
 import { Shortcuts } from "@/components/shortcuts";
 
 export default async function ApplicationLayout({

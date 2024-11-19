@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useContext, useState, useEffect } from "react";
-import { AccountContext } from "@/providers/accountProvider";
+import { AccountContext } from "@/providers/account-provider";
 import Link from "@/components/performance-link";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils/tailwind";
@@ -19,7 +19,7 @@ import { toast } from "sonner";
 import { useRouter } from "@/hooks/use-performance-router";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import AccountShareDialog from "./AccountShareDialog";
-import { PageTitle } from "@/components/PageTitle";
+import { PageTitle } from "@/components/page-title";
 import {
   Select,
   SelectContent,

@@ -8,7 +8,7 @@ import { getUserById } from "@/data-access/users";
 
 export const metadata = {
   title: {
-    default: "account settings",
+    default: "Account settings",
   },
   icons: {
     icon: "/assets/favicon.ico",
@@ -29,10 +29,10 @@ async function AccountPage() {
       <div className="flex flex-col gap-3 border-b pb-4">
         <div className="flex items-center gap-2.5">
           <User className="h-5 w-5 text-muted-foreground" />
-          <h1 className="text-xl font-medium">account settings</h1>
+          <h1 className="text-xl font-medium">Account settings</h1>
         </div>
         <p className="max-w-3xl text-sm text-muted-foreground">
-          manage your personal info and security settings. data is secure and
+          Manage your personal info and security settings. Data is secure and
           can be updated anytime.
         </p>
       </div>
@@ -42,20 +42,20 @@ async function AccountPage() {
         <div className="flex items-center gap-2.5">
           <IdCard className="h-4 w-4 text-muted-foreground" />
           <h2 className="text-sm font-medium text-muted-foreground">
-            personal information
+            Personal information
           </h2>
         </div>
         <div className="flex gap-4">
           <SettingsTextField
             defaultValue={dbUser.profile?.firstName ?? ""}
-            label="first name"
-            placeholder="enter your first name"
+            label="First name"
+            placeholder="Enter your first name"
             entityType="firstName"
           />
           <SettingsTextField
             defaultValue={dbUser.profile?.lastName ?? ""}
-            label="last name"
-            placeholder="enter your last name"
+            label="Last name"
+            placeholder="Enter your last name"
             entityType="lastName"
           />
         </div>
@@ -66,7 +66,7 @@ async function AccountPage() {
         <div className="flex items-center gap-2.5">
           <Shield className="h-4 w-4 text-muted-foreground" />
           <h2 className="text-sm font-medium text-muted-foreground">
-            security & authentication
+            Security and authentication
           </h2>
         </div>
         <div className="space-y-8">
@@ -74,15 +74,15 @@ async function AccountPage() {
           <div className="flex flex-col gap-2">
             <SettingsTextField
               defaultValue={dbUser.email}
-              label="email address"
-              placeholder="enter your email"
+              label="Email address"
+              placeholder="Enter your email"
               isNotEditable
             />
             <Link
               href={"/app/settings/account/change_email"}
               className="flex items-center gap-1.5 text-xs text-gray-500 hover:text-gray-800"
             >
-              <span className="underline">update email address</span>
+              <span className="underline">Update email address</span>
               <span className="text-muted-foreground">
                 • requires verification
               </span>
@@ -93,15 +93,15 @@ async function AccountPage() {
           <div className="flex flex-col gap-2">
             <SettingsTextField
               defaultValue="••••••••••••••"
-              label="password"
-              placeholder="enter your password"
+              label="Password"
+              placeholder="Enter your password"
               isHidden
             />
             <Link
               href={"/app/settings/account/change_password"}
               className="flex items-center gap-1.5 text-xs text-gray-500 hover:text-gray-800"
             >
-              <span className="underline">change password</span>
+              <span className="underline">Change password</span>
               <span className="text-muted-foreground">
                 • improves account security
               </span>
@@ -113,19 +113,19 @@ async function AccountPage() {
       {/* footer section */}
       <div className="flex flex-col gap-2 pt-6">
         <p className="text-xs text-muted-foreground">
-          need help? visit our{" "}
+          Need help? Visit our{" "}
           <Link
             href="/help"
             className="text-gray-500 underline hover:text-gray-800"
           >
-            help center
+            Help center
           </Link>{" "}
           or contact{" "}
           <Link
             href="/support"
             className="text-gray-500 underline hover:text-gray-800"
           >
-            support
+            Support
           </Link>
         </p>
       </div>

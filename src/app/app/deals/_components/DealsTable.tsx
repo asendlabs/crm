@@ -34,7 +34,7 @@ import {
   DealViewContext,
   DealViewProvider,
   Views,
-} from "@/providers/dealsViewProvider";
+} from "@/providers/deal-view-provider";
 import { DealViewSwitcher } from "./DealViewSwitcher";
 import {
   ContactWithDetails,
@@ -45,7 +45,7 @@ import { DealKanbanBoard } from "./DealKanbanBoard";
 import { dealTableRelations } from "@database/relations";
 import { Button } from "@/components/ui/button";
 import { Cog, Settings, Settings2 } from "lucide-react";
-import { PageTitle } from "@/components/PageTitle";
+import { PageTitle } from "@/components/page-title";
 import { useSidebar } from "@/components/ui/sidebar";
 import { cn } from "@/lib/utils/tailwind";
 

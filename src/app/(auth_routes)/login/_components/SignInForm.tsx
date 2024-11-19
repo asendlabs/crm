@@ -24,7 +24,7 @@ import { toast } from "sonner";
 import { PasswordField } from "@/components/ui/password-input";
 import { useRouter } from "@/hooks/use-performance-router";
 import { signInAction } from "@/server/sign-in";
-import { Logo } from "@/components/Logo";
+import { Logo } from "@/components/logo";
 import { signUpUrl } from "@/constants";
 
 export const SignInForm = () => {

@@ -50,7 +50,7 @@ import { deleteDealAction, updateDealAction } from "@/server/deal";
 import { ContactCard } from "./ContactCard";
 import { useServerAction } from "zsa-react";
 import { dealUpdateSchema } from "@/schemas/deal.schema";
-import { AccountContext } from "@/providers/accountProvider";
+import { AccountContext } from "@/providers/account-provider";
 import { Deal } from "@database/types";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useQueryState } from "nuqs";

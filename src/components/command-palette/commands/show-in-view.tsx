@@ -31,7 +31,7 @@ export function ShowInViewCommand({
       ) : (
         <Board className="p1 !size-[1.5rem] rounded-md border" />
       )}
-      <span>show in {existingViewIsBoard ? "grid" : "board"} view</span>
+      <span>Show in {existingViewIsBoard ? "grid" : "board"} view</span>
     </CommandItem>
   ) : (
     <></>

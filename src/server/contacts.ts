@@ -28,6 +28,7 @@ import {
   getDealsByContactId,
   updateDeal,
 } from "@/data-access/deal";
+import { decryptFromBase64URI } from "@/lib/utils";
 
 export const updateContactEmailAction = authenticatedAction
   .createServerAction()
@@ -107,6 +108,7 @@ export const deleteContactAction = authenticatedAction
       if (!currentWorkspaceId) {
         throw new Error("Workspace not found"); // Inline error
       }
+      const decodedWorkspaceId = decryptFromBase64URI(currentWorkspaceId);
       const retrivedContact = await getContactById(itemId);
       if (!retrivedContact) {
         throw new Error("Contact not found"); // Inline error
@@ -142,7 +144,7 @@ export const deleteContactAction = authenticatedAction
       }
       const activityRes = await createActivity({
         userId: user.id,
-        workspaceId: currentWorkspaceId,
+        workspaceId: decodedWorkspaceId,
         accountId: retrivedContact.accountId,
         title: "New Contact",
         activityType: "entity_deletion",
@@ -171,8 +173,9 @@ export const createContactAction = authenticatedAction
     if (!currentWorkspaceId) {
       throw new Error("Workspace not found"); // Inline error
     }
+    const decodedWorkspaceId = decryptFromBase64URI(currentWorkspaceId);
     const contactRes = await createContact(
-      currentWorkspaceId,
+      decodedWorkspaceId,
       user.id,
       accountId,
       contactName,
@@ -194,7 +197,7 @@ export const createContactAction = authenticatedAction
     }
     const activityRes = await createActivity({
       userId: user.id,
-      workspaceId: currentWorkspaceId,
+      workspaceId: decodedWorkspaceId,
       accountId,
       title: "New Contact",
       activityType: "entity_creation",

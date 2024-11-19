@@ -1,7 +1,7 @@
 "use client";
 import React, { useContext, useState } from "react";
 import { cn } from "@/lib/utils/tailwind";
-import { AccountContext } from "@/providers/accountProvider";
+import { AccountContext } from "@/providers/account-provider";
 import { ContactCard } from "./cards/ContactCard";
 import { NewContactForm } from "@/app/app/_components/forms/NewContactForm";
 import { NewDealForm } from "@/app/app/_components/forms/NewDealForm";

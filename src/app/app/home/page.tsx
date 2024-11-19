@@ -1,4 +1,4 @@
-import { PageTitle } from "@/components/PageTitle";
+import { PageTitle } from "@/components/page-title";
 import { Button } from "@/components/ui/button";
 import { Building } from "lucide-react";
 import { redirect } from "next/navigation";

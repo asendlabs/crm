@@ -1,16 +1,11 @@
 "use server";
-import { createServerAction } from "zsa";
 import { authenticatedAction } from "@/lib/zsa";
 import { z } from "zod";
-import {
-  createTask,
-  deleteTask,
-  getTaskById,
-  updateTask,
-} from "@/data-access/tasks";
+import { createTask, deleteTask, updateTask } from "@/data-access/tasks";
 import { selectedWorkspaceCookie } from "@/constants";
 import { cookies } from "next/headers";
 import { taskCreateSchema } from "@/schemas/task.schema";
+import { decryptFromBase64URI } from "@/lib/utils";
 
 export const updateTaskAction = authenticatedAction
   .createServerAction()
@@ -71,9 +66,10 @@ export const createTaskAction = authenticatedAction
     if (!currentWorkspaceId) {
       throw new Error("Workspace not found."); // Inline error message
     }
+    const decodedWorkspaceId = decryptFromBase64URI(currentWorkspaceId);
     const taskRes = await createTask({
       userId: user.id,
-      workspaceId: currentWorkspaceId,
+      workspaceId: decodedWorkspaceId,
       accountId,
       title,
       description,

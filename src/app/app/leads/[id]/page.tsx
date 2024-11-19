@@ -1,10 +1,10 @@
-import { GoBackLink } from "@/components/GoBackLink";
+import { GoBackLink } from "@/components/go-back-link";
 import { selectedWorkspaceCookie } from "@/constants";
 import { getAccountById, getAccountTypeById } from "@/data-access/accounts";
 import { cookies } from "next/headers";
 import React from "react";
 import type { Metadata, ResolvingMetadata } from "next";
-import { AccountProvider } from "@/providers/accountProvider";
+import { AccountProvider } from "@/providers/account-provider";
 import { Header } from "@/app/app/_components/account_page/Header";
 import { Panels } from "@/app/app/_components/account_page/Panels";
 import { Cards } from "@/app/app/_components/account_page/Cards";
@@ -47,10 +47,11 @@ export default async function LeadAccountPage(props: Props) {
   if (!id) {
     return (
       <div className="flex h-screen flex-col items-center justify-center">
-        <GoBackLink pagePath="leads" permanent={true} />
-        <span className="text-center text-2xl font-semibold">
-          We couldn't find what you were looking for.
-        </span>
+        <GoBackLink pagePath="leads" permanent={true}>
+          <span className="text-center text-2xl font-semibold">
+            We couldn't find what you were looking for.
+          </span>
+        </GoBackLink>
       </div>
     );
   }
@@ -58,10 +59,11 @@ export default async function LeadAccountPage(props: Props) {
   if (!account) {
     return (
       <div className="flex h-screen flex-col items-center justify-center">
-        <GoBackLink pagePath="leads" permanent={true} />
-        <span className="text-center text-2xl font-semibold">
-          We couldn't find what you were looking for.
-        </span>
+        <GoBackLink pagePath="leads" permanent={true}>
+          <span className="text-center text-2xl font-semibold">
+            We couldn't find what you were looking for.
+          </span>
+        </GoBackLink>
       </div>
     );
   }
@@ -72,10 +74,11 @@ export default async function LeadAccountPage(props: Props) {
   if (!decodedWorkspaceId || account.workspaceId !== decodedWorkspaceId) {
     return (
       <div className="flex h-screen flex-col items-center justify-center">
-        <GoBackLink pagePath="leads" permanent={true} />
-        <span className="text-center text-2xl font-semibold">
-          We couldn't find what you were looking for.
-        </span>
+        <GoBackLink pagePath="leads" permanent={true}>
+          <span className="text-center text-2xl font-semibold">
+            We couldn't find what you were looking for.
+          </span>
+        </GoBackLink>
       </div>
     );
   }

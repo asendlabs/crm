@@ -31,7 +31,7 @@ import { toast } from "sonner";
 import { Account, Contact } from "@database/types";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { SidebarTrigger } from "@/components/ui/sidebar";
-import { PageTitle } from "@/components/PageTitle";
+import { PageTitle } from "@/components/page-title";
 import { AccountFull } from "@/types/entities";
 
 interface LeadTableProps<TData, TValue> {

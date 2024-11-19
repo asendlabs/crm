@@ -1,5 +1,5 @@
 "use client";
-import { AccountContext } from "@/providers/accountProvider";
+import { AccountContext } from "@/providers/account-provider";
 import { activityCreateSchema } from "@/schemas/activity.schema";
 import { createActivityAction } from "@/server/activity";
 import { zodResolver } from "@hookform/resolvers/zod";

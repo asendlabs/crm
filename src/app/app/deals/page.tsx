@@ -6,7 +6,7 @@ import { selectedWorkspaceCookie } from "@/constants";
 import { getAllWorkspaceDeals } from "@/data-access/deal";
 import { getAllWorkspaceAccounts } from "@/data-access/accounts";
 import { DealStage, DealWithPrimaryContact } from "@/types/entities";
-import { DealViewProvider, Views } from "@/providers/dealsViewProvider";
+import { DealViewProvider, Views } from "@/providers/deal-view-provider";
 import { getWorkspaceById } from "@/data-access/workspaces";
 import { DealTable } from "./_components/DealsTable";
 import { DealColumns } from "./_components/DealsColumns";

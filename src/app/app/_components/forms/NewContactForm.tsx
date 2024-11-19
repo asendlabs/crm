@@ -36,7 +36,7 @@ import { useServerAction } from "zsa-react";
 import { contactCreateSchema } from "@/schemas/contact.schema";
 import { Account } from "@database/types";
 import { CommandItem } from "@/components/ui/command";
-import { CommandContext } from "@/providers/commandProvider";
+import { CommandContext } from "@/providers/command-provider";
 
 export function NewContactForm({
   addContact,

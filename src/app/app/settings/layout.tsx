@@ -9,7 +9,7 @@ import {
 } from "@/constants";
 import { validateRequest } from "@/lib/lucia";
 import { SidebarItem } from "./_components/settings-sidebar-link";
-import { PageTitle } from "@/components/PageTitle";
+import { PageTitle } from "@/components/page-title";
 
 export default async function ApplicationLayout({
   children,

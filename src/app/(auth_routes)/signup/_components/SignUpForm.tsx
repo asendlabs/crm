@@ -25,7 +25,7 @@ import { useRouter } from "@/hooks/use-performance-router";
 import { useServerAction } from "zsa-react";
 import { useSearchParams } from "next/navigation";
 import { signUpAction } from "@/server/sign-up";
-import { Logo } from "@/components/Logo";
+import { Logo } from "@/components/logo";
 import { signInUrl } from "@/constants";
 
 export const SignUpForm = () => {

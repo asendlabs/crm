@@ -1,4 +1,4 @@
-import { AccountContext } from "@/providers/accountProvider";
+import { AccountContext } from "@/providers/account-provider";
 import React, { useContext, useMemo } from "react";
 import { EmailCard } from "./EmailCard";
 import { Button } from "@/components/ui/button";

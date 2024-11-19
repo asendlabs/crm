@@ -1,7 +1,7 @@
 "use client";
 import { NewTaskForm } from "@/app/app/_components/forms/NewTaskForm";
 import { Button } from "@/components/ui/button";
-import { AccountContext } from "@/providers/accountProvider";
+import { AccountContext } from "@/providers/account-provider";
 import { Plus } from "lucide-react";
 import { useContext, useState } from "react";
 import { TaskCard } from "./TaskCard";

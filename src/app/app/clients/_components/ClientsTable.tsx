@@ -28,7 +28,7 @@ import { useServerAction } from "zsa-react";
 import { deleteAccountAction, updateAccountAction } from "@/server/accounts";
 import { toast } from "sonner";
 import { Account, Contact } from "@database/types";
-import { PageTitle } from "@/components/PageTitle";
+import { PageTitle } from "@/components/page-title";
 import { AccountFull } from "@/types/entities";
 
 interface ClientTableProps<TData, TValue> {

@@ -11,9 +11,9 @@ export function ComingSoonCard() {
   return (
     <Card className="w-5xl mx-auto px-6 py-10 !opacity-50">
       <div className="mb-6 text-center">
-        <h2 className="mb-2 text-3xl font-bold">Coming Soon</h2>
+        <h2 className="mb-2 text-3xl font-bold">Coming soon</h2>
         <p className="text-muted-foreground">
-          These features and many more are in development.
+          We are working hard to bring you these amazing features.
         </p>
       </div>
       <div className="grid items-center justify-center gap-5">

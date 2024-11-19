@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { AccountContext } from "@/providers/accountProvider";
+import { AccountContext } from "@/providers/account-provider";
 import { useServerAction } from "zsa-react";
 import { toast } from "sonner";
 import { updateAccountAction } from "@/server/accounts";

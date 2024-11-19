@@ -6,8 +6,8 @@ import { Toaster } from "sonner";
 
 import { ViewTransitions } from "next-view-transitions";
 import React from "react";
-import { AppPostHogProvider } from "@/providers/services/posthogProvider";
-import { ThemeProvider } from "@/providers/themeProvider";
+import { AppPostHogProvider } from "@/providers/third-party/posthog-provider";
+import { ThemeProvider } from "@/providers/theme-provider";
 
 export const metadata: Metadata = {
   title: {
@@ -30,7 +30,14 @@ export default async function RootLayout({
         <AppPostHogProvider>
           <body className={GeistSans.className + ""}>
             <NuqsAdapter>
-              <ThemeProvider>{children} </ThemeProvider>
+              <ThemeProvider
+                attribute={"class"}
+                defaultTheme="system"
+                enableSystem={true}
+                disableTransitionOnChange
+              >
+                {children}
+              </ThemeProvider>
             </NuqsAdapter>
             <Toaster position="bottom-right" richColors />
           </body>

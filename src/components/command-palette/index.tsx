@@ -10,8 +10,8 @@ import {
   CommandSeparator,
 } from "@/components/ui/command";
 import { DialogTitle } from "../ui/dialog";
-import { CommandContext } from "@/providers/commandProvider";
-import { GoToLink } from "./commands/GoToLink";
+import { CommandContext } from "@/providers/command-provider";
+import { GoToLink } from "./commands/go-to";
 import {
   Book,
   BookText,
@@ -22,11 +22,11 @@ import {
   LucideIcon,
   MessageSquareText,
 } from "lucide-react";
-import { CustomIconLink } from "./commands/CustomIconLink";
-import { SignOutCommand } from "./commands/SignOutCommand";
+import { CustomIconLink } from "./commands/custom-icon";
+import { SignOutCommand } from "./commands/sign-out";
 import { usePathname } from "next/navigation";
-import { ShowInViewCommand } from "./commands/ShowInViewCommand";
-import { SwitchPanelCommand } from "./commands/SwitchPanelCommand";
+import { ShowInViewCommand } from "./commands/show-in-view";
+import { SwitchPanelCommand } from "./commands/switch-panel";
 import { NewLeadForm } from "@/app/app/_components/forms/NewLeadForm";
 import { NewContactForm } from "@/app/app/_components/forms/NewContactForm";
 import { Account } from "@database/types";
@@ -58,23 +58,23 @@ interface CommandData {
 
 const commandsData: CommandData = {
   gotoLinks: [
-    { title: "leads", url: "/app/leads" },
-    { title: "clients", url: "/app/clients" },
-    { title: "deals", url: "/app/deals?view=board" },
-    { title: "account settings", url: "/app/settings/account" },
-    { title: "workspace settings", url: "/app/settings/workspace" },
-    { title: "billing settings", url: "/app/settings/billing" },
-    { title: "appearance settings", url: "/app/settings/appearance" },
-    { title: "home", url: "/app/home" },
+    { title: "Leads", url: "/app/leads" },
+    { title: "Clients", url: "/app/clients" },
+    { title: "Deals", url: "/app/deals?view=board" },
+    { title: "Account Settings", url: "/app/settings/account" },
+    { title: "Workspace Settings", url: "/app/settings/workspace" },
+    { title: "Billing Settings", url: "/app/settings/billing" },
+    { title: "Appearance Settings", url: "/app/settings/appearance" },
+    { title: "Home", url: "/app/home" },
   ],
   helpLinks: [
-    { title: "contact support", url: "/reach/support", icon: Headset },
-    { title: "give feedback", url: "/reach/feedback", icon: MessageSquareText },
-    { title: "read documentation", url: "#", icon: Book },
+    { title: "Contact Support", url: "/reach/support", icon: Headset },
+    { title: "Give Feedback", url: "/reach/feedback", icon: MessageSquareText },
+    { title: "Read Documentation", url: "#", icon: Book },
   ],
   panels: [
-    { panel: "activity", PanelIcon: Clock },
-    { panel: "tasks", PanelIcon: CheckSquare },
+    { panel: "Activity", PanelIcon: Clock },
+    { panel: "Tasks", PanelIcon: CheckSquare },
   ],
   showInViewPathnames: ["/app/deals"],
   switchPanelPathnames: ["/app/client/", "/app/leads/"],
@@ -119,11 +119,20 @@ export function CommandPalette({ accounts }: { accounts: Account[] }) {
   return (
     <>
       <CommandDialog open={commandOpen} onOpenChange={setCommandOpen}>
-        <DialogTitle className="sr-only">command palette</DialogTitle>
-        <CommandInput placeholder="type a command or search..." />
+        <DialogTitle className="text-center text-lg">Command Menu</DialogTitle>
+        <CommandInput placeholder="Type a command or search..." />
         <CommandList>
-          <CommandEmpty>No results found.</CommandEmpty>
-          <CommandGroup heading="create">
+          <CommandEmpty>No Results Found</CommandEmpty>
+          <CommandGroup heading="Navigation">
+            {commandsData.gotoLinks.map((link) => (
+              <GoToLink
+                key={link.title}
+                {...link}
+                runCommandAction={runCommand}
+              />
+            ))}
+          </CommandGroup>
+          <CommandGroup heading="Create">
             <NewLeadForm runCommandAction={runCommand} addLead={() => {}} />
             <NewContactForm
               runCommandAction={runCommand}
@@ -136,17 +145,8 @@ export function CommandPalette({ accounts }: { accounts: Account[] }) {
               accounts={accounts}
             />
           </CommandGroup>
-          <CommandGroup heading="navigation">
-            {commandsData.gotoLinks.map((link) => (
-              <GoToLink
-                key={link.title}
-                {...link}
-                runCommandAction={runCommand}
-              />
-            ))}
-          </CommandGroup>
           <CommandSeparator className="my-2" />
-          <CommandGroup heading="help">
+          <CommandGroup heading="Help">
             {commandsData.helpLinks.map((link) => (
               <CustomIconLink
                 Icon={link.icon}
@@ -160,7 +160,7 @@ export function CommandPalette({ accounts }: { accounts: Account[] }) {
             (shouldRenderSwitchPanelCommand && (
               <>
                 <CommandSeparator className="my-2" />
-                <CommandGroup heading="miscellaneous">
+                <CommandGroup heading="Miscellaneous">
                   {shouldRenderShowInViewCommand && (
                     <ShowInViewCommand runCommandAction={runCommand} />
                   )}
@@ -176,7 +176,7 @@ export function CommandPalette({ accounts }: { accounts: Account[] }) {
               </>
             ))}
           <CommandSeparator className="my-2" />
-          <CommandGroup heading="account">
+          <CommandGroup heading="Account">
             <SignOutCommand runCommandAction={runCommand} />
           </CommandGroup>
         </CommandList>
