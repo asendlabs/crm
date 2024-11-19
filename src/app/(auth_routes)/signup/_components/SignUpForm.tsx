@@ -1,22 +1,19 @@
 "use client";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
 import {
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
   Form,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { signUpSchema } from "@/schemas/auth.schema";
-import { cn } from "@/lib/utils/tailwind";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ArrowRight, Loader } from "lucide-react";
+import { Loader } from "lucide-react";
 
-import Image from "next/image";
 import Link from "@/components/performance-link";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { toast } from "sonner";
@@ -25,7 +22,6 @@ import { useRouter } from "@/hooks/use-performance-router";
 import { useServerAction } from "zsa-react";
 import { useSearchParams } from "next/navigation";
 import { signUpAction } from "@/server/sign-up";
-import { Logo } from "@/components/logo";
 import { signInUrl } from "@/constants";
 
 export const SignUpForm = () => {
