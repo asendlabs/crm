@@ -197,7 +197,7 @@ export function TaskCard({ task }: { task: Task }) {
             onValueChange={(value) => handleUpdateTask(value, "priority")}
           >
             <SelectTrigger
-              className={`inline-flex h-7 w-fit cursor-pointer select-none items-center gap-[0.25rem] !rounded-none !border-none !bg-none px-0 py-0.5 pr-3 text-sm font-medium lowercase !shadow-none !outline-none !ring-0 ${
+              className={`inline-flex h-7 w-fit cursor-pointer select-none items-center gap-[0.25rem] !rounded-none !border-none !bg-none px-0 py-0.5 pr-3 text-sm font-medium !shadow-none !outline-none !ring-0 ${
                 priority === "high"
                   ? "!text-red-800"
                   : priority === "medium"

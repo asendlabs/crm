@@ -56,7 +56,7 @@ const getSocialMediaUrl = (platform: string, value: string): string => {
   switch (platform) {
     case "Instagram":
       return `https://instagram.com/${handle}`;
-    case "Twitter":
+    case "Twiiter":
       return `https://twitter.com/${handle}`;
     case "LinkedIn":
       return handle.includes("/")
@@ -96,8 +96,8 @@ const formatSocialMediaHandle = (platform: string, value: string): string => {
           }
           return pathParts.join("/");
 
-        case "instagram":
-        case "twitter":
+        case "Instagram":
+        case "Twiiter":
           return `@${pathParts[pathParts.length - 1]}`;
 
         default:
@@ -109,8 +109,8 @@ const formatSocialMediaHandle = (platform: string, value: string): string => {
   }
 
   switch (platform) {
-    case "instagram":
-    case "twitter":
+    case "Instagram":
+    case "Twiiter":
       return value.startsWith("@") ? value : `@${value}`;
     default:
       return value;
@@ -237,7 +237,7 @@ const DetailField: React.FC<DetailFieldProps> = ({
   };
 
   const isSocialMedia = (label: string): boolean => {
-    return ["instagram", "facebook", "linkedIn", "twitter"].includes(label);
+    return ["Instagram", "facebook", "linkedIn", "Twiiter"].includes(label);
   };
 
   const isClickableUrl = (value: string): boolean => {
@@ -285,8 +285,8 @@ const DetailField: React.FC<DetailFieldProps> = ({
     }
   };
 
-  const placeholder = `set ${label} ${
-    ["linkedIn", "twitter", "instagram", "facebook", "website"].includes(label)
+  const placeholder = `Set ${label} ${
+    ["linkedIn", "Twiiter", "Instagram", "facebook", "website"].includes(label)
       ? "Url"
       : ""
   }`;
@@ -413,49 +413,49 @@ export function DetailsCard() {
     >
       <AccordionItem className="grid h-full border-b px-4" value="details">
         <AccordionTrigger className="flex select-none items-center justify-between pb-2.5">
-          <span className="text-sm font-medium">details</span>
+          <span className="text-sm font-medium">Details</span>
         </AccordionTrigger>
         <AccordionContent className="grid w-full items-start justify-start gap-1.5 overflow-clip overflow-y-auto pl-0.5 pr-1 pt-1">
           <DetailField
-            label="name"
+            label="Name"
             icon={IdCard}
             value={account?.accountName}
             onSave={(value: string) => handleUpdate("accountName", value)}
             copyEnabled
           />
           <DetailField
-            label="website"
+            label="Website"
             icon={Globe}
             value={account?.website}
             onSave={(value: string) => handleUpdate("website", value)}
             copyEnabled
           />
           <DetailField
-            label="description"
+            label="Description"
             icon={AlignLeft}
             value={account?.description}
             onSave={(value: string) => handleUpdate("description", value)}
             isDescription
           />
           <DetailField
-            label="instagram"
+            label="Instagram"
             icon={Instagram}
             value={account?.instagram}
-            onSave={(value: string) => handleUpdate("instagram", value)}
+            onSave={(value: string) => handleUpdate("Instagram", value)}
             copyEnabled
           />
           <DetailField
-            label="linkedin"
+            label="LinkedIn"
             icon={Linkedin}
             value={account?.linkedin}
-            onSave={(value: string) => handleUpdate("linkedin", value)}
+            onSave={(value: string) => handleUpdate("LinkedIn", value)}
             copyEnabled
           />
           <DetailField
-            label="twitter"
+            label="Twitter"
             icon={Twitter}
             value={account?.twitter}
-            onSave={(value: string) => handleUpdate("twitter", value)}
+            onSave={(value: string) => handleUpdate("Twiiter", value)}
             copyEnabled
           />
         </AccordionContent>

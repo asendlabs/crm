@@ -42,10 +42,10 @@ export default async function ApplicationLayout({
       </div>
       <section className="grid h-full w-full grid-cols-[225px_1fr] gap-3 pt-4">
         <section className="flex h-full flex-col gap-0.5">
-          <SidebarItem label="account" />
-          <SidebarItem label="workspace" />
-          <SidebarItem label="billing" />
-          <SidebarItem label="appearance" />
+          <SidebarItem label="Account" />
+          <SidebarItem label="Workspace" />
+          <SidebarItem label="Billing" />
+          <SidebarItem label="Appearance" />
         </section>
         {children}
       </section>

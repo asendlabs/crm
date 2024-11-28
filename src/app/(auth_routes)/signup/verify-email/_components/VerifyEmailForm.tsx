@@ -54,11 +54,11 @@ export const VerifyEmailForm = ({ email }: { email: string }) => {
     <div className="flex min-h-screen flex-col items-center justify-center space-y-6 px-4 py-8">
       <div className="flex w-96 flex-col space-y-2 text-left">
         <h1 className="flex flex-row items-center gap-2 text-2xl font-semibold tracking-tight">
-          just verify your email
+          Just verify your email
         </h1>
         <div className="group mt-2 flex w-96 flex-row items-center gap-2 text-sm text-gray-600">
           <p>
-            we sent a code to{" "}
+            We sent a code to{" "}
             <span
               className={
                 email ? "cursor-pointer font-semibold" : "text-muted-foreground"

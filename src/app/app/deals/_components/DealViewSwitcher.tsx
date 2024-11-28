@@ -31,7 +31,7 @@ export function DealViewSwitcher({ view, setView }: DealViewSwitcherProps) {
           }}
         >
           <Board className="size-4" />
-          {boardActive && <>board</>}
+          {boardActive && <>Board</>}
         </Button>
         <Button
           variant="ghost"
@@ -45,7 +45,7 @@ export function DealViewSwitcher({ view, setView }: DealViewSwitcherProps) {
           }}
         >
           <Grid className="size-4" />
-          {gridActive && <>grid</>}
+          {gridActive && <>Grid</>}
         </Button>
       </div>
     </div>

@@ -66,10 +66,10 @@ export const SignInForm = () => {
           <div className="flex flex-col space-y-2">
             <h1 className="flex flex-row items-center gap-2 text-2xl font-semibold tracking-tight">
               {/* <Logo className="h-6 w-6" /> */}
-              welcome back to asend
+              Welcome Back to Asend
             </h1>
             <p className="text-sm text-muted-foreground">
-              put in your credentials to dive back in.
+              Put in your credentials to dive back in.
             </p>
           </div>
           <div className="flex flex-col gap-4">
@@ -111,7 +111,7 @@ export const SignInForm = () => {
                     <FormItem>
                       <FormControl>
                         <Input
-                          placeholder="enter your email"
+                          placeholder="Enter your email"
                           autoCapitalize="none"
                           autoComplete="email"
                           disabled={isSubmitting}
@@ -122,7 +122,7 @@ export const SignInForm = () => {
                     </FormItem>
                   )}
                 />
-                <PasswordField placeholder="enter your password" />
+                <PasswordField placeholder="Enter your password" />
 
                 <Button
                   disabled={isSubmitting}
@@ -132,13 +132,13 @@ export const SignInForm = () => {
                   {isSubmitting && (
                     <Loader className="mr-2 size-4 animate-spin" />
                   )}
-                  login with email
+                  Login with email
                 </Button>
                 <Link
                   href={signUpUrl}
                   className="pt-3 text-center text-sm text-muted-foreground hover:text-primary"
                 >
-                  don't have an account?
+                  Don't have an account?
                 </Link>
               </form>
             </Form>

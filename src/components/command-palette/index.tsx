@@ -119,7 +119,9 @@ export function CommandPalette({ accounts }: { accounts: Account[] }) {
   return (
     <>
       <CommandDialog open={commandOpen} onOpenChange={setCommandOpen}>
-        <DialogTitle className="text-center text-lg">Command Menu</DialogTitle>
+        <DialogTitle className="sr-only text-center text-lg">
+          Command Menu
+        </DialogTitle>
         <CommandInput placeholder="Type a command or search..." />
         <CommandList>
           <CommandEmpty>No Results Found</CommandEmpty>

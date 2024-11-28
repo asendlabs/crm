@@ -1,11 +1,13 @@
 import { useState, useEffect } from "react";
 import { useRouter as useDefaultNextRouter } from "next/navigation";
 import { useTransitionRouter } from "next-view-transitions";
+import { db } from "@database";
 
 // Add type for deviceMemory without extending Navigator
 declare global {
   interface Navigator {
     deviceMemory?: number;
+    lol: string;
   }
 }
 

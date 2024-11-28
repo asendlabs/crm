@@ -12,7 +12,7 @@ import { decode, fromBase64 } from "js-base64";
 import { decryptFromBase64URI } from "@/lib/utils";
 
 export const metadata: Metadata = {
-  title: "leads",
+  title: "Leads",
   description: "List of leads",
 };
 

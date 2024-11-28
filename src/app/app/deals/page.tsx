@@ -15,8 +15,8 @@ import { fetchWithRetry } from "@/lib/utils/fetchWithRetry";
 import { decode } from "js-base64";
 
 export const metadata: Metadata = {
-  title: "deals",
-  description: "list of sales opportunities",
+  title: "Deals",
+  description: "List of sales opportunities",
 };
 
 export default async function DealsPage(props: {

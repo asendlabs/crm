@@ -1,22 +1,22 @@
 export const dealStagesDefault = [
   {
-    stage: "proposal",
+    stage: "Proposal",
     color: "1e40af", // Dark blue for "Proposal"
   },
   {
-    stage: "negotiation",
+    stage: "Negotiation",
     color: "c2410c", // Dark orange for "Negotiation"
   },
   {
-    stage: "on hold",
+    stage: "On hold",
     color: "a16207", // Dark yellow for "On Hold"
   },
   {
-    stage: "lost deal",
+    stage: "Lost deal",
     color: "991b1b", // Dark red for "Lost Deal"
   },
   {
-    stage: "closed",
+    stage: "Closed",
     color: "15803d", // Dark green for "Closed"
   },
 ];
@@ -24,26 +24,26 @@ export const dealStagesDefault = [
 export const accountStatusesDefault = [
   {
     color: "7e22ce", // !text-purple-800 for "New"
-    status: "new",
+    status: "New",
   },
   {
     color: "a16207", // !text-yellow-800 for "Contacted"
-    status: "contacted",
+    status: "Contacted",
   },
   {
     color: "1d4ed8", // !text-blue-800 for "Qualified"
-    status: "qualified",
+    status: "Qualified",
   },
   {
     color: "991b1b", // !text-red-800 for "Unqualified"
-    status: "unqualified",
+    status: "Unqualified",
   },
   {
     color: "6b7280", // !text-gray-500 for "Waste"
-    status: "waste",
+    status: "Waste",
   },
   {
     color: "15803d", // !text-green-800 for "Won"
-    status: "won",
+    status: "Won",
   },
 ];

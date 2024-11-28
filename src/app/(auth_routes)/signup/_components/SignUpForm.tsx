@@ -78,13 +78,13 @@ export const SignUpForm = () => {
           <div className="flex flex-col space-y-2">
             <h1 className="flex flex-row items-center gap-2 text-2xl font-semibold tracking-tight">
               {formStep === 0
-                ? "create a free asend account"
-                : "continue to signup"}
+                ? "Create a free Asend account"
+                : "Continue to signup"}
             </h1>
             <p className="flex items-center gap-1 text-sm text-muted-foreground">
               {formStep === 0
-                ? "put in your email to get started with asend"
-                : "just choose a strong enough password"}
+                ? "Put in your email to get started with Asend"
+                : "Just choose a strong enough password"}
             </p>
           </div>
           <div className="flex flex-col gap-5">
@@ -102,7 +102,7 @@ export const SignUpForm = () => {
                       <FormItem>
                         <FormControl>
                           <Input
-                            placeholder="enter your email"
+                            placeholder="Enter your email"
                             autoCapitalize="none"
                             autoComplete="off"
                             disabled={isSubmitting}
@@ -119,7 +119,7 @@ export const SignUpForm = () => {
                   />
                 )}
                 {formStep === 1 && (
-                  <PasswordField placeholder="choose a strong password" />
+                  <PasswordField placeholder="Choose a strong password" />
                 )}
                 {formStep === 0 && (
                   <Button
@@ -131,7 +131,7 @@ export const SignUpForm = () => {
                     {isSubmitting && (
                       <Loader className="mr-2 size-4 animate-spin" />
                     )}
-                    continue with email
+                    Continue with email
                   </Button>
                 )}
                 {formStep === 1 && (
@@ -143,14 +143,14 @@ export const SignUpForm = () => {
                     {isSubmitting && (
                       <Loader className="mr-2 size-4 animate-spin" />
                     )}
-                    continue
+                    Continue
                   </Button>
                 )}
                 <Link
                   href={signInUrl}
                   className="pt-3 text-center text-sm text-muted-foreground hover:text-primary"
                 >
-                  already have an account?
+                  Already have an account?
                 </Link>
               </form>
             </Form>

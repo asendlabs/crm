@@ -55,11 +55,11 @@ export const OnboardingForm = () => {
           <div className="flex flex-col space-y-2">
             <h1 className="text-2xl font-semibold tracking-tight">
               {formState === 0
-                ? "create your profile"
-                : "let's build a workspace"}
+                ? "Create your profile"
+                : "Let's build a workspace"}
             </h1>
             <p className="text-sm text-muted-foreground">
-              just a few final steps and you are all ready to go
+              Just a few final steps and you are all ready to go
             </p>
           </div>
           <div className="flex flex-col gap-4">
@@ -75,7 +75,7 @@ export const OnboardingForm = () => {
                           <FormItem>
                             <FormControl>
                               <Input
-                                placeholder="enter your first name"
+                                placeholder="Enter your first name"
                                 autoFocus
                                 disabled={isSubmitting}
                                 className="w-full"
@@ -94,7 +94,7 @@ export const OnboardingForm = () => {
                           <FormItem>
                             <FormControl>
                               <Input
-                                placeholder="enter your last name (optional)"
+                                placeholder="Enter your last name (optional)"
                                 className="w-full"
                                 disabled={isSubmitting}
                                 {...field}
@@ -133,7 +133,7 @@ export const OnboardingForm = () => {
                         <FormItem>
                           <FormControl>
                             <Input
-                              placeholder="choose a workspace name"
+                              placeholder="Choose a workspace name"
                               autoFocus
                               disabled={isSubmitting}
                               {...field}
@@ -153,7 +153,7 @@ export const OnboardingForm = () => {
                       {isSubmitting && (
                         <Loader className="mr-2 size-4 animate-spin" />
                       )}
-                      get started
+                      Get started
                     </Button>
                   </>
                 )}

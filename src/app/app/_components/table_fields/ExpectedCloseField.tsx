@@ -24,7 +24,7 @@ export function ExpectedCloseField({ getValue }: ExpectedCloseFieldProps) {
   }, [initialValue]); // Effect depends on expectedClose changes
 
   return (
-    <div className="min-w-full max-w-36 select-none border-l border-border px-2 py-1.5 font-medium lowercase text-muted-foreground">
+    <div className="min-w-full max-w-36 select-none border-l border-border px-2 py-1.5 font-medium text-muted-foreground">
       {value || "-"} {/* Display the expectedClose or a placeholder */}
     </div>
   );

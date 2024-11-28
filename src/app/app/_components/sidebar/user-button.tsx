@@ -112,7 +112,7 @@ export function UserButton({ user }: { user: UserWithWorkspaceAndProfile }) {
             <DropdownMenuGroup>
               <DropdownMenuItem>
                 <Sparkles size={15} />
-                upgrade to pro
+                Upgrade to pro
               </DropdownMenuItem>
             </DropdownMenuGroup>
             {/* <DropdownMenuSeparator />
@@ -138,7 +138,7 @@ export function UserButton({ user }: { user: UserWithWorkspaceAndProfile }) {
               className="flex items-center"
             >
               <Settings size={15} />
-              <span>settings</span>
+              <span>Settings</span>
             </DropdownMenuItem>
             <DropdownMenuItem
               onClick={handleSignOut}
@@ -149,7 +149,7 @@ export function UserButton({ user }: { user: UserWithWorkspaceAndProfile }) {
               ) : (
                 <LogOut size={15} />
               )}
-              <span>{loading ? "logging out..." : "log out"}</span>
+              <span>{loading ? "Logging out..." : "Log out"}</span>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

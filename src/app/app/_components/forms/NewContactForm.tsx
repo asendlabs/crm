@@ -134,7 +134,7 @@ export function NewContactForm({
           }}
         >
           <Users className="!size-[1.5rem] rounded-md border p-1" />
-          <span>create new contact</span>
+          <span>Create new contact</span>
         </CommandItem>
       ) : (
         <div
@@ -142,7 +142,7 @@ export function NewContactForm({
           className="flex h-6 w-fit max-w-36 flex-row items-center gap-0.5 rounded-lg border border-border px-3 text-sm"
         >
           <Plus className="size-4" />
-          <span>add contact</span>
+          <span>Add contact</span>
         </div>
       )}
       <DialogContent className="flex flex-col py-2">

@@ -22,7 +22,7 @@ export function EmailCard({ email }: { email: Email }) {
         onMouseOut={() => setTimestampHovered(false)}
       >
         {timestampHovered ? (
-          <span className="lowercase">
+          <span className="">
             {email?.emailTimestamp
               ? formatMinimal({ dateString: email.emailTimestamp })
               : ""}

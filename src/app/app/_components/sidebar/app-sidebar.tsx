@@ -8,6 +8,9 @@ import {
   Search,
   Home,
   Loader,
+  MessageCircle,
+  MessageSquareText,
+  MessageCircleMoreIcon,
 } from "lucide-react";
 import { UserWithWorkspaceAndProfile } from "@/types/entities";
 import { UserButton } from "./user-button";
@@ -36,20 +39,25 @@ type NavItem = {
 
 const nav: NavItem[] = [
   {
-    title: "leads",
+    title: "Leads",
     url: "/app/leads",
     icon: Building,
   },
   {
-    title: "deals",
+    title: "Deals",
     url: "/app/deals",
     searchParams: "?view=board",
     icon: Handshake,
   },
   {
-    title: "clients",
+    title: "Clients",
     url: "/app/clients",
     icon: SquareUserRound,
+  },
+  {
+    title: "Chat",
+    url: "/app/chat",
+    icon: MessageCircleMoreIcon,
   },
 ];
 
@@ -144,7 +152,7 @@ export function AppSidebar({
               >
                 <div className="flex items-center gap-2">
                   <Search className="size-4" />
-                  <span>search</span>
+                  <span>Search</span>
                 </div>
               </SidebarMenuButton>
             </SidebarMenuItem>
@@ -163,7 +171,7 @@ export function AppSidebar({
                     ) : (
                       <Home className="size-4" />
                     )}
-                    <span>home</span>
+                    <span>Home</span>
                   </div>
                 </SidebarMenuButton>
               </div>
@@ -203,7 +211,6 @@ export function AppSidebar({
         </SidebarGroup>
       </SidebarContent>
       <SidebarFooter>
-        <ModeToggle />
         <UserButton user={user} />
       </SidebarFooter>
     </Sidebar>

@@ -129,7 +129,7 @@ export function WorkspaceSwitcher({
             sideOffset={4}
           >
             <DropdownMenuLabel className="text-xs text-muted-foreground">
-              workspaces
+              Workspaces
             </DropdownMenuLabel>
             {workspaces.map((workspace) => (
               <DropdownMenuItem

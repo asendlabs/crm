@@ -7,7 +7,7 @@ import { authenticatedUrl, unauthenticatedUrl } from "@/constants";
 import { OnboardingForm } from "./_components/OnboardingForm";
 
 export const metadata: Metadata = {
-  title: "onboarding",
+  title: "Onboarding",
 };
 
 const OnboardingPage = async () => {

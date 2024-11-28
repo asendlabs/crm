@@ -21,22 +21,22 @@ interface Item {
 
 const allItems: Item[] = [
   {
-    label: "account",
+    label: "Account",
     href: "/app/settings/account",
     icon: CircleUser,
   },
   {
-    label: "workspace",
+    label: "Workspace",
     href: "/app/settings/workspace",
     icon: Building2,
   },
   {
-    label: "billing",
+    label: "Billing",
     href: "/app/settings/billing",
     icon: CreditCard,
   },
   {
-    label: "appearance",
+    label: "Appearance",
     href: "/app/settings/appearance",
     icon: Palette,
   },
@@ -45,7 +45,7 @@ const allItems: Item[] = [
 export function SidebarItem({
   label,
 }: {
-  label: "account" | "billing" | "appearance" | "workspace";
+  label: "Account" | "Billing" | "Appearance" | "Workspace";
 }) {
   const pathname = usePathname();
   const currentItem = allItems.find((item) => item.label === label);
@@ -56,7 +56,7 @@ export function SidebarItem({
     <Link
       href={currentItem.href}
       className={cn(
-        "flex h-8 items-center gap-2 rounded-lg p-1.5 text-sm font-medium lowercase hover:bg-sidebar-accent",
+        "flex h-8 items-center gap-2 rounded-lg p-1.5 text-sm font-medium hover:bg-sidebar-accent",
         active && "!bg-muted/70",
       )}
     >

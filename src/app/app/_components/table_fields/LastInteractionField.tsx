@@ -31,7 +31,7 @@ export function LastInteractionField({ getValue }: LastInteractionFieldProps) {
   }, [initialValue]); // Effect depends on initialValue changes
 
   return (
-    <div className="min-w-full max-w-36 select-none border-l border-border px-2 py-1.5 font-medium lowercase text-muted-foreground">
+    <div className="min-w-full max-w-36 select-none border-l border-border px-2 py-1.5 font-medium text-muted-foreground">
       {value || "-"} {/* Display the time ago or a placeholder */}
     </div>
   );

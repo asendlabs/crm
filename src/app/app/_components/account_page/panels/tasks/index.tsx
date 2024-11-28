@@ -21,7 +21,7 @@ export function TaskPanel() {
             }}
           >
             <Plus size={14} />
-            new task
+            New task
           </Button>
         </div>
       </section>

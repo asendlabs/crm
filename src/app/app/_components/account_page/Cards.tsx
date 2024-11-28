@@ -37,7 +37,7 @@ export function Cards({ className }: { className?: string }) {
       >
         <AccordionItem className="flex flex-col px-4" value="contacts">
           <AccordionTrigger className="relative flex select-none items-center justify-between">
-            <span className="text-sm font-medium">contacts</span>
+            <span className="text-sm font-medium">Contacts</span>
             <div className="absolute right-6">
               {/* TODO: fix button can't be descendant of AccordionTrigger */}
               <NewContactForm accountId={account?.id} />
@@ -55,7 +55,7 @@ export function Cards({ className }: { className?: string }) {
         </AccordionItem>
         <AccordionItem value="deals" className="flex flex-col border-b px-4">
           <AccordionTrigger className="relative flex select-none items-center justify-between">
-            <span className="text-sm font-medium">deals</span>
+            <span className="text-sm font-medium">Deals</span>
             <div className="absolute right-6">
               {/* TODO: fix button can't be descendant of AccordionTrigger */}
               <NewDealForm accountId={account?.id} />

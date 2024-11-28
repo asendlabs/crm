@@ -19,9 +19,7 @@ export function DataTableSearch<TData>({
         type="search"
         className="max-h-8 w-full rounded-lg bg-background pl-8 md:w-60 lg:w-60"
         placeholder={
-          primaryFieldPrettyName
-            ? `${primaryFieldPrettyName.toLowerCase()} search`
-            : "search"
+          primaryFieldPrettyName ? `${primaryFieldPrettyName} search` : "search"
         }
         value={
           (table.getColumn(primaryField)?.getFilterValue() as string) ?? ""

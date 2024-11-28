@@ -11,8 +11,8 @@ import { ThemeProvider } from "@/providers/theme-provider";
 
 export const metadata: Metadata = {
   title: {
-    default: `asend${process.env.NODE_ENV === "development" ? " | dev" : ""}`,
-    template: `%s | asend${process.env.NODE_ENV === "development" ? " | dev" : ""}`,
+    default: `Asend${process.env.NODE_ENV === "development" ? " | Dev" : ""}`,
+    template: `%s | Asend${process.env.NODE_ENV === "development" ? " | Dev" : ""}`,
   },
   icons: {
     icon: "/assets/favicon.ico",

@@ -74,7 +74,7 @@ export function ContactCard({
       contactName: contact.contactName,
       contactEmail: contact.contactEmail?.email ?? "",
       contactPhone: contact.contactPhone?.phoneNumber ?? "",
-      jobTitle: contact.jobTitle ?? undefined,
+      jobTitle: contact.jobTitle ?? "",
     },
   });
   const { control, watch } = form;
@@ -167,7 +167,7 @@ export function ContactCard({
         }
       }}
     >
-      <DialogTitle className="sr-only">edit contact</DialogTitle>
+      <DialogTitle className="sr-only">Edit contact</DialogTitle>
       <Card
         key={contact.id}
         className="cursor-pointer"
@@ -191,7 +191,7 @@ export function ContactCard({
               <div className="grid gap-1.5 px-1 py-0.5 text-xs">
                 {contact.contactEmail?.email && (
                   <p className="group flex items-center gap-1 truncate font-normal">
-                    <span className="font-medium opacity-80">email</span>
+                    <span className="font-medium opacity-80">Email</span>
                     <span className="rounded-md border px-1 font-medium text-blue-700 hover:text-blue-600 hover:underline">
                       {contact.contactEmail?.email}
                     </span>
@@ -203,7 +203,7 @@ export function ContactCard({
                           navigator.clipboard.writeText(
                             contact.contactEmail?.email,
                           );
-                          toast.success("email copied to clipboard");
+                          toast.success("Email copied to clipboard");
                         }
                       }}
                     />{" "}
@@ -211,7 +211,7 @@ export function ContactCard({
                 )}
                 {contact.contactPhone?.phoneNumber && (
                   <p className="group flex items-center gap-1 truncate font-normal">
-                    <span className="font-medium opacity-80">phone</span>
+                    <span className="font-medium opacity-80">Phone</span>
                     <span className="rounded-md border px-1 font-medium text-orange-700 hover:text-orange-600 hover:underline">
                       {contact.contactPhone?.countryCode ??
                         "" + contact.contactPhone?.phoneNumber}
@@ -225,7 +225,7 @@ export function ContactCard({
                             contact.contactPhone?.countryCode ??
                               "" + contact.contactPhone?.phoneNumber,
                           );
-                          toast.success("phone number copied to clipboard");
+                          toast.success("Phone number copied to clipboard");
                         }
                       }}
                     />

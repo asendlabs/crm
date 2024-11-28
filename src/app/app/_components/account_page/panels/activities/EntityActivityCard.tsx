@@ -64,7 +64,7 @@ export function EntityActivityCard({
           "\u3164"
         )}
         <div className="flex items-center gap-1 py-1">
-          <span className="lowercase">{activity.entityType}</span>
+          <span className="">{activity.entityType}</span>
           <span className="truncate rounded-lg border px-2 py-0.5 sm:max-w-28 md:max-w-32 lg:max-w-56">
             {activity.entityTitle}
           </span>

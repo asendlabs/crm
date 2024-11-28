@@ -195,13 +195,13 @@ export function DealCard({ deal }: { deal: DealWithPrimaryContact }) {
               {deal.title}
             </h1>
             <p className="flex max-w-[13rem] items-center gap-1 truncate text-xs">
-              <span className="font-medium opacity-80">value</span>
+              <span className="font-medium opacity-80">Value</span>
               <span className="truncate rounded-md border px-2 font-medium">
                 {"$" + deal.value}
               </span>
             </p>
             <p className="flex max-w-[13rem] items-center gap-1 truncate text-xs">
-              <span className="font-medium opacity-80">stage</span>
+              <span className="font-medium opacity-80">Stage</span>
               <span
                 style={{ color: `#${deal.stage.color}` }}
                 className="rounded-md border px-2 font-medium"
@@ -210,8 +210,8 @@ export function DealCard({ deal }: { deal: DealWithPrimaryContact }) {
               </span>
             </p>
             <p className="flex max-w-[30rem] items-center gap-1 text-xs">
-              <span className="font-medium opacity-80">close date</span>
-              <span className="truncate rounded-md border px-2 font-medium lowercase">
+              <span className="font-medium opacity-80">Close date</span>
+              <span className="truncate rounded-md border px-2 font-medium">
                 {formatMinimal({
                   dateString: deal?.expectedCloseDate,
                   showTime: false,
@@ -255,7 +255,7 @@ export function DealCard({ deal }: { deal: DealWithPrimaryContact }) {
                       value={(field.value as any) || ""}
                       onValueChange={handleStageChange}
                     >
-                      <SelectTrigger className="!ring-none h-7 w-full text-sm font-medium lowercase !outline-none ring-0 focus:ring-offset-[-1]">
+                      <SelectTrigger className="!ring-none h-7 w-full text-sm font-medium !outline-none ring-0 focus:ring-offset-[-1]">
                         <SelectValue>
                           {stage ? (
                             <div

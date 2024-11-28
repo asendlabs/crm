@@ -43,7 +43,7 @@ export function DataTableViewOptions<TData>({
           .map((column) => (
             <DropdownMenuCheckboxItem
               key={column.id}
-              className="lower-case"
+              className="capitalize"
               checked={column.getIsVisible()}
               onCheckedChange={(value) => column.toggleVisibility(!!value)}
             >

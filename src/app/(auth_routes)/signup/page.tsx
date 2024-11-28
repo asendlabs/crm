@@ -6,7 +6,7 @@ import { getUserById } from "@/data-access/users";
 import { authenticatedUrl } from "@/constants";
 
 export const metadata: Metadata = {
-  title: "sign up",
+  title: "Sign up",
 };
 
 export default async function SignUpPage() {

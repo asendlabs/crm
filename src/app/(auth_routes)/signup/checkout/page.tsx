@@ -6,7 +6,7 @@ import { authenticatedUrl } from "@/constants";
 import { DemoCheckoutButton } from "./_components/DemoCheckoutButton";
 
 export const metadata: Metadata = {
-  title: "checkout",
+  title: "Checkout",
 };
 
 export default async function CheckoutPage() {

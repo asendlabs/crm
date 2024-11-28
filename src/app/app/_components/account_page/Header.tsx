@@ -197,10 +197,10 @@ export function Header({ className }: { className?: string }) {
               {converting ? (
                 <>
                   <Loader className="mr-2 size-4 animate-spin" />
-                  converting...
+                  Converting...
                 </>
               ) : (
-                "convert"
+                "Convert"
               )}
             </Button>
           </>
@@ -220,12 +220,12 @@ export function Header({ className }: { className?: string }) {
               {deleting ? (
                 <>
                   <Loader className="mr-2 size-4 animate-spin" />
-                  deleting...
+                  Deleting...
                 </>
               ) : (
                 <>
                   <Trash className="mr-2 size-4" />
-                  delete
+                  Delete
                 </>
               )}
             </DropdownMenuItem>
@@ -234,7 +234,7 @@ export function Header({ className }: { className?: string }) {
               className="h-7"
             >
               <Share className="mr-2 size-4" />
-              share
+              Share
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

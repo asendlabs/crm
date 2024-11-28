@@ -36,7 +36,7 @@ export async function generateMetadata(
     return {};
   }
   return {
-    title: `${account.accountName} | ${account.type.toLowerCase()}s`,
+    title: `${account.accountName} | ${account.type.charAt(0).toUpperCase() + account.type.slice(1)}s`,
     description: account.description,
   };
 }

@@ -142,7 +142,7 @@ export function DealKanbanCard({ deal, isOverlay }: DealCardProps) {
             {deal.title}
           </h1>
           <p className="flex max-w-[13rem] items-center gap-1.5 truncate text-xs">
-            <span className="font-medium lowercase opacity-80">
+            <span className="font-medium opacity-80">
               {deal.account?.type}:
             </span>
             <span className="truncate rounded-md border px-2 font-medium">
@@ -157,7 +157,7 @@ export function DealKanbanCard({ deal, isOverlay }: DealCardProps) {
           </p>
           <p className="flex gap-1.5 text-xs">
             <span className="font-medium opacity-80">close date</span>
-            <span className="font-medium lowercase">
+            <span className="font-medium">
               {formatMinimal({
                 dateString: deal?.expectedCloseDate,
                 showTime: false,

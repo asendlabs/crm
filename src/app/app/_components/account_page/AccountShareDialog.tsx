@@ -25,10 +25,10 @@ export default function AccountShareDialog({
   return (
     <div>
       <h1 className="text-2xl font-semibold text-primary">
-        share this {entityType.toLowerCase()}
+        Share this {entityType.toLowerCase()}
       </h1>
       <p className="text-sm text-gray-500">
-        only people who are in your workspace view this{" "}
+        Only people who are in your workspace view this{" "}
         {entityType.toLowerCase()}.
       </p>
       <div className="flex space-x-2 py-2 pt-3">

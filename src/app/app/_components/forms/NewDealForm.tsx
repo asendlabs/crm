@@ -145,12 +145,12 @@ export function NewDealForm({
           }}
         >
           <DollarSign className="!size-[1.5rem] rounded-md border p-1" />
-          <span>create new deal</span>
+          <span>Create new deal</span>
         </CommandItem>
       ) : fullButton ? (
         <DialogTrigger className="flex max-h-8 max-w-28 flex-row items-center gap-1 rounded-lg border px-3 text-sm">
           <Plus className="size-4" />
-          <span>add deal</span>
+          <span>Add deal</span>
         </DialogTrigger>
       ) : (
         <div
@@ -158,7 +158,7 @@ export function NewDealForm({
           className="flex h-6 max-w-36 flex-row items-center gap-1 rounded-lg border border-border px-3 text-sm"
         >
           <Plus className="size-4" />
-          <span>add deal</span>
+          <span>Add deal</span>
         </div>
       )}
 
@@ -178,7 +178,7 @@ export function NewDealForm({
                     name="accountId"
                     render={({ field }) => (
                       <FormItem className="flex-1 pt-1">
-                        <FormLabel>lead or client</FormLabel>
+                        <FormLabel>Lead or Client</FormLabel>
                         <Select
                           onValueChange={field.onChange}
                           defaultValue={field.value}

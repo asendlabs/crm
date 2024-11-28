@@ -40,7 +40,7 @@ export const DealColumns: ColumnDef<DealWithPrimaryContact>[] = [
   },
   {
     id: "title",
-    header: () => <PrimaryHead title="deal title" />,
+    header: () => <PrimaryHead title="Deal title" />,
     cell: ({ getValue, row }) => (
       <SecondaryField
         row={row}
@@ -55,7 +55,7 @@ export const DealColumns: ColumnDef<DealWithPrimaryContact>[] = [
   },
   {
     id: "account",
-    header: () => <LogoHead title="lead or client" Icon={Building} />,
+    header: () => <LogoHead title="Lead or Client" Icon={Building} />,
     cell: ({ getValue, row }) => (
       <SecondaryField
         row={row}
@@ -68,19 +68,19 @@ export const DealColumns: ColumnDef<DealWithPrimaryContact>[] = [
   },
   {
     id: "stage",
-    header: () => <LogoHead title="deal stage" Icon={Route} />,
+    header: () => <LogoHead title="Deal stage" Icon={Route} />,
     cell: DealStageField,
     accessorKey: "stage",
   },
   {
     id: "value",
-    header: () => <LogoHead title="deal value" Icon={DollarSign} />,
+    header: () => <LogoHead title="Deal value" Icon={DollarSign} />,
     cell: ValueField,
     accessorKey: "value",
   },
   {
     id: "expected close",
-    header: () => <LogoHead title="expected close" Icon={CalendarDays} />,
+    header: () => <LogoHead title="Expected close" Icon={CalendarDays} />,
     cell: ExpectedCloseField,
     accessorKey: "expectedCloseDate",
   },
