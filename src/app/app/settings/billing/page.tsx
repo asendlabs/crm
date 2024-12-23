@@ -15,9 +15,8 @@ export default function BillingPage() {
         </p>
       </div>
 
-      {/* Theme Options Section */}
       <div className="flex justify-around py-8">
-        {/* Placeholder for theme options */}
+        Billing settings here
       </div>
 
       {/* Footer Section */}

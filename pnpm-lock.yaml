@@ -33,9 +33,6 @@ importers:
       '@neondatabase/serverless':
         specifier: ^0.10.3
         version: 0.10.3
-      '@orama/orama':
-        specifier: ^3.0.1
-        version: 3.0.1
       '@orama/plugin-data-persistence':
         specifier: ^3.0.1
         version: 3.0.1
