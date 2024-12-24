@@ -1,12 +1,12 @@
 import "server-only";
-import { db } from "@database";
+import { db } from "@/database";
 import {
   emailMessageTable,
   workspaceEmailIntegrationsTable,
-} from "@database/schema/emails";
+} from "@/database/schema/emails";
 import { eq } from "drizzle-orm";
 import { ulid } from "ulid";
-import { Email, EmailIntegration } from "@database/types";
+import { Email, EmailIntegration } from "@/database/types";
 
 export async function getEmailIntegrationsByWorkspaceId(workspaceId: string) {
   const integrations = await db.query.workspaceEmailIntegrationsTable.findMany({

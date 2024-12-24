@@ -3,7 +3,6 @@
 import {
   ColumnDef,
   ColumnFiltersState,
-  Header,
   SortingState,
   flexRender,
   getCoreRowModel,
@@ -29,22 +28,13 @@ import { useContext, useEffect, useState } from "react";
 import { useServerAction } from "zsa-react";
 import { toast } from "sonner";
 import { deleteDealAction, updateDealAction } from "@/server/deal";
-import { Account } from "@database/types";
-import {
-  DealViewContext,
-  DealViewProvider,
-  Views,
-} from "@/providers/deal-view-provider";
+import { Account } from "@/database/types";
+import { DealViewContext, Views } from "@/providers/deal-view-provider";
 import { DealViewSwitcher } from "./DealViewSwitcher";
-import {
-  ContactWithDetails,
-  DealStage,
-  DealWithPrimaryContact,
-} from "@/types/entities";
+import { DealStage, DealWithPrimaryContact } from "@/types/entities";
 import { DealKanbanBoard } from "./DealKanbanBoard";
-import { dealTableRelations } from "@database/relations";
 import { Button } from "@/components/ui/button";
-import { Cog, Settings, Settings2 } from "lucide-react";
+import { Settings2 } from "lucide-react";
 import { PageTitle } from "@/components/page-title";
 import { useSidebar } from "@/components/ui/sidebar";
 import { cn } from "@/lib/utils/tailwind";
@@ -282,7 +272,6 @@ export function DealTable<TData, TValue>({
         <section
           className={cn("mt-2 flex h-full overflow-x-auto overflow-y-hidden")}
         >
-          {/* {dealStages?.map((dealStage: DealStage) => <DealKanbanColumn dealStage={dealStage} deals={data} setData={setData} />)} */}
           <DealKanbanBoard defaultCols={dealStages ?? []} initialDeals={data} />
         </section>
       )}

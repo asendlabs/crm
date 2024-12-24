@@ -1,9 +1,9 @@
 import "server-only";
-import { db } from "@database";
-import { dealTable } from "@database/tables";
+import { db } from "@/database";
+import { dealTable } from "@/database/tables";
 import { eq } from "drizzle-orm";
 import { ulid } from "ulid";
-import { Deal } from "@database/types";
+import { Deal } from "@/database/types";
 import { DealWithPrimaryContact } from "@/types/entities";
 
 export async function getDealById(

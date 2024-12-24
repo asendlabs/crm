@@ -100,22 +100,18 @@ export const createAccountAction = authenticatedAction
   .output(z.object({ success: z.boolean(), data: z.any() }))
   .handler(async ({ input, ctx }) => {
     const { accountName, type, contactName } = input;
-    const { user } = ctx;
-    const currentWorkspaceId = (await cookies()).get(
-      selectedWorkspaceCookie,
-    )?.value;
-    if (!currentWorkspaceId) {
+    const { user, workspaceId } = ctx;
+    if (workspaceId === null) {
       throw new Error("Workspace not found"); // Inline error
     }
-    const decodedWorkspaceId = decryptFromBase64URI(currentWorkspaceId);
     const accountRes = await createAccount(
-      decodedWorkspaceId,
+      workspaceId,
       user.id,
       accountName,
       type,
     );
     const contactRes = await createContact(
-      decodedWorkspaceId,
+      workspaceId,
       user.id,
       accountRes.id,
       contactName,
@@ -125,7 +121,7 @@ export const createAccountAction = authenticatedAction
     }
     const accountActivityRes = await createActivity({
       userId: user.id,
-      workspaceId: decodedWorkspaceId,
+      workspaceId: workspaceId,
       accountId: accountRes.id,
       title: "New Account",
       activityType: "entity_creation",
@@ -136,7 +132,7 @@ export const createAccountAction = authenticatedAction
     });
     const contactActivityRes = await createActivity({
       userId: user.id,
-      workspaceId: decodedWorkspaceId,
+      workspaceId: workspaceId,
       accountId: accountRes.id,
       title: "New Contact",
       activityType: "entity_creation",

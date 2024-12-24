@@ -2,7 +2,7 @@
 
 import { ActivityWithContact } from "@/types/entities"; // Adjust according to your project structure
 import { formatDate, formatDateAndTime } from "@/lib/utils";
-import { Activity } from "@database/types"; // Adjust according to your project structure
+import { Activity } from "@/database"; // Adjust according to your project structure
 import React, { useEffect, useState } from "react";
 
 interface LastInteractionFieldProps {

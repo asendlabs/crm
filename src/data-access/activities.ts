@@ -1,9 +1,9 @@
 import "server-only";
-import { db } from "@database";
-import { activityTable } from "@database/tables";
+import { db } from "@/database";
+import { activityTable } from "@/database/tables";
 import { eq } from "drizzle-orm";
 import { ulid } from "ulid";
-import { Activity } from "@database/types";
+import { Activity } from "@/database/types";
 
 export async function getActivityById(id: string) {
   const activity = await db.query.activityTable.findFirst({

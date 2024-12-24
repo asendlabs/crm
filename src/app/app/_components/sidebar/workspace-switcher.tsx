@@ -18,7 +18,7 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Workspace } from "@database/types";
+import { Workspace } from "@/database";
 import { toast } from "sonner";
 import { useRouter } from "@/hooks/use-performance-router";
 import { Skeleton } from "@/components/ui/skeleton";

@@ -3,7 +3,6 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils/tailwind";
 import { SquareKanban as Board, Table as Grid } from "lucide-react";
 import { useRouter } from "@/hooks/use-performance-router";
-import { revalidatePath } from "next/cache";
 
 interface DealViewSwitcherProps {
   view: Views;

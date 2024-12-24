@@ -12,7 +12,7 @@ import { selectedWorkspaceCookie } from "@/constants";
 import { cookies } from "next/headers";
 import { dealCreateSchema } from "@/schemas/deal.schema";
 import { createActivity } from "@/data-access/activities";
-import { dealTableRelations } from "@database/relations";
+import { dealTableRelations } from "@/database";
 import { decryptFromBase64URI } from "@/lib/utils";
 
 export const changeDealStageAction = authenticatedAction
@@ -108,17 +108,11 @@ export const createDealAction = authenticatedAction
   .output(z.object({ success: z.boolean(), data: z.any() }))
   .handler(async ({ input, ctx }) => {
     const { title, value, expectedCloseDate, accountId } = input;
-    const { user } = ctx;
-    const currentWorkspaceId = (await cookies()).get(
-      selectedWorkspaceCookie,
-    )?.value;
-    if (!currentWorkspaceId) {
-      throw new Error("Workspace not found."); // Inline error message
-    }
-    const decodedWorkspaceId = decryptFromBase64URI(currentWorkspaceId);
+    const { user, workspaceId } = ctx;
+    if (!workspaceId) throw new Error("Workspace not found"); // Inline error
     const dealRes = await createDeal({
       userId: user.id,
-      workspaceId: decodedWorkspaceId,
+      workspaceId,
       accountId,
       title,
       value,
@@ -130,7 +124,7 @@ export const createDealAction = authenticatedAction
     }
     const activityRes = await createActivity({
       userId: user.id,
-      workspaceId: decodedWorkspaceId,
+      workspaceId,
       accountId,
       title: "New Deal",
       activityType: "entity_creation",

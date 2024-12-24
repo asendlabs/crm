@@ -17,16 +17,11 @@ export const createActivityAction = authenticatedAction
   .output(z.object({ success: z.boolean(), data: z.any() }))
   .handler(async ({ input, ctx }) => {
     const { type, content, contactId, title, accountId } = input;
-    const { user } = ctx;
-    const currentWorkspaceId = (await cookies()).get(
-      selectedWorkspaceCookie,
-    )?.value;
-    if (!currentWorkspaceId) {
-      throw new Error("Workspace not found"); // Inline error
-    }
+    const { user, workspaceId } = ctx;
+    if (!workspaceId) throw new Error("Workspace not found"); // Inline error
     const activityRes = await createActivity({
       userId: user.id,
-      workspaceId: currentWorkspaceId,
+      workspaceId,
       accountId,
       title,
       activityType: type!,

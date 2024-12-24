@@ -3,9 +3,7 @@ import { authenticatedAction } from "@/lib/zsa";
 import { z } from "zod";
 import { createTask, deleteTask, updateTask } from "@/data-access/tasks";
 import { selectedWorkspaceCookie } from "@/constants";
-import { cookies } from "next/headers";
 import { taskCreateSchema } from "@/schemas/task.schema";
-import { decryptFromBase64URI } from "@/lib/utils";
 
 export const updateTaskAction = authenticatedAction
   .createServerAction()
@@ -37,14 +35,8 @@ export const deleteTaskAction = authenticatedAction
   )
   .handler(async ({ input, ctx }) => {
     const { itemIds } = input;
-    const { user } = ctx;
+    const { user, workspaceId } = ctx;
     for (const itemId of itemIds) {
-      const currentWorkspaceId = (await cookies()).get(
-        selectedWorkspaceCookie,
-      )?.value;
-      if (!currentWorkspaceId) {
-        throw new Error("Workspace not found"); // Inline error
-      }
       const res = await deleteTask(itemId);
       if (!res) {
         throw new Error("Could not delete the task."); // Inline error message
@@ -59,17 +51,11 @@ export const createTaskAction = authenticatedAction
   .output(z.object({ success: z.boolean(), data: z.any() }))
   .handler(async ({ input, ctx }) => {
     const { title, description, accountId, dueDate, stage, priority } = input;
-    const { user } = ctx;
-    const currentWorkspaceId = (await cookies()).get(
-      selectedWorkspaceCookie,
-    )?.value;
-    if (!currentWorkspaceId) {
-      throw new Error("Workspace not found."); // Inline error message
-    }
-    const decodedWorkspaceId = decryptFromBase64URI(currentWorkspaceId);
+    const { user, workspaceId } = ctx;
+    if (!workspaceId) throw new Error("Workspace not found"); // Inline error
     const taskRes = await createTask({
       userId: user.id,
-      workspaceId: decodedWorkspaceId,
+      workspaceId,
       accountId,
       title,
       description,

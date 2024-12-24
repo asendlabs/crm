@@ -20,12 +20,8 @@ import { getWorkspaceById } from "@/data-access/workspaces";
 import { decryptFromBase64URI } from "@/lib/utils";
 
 export const metadata = {
-  title: {
-    default: "workspace settings",
-  },
-  icons: {
-    icon: "/assets/favicon.ico",
-  },
+  title: "Workspace Settings",
+  description: "Manage your workspace settings.",
 };
 
 const WorkspacePage = async () => {

@@ -1,8 +1,8 @@
 // layout.tsx
-import React, { Suspense } from "react";
+import React from "react";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { getUserById } from "@/data-access/users";
+import { getProfileByUserId } from "@/data-access/users";
 import {
   afterCheckoutUrl,
   afterSignUpUrl,
@@ -11,47 +11,51 @@ import {
 } from "@/constants";
 import { getAllUserWorkspaces } from "@/data-access/workspaces";
 import { selectedWorkspaceCookie } from "@/constants";
-import { validateRequest } from "@/lib/lucia";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "./_components/sidebar/app-sidebar";
 import { UserWithWorkspaceAndProfile } from "@/types/entities";
-import { Profile } from "@database/types";
 import { CommandPaletteProvider } from "@/providers/command-provider";
 import { CommandPalette } from "@/components/command-palette";
 import { getAllWorkspaceAccounts } from "@/data-access/accounts";
 import { Shortcuts } from "@/components/shortcuts";
+import { getAuth } from "@/lib/auth";
 
 export default async function ApplicationLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const validator = await validateRequest();
-  if (!validator.user) {
+  const { user } = await getAuth();
+  console.log(user);
+  if (!user) {
     return redirect(unauthenticatedUrl);
   }
-  const dbUser = await getUserById(validator.user.id);
-  if (!dbUser) {
+  if (!user) {
     return redirect(unauthenticatedUrl);
   }
-  if (!dbUser.verifiedAt) {
+  if (!user.verifiedAt) {
     return redirect(afterSignUpUrl);
   }
-  if (!dbUser.checkoutAt) {
+  if (!user.checkoutAt) {
     return redirect(afterVerifyUrl);
   }
-  if (!dbUser.onboardedAt) {
+  if (!user.onboardedAt) {
     return redirect(afterCheckoutUrl);
   }
 
-  const workspaces = await getAllUserWorkspaces(dbUser.id);
+  const workspaces = await getAllUserWorkspaces(user.id);
 
   const cookieSelectedWorkspaceId =
     (await cookies()).get(selectedWorkspaceCookie)?.value || "";
 
+  const profile = await getProfileByUserId(user.id);
+  if (!profile) {
+    return redirect(afterCheckoutUrl);
+  }
+
   const userProfileWorkspace: UserWithWorkspaceAndProfile = {
-    ...dbUser,
-    profile: dbUser.profile as Profile,
+    ...user,
+    profile: profile,
     workspaces: workspaces,
   };
 

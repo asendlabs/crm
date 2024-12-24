@@ -10,7 +10,7 @@ import {
   Task,
   User,
   Workspace,
-} from "@database/types";
+} from "@/database/types";
 
 export interface ContactWithDetails extends Contact {
   account: Account | null;

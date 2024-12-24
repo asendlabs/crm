@@ -27,3 +27,4 @@ export const db =
         client: sql as any,
         schema: { ...tables, ...relations },
       });
+

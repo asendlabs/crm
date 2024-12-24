@@ -7,27 +7,26 @@ import {
   afterVerifyUrl,
   unauthenticatedUrl,
 } from "@/constants";
-import { validateRequest } from "@/lib/lucia";
 import { SidebarItem } from "./_components/settings-sidebar-link";
 import { PageTitle } from "@/components/page-title";
+import { getAuth } from "@/lib/auth";
 
 export default async function ApplicationLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const validator = await validateRequest();
-  if (!validator.user) {
+  const {user} = await getAuth();
+  if (!user) {
     return redirect(unauthenticatedUrl);
   }
-  const dbUser = await getUserById(validator.user.id);
-  if (!dbUser) {
+  if (!user) {
     return redirect(unauthenticatedUrl);
   }
-  if (!dbUser.verifiedAt) {
+  if (!user.verifiedAt) {
     return redirect(afterSignUpUrl);
   }
-  if (!dbUser.onboardedAt) {
+  if (!user.onboardedAt) {
     return redirect(afterVerifyUrl);
   }
 
@@ -45,7 +44,6 @@ export default async function ApplicationLayout({
           <SidebarItem label="Account" />
           <SidebarItem label="Workspace" />
           <SidebarItem label="Billing" />
-          <SidebarItem label="Appearance" />
         </section>
         {children}
       </section>

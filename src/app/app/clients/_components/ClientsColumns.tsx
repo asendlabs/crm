@@ -1,7 +1,7 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
-import { Account } from "@database/types";
+import { Account } from "@/database";
 import {
   CalendarDays,
   Component,

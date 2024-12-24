@@ -1,18 +1,9 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
-import { Account, Deal } from "@database/types";
 import {
-  Bot,
   Building,
-  CalendarDays,
-  Component,
-  DollarSign,
-  LucideFileText,
-  LucideUsers,
-  Route,
-  Sparkle,
-  Users,
+  CalendarDays, DollarSign, Route
 } from "lucide-react";
 import {
   CheckboxHead,
@@ -20,15 +11,10 @@ import {
   PrimaryHead,
 } from "@/app/app/_components/table_headers";
 import {
-  AiScoreField,
-  LastInteractionField,
-  PrimaryField,
-  SecondaryField,
-  StatusField,
-  CheckboxField,
+  SecondaryField, CheckboxField,
   DealStageField,
   ValueField,
-  ExpectedCloseField,
+  ExpectedCloseField
 } from "@/app/app/_components/table_fields";
 import { DealWithPrimaryContact } from "@/types/entities";
 

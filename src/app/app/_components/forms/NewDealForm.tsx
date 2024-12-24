@@ -42,7 +42,7 @@ import { createDealAction } from "@/server/deal";
 import { dealCreateSchema } from "@/schemas/deal.schema";
 import { Calendar } from "@/components/ui/calendar";
 import { cn } from "@/lib/utils/tailwind";
-import { Account } from "@database/types";
+import { Account } from "@/database";
 import { useServerAction } from "zsa-react";
 import { CommandItem } from "@/components/ui/command";
 import { CommandContext } from "@/providers/command-provider";

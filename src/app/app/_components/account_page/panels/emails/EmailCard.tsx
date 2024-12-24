@@ -1,5 +1,5 @@
 "use client";
-import { Email } from "@database/types";
+import { Email } from "@/database/";
 import { ArrowUpRight, Mail, MoreVertical } from "lucide-react";
 import React from "react";
 import { Button } from "@/components/ui/button";

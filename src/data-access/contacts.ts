@@ -1,13 +1,13 @@
 import "server-only";
-import { db } from "@database";
+import { db } from "@/database";
 import {
   contactTable,
   contactEmailTable,
   contactPhoneTable,
-} from "@database/tables";
+} from "@/database/tables";
 import { eq } from "drizzle-orm";
 import { ulid } from "ulid";
-import { Contact } from "@database/types";
+import { Contact } from "@/database/types";
 
 export async function getContactById(id: string) {
   const contact = await db.query.contactTable.findFirst({

@@ -1,12 +1,12 @@
 import "server-only";
-import { db } from "@database";
-import { userTable } from "@database/tables";
+import { db } from "@/database";
+import { userTable } from "@/database/tables";
 import { compare, genSalt, hash } from "bcryptjs";
-import { Profile, User } from "@database/types";
+import { Profile, User } from "@/database/types";
 import { eq } from "drizzle-orm";
 import { ulid } from "ulid";
 import { generateEmailVerifyCode } from "@/lib/utils";
-import { identityTable, profileTable } from "@database/schema/users";
+import { identityTable, profileTable } from "@/database/schema/users";
 
 export async function getUserByEmail(email: string) {
   const user = await db.query.userTable.findFirst({
@@ -177,4 +177,11 @@ export async function updateProfile(userId: string, updates: Partial<Profile>) {
     .where(eq(profileTable.userId, userId))
     .returning();
   return updated;
+}
+
+export async function getProfileByUserId(userId: string) {
+  const profile = await db.query.profileTable.findFirst({
+    where: eq(profileTable.userId, userId),
+  });
+  return profile;
 }

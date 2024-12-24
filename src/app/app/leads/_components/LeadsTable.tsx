@@ -28,7 +28,7 @@ import { useEffect, useState } from "react";
 import { useServerAction } from "zsa-react";
 import { deleteAccountAction, updateAccountAction } from "@/server/accounts";
 import { toast } from "sonner";
-import { Account, Contact } from "@database/types";
+import { Account, Contact } from "@/database";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { PageTitle } from "@/components/page-title";

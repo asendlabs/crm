@@ -1,6 +1,6 @@
 "use client";
 
-import { Account } from "@database/types";
+import { Account } from "@/database";
 import { Row } from "@tanstack/react-table";
 import { Sparkle } from "lucide-react";
 import { useRouter } from "@/hooks/use-performance-router";

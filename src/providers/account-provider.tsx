@@ -5,7 +5,7 @@ import {
   ContactWithDetails,
   DealWithPrimaryContact,
 } from "@/types/entities";
-import { Email, Task } from "@database/types";
+import { Email, Task } from "@/database/types";
 import { createContext } from "react";
 import React from "react";
 

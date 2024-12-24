@@ -51,7 +51,7 @@ import { ContactCard } from "./ContactCard";
 import { useServerAction } from "zsa-react";
 import { dealUpdateSchema } from "@/schemas/deal.schema";
 import { AccountContext } from "@/providers/account-provider";
-import { Deal } from "@database/types";
+import { Deal } from "@/database";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useQueryState } from "nuqs";
 

@@ -1,9 +1,9 @@
 import "server-only";
-import { db } from "@database";
-import { taskTable } from "@database/tables";
+import { db } from "@/database";
+import { taskTable } from "@/database/tables";
 import { eq } from "drizzle-orm";
 import { ulid } from "ulid";
-import { Task } from "@database/types";
+import { Task } from "@/database/types";
 
 export async function getTaskById(id: string) {
   const task = await db.query.taskTable.findFirst({

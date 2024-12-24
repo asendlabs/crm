@@ -1,10 +1,11 @@
-import React from "react";
 import { Card } from "@/components/ui/card";
 import { Link } from "next-view-transitions";
 import { SettingsTextField } from "../_components/settings-text-field";
-import { User, Shield, IdCard, Loader } from "lucide-react";
-import { validateRequest } from "@/lib/lucia";
-import { getUserById } from "@/data-access/users";
+import { User, Shield, IdCard } from "lucide-react";
+import { getProfileByUserId } from "@/data-access/users";
+import { getAuth } from "@/lib/auth";
+import { redirect } from "next/navigation";
+import { afterCheckoutUrl, unauthenticatedUrl } from "@/constants";
 
 export const metadata = {
   title: {
@@ -16,12 +17,14 @@ export const metadata = {
 };
 
 async function AccountPage() {
-  const user = await validateRequest();
-  const userId = user.user?.id;
-  if (!userId) return null;
-
-  const dbUser = await getUserById(userId);
-  if (!dbUser) return null;
+  const { user } = await getAuth();
+  if (!user) {
+    return redirect(unauthenticatedUrl);
+  }
+  const profile = await getProfileByUserId(user.id);
+  if (!profile) {
+    return redirect(afterCheckoutUrl);
+  }
 
   return (
     <Card className="flex h-fit w-full flex-col px-8 py-6">
@@ -47,13 +50,13 @@ async function AccountPage() {
         </div>
         <div className="flex gap-4">
           <SettingsTextField
-            defaultValue={dbUser.profile?.firstName ?? ""}
+            defaultValue={profile?.firstName ?? ""}
             label="First name"
             placeholder="Enter your first name"
             entityType="firstName"
           />
           <SettingsTextField
-            defaultValue={dbUser.profile?.lastName ?? ""}
+            defaultValue={profile?.lastName ?? ""}
             label="Last name"
             placeholder="Enter your last name"
             entityType="lastName"
@@ -73,7 +76,7 @@ async function AccountPage() {
           {/* email section */}
           <div className="flex flex-col gap-2">
             <SettingsTextField
-              defaultValue={dbUser.email}
+              defaultValue={user.email}
               label="Email address"
               placeholder="Enter your email"
               isNotEditable

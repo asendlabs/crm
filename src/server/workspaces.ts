@@ -20,14 +20,12 @@ export const setSelectedWorkspaceAction = authenticatedAction
     const { workspaceId } = input;
     const cookieStore = await cookies();
 
-    const res = cookieStore.set(
-      selectedWorkspaceCookie,
-      encryptToBase64URI(workspaceId),
-      {
-        secure: process.env.NODE_ENV === "production",
-        sameSite: "strict",
-      },
-    );
+    const encodedWorkspaceId = encryptToBase64URI(workspaceId);
+
+    const res = cookieStore.set(selectedWorkspaceCookie, encodedWorkspaceId, {
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+    });
 
     if (!res) {
       throw new Error(
@@ -48,22 +46,14 @@ export const updateSelectedWorkspaceNameAction = authenticatedAction
     }),
   )
   .output(z.boolean())
-  .handler(async ({ input }) => {
+  .handler(async ({ input, ctx }) => {
     const { updatedName } = input;
+    const { workspaceId } = ctx;
+    if (!workspaceId) throw new Error("Workspace not found"); // Inline error
 
-    const currentWorkspaceId = (await cookies()).get(
-      selectedWorkspaceCookie,
-    )?.value;
-    if (!currentWorkspaceId) {
-      throw new Error("Workspace not found."); // Inline error message
-    }
-
-    const updated = await updateWorkspace(
-      decryptFromBase64URI(currentWorkspaceId),
-      {
-        name: updatedName,
-      },
-    );
+    const updated = await updateWorkspace(workspaceId, {
+      name: updatedName,
+    });
     if (!updated) {
       throw new Error("Workspace name could not be updated."); // Inline error message
     }

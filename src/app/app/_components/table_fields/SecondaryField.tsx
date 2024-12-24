@@ -1,7 +1,7 @@
 "use client";
 
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Contact, Account } from "@database/types";
+import { Contact, Account } from "@/database";
 import { Row } from "@tanstack/react-table";
 import Link from "@/components/performance-link";
 import React from "react";

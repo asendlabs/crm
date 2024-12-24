@@ -8,6 +8,7 @@ import { ViewTransitions } from "next-view-transitions";
 import React from "react";
 import { AppPostHogProvider } from "@/providers/third-party/posthog-provider";
 import { ThemeProvider } from "@/providers/theme-provider";
+import { ModeToggle } from "@/components/mode-toggle";
 
 export const metadata: Metadata = {
   title: {

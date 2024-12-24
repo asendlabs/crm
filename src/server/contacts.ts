@@ -100,15 +100,9 @@ export const deleteContactAction = authenticatedAction
   )
   .handler(async ({ input, ctx }) => {
     const { itemIds } = input;
-    const { user } = ctx;
+    const { user, workspaceId } = ctx;
+    if (!workspaceId) throw new Error("Workspace not found"); // Inline error
     for (const itemId of itemIds) {
-      const currentWorkspaceId = (await cookies()).get(
-        selectedWorkspaceCookie,
-      )?.value;
-      if (!currentWorkspaceId) {
-        throw new Error("Workspace not found"); // Inline error
-      }
-      const decodedWorkspaceId = decryptFromBase64URI(currentWorkspaceId);
       const retrivedContact = await getContactById(itemId);
       if (!retrivedContact) {
         throw new Error("Contact not found"); // Inline error
@@ -144,7 +138,7 @@ export const deleteContactAction = authenticatedAction
       }
       const activityRes = await createActivity({
         userId: user.id,
-        workspaceId: decodedWorkspaceId,
+        workspaceId,
         accountId: retrivedContact.accountId,
         title: "New Contact",
         activityType: "entity_deletion",
@@ -166,16 +160,10 @@ export const createContactAction = authenticatedAction
   .output(z.object({ success: z.boolean(), data: z.any() }))
   .handler(async ({ input, ctx }) => {
     const { contactName, contactEmail, contactPhone, accountId } = input;
-    const { user } = ctx;
-    const currentWorkspaceId = (await cookies()).get(
-      selectedWorkspaceCookie,
-    )?.value;
-    if (!currentWorkspaceId) {
-      throw new Error("Workspace not found"); // Inline error
-    }
-    const decodedWorkspaceId = decryptFromBase64URI(currentWorkspaceId);
+    const { user, workspaceId } = ctx;
+    if (!workspaceId) throw new Error("Workspace not found"); // Inline error
     const contactRes = await createContact(
-      decodedWorkspaceId,
+      workspaceId,
       user.id,
       accountId,
       contactName,
@@ -197,7 +185,7 @@ export const createContactAction = authenticatedAction
     }
     const activityRes = await createActivity({
       userId: user.id,
-      workspaceId: decodedWorkspaceId,
+      workspaceId,
       accountId,
       title: "New Contact",
       activityType: "entity_creation",

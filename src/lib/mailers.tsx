@@ -1,4 +1,4 @@
-import { VerificationEmailBody } from "@emails/VerificationEmail";
+import { VerificationEmailBody } from "@/emails/VerificationEmail";
 import { sendEmail } from "./resend";
 
 export async function sendVerificationEmail(email: string, code: string) {

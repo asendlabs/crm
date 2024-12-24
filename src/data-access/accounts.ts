@@ -1,13 +1,13 @@
 import "server-only";
-import { db } from "@database";
+import { db } from "@/database";
 import {
   accountTable,
   contactEmailTable,
   contactPhoneTable,
-} from "@database/tables";
+} from "@/database/tables";
 import { and, eq } from "drizzle-orm";
 import { ulid } from "ulid";
-import { Account } from "@database/types";
+import { Account } from "@/database/types";
 import { State } from "@/providers/account-provider";
 import { AccountFull } from "@/types/entities";
 

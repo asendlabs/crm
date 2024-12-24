@@ -9,27 +9,13 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useRouter } from "@/hooks/use-performance-router";
 import {
-  IdCard,
-  Circle,
-  LucideIcon,
-  Globe,
-  Component,
-  Copy,
-  Instagram,
-  Facebook,
-  Linkedin,
+  IdCard, LucideIcon,
+  Globe, Copy,
+  Instagram, Linkedin,
   Twitter,
   AlignLeft,
-  Pencil,
+  Pencil
 } from "lucide-react";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { AccountStatus } from "@/types/entities";
 import {
   Accordion,
   AccordionContent,
@@ -441,21 +427,21 @@ export function DetailsCard() {
             label="Instagram"
             icon={Instagram}
             value={account?.instagram}
-            onSave={(value: string) => handleUpdate("Instagram", value)}
+            onSave={(value: string) => handleUpdate("instagram", value)}
             copyEnabled
           />
           <DetailField
             label="LinkedIn"
             icon={Linkedin}
             value={account?.linkedin}
-            onSave={(value: string) => handleUpdate("LinkedIn", value)}
+            onSave={(value: string) => handleUpdate("linkedin", value)}
             copyEnabled
           />
           <DetailField
             label="Twitter"
             icon={Twitter}
             value={account?.twitter}
-            onSave={(value: string) => handleUpdate("Twiiter", value)}
+            onSave={(value: string) => handleUpdate("twitter", value)}
             copyEnabled
           />
         </AccordionContent>

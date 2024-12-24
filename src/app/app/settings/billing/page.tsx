@@ -2,7 +2,10 @@ import React from "react";
 import { Card } from "@/components/ui/card";
 import { Link } from "next-view-transitions";
 
-type Theme = "system" | "light" | "dark";
+export const metadata = {
+  title: "Billing",
+  description: "Manage your billing and payment information.",
+};
 
 export default function BillingPage() {
   return (

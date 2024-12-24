@@ -29,7 +29,7 @@ import { ShowInViewCommand } from "./commands/show-in-view";
 import { SwitchPanelCommand } from "./commands/switch-panel";
 import { NewLeadForm } from "@/app/app/_components/forms/NewLeadForm";
 import { NewContactForm } from "@/app/app/_components/forms/NewContactForm";
-import { Account } from "@database/types";
+import { Account } from "@/database";
 import { NewDealForm } from "@/app/app/_components/forms/NewDealForm";
 
 interface CommandLink {

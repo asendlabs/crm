@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "@/hooks/use-performance-router";
 import { toast } from "sonner";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Task } from "@database/types";
+import { Task } from "@/database";
 import {
   CalendarIcon,
   Flag,

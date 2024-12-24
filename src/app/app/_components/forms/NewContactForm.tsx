@@ -34,7 +34,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { createContactAction } from "@/server/contacts";
 import { useServerAction } from "zsa-react";
 import { contactCreateSchema } from "@/schemas/contact.schema";
-import { Account } from "@database/types";
+import { Account } from "@/database";
 import { CommandItem } from "@/components/ui/command";
 import { CommandContext } from "@/providers/command-provider";
 

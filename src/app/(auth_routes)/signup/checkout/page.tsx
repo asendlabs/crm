@@ -1,9 +1,9 @@
 import { Metadata } from "next";
-import { fetchAuthenticatedUser } from "@/lib/session";
 import { redirect } from "next/navigation";
 import { getUserById } from "@/data-access/users";
 import { authenticatedUrl } from "@/constants";
 import { DemoCheckoutButton } from "./_components/DemoCheckoutButton";
+import { getAuth } from "@/lib/auth";
 
 export const metadata: Metadata = {
   title: "Checkout",
@@ -12,15 +12,9 @@ export const metadata: Metadata = {
 export default async function CheckoutPage() {
   const PADDLE_DOMAIN_APPROVED = false;
   if (PADDLE_DOMAIN_APPROVED) {
-    const user = await fetchAuthenticatedUser();
+    const {user} = await getAuth();
     if (!user) return redirect("/signup?redirecterror=nouser");
-    const dbUser = await getUserById(user.id || "");
-    if (
-      dbUser &&
-      dbUser.verifiedAt &&
-      dbUser.onboardedAt &&
-      dbUser.checkoutAt
-    ) {
+    if (user && user.verifiedAt && user.onboardedAt && user.checkoutAt) {
       return redirect(authenticatedUrl);
     }
   }
